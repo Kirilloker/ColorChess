@@ -18,7 +18,7 @@ namespace ColorChessModel
     }
 
     //Описывает игровую доску для создания
-    struct CellDiscription
+    public struct CellDiscription
     {
         public int width;
         public int lenght;

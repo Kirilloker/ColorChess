@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameController gameController;
+
+    public void SelectStandartHotSeat()
     {
-        
+        gameController.SelectGameMode("HotSeat");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SelectStandartAI()
     {
-        
+        gameController.SelectGameMode("AI");
+    }
+
+    public void SelectStandartNetwork()
+    {
+        gameController.SelectGameMode("Network");
+    }
+
+    public void StartGame()
+    {
+        gameController.StartGame();
     }
 }

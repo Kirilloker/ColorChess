@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ColorChessModel
 {
 
-    class GameStateBuilder
+    public class GameStateBuilder
     {
         private Map gameState;
 
