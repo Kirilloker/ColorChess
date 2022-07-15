@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6293425741382031408}
   - component: {fileID: 8120634544193858810}
   - component: {fileID: 731748334981061049}
-  - component: {fileID: 2525790991364644351}
   - component: {fileID: -6395314680982939915}
   m_Layer: 0
   m_Name: Bishop
@@ -96,25 +95,10 @@ BoxCollider:
   m_GameObject: {fileID: 7760465665636388143}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.5, y: 3, z: 1.5}
   m_Center: {x: 0, y: 1.4, z: 0}
---- !u!114 &2525790991364644351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7760465665636388143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91249e4ebc19c83428f2923a41c3f31c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cell_under: {fileID: 0}
-  live: 1
-  number_player: 0
 --- !u!114 &-6395314680982939915
 MonoBehaviour:
   m_ObjectHideFlags: 0

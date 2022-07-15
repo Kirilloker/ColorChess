@@ -8,8 +8,6 @@ public class Prefabs : MonoBehaviour
     [SerializeField]
     private GameObject Cell;
     [SerializeField]
-    private GameObject Prompt;
-    [SerializeField]
     private GameObject Board;
 
 
@@ -27,25 +25,6 @@ public class Prefabs : MonoBehaviour
     [SerializeField]
     private GameObject Pawn;
 
-
-
-    //[SerializeField]
-    //private List<Dictionary<string, Material>> player_material;   // Список из наборов цвета каждого игрока
-    //[SerializeField]
-    //private Material eating_material;
-    //[SerializeField]
-    //private Material base_cell;
-    //[SerializeField]
-    //private Material finished;
-    //[SerializeField]
-
-    //private Material material_players_base;
-    //[SerializeField]
-    //private Material base_figure_default;
-    //[SerializeField]
-    //private List<Material> dark_colors;
-    //[SerializeField]
-    //private List<Material> colors;
 
     [SerializeField]
     private Material red;
@@ -76,6 +55,28 @@ public class Prefabs : MonoBehaviour
 
     public GameObject GetBoard() { return Board; }
     public GameObject GetCell() { return Cell; }
+
+    public GameObject GetFigure(FigureType figureType)
+    {
+        switch (figureType)
+        {
+            case FigureType.Pawn:
+                return Pawn;
+            case FigureType.King:
+                return King;
+            case FigureType.Bishop:
+                return Bishop;
+            case FigureType.Castle:
+                return Castle;
+            case FigureType.Horse:
+                return Horse;
+            case FigureType.Queen:
+                return Queen;
+            default:
+                Debug.Log("Нет такого типа фигуры");
+                return Pawn;
+        }
+    }
 
     public Material GetColor(ColorType color) 
     {

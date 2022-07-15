@@ -6,7 +6,7 @@ namespace ColorChessModel
         public Cell[,] cells = null;
         public List<Player> players = new List<Player>();
         public List<int> scorePlayer = new List<int>();
-        public int countStep = 0;
+        public int countStep = 1;
 
         // Добавить пустые клетки
 
@@ -49,7 +49,13 @@ namespace ColorChessModel
 
         public int Width { get { return cells.GetLength(0); } }
         public int Length { get { return cells.GetLength(1); } }
-        public int numberPlayerStep { get { return (countStep - 1) % players.Count; } }
+        public int numberPlayerStep { 
+            get 
+            {
+                
+                return (countStep - 1) % players.Count; 
+            } 
+        }
         public List<Player> PLayers { get { return players; } }
 
         public Map(Map anotherMap)

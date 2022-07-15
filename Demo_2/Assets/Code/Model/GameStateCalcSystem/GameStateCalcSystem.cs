@@ -21,14 +21,8 @@ namespace ColorChessModel
             // Получаем ссылку на новую фигуру, которая делает ход
             Figure newFigure = gameState.GetCell(figure.pos).figure;
 
-            if (endCell.pos.X == 0 && endCell.pos.Y == 3 && figure.type == FigureType.Bishop && figure.pos.X == 1 && figure.pos.Y == 3)
-            {
-                Console.WriteLine("asd");
-            }
 
             List<Cell> Way = WayCalcSystem.CalcWay(gameState, newFigure.pos, endCell.pos, newFigure);
-
-
 
             for (int i = 0; i < Way.Count; i++)
             {
@@ -40,13 +34,6 @@ namespace ColorChessModel
             Way[Way.Count - 1].figure = newFigure;
             newFigure.pos = new Position(endCell.pos);
 
-            for (int i = 0; i < Way.Count; i++)
-            {
-                if (Way[i].numberPlayer != newFigure.Number)
-                {
-                    Console.WriteLine("");
-                }
-            }
 
             UpdateGameState(gameState);
 
@@ -82,8 +69,9 @@ namespace ColorChessModel
             {
                 for (int j = 0; j < map.Length; j++)
                 {
-                    if (map.GetCell(i, j).type != CellType.Empty &
-                        map.GetCell(i, j).numberPlayer != -1)
+
+                    if ((map.GetCell(i, j).type != CellType.Empty) &&
+                        (map.GetCell(i, j).numberPlayer != -1))
                     {
                         MakeCapture(map, map.GetCell(i, j));
                     }
@@ -98,7 +86,9 @@ namespace ColorChessModel
             {
                 for (int j = cell.pos.Y - 1; j <= cell.pos.Y + 1; j++)
                 {
-                    Position newPos = new Position(cell.pos.X + i, cell.pos.Y + j);
+                    Position newPos = new Position(i, j);
+
+
 
                     if (Check.OutOfRange(newPos, map) == true ||
                         map.GetCell(i, j).numberPlayer != cell.numberPlayer)
@@ -119,7 +109,7 @@ namespace ColorChessModel
                 }
             }
 
-            //if (newDark == true) { SoundStep.Play() }
+            if (newDark == true) { DebugConsole.Print("New Dark"); }
         }
         private static List<int> CalculateScore(Map map)
         {

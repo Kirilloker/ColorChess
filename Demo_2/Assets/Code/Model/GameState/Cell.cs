@@ -37,7 +37,15 @@ namespace ColorChessModel
             }
         }
 
+        public static bool operator !=(Cell cell1, Cell cell2)
+        {
+            return !(cell1 == cell2);
+        }
 
+        public static bool operator ==(Cell cell1, Cell cell2)
+        {
+            return cell1.type == cell2.type && cell1.numberPlayer == cell2.numberPlayer;
+        }
 
 
         public bool Avaible(Dictionary<CellType, bool>[] require, int numberPlayerFigure)

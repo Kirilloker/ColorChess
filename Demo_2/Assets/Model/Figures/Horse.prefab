@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 991049117192038229}
   - component: {fileID: 3036585730746012575}
   - component: {fileID: 1337212554896321780}
-  - component: {fileID: 320624200861569853}
   - component: {fileID: -5354478407601358393}
   m_Layer: 0
   m_Name: Horse
@@ -28,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3541204598684217930}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &991049117192038229
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -96,25 +95,10 @@ BoxCollider:
   m_GameObject: {fileID: 3541204598684217930}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.5, y: 3, z: 1.5}
   m_Center: {x: 0, y: 1.4, z: 0}
---- !u!114 &320624200861569853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3541204598684217930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5c5df9a4b368c44b90ba4f29b04e14b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cell_under: {fileID: 0}
-  live: 1
-  number_player: 0
 --- !u!114 &-5354478407601358393
 MonoBehaviour:
   m_ObjectHideFlags: 0

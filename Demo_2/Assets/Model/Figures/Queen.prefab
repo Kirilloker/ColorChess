@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7576562826337523978}
   - component: {fileID: 5675007179641843136}
   - component: {fileID: 4587586822127288114}
-  - component: {fileID: 6145778303501817140}
+  - component: {fileID: 2914365004501518114}
   m_Layer: 0
   m_Name: Queen
   m_TagString: Untagged
@@ -95,11 +95,11 @@ BoxCollider:
   m_GameObject: {fileID: 6179308701643983893}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.5, y: 3, z: 1.5}
   m_Center: {x: 0, y: 1.4, z: 0}
---- !u!114 &6145778303501817140
+--- !u!114 &2914365004501518114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,9 +108,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6179308701643983893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4031a5b93c649b4e98923e5fd097905, type: 3}
+  m_Script: {fileID: 11500000, guid: f63c7767d5b71b442bc440d4e65a39c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cell_under: {fileID: 0}
-  live: 1
-  number_player: 0

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5274171568812520179}
   - component: {fileID: 7986404211071387193}
   - component: {fileID: 6967613024895518884}
-  - component: {fileID: 3816646756152923485}
   - component: {fileID: -7884711483886252810}
   m_Layer: 0
   m_Name: Pawn
@@ -96,25 +95,10 @@ BoxCollider:
   m_GameObject: {fileID: 8490855540979116012}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.5, y: 3, z: 1.5}
   m_Center: {x: 0, y: 1.4, z: 0}
---- !u!114 &3816646756152923485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8490855540979116012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 995bd8b7f3d78b745a3a6d2b4b44d392, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cell_under: {fileID: 0}
-  live: 1
-  number_player: 0
 --- !u!114 &-7884711483886252810
 MonoBehaviour:
   m_ObjectHideFlags: 0
