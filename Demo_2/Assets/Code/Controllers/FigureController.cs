@@ -5,7 +5,15 @@ using UnityEngine;
 
 public class FigureController : MonoBehaviour
 {
-    public void Spawn(Map gameState)
+    private Prefabs prefabs;
+
+    private void Awake()
+    {
+        prefabs = GameObject.FindWithTag("Prefabs").GetComponent<Prefabs>();
+    }
+
+
+    public void CreateFigures(Map gameState)
     {
 
     }

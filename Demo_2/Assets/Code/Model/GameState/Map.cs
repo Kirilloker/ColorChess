@@ -32,9 +32,25 @@ namespace ColorChessModel
             return cells[x, y];
         }
 
+        public ColorType GetColorType(int numberPlayer)
+        {
+            return players[numberPlayer].color;
+        }
+
+        public ColorType GetColorTypeCell(int x, int y)
+        {
+            return GetColorType(cells[x, y].numberPlayer);
+        }
+
+        public CellType GetCellType(int x, int y)
+        {
+            return cells[x, y].type;
+        }
+
         public int Width { get { return cells.GetLength(0); } }
         public int Length { get { return cells.GetLength(1); } }
         public int numberPlayerStep { get { return (countStep - 1) % players.Count; } }
+        public List<Player> PLayers { get { return players; } }
 
         public Map(Map anotherMap)
         {

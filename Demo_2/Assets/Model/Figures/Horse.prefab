@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3036585730746012575}
   - component: {fileID: 1337212554896321780}
   - component: {fileID: 320624200861569853}
+  - component: {fileID: -5354478407601358393}
   m_Layer: 0
   m_Name: Horse
   m_TagString: Untagged
@@ -30,6 +31,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -53,6 +55,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -61,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 6151071871934886045, guid: d2933f1adaa0be34392996d55b9e3bf6, type: 3}
+  - {fileID: 2100000, guid: 9abc0f9ce0daa0b49b97c2ea897059e8, type: 2}
   - {fileID: -8612975695535684231, guid: 3042821506bd5a846b3d873c36cbc3d7, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -112,3 +115,15 @@ MonoBehaviour:
   cell_under: {fileID: 0}
   live: 1
   number_player: 0
+--- !u!114 &-5354478407601358393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3541204598684217930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f63c7767d5b71b442bc440d4e65a39c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

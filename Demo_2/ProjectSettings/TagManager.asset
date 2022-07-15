@@ -18,6 +18,7 @@ TagManager:
   - CameraManager
   - Tutorial
   - UI
+  - Prefabs
   layers:
   - Default
   - TransparentFX

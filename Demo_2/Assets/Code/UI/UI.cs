@@ -263,7 +263,6 @@ public class UI : MonoBehaviour
     public void ClearPlayers() 
     {
         playersDiscription.Clear();
-        Debug.Log(pss);
         pss.clear_player_description();
     }
 

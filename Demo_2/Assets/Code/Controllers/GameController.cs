@@ -9,10 +9,16 @@ public class GameController : MonoBehaviour
 
     private GameStateBuilder gameStateBuilder = new GameStateBuilder();
 
-    public UIController uiController;
-    public FigureController figureController;
-    public CellController cellController;
-    public CameraController cameraController;
+    [SerializeField]
+    private UIController uiController;
+    [SerializeField]
+    private FigureController figureController;
+    [SerializeField]
+    private CellController cellController;
+    [SerializeField]
+    private CameraController cameraController;
+    [SerializeField]
+    private BoardController boardController;
 
     public void SelectGameMode(string str)
     {
@@ -36,8 +42,9 @@ public class GameController : MonoBehaviour
     {
         gameStates.Add(gameStateBuilder.CreateGameState());
 
-        cellController.Spawn(CurrentGameState);
-        figureController.Spawn(CurrentGameState);
+        boardController.CreateBoard(CurrentGameState);
+        cellController.CreateCells(CurrentGameState);
+        figureController.CreateFigures(CurrentGameState);
 
         //cameraController.
     }
