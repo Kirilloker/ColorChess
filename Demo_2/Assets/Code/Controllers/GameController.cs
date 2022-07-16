@@ -130,6 +130,13 @@ public class GameController : MonoBehaviour
 
     public void StartNewStep()
     {
+        if (CurrentGameState.EndGame == true)
+        {
+            Debug.Log("Игра закончилась");
+            return;
+        }
+
+
         SetFigViewForNewStep();
         SetCellViewForNewStep();
 

@@ -7,8 +7,7 @@ namespace ColorChessModel
         public List<Player> players = new List<Player>();
         public List<int> scorePlayer = new List<int>();
         public int countStep = 1;
-
-        // Добавить пустые клетки
+        public int countEmptyCell = -1;
 
         public Map() { }
         public Map(int x, int y)
@@ -57,6 +56,7 @@ namespace ColorChessModel
             } 
         }
         public List<Player> PLayers { get { return players; } }
+        public bool EndGame { get { return countEmptyCell == 0; } }
 
         public Map(Map anotherMap)
         {

@@ -137,6 +137,8 @@ namespace ColorChessModel
                     score[i][CellType.Dark] * OneScoreDark);
             }
 
+            map.countEmptyCell = score[-1][CellType.Empty];
+
             return scorePlayer;
         }
         private static Dictionary<int, Dictionary<CellType, int>> GetEmptyScoreDictionary(Map map)
