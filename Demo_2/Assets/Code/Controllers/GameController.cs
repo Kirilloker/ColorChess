@@ -20,22 +20,27 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private BoardController boardController;
 
-    public void SelectGameMode(string str)
+    public void SelectGameMode(GameModeType gameMode)
     {
-        switch (str)
+
+        switch (gameMode)
         {
-            case "HotSeat":
+            case GameModeType.HumanTwo:
                 gameStateBuilder.SetDefaultHotSeatGameState();
                 break;
-            case "AI":
+            case GameModeType.HumanFour:
+                //
+                break;
+            case GameModeType.AI:
                 gameStateBuilder.SetDefaultAIGameState();
                 break;
-            case "Network":
+            case GameModeType.Network:
                 gameStateBuilder.SetDefaultOnlineGameState();
                 break;
             default:
                 break;
         }
+
     }
 
     public void CellOnClicked(CellView cellView)
@@ -132,7 +137,7 @@ public class GameController : MonoBehaviour
     {
         if (CurrentGameState.EndGame == true)
         {
-            Debug.Log("Игра закончилась");
+            EndGame();
             return;
         }
 
@@ -140,6 +145,24 @@ public class GameController : MonoBehaviour
         SetFigViewForNewStep();
         SetCellViewForNewStep();
 
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            EndGame();
+        }
+    }
+    public void EndGame()
+    {
+        Debug.Log("Игра закончилась");
+
+        figureController.DestroyAll();
+        cellController.DestroyAll();
+        boardController.Destroy();
+
+        //cameraController.
     }
     public Map CurrentGameState { get { return gameStates[gameStates.Count-1]; } }
     public Map PreviousvGameState { get { return gameStates[gameStates.Count - 2]; } }

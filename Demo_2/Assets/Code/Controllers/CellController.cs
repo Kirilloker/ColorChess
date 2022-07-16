@@ -55,6 +55,14 @@ public class CellController : MonoBehaviour
         gameController.CellOnClicked(cellView);
     }
 
+    public void DestroyAll()
+    {
+        foreach (CellView cell in cells)
+        {
+            //
+        }
+    }
+
     public void ShowAllSteps(List<ColorChessModel.Cell> way)
     {
         HideAllPrompts();

@@ -65,6 +65,9 @@ public class BoardController : MonoBehaviour
         board.GetComponentInChildren<MeshRenderer>().materials = material_board;
     }
 
-
+    public void Destroy()
+    {
+        GameObject.Destroy(board);
+    }
 
 }

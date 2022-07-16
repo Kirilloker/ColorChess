@@ -18,22 +18,28 @@ public class FigureController : MonoBehaviour
     }
 
 
-    //public void AnimateStep(FigureView figure, List<ColorChessModel.Cell> way)
-    //{
-    //    for (int i = 0; i < way.Count; i++)
-    //    {
-            
-    //    }
-    //}
-
     public void AnimateMoveFigure(FigureView figure, List<Vector3> vector3)
     {
         StartCoroutine(figure.AnimateMove(vector3));
     }
 
+    public void DestroyAll()
+    {
+        foreach (List<FigureView> player in figures)
+        {
+            foreach (FigureView figure in player)
+            {
+                //
+            }
+        }
+
+        upedFigure = null;
+    }
+
+
     public void CreateFigures(Map gameState)
     {
-        Transform parent = GameObject.FindWithTag("Arena").transform;
+        Transform parent = GameObject.FindWithTag("Figure").transform;
 
         // »—œ–¿¬»“‹
         foreach (ColorChessModel.Player player in gameState.players)
@@ -98,7 +104,7 @@ public class FigureController : MonoBehaviour
         }
     }
 
-    public void OffBoxColiders(int numberPlayer)
+    public void OffBoxColidersPlayers(int numberPlayer)
     {
         foreach (FigureView figure in figures[numberPlayer])
         {
@@ -110,7 +116,7 @@ public class FigureController : MonoBehaviour
     {
         for (int i = 0; i < figures.Count; i++)
         {
-            OffBoxColiders(i);
+            OffBoxColidersPlayers(i);
         }
     }
 

@@ -53,4 +53,12 @@
         Green,
         Purple
     }
+
+    public enum GameModeType
+    {
+       HumanTwo,
+       HumanFour,
+       AI,
+       Network
+    }
 }

@@ -69,15 +69,24 @@ public class FigureView : MonoBehaviour
         Down();
         boxCollider.enabled = false; // Сам не понимаю из-за чего этот баг
     }
+
     private void OnMouseUpAsButton()
     {
         figureController.OnClicked(this);
+    }
+
+    public void Destroy()
+    {
+        GameObject.Destroy(this);
     }
 
     public void StateBoxColodier(bool boxCol)
     {
         boxCollider.enabled = boxCol;
     }
+    
+
+
     public void SetRotation(int rotate)
     {
         this.transform.rotation = Quaternion.AngleAxis(rotate, Vector3.up);
@@ -102,6 +111,8 @@ public class FigureView : MonoBehaviour
         get { return new Position(transform.localPosition.x, transform.localPosition.z); } 
         set { this.transform.localPosition = new Vector3(value.X, 0, value.Y); }
     }
+
     public FigureType Type { get { return type; } }
+
     public int Number { get { return numberPlayer; } }
 }

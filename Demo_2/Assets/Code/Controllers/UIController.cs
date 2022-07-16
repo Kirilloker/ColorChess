@@ -1,3 +1,4 @@
+using ColorChessModel;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,17 +9,17 @@ public class UIController : MonoBehaviour
 
     public void SelectStandartHotSeat()
     {
-        gameController.SelectGameMode("HotSeat");
+        gameController.SelectGameMode(GameModeType.HumanTwo);
     }
 
     public void SelectStandartAI()
     {
-        gameController.SelectGameMode("AI");
+        gameController.SelectGameMode(GameModeType.AI);
     }
 
     public void SelectStandartNetwork()
     {
-        gameController.SelectGameMode("Network");
+        gameController.SelectGameMode(GameModeType.Network);
     }
 
     public void StartGame()

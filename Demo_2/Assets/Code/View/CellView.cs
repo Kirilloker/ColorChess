@@ -54,6 +54,11 @@ public class CellView : MonoBehaviour
         boxCollider.enabled = true;
     }
 
+    public void Destroy()
+    {
+        GameObject.Destroy(this);
+    }
+
     public Position Pos
     {
         get { return new Position(transform.localPosition.x, transform.localPosition.z); }
