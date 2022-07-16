@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class CellView : MonoBehaviour
 {
-    private Position pos;
-    private MeshRenderer cellMesh;
     private CellController cellController;
     private GameObject prompt;
 
+    private MeshRenderer cellMesh;
     private BoxCollider boxCollider;
 
     private void Awake()
@@ -22,12 +21,6 @@ public class CellView : MonoBehaviour
     private void OnMouseUpAsButton()
     {
         cellController.OnClicked(this);
-    }
-
-
-    public void SetPos(Position _pos)
-    {
-        pos = _pos;
     }
 
     public void SetCellController(CellController _cellController)
@@ -61,6 +54,10 @@ public class CellView : MonoBehaviour
         boxCollider.enabled = true;
     }
 
-    public Position Pos { get { return pos; } }
+    public Position Pos
+    {
+        get { return new Position(transform.localPosition.x, transform.localPosition.z); }
+        set { this.transform.localPosition = new Vector3(value.X, 0, value.Y); }
+    }
 
 }

@@ -32,7 +32,6 @@ public class CellController : MonoBehaviour
             {
                 GameObject cell = Instantiate(prefabsCell, new Vector3(i, 0f, j), Quaternion.AngleAxis(-90, Vector3.right), parent) as GameObject;
                 cells[i, j] = cell.GetComponent<CellView>();
-                cells[i, j].SetPos(new Position(i, j));
                 cells[i, j].SetCellController(this);
 
                 if (gameState.cells[i, j].type != CellType.Empty)

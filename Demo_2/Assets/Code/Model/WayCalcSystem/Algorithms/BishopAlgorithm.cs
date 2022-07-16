@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace ColorChessModel
 {
     class BishopAlgorithm : WayCalcStrategy
     {
         public List<Cell> AllSteps(Map map, Figure figure)
         {
-            List<Cell> avaibleCell = new List<Cell>();
-
             Position posFigure = figure.pos;
 
+            Dictionary<Cell, int> dict = new Dictionary<Cell, int>(30);
 
             for (int i = -3; i <= 3; i += 2)
             {
@@ -26,17 +27,30 @@ namespace ColorChessModel
                         ||
                         Check.Avaible(posCell, figure, map) == false) { break; }
 
-                    avaibleCell.Add(cell);
+                    // Добавляем клетку и расстояние от фигуры до клетки 
+                    dict.Add(cell, Math.Abs(figure.pos.X - cell.pos.X) + Math.Abs(figure.pos.Y - cell.pos.Y));
                 }
 
             }
+
+            List<Cell> avaibleCell = new List<Cell>(dict.Count);
+
+            // Сортируем словарь и добовляем всё в массив
+            dict = dict.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+            foreach (Cell cell in dict.Keys)
+            {
+                avaibleCell.Add(cell);
+            }
+
+            avaibleCell.Reverse();
 
             return avaibleCell;
         }
 
         public List<Cell> Way(Map map, Position startPos, Position endPos, Figure figure)
         {
-            List<Cell> way = new List<Cell>();
+            List<Cell> way = new List<Cell>(15);
 
             for (int i = -3; i <= 3; i += 2)
             {

@@ -80,15 +80,13 @@ namespace ColorChessModel
         }
         private static void MakeCapture(Map map, Cell cell)
         {
-            bool newDark = false;
+            //bool newDark = false;
 
             for (int i = cell.pos.X - 1; i <= cell.pos.X + 1; i++)
             {
                 for (int j = cell.pos.Y - 1; j <= cell.pos.Y + 1; j++)
                 {
                     Position newPos = new Position(i, j);
-
-
 
                     if (Check.OutOfRange(newPos, map) == true ||
                         map.GetCell(i, j).numberPlayer != cell.numberPlayer)
@@ -102,14 +100,14 @@ namespace ColorChessModel
             {
                 for (int j = cell.pos.Y - 1; j <= cell.pos.Y + 1; j++)
                 {
-                    if (map.GetCell(i, j).type != CellType.Dark)
-                    { newDark = true; }
+                    //if (map.GetCell(i, j).type != CellType.Dark)
+                    //{ newDark = true; }
 
                     map.GetCell(i, j).type = CellType.Dark;
                 }
             }
 
-            if (newDark == true) { DebugConsole.Print("New Dark"); }
+            //if (newDark == true) { DebugConsole.Print("New Dark"); }
         }
         private static List<int> CalculateScore(Map map)
         {

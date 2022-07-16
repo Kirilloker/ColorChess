@@ -31,9 +31,6 @@ public class FigureView : MonoBehaviour
 
     public IEnumerator AnimateMove(List<Vector3> way)
     {
-        Debug.Log("AnimateMove");
-
-
         Vector3 startPosition = transform.localPosition;
         Vector3 endPosition = way[1];
         
@@ -103,7 +100,7 @@ public class FigureView : MonoBehaviour
 
     public Position Pos { 
         get { return new Position(transform.localPosition.x, transform.localPosition.z); } 
-        set { this.transform.position = new Vector3(value.X, 0, value.Y); }
+        set { this.transform.localPosition = new Vector3(value.X, 0, value.Y); }
     }
     public FigureType Type { get { return type; } }
     public int Number { get { return numberPlayer; } }

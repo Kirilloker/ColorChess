@@ -5,7 +5,7 @@ namespace ColorChessModel
     {
         public List<Cell> AllSteps(Map map, Figure figure)
         {
-            List<Cell> avaibleCell = new List<Cell>();
+            List<Cell> avaibleCell = new List<Cell>(8);
 
             Position posFigure = figure.pos;
 
@@ -37,7 +37,7 @@ namespace ColorChessModel
 
         public List<Cell> Way(Map map, Position startPos, Position endPos, Figure figure)
         {
-            List<Cell> way = new List<Cell>();
+            List<Cell> way = new List<Cell>(2);
 
             way.Add(map.GetCell(startPos));
             way.Add(map.GetCell(endPos));
