@@ -97,16 +97,6 @@ public enum Color
 }
 
 
-public enum ViewCamera
-{
-    gameStart = 0,
-    noteMenu = 1,
-    inGame1 = 2,
-    inGame2 = 3,
-    deskMenu = 4,
-}
-
-
 public class Struct : MonoBehaviour
 {
 }

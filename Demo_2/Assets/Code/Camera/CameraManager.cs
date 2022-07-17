@@ -14,7 +14,7 @@ public class CameraManager : MonoBehaviour
 
     private void Awake()
     {
-        SwitchCamera(ViewCamera.gameStart);
+        SwitchCamera(CameraViewType.gameStart);
 
         main_camera.m_DefaultBlend.m_Time = 2f;
     }
@@ -24,7 +24,7 @@ public class CameraManager : MonoBehaviour
         SwitchCamera(g.state);
     }
 
-    public void SwitchCamera(ViewCamera viewCamera) 
+    public void SwitchCamera(CameraViewType viewCamera) 
     {
         for (int i = 0; i < cinemachines.Count; i++)
         {
@@ -36,8 +36,8 @@ public class CameraManager : MonoBehaviour
 
     public void Change_Camers_Rotation(float angle)
     {
-        cinemachines[(int) ViewCamera.inGame1].GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = angle;
-        cinemachines[(int) ViewCamera.inGame2].GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = angle;
+        cinemachines[(int)CameraViewType.inGame1].GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = angle;
+        cinemachines[(int)CameraViewType.inGame2].GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = angle;
     }
 
     //Изменение скорости перехода между камеры
@@ -49,7 +49,6 @@ public class CameraManager : MonoBehaviour
         }
         else 
         {
-            main_camera.m_DefaultBlend.m_Time = value;
         }
     }
 }
