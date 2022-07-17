@@ -129,7 +129,7 @@ public class GameController : MonoBehaviour
         cellController.CreateCells(CurrentGameState);
         figureController.CreateFigures(CurrentGameState);
 
-        //cameraController.
+        cameraController.SwitchCameraWithDelay(CameraViewType.inGame1);
 
         StartNewStep();
     }
@@ -178,7 +178,7 @@ public class GameController : MonoBehaviour
 
             case PlayerType.AI:
                 StartCoroutine(TestAIStep());
-               
+                //TestAIStep();
                 break;
             case PlayerType.Online:
                 //
@@ -212,20 +212,25 @@ public class GameController : MonoBehaviour
     public Map CurrentGameState { get { return gameStates[gameStates.Count-1]; } }
     public Map PreviousvGameState { get { return gameStates[gameStates.Count - 2]; } }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            EndGame();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        EndGame();
+    //    }
+    //}
 
 
     private IEnumerator TestAIStep()
+    //private void TestAIStep()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f);
+
+        TestAI.TestInt = 0;
 
         TestAI.AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
+        
+        
 
         figureController.UpedFigure = figureController.FindFigure(TestAI.bestFigure1, CurrentGameState);
 

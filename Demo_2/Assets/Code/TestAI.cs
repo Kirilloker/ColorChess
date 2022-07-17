@@ -27,7 +27,7 @@ public static class TestAI
 	// То есть - изменит состояние клеток и всякое такое
 	
 
-	static int MAX_LEVEL = 2;
+	static int MAX_LEVEL = 4;
 	public static int AlphaBeta(Map map, int level, int alpha, int beta)
 	{
 		List<List<ColorChessModel.Cell>> avaible = new List<List<ColorChessModel.Cell>>();
@@ -55,7 +55,7 @@ public static class TestAI
 			{
 				if (beta < alpha) break;
 
-				for (int j = 0; j < avaible[i].Count; j++)
+				for (int j = 0; j < MathF.Round(avaible[i].Count * 0.6f); j++)
 				{
 					if (MaxMinEvaluation > beta) break;
 					if (beta < alpha) break;
@@ -74,6 +74,8 @@ public static class TestAI
 
 					MaxMinEvaluation = Math.Max(MaxMinEvaluation, MinMax);
 					alpha = Math.Max(alpha, MaxMinEvaluation);
+
+					TestInt++;
 				}
 			}
 		}
@@ -86,7 +88,7 @@ public static class TestAI
 			{
 				if (beta < alpha) break;
 
-				for (int j = 0; j < avaible[i].Count; j++)
+				for (int j = 0; j < MathF.Round(avaible[i].Count * 0.6f); j++)
 				{
 					if (MaxMinEvaluation < alpha) break;
 					if (beta < alpha) break;
@@ -97,6 +99,8 @@ public static class TestAI
 
 					MaxMinEvaluation = Math.Min(MaxMinEvaluation, MinMax);
 					beta = Math.Min(alpha, MaxMinEvaluation);
+
+					TestInt++;
 				}
 			}
 		}
@@ -107,6 +111,7 @@ public static class TestAI
 			Console.WriteLine("Figure:" + bestFigure);
 			bestCell1 = bestCell;
 			bestFigure1 = bestFigure;
+			DebugConsole.Print("INT:" + TestInt);
 		}
 
 
@@ -122,4 +127,5 @@ public static class TestAI
 		return -map.scorePlayer[0] + map.scorePlayer[1];
 	}
 
+	public static uint TestInt = 0; 
 }

@@ -55,6 +55,7 @@ public class CameraController : MonoBehaviour
 
     public void SwitchCameraWithDelay(CameraViewType viewCamera)
     {
+        ViewCamera = viewCamera;
         Invoke("SwitchCamera", 0.50f);
     }
 

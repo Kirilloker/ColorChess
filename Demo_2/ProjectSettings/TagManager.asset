@@ -19,6 +19,7 @@ TagManager:
   - Tutorial
   - UI
   - Prefabs
+  - Figure
   layers:
   - Default
   - TransparentFX
