@@ -13,7 +13,7 @@ public class CellController : MonoBehaviour
     
 
 
-    private void Awake()
+    private void Start()
     {
         prefabs = GameObject.FindWithTag("Prefabs").GetComponent<Prefabs>();
     }
@@ -32,6 +32,7 @@ public class CellController : MonoBehaviour
             {
                 GameObject cell = Instantiate(prefabsCell, new Vector3(i, 0f, j), Quaternion.AngleAxis(-90, Vector3.right), parent) as GameObject;
                 cells[i, j] = cell.GetComponent<CellView>();
+                cells[i, j].FindComponents();
                 cells[i, j].SetCellController(this);
 
                 if (gameState.cells[i, j].type != CellType.Empty)
@@ -57,9 +58,11 @@ public class CellController : MonoBehaviour
 
     public void DestroyAll()
     {
-        foreach (CellView cell in cells)
+        Transform parent = GameObject.FindWithTag("Cell").transform;
+
+        foreach (Transform child in parent)
         {
-            //
+            Destroy(child.gameObject);
         }
     }
 

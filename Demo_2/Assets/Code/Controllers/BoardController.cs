@@ -26,7 +26,7 @@ public class BoardController : MonoBehaviour
             GameObject.Destroy(board);
         }
 
-        boardDecor.SetActive(false);
+        HideBoardDecor();
 
         Transform parent = GameObject.FindWithTag("Arena").transform;
         GameObject prefabsBoard = prefabs.GetBoard();
@@ -46,6 +46,8 @@ public class BoardController : MonoBehaviour
 
     private void ChangeColor(Map gameState)
     {
+        // Меняется цвет углом доски
+
         // ИСПРАВИТЬ
         List<ColorChessModel.Player> players = gameState.PLayers;
 
@@ -68,6 +70,16 @@ public class BoardController : MonoBehaviour
     public void Destroy()
     {
         GameObject.Destroy(board);
+    }
+
+    public void HideBoardDecor()
+    {
+        boardDecor.SetActive(false);
+    }
+
+    public void ShowBoardDecor()
+    {
+        boardDecor.SetActive(true);
     }
 
 }
