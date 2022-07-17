@@ -22,7 +22,6 @@ public class CameraController : MonoBehaviour
         main_camera.m_DefaultBlend.m_Time = 2f;
     }
 
-
     public void SwitchCamera(CameraViewType viewCamera)
     {
         for (int i = 0; i < cinemachines.Count; i++)

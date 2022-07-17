@@ -51,7 +51,7 @@ public class Play_session : MonoBehaviour
 
     public void start_game_cycle()
     {
-        cameraManager.SwitchCamera(ViewCamera.inGame1);
+        //cameraManager.SwitchCamera(ViewCamera.inGame1);
         
         amount_player = players.Count;
 
@@ -186,11 +186,11 @@ public class Play_session : MonoBehaviour
 
         if (_corner == Corner.Down_left || _corner == Corner.Down_right)
         {
-            cameraManager.SwitchCamera(ViewCamera.inGame1);
+            //cameraManager.SwitchCamera(ViewCamera.inGame1);
         }
         else if (_corner == Corner.Up_right || _corner == Corner.Up_left)
         {
-            cameraManager.SwitchCamera(ViewCamera.inGame2);
+            //cameraManager.SwitchCamera(ViewCamera.inGame2);
         }
         else
         {
@@ -690,7 +690,7 @@ public class Play_session : MonoBehaviour
 
         cameraManager.Set_Camera_Change_Speed(2f);
 
-        cameraManager.SwitchCamera(ViewCamera.noteMenu);
+        //cameraManager.SwitchCamera(ViewCamera.noteMenu);
     }
 
     public Dictionary<Figure, int> copy(Dictionary<Figure, int> _blocked_figure)
