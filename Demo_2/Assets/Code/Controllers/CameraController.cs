@@ -14,23 +14,24 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private List<CinemachineVirtualCamera> cinemachines;
 
+    private CameraViewType viewCamera;
+    public CameraViewType ViewCamera { get => viewCamera; set => viewCamera = value; }
 
     private void Awake()
     {
-        SwitchCamera(CameraViewType.gameStart);
+        SwitchCamera();
 
         main_camera.m_DefaultBlend.m_Time = 2f;
     }
 
-
-    public void SwitchCamera(CameraViewType viewCamera)
+    public void SwitchCamera()
     {
         for (int i = 0; i < cinemachines.Count; i++)
         {
             cinemachines[i].m_Priority = 1;
         }
 
-        switch (viewCamera)
+        switch (ViewCamera)
         {
             case CameraViewType.gameStart:
                 cinemachines[0].m_Priority = 2;
