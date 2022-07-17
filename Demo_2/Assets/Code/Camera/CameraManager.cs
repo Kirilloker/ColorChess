@@ -21,7 +21,7 @@ public class CameraManager : MonoBehaviour
 
     public void SetEnumState(GetEnum g)
     {
-        SwitchCamera(g.state);
+        //SwitchCamera(g.state);
     }
 
     public void SwitchCamera(CameraViewType viewCamera) 

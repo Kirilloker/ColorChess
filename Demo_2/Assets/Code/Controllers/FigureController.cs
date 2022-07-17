@@ -102,8 +102,20 @@ public class FigureController : MonoBehaviour
         gameController.FigureOnClicked(figureView);
     }
 
-    public FigureView FindFigure()
+    public FigureView FindFigure(ColorChessModel.Figure figureModel, Map gameState)
     {
+        foreach (List<FigureView> player in figures)
+        {
+            foreach (FigureView figure in player)
+            {
+                if (figure.Pos == figureModel.pos)
+                {
+                    return figure;
+                }
+            }
+        }
+
+
         return new FigureView();
     }
 
