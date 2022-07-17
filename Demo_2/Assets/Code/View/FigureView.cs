@@ -12,9 +12,9 @@ public class FigureView : MonoBehaviour
 
     private BoxCollider boxCollider;
 
-    private void Awake()
+    public void FindComponents()
     {
-        boxCollider = this.GetComponent<BoxCollider>();       
+        boxCollider = this.GetComponent<BoxCollider>();
     }
 
     public void Up()
@@ -73,11 +73,6 @@ public class FigureView : MonoBehaviour
     private void OnMouseUpAsButton()
     {
         figureController.OnClicked(this);
-    }
-
-    public void Destroy()
-    {
-        GameObject.Destroy(this);
     }
 
     public void StateBoxColodier(bool boxCol)

@@ -25,12 +25,11 @@ public class FigureController : MonoBehaviour
 
     public void DestroyAll()
     {
-        foreach (List<FigureView> player in figures)
+        Transform parent = GameObject.FindWithTag("Figure").transform;
+
+        foreach (Transform child in parent)
         {
-            foreach (FigureView figure in player)
-            {
-                //
-            }
+            Destroy(child.gameObject);
         }
 
         upedFigure = null;
@@ -40,6 +39,8 @@ public class FigureController : MonoBehaviour
     public void CreateFigures(Map gameState)
     {
         Transform parent = GameObject.FindWithTag("Figure").transform;
+
+        figures = new List<List<FigureView>>();
 
         // ИСПРАВИТЬ
         foreach (ColorChessModel.Player player in gameState.players)
@@ -57,6 +58,7 @@ public class FigureController : MonoBehaviour
                 figureGameObject.GetComponent<MeshRenderer>().materials = materialFigure;
 
                 FigureView figureView = figureGameObject.GetComponent<FigureView>();
+                figureView.FindComponents();
                 figureView.SetNumberPlayer(player.number);
                 figureView.Pos = figure.pos;
                 figureView.SetType(figure.type);
@@ -85,6 +87,10 @@ public class FigureController : MonoBehaviour
 
     public void OnClicked(FigureView figureView)
     {
+        // Нажатие на фигуру
+        // Опускаем поднятую фигуру до этого (если такая есть)
+        // Поднимаем выбранную 
+
         if (upedFigure != null)
         {
             upedFigure.Down();
@@ -94,6 +100,11 @@ public class FigureController : MonoBehaviour
         upedFigure = figureView;
 
         gameController.FigureOnClicked(figureView);
+    }
+
+    public FigureView FindFigure()
+    {
+        return new FigureView();
     }
 
     public void OnBoxColiders(int numberPlayer)

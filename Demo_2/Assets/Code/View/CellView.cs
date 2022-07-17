@@ -11,7 +11,7 @@ public class CellView : MonoBehaviour
     private MeshRenderer cellMesh;
     private BoxCollider boxCollider;
 
-    private void Awake()
+    public void FindComponents()
     {
         cellMesh = this.GetComponent<MeshRenderer>();
         boxCollider = this.GetComponent<BoxCollider>();
@@ -54,10 +54,6 @@ public class CellView : MonoBehaviour
         boxCollider.enabled = true;
     }
 
-    public void Destroy()
-    {
-        GameObject.Destroy(this);
-    }
 
     public Position Pos
     {
