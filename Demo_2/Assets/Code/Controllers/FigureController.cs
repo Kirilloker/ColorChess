@@ -119,6 +119,16 @@ public class FigureController : MonoBehaviour
         return new FigureView();
     }
 
+    // »—ѕ–ј¬»“№
+    public void EatFigureView(ColorChessModel.Figure figure, Map gameState)
+    {
+        // —ъедание фигуры
+        // ”дал€ем из списка фигур и удал€ем объект со сцены
+        FigureView figureView = FindFigure(figure, gameState);
+        figures[figure.Number].Remove(figureView);
+        Destroy(figureView.gameObject);
+    }
+
     public void OnBoxColiders(int numberPlayer)
     {
         foreach (FigureView figure in figures[numberPlayer])
