@@ -60,6 +60,8 @@ public class GameController : MonoBehaviour
         // Также меняем всё в Model
         // И в конце запускаем новый шаг
 
+
+
         List<ColorChessModel.Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.pos, cell.pos, figure);
 
         Map map = GameStateCalcSystem.ApplyStep(CurrentGameState, figure, cell);
@@ -70,6 +72,12 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < way.Count; i++)
         {
             wayVectors.Add(new Vector3(way[i].pos.X, 0f, way[i].pos.Y));
+        }
+
+        //В клетке стоит фигура -> её хотят съесть
+        if (cell.figure != null)
+        {
+            figureController.EatFigureView(cell.figure, CurrentGameState);
         }
 
         figureController.AnimateMoveFigure(figureController.UpedFigure, wayVectors);
@@ -123,6 +131,8 @@ public class GameController : MonoBehaviour
     {
         // Начало игры 
         // Создаем Доску Клетки и Игроков
+        TestCheckNewGame();
+
         gameStates.Add(gameStateBuilder.CreateGameState());
 
         boardController.CreateBoard(CurrentGameState);
@@ -194,20 +204,30 @@ public class GameController : MonoBehaviour
 
     }
 
+    private void TestCheckNewGame()
+    {
+        if (gameStates.Count != 0)
+        {
+            gameStates = new List<Map>();
+            DestroyAll();
+        }
+    }
+
+    public void DestroyAll()
+    {
+        figureController.DestroyAll();
+        cellController.DestroyAll();
+        boardController.Destroy();
+
+        boardController.ShowBoardDecor();
+    }
 
     public void EndGame()
     {
         // Конец игры
 
         Debug.Log("Игра закончилась");
-
-        figureController.DestroyAll();
-        cellController.DestroyAll();
-        boardController.Destroy();
-
-        boardController.ShowBoardDecor();
-
-        //cameraController.
+        cameraController.SwitchCameraWithDelay(CameraViewType.noteMenu);
     }
     public Map CurrentGameState { get { return gameStates[gameStates.Count-1]; } }
     public Map PreviousvGameState { get { return gameStates[gameStates.Count - 2]; } }
@@ -227,10 +247,10 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         TestAI.TestInt = 0;
+        TestAI.maps = new Dictionary<uint, int>(100000);
+        TestAI.mapsTest = new Dictionary<uint, Map>(100000);
 
         TestAI.AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
-        
-        
 
         figureController.UpedFigure = figureController.FindFigure(TestAI.bestFigure1, CurrentGameState);
 

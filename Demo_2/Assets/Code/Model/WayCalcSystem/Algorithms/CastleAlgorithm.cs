@@ -34,7 +34,11 @@ namespace ColorChessModel
                         Check.Avaible(posCell, figure, map) == false) { break; }
 
                     // Добавляем клетку и расстояние от фигуры до клетки 
-                    dict.Add(cell, Math.Abs(figure.pos.X - cell.pos.X) + Math.Abs(figure.pos.Y - cell.pos.Y));
+                    int test = 0;
+                    test += Math.Abs(figure.pos.X - cell.pos.X) + Math.Abs(figure.pos.Y - cell.pos.Y);
+                    test += (Check.SelfCellDark(cell, figure.Number)) ? -3 : 0;
+
+                    dict.Add(cell, test);
                 }
             }
             List<Cell> avaibleCell = new List<Cell>(dict.Count);
@@ -47,7 +51,8 @@ namespace ColorChessModel
                 avaibleCell.Add(cell);
             }
 
-            avaibleCell.Reverse();
+            avaibleCell.Reverse(); 
+
 
             return avaibleCell;
         }

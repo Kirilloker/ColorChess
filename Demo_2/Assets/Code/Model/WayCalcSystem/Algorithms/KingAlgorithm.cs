@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace ColorChessModel
 {
     class KingAlgorithm : WayCalcStrategy
     {
         public List<Cell> AllSteps(Map map, Figure figure)
         {
-            List<Cell> avaibleCell = new List<Cell>(100);
+            Dictionary<Cell, int> dict = new Dictionary<Cell, int>(100);
+
+           // List<Cell> avaibleCell = new List<Cell>(100);
             Position posFigure = figure.pos;
 
             for (float i = 0; i < map.Width; i++)
@@ -22,9 +27,27 @@ namespace ColorChessModel
                     { continue; }
 
 
-                    avaibleCell.Add(cell);
+                    int test = 0;
+                    test += (Check.BusyCell(cell)) ? 1 : 0;
+                    test += (Check.SelfCellDark(cell, figure.Number)) ? -3 : 0;
+
+                    dict.Add(cell, test);
+                    //avaibleCell.Add(cell);
                 }
             }
+
+            List<Cell> avaibleCell = new List<Cell>(dict.Count);
+
+            // Сортируем словарь и добовляем всё в массив
+            dict = dict.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+            foreach (Cell cell in dict.Keys)
+            {
+                avaibleCell.Add(cell);
+            }
+
+            avaibleCell.Reverse();
+
 
             return avaibleCell;
         }

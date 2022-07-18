@@ -24,5 +24,20 @@ namespace ColorChessModel
         {
             get { return player.number; }
         }
+
+        //public static bool operator !=(Figure figure1, Figure figure2)
+        //{
+        //    return !(figure1 == figure2);
+        //}
+
+        public bool equals(Figure anotherFigure)
+        {
+            return this.pos == anotherFigure.pos && this.type == anotherFigure.type && this.Number == anotherFigure.Number;
+        }
+
+        //public static bool operator ==(Figure figure1, Figure figure2)
+        //{
+        //    return figure1.pos == figure2.pos && figure1.type == figure2.type && figure1.Number == figure2.Number;
+        //}
     };
 }

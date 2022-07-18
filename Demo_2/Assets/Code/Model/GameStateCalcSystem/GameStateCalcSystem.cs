@@ -7,7 +7,7 @@ namespace ColorChessModel
         public static Map UpdateGameState(Map gameState)
         {
             CheckCapture(gameState);
-            gameState.scorePlayer = CalculateScore(gameState);
+            gameState.score = CalculateScore(gameState);
 
             return gameState;
         }
@@ -18,9 +18,15 @@ namespace ColorChessModel
 
             Map gameState = new Map(_gameState);
 
-            // Получаем ссылку на новую фигуру, которая делает ход
+            // Получаем ссылку на новую фигуру, которая делает ход (потому что создалась копия карты)
             Figure newFigure = gameState.GetCell(figure.pos).figure;
 
+
+            // Если в клетке в которую хотят сходить стоит фигура -> её хотят съесть
+            if (endCell.figure != null)
+            {
+                gameState.KillFigure(endCell.figure);
+            }
 
             List<Cell> Way = WayCalcSystem.CalcWay(gameState, newFigure.pos, endCell.pos, newFigure);
 
@@ -109,11 +115,8 @@ namespace ColorChessModel
 
             //if (newDark == true) { DebugConsole.Print("New Dark"); }
         }
-        private static List<int> CalculateScore(Map map)
+        private static Dictionary<int, Dictionary<CellType, int>> CalculateScore(Map map)
         {
-            int OneScorePaint = 1;
-            int OneScoreDark = 1;
-
             // Словарь(Номер игрока, словарь(Тип клетки, количество таких клеток))
             Dictionary<int, Dictionary<CellType, int>> score = GetEmptyScoreDictionary(map);
 
@@ -128,18 +131,8 @@ namespace ColorChessModel
                 }
             }
 
-            List<int> scorePlayer = new List<int>();
+            return score;
 
-            for (int i = -1; i < score.Count - 1; i++)
-            {
-                scorePlayer.Add(
-                    score[i][CellType.Paint] * OneScorePaint +
-                    score[i][CellType.Dark] * OneScoreDark);
-            }
-
-            map.countEmptyCell = score[-1][CellType.Empty];
-
-            return scorePlayer;
         }
         private static Dictionary<int, Dictionary<CellType, int>> GetEmptyScoreDictionary(Map map)
         {
