@@ -14,6 +14,8 @@ public class BoardController : MonoBehaviour
 
     private Prefabs prefabs;
 
+    private TestControllerBoardUI boardUI;
+
     private void Awake()
     {
         prefabs = GameObject.FindWithTag("Prefabs").GetComponent<Prefabs>();
@@ -40,9 +42,16 @@ public class BoardController : MonoBehaviour
         board.tag = "Board";
         board.name = "Board";
 
+        boardUI = board.GetComponentInChildren<TestControllerBoardUI>();
+        boardUI.FirstSet(gameState);
+
         ChangeColor(gameState);
     }
 
+    public void SetScoreUI(Map map)
+    {
+        boardUI.SetScore(map);
+    }
 
     private void ChangeColor(Map gameState)
     {
@@ -55,13 +64,13 @@ public class BoardController : MonoBehaviour
 
         foreach (ColorChessModel.Player player in players)
         {
-            material_board[(int) player.corner] = prefabs.GetColor(player.color);
+            material_board[(int) player.corner + 1] = prefabs.GetColor(player.color);
         }
 
         if (players.Count == 2 && players[0].corner == CornerType.DownLeft && players[1].corner == CornerType.UpRight)
         {
-            material_board[2] = prefabs.GetColor(players[0].color);
-            material_board[4] = prefabs.GetColor(players[1].color);
+            material_board[2] = prefabs.GetColor(players[1].color);
+            material_board[4] = prefabs.GetColor(players[0].color);
         }
 
         board.GetComponentInChildren<MeshRenderer>().materials = material_board;
@@ -70,6 +79,14 @@ public class BoardController : MonoBehaviour
     public void Destroy()
     {
         GameObject.Destroy(board);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.B))
+        {
+            Destroy();
+        }
     }
 
     public void HideBoardDecor()

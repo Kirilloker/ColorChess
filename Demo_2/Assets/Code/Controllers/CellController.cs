@@ -66,6 +66,14 @@ public class CellController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.C))
+        {
+            DestroyAll();
+        }
+    }
+
     public void ShowAllSteps(List<ColorChessModel.Cell> way)
     {
         HideAllPrompts();

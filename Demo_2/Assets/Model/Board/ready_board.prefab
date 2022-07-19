@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6088413382725140525}
   - component: {fileID: 3478584612336162771}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ScoreUpLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,7 +113,7 @@ RectTransform:
   m_Children:
   - {fileID: 3964289581013950478}
   m_Father: {fileID: 9046233835645288483}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: -90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -190,7 +190,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5771449273556072887}
-  - component: {fileID: 82315291358978971}
+  - component: {fileID: 4707975557652522963}
   m_Layer: 0
   m_Name: Board_UI
   m_TagString: Untagged
@@ -214,7 +214,7 @@ Transform:
   m_Father: {fileID: 128887137513197828}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &82315291358978971
+--- !u!114 &4707975557652522963
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,16 +223,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1377514467911829415}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44c8cb05997fdd84fb6842dbab0fd86a, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e340e6b09a69ae4f83e412bde627206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corner:
+  emptyCellText1: {fileID: 1390326647882090384}
+  emptyCellText2: {fileID: 1748281006643649573}
+  cornerText:
   - {fileID: 3536439828050166852}
   - {fileID: 6082949980530174366}
   - {fileID: 3910019383724049043}
   - {fileID: 3478584612336162771}
-  score_1: {fileID: 1390326647882090384}
-  score_2: {fileID: 1748281006643649573}
 --- !u!1 &3595542991095556019
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,12 +261,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4273895678296883505}
-  - {fileID: 2919692209368956122}
-  - {fileID: 8549795330171751828}
-  - {fileID: 5147252700293826312}
   - {fileID: 7919318030669321059}
+  - {fileID: 5147252700293826312}
+  - {fileID: 8549795330171751828}
   - {fileID: 5804416083006930430}
+  - {fileID: 2919692209368956122}
+  - {fileID: 4273895678296883505}
   m_Father: {fileID: 5771449273556072887}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 737924120802392613}
   - component: {fileID: 3910019383724049043}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ScoreUpRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -383,7 +383,7 @@ RectTransform:
   m_Children:
   - {fileID: 2296299031934784761}
   m_Father: {fileID: 9046233835645288483}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: -90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -484,7 +484,7 @@ RectTransform:
   m_Children:
   - {fileID: 8296203462224658726}
   m_Father: {fileID: 9046233835645288483}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -564,7 +564,7 @@ GameObject:
   - component: {fileID: 3926673401856631412}
   - component: {fileID: 1390326647882090384}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ScoreEmptyCell1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -766,7 +766,7 @@ RectTransform:
   m_Children:
   - {fileID: 3362441274289420032}
   m_Father: {fileID: 9046233835645288483}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: -90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -846,7 +846,7 @@ GameObject:
   - component: {fileID: 5820794096574116773}
   - component: {fileID: 6082949980530174366}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ScoreDownRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -923,7 +923,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 128887137513197828}
-  - component: {fileID: 1158671644946558684}
   m_Layer: 0
   m_Name: ready_board
   m_TagString: Untagged
@@ -948,21 +947,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &1158671644946558684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6830316709634425628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 764ce86483160674ca25f7ce54832ae6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lenght: 0
-  width: 0
-  Board_UI: {fileID: 1377514467911829415}
 --- !u!1 &7999295159095306710
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,7 +959,7 @@ GameObject:
   - component: {fileID: 237080724886713785}
   - component: {fileID: 1748281006643649573}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ScoreEmptyCell2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1055,7 +1039,7 @@ GameObject:
   - component: {fileID: 2144832056369236620}
   - component: {fileID: 3536439828050166852}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ScoreDownLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1156,7 +1140,7 @@ RectTransform:
   m_Children:
   - {fileID: 7555515012864712692}
   m_Father: {fileID: 9046233835645288483}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

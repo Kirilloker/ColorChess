@@ -31,11 +31,11 @@
 
     public enum CornerType
     {
-        Empty = 0,
-        DownLeft = 1,
-        DownRight = 2,
-        UpRight = 3,
-        UpLeft = 4,
+        DownLeft = 0,
+        DownRight = 1,
+        UpRight = 2,
+        UpLeft = 3,
+        Empty = 4,
     }
 
     public enum PlayerType

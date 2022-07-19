@@ -1,80 +1,97 @@
 ﻿using ColorChessModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 public static class TestAI
 {
-	static float pawnWeight = 0;
-	static float castleWeight = 0;
+	// Глубина дерева
+	static int MAX_LEVEL = 4;
+
+	// Лучший ход
+	// ИСПРАВИТЬ 
+	public static ColorChessModel.Cell bestCell = null;
+	public static ColorChessModel.Figure bestFigure = null;
+
+	#region Параметры оценочной функции
+	static int pricePaint = 9;
+	static int priceDark = 10;
+	static int priceKill = 70;
+	static int priceAroundEnemyPawn = 60;
+
+    #endregion
+
+    #region Надо бы как-то это переименовать...
+    static float pawnPercent = 0;
+	static float castlePercent = 0;
 	static float bishopWeight = 0;
-	static float kingWeight = 0;
-	static float horseWeight = 0;
-	static float queenWeight = 0;
+	static float kingPercent = 0;
+	static float horsePercent = 0;
+	static float queenPercent = 0;
 
 	private static void SetWeightStartGame()
     {
 		// Начало
-		pawnWeight = 1f;
-        castleWeight = 0.5f;
-        kingWeight = 0.1f;
-        queenWeight = 0.4f;
+		pawnPercent = 1f;
+        castlePercent = 0.5f;
+        kingPercent = 0.1f;
+        queenPercent = 0.4f;
         bishopWeight = 0.4f;
-        horseWeight = 1f;
+        horsePercent = 1f;
     }
 
 	private static void SetWeightSpeedGame()
 	{
 		// Разгон
-		pawnWeight = 0.5f;
-		//castleWeight = 1f;
-		castleWeight = 0.4f;
-		kingWeight = 0.1f;
-		queenWeight = 0.3f;
+		pawnPercent = 0.5f;
+		castlePercent = 0.4f;
+		kingPercent = 0.1f;
+		queenPercent = 0.3f;
 		bishopWeight = 0.3f;
-		horseWeight = 1f;
+		horsePercent = 1f;
 	}
 
 	private static void SetWeightMidleGame()
 	{
 		// Середина
-		pawnWeight = 0.4f;
-		castleWeight = 0.4f;
-		kingWeight = 0.3f;
-		queenWeight = 0.2f;
+		pawnPercent = 0.4f;
+		castlePercent = 0.4f;
+		kingPercent = 0.3f;
+		queenPercent = 0.2f;
 		bishopWeight = 0.2f;
-		horseWeight = 0.7f;
+		horsePercent = 0.7f;
 	}
 
 	private static void SetWeightSlowGame()
 	{
 		// Замедление
-		pawnWeight = 1f;
-		castleWeight = 0.4f;
-		kingWeight = 0.4f;
-		queenWeight = 0.2f;
+		pawnPercent = 1f;
+		castlePercent = 0.4f;
+		kingPercent = 0.4f;
+		queenPercent = 0.2f;
 		bishopWeight = 0.3f;
-		horseWeight = 0.5f;
+		horsePercent = 0.5f;
 	}
 
 	private static void SetWeightEndGame()
 	{
 		// Конец
-		pawnWeight = 0.5f;
-		castleWeight = 0.4f;
-		kingWeight = 0.4f;
-		queenWeight = 0.2f;
+		pawnPercent = 0.3f;
+		castlePercent = 0.3f;
+		kingPercent = 0.5f;
+		queenPercent = 0.2f;
 		bishopWeight = 0.2f;
-		horseWeight = 0.5f;
+		horsePercent = 0.3f;
 	}
+    #endregion
 
 
-	// ИСПРАВИТЬ ВСЁ ТУТ
-	public static List<List<ColorChessModel.Cell>> TestGetAvaible(Map map, int numberPlayer)
+    // ИСПРАВИТЬ 
+    private static List<List<ColorChessModel.Cell>> GetAvaibleForPlayer(Map map, int numberPlayer)
 	{
+		// Возвращает двумерный массив: первый индекс - i-ая фигура игрока; 
+		// второй индекс - j-ая клетка на которую может сходить фигура
+
 		List<List<ColorChessModel.Cell>> avaiblePlayer = new List<List<ColorChessModel.Cell>>();
 		
 		ColorChessModel.Player player = map.players[numberPlayer];
@@ -87,120 +104,108 @@ public static class TestAI
 		return avaiblePlayer;
 	}
 
-	// Написать функцию, которая обработает доску 
-	// То есть - изменит состояние клеток и всякое такое
-	
-	public static void SwitchGameSutuation(float percentEmptyCell)
+	private static void SwitchGameSutuation(float percentEmptyCell)
     {
+		// Меняет стадию игры Начало-Разгон-Середина-Замедление-Конец
 		if (percentEmptyCell < 0.25)
         {
-			//DebugConsole.Print("начальная стадия");
 			SetWeightStartGame();
 		}
 		else if (percentEmptyCell < 0.4)
         {
-			//DebugConsole.Print("разгон стадия");
 			SetWeightSpeedGame();
 		}
 		else if (percentEmptyCell < 0.7)
 		{
-			//DebugConsole.Print("серединная стадия");
 			SetWeightMidleGame();
 		}
 		else if (percentEmptyCell < 0.9)
 		{
-			//DebugConsole.Print("Замедление стадия");
 			SetWeightSlowGame();
 		}
 		else if (percentEmptyCell < 1)
 		{
-			//DebugConsole.Print("Конечная стадия");
 			SetWeightEndGame();
 		}
 	}
 
-	public static float GetFigurePercentForStep(FigureType figureType) 
+	private static float GetFigurePercentForStep(FigureType figureType) 
 	{
+		// Возвращает сколько процентов ходов обработать у фигуры
+
         switch (figureType)
         {
             case FigureType.Empty:
 				return 0;
-                break;
             case FigureType.Pawn:
-				return pawnWeight;
-                break;
+				return pawnPercent;
             case FigureType.King:
-				return kingWeight;
-				break;
+				return kingPercent;
             case FigureType.Bishop:
 				return bishopWeight;
-				break;
             case FigureType.Castle:
-				return castleWeight;
-				break;
+				return castlePercent;
             case FigureType.Horse:
-				return horseWeight;
-				break;
+				return horsePercent;
             case FigureType.Queen:
-				return queenWeight;
-				break;
+				return queenPercent;
             default:
 				return 0;
-				break;
         }
     }
 
-	static int MAX_LEVEL = 4;
 	public static int AlphaBeta(Map map, int level, int alpha, int beta)
 	{
+		// Список всех возможных ходов для определенного игрока
 		List<List<ColorChessModel.Cell>> avaible = new List<List<ColorChessModel.Cell>>();
 
 		int MaxMinEvaluation = 0;
 
+		// Конец игры
 		if (map.EndGame == true)
 		{
 			if (map.GetScorePlayer(1) > map.GetScorePlayer(0))
 			{
-				return 100000;
+				// Если победил AI
+				return 10000;
 			}
 			else
 			{
-				return -100000;
+				// Если победил человек
+				return -10000;
 			}
 		}
 
+		// Устанавливается стадия игры
 		if (level == 0)
         {
-			// Устанавливается стадия игры
-
 			float percentCell = (float) (map.Length * map.Width - map.CountEmptyCell) / (float)(map.Length * map.Width);
-
-			//float percentCell = (float)map.CountEmptyCell / (map.Length * (float)map.Width);
 			SwitchGameSutuation(percentCell);
         }
 
-
+		// Достигли максимальную глубину дерева
 		if (level >= MAX_LEVEL)
 		{
-			return evaluation_function(map);
+			return EvaluationFunctrion(map);
 		}
 
-
+		// Обработка хода Бота
 		if (level % 2 == 0)
 		{
-			avaible = TestGetAvaible(map, 1);
+			// Получаем список всех ходов 
+			avaible = GetAvaibleForPlayer(map, 1);
 			MaxMinEvaluation = int.MinValue;
 
 
 			for (int i = 0; i < avaible.Count; i++)
 			{
-				//if (beta < alpha) break;
+				// Сколько процентов ходов обработать у фигуры
+				float percentStep = GetFigurePercentForStep(map.players[1].figures[i].type);
 
-				FigureType figureType = map.players[1].figures[i].type;
-
-				float percentStep = GetFigurePercentForStep(figureType);
+				// Количество ходов которое будет обработано у фигуры
 				int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
 
+				// Если получилось что 0 шагов обработаются, то обработать хотя бы 1 шаг
 				if ((stepCalculate < 1) && (avaible[i].Count >= 1))
 				{
 					stepCalculate = 1;
@@ -215,10 +220,11 @@ public static class TestAI
 
 					int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
 
+					// Запоминаем наилучший ход
 					if ((level == 0) && (MinMax > MaxMinEvaluation))
-					{;
-						bestCell1 = avaible[i][j];
-						bestFigure1 = map.players[1].figures[i];
+					{
+						bestCell = avaible[i][j];
+						bestFigure = map.players[1].figures[i];
 					}
 
 					MaxMinEvaluation = Math.Max(MaxMinEvaluation, MinMax);
@@ -226,16 +232,15 @@ public static class TestAI
 				}
 			}
 		}
+		// Обработка хода Человека
 		else
 		{
-			avaible = TestGetAvaible(map, 0);
+			avaible = GetAvaibleForPlayer(map, 0);
 			MaxMinEvaluation = int.MaxValue;
 
 			for (int i = 0; i < avaible.Count; i++)
 			{
-				FigureType figureType = map.players[0].figures[i].type;
-
-				float percentStep = GetFigurePercentForStep(figureType);
+				float percentStep = GetFigurePercentForStep(map.players[0].figures[i].type);
 				int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
 
 				if ((stepCalculate < 1) && (avaible[i].Count >= 1))
@@ -259,43 +264,37 @@ public static class TestAI
 		}
 
 
-
 		return MaxMinEvaluation;
 	}
 
-	public static ColorChessModel.Cell bestCell1 = null;
-	public static ColorChessModel.Figure bestFigure1 = null;
-
-
-	public static int evaluation_function(Map map)
+	public static int EvaluationFunctrion(Map map)
 	{
+		// Оценочная функция
+
 		var score = map.Score;
 
 		int evaluation = 0;
 
-		evaluation += score[1][CellType.Paint] * 9;
-		evaluation += score[1][CellType.Dark] * 10;
+		evaluation += score[1][CellType.Paint] * pricePaint;
+		evaluation += score[1][CellType.Dark] * priceDark;
 
-		evaluation -= score[0][CellType.Paint] * 9;
-		evaluation -= score[0][CellType.Dark] * 10;
+		evaluation -= score[0][CellType.Paint] * pricePaint;
+		evaluation -= score[0][CellType.Dark] * priceDark;
 
+		// Разница в количестве живых фигур у игрока
+        evaluation += (map.players[1].figures.Count - map.players[0].figures.Count) * priceKill;
 
-        evaluation += (map.players[1].figures.Count - map.players[0].figures.Count) * 70;
-
+		// Если Рядом с Пешками Врага стоит фигура Бота начисляется штраф
         foreach (var figure in map.players[0].figures)
         {
             if (figure.type == FigureType.Pawn)
             {
-                evaluation -= (Check.BesideEnemy(figure.pos, map, figure.Number)) ? 60 : 0;
+                evaluation -= (Check.BesideEnemy(figure.pos, map, figure.Number)) ? priceAroundEnemyPawn : 0;
             }
         }
 
         return evaluation;
 	}
 
-    public static Dictionary<uint, int> maps = new Dictionary<uint, int>(100000);
-    public static Dictionary<uint, Map> mapsTest = new Dictionary<uint, Map>(100000);
-
-    public static uint TestInt = 0; 
 }
 

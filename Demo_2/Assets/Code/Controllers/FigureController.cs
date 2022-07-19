@@ -35,6 +35,14 @@ public class FigureController : MonoBehaviour
         upedFigure = null;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            DestroyAll();
+        }
+    }
+
 
     public void CreateFigures(Map gameState)
     {
