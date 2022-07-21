@@ -34,7 +34,7 @@ namespace ColorChessModel
             //Создаем игроков
             for (int i = 0; i < playersDiscription.PlayerNumbers.Count; i++)
             {
-                gameState.players.Add(playerBuilder.MakePlayer(
+                gameState.Players.Add(playerBuilder.MakePlayer(
                     playersDiscription.PlayerCorners[i],
                     playersDiscription.PlayerColors[i],
                     playersDiscription.PlayerTypes[i],
@@ -46,27 +46,31 @@ namespace ColorChessModel
             {
                 for (int j = 0; j < figureSets[i].positions.Count; j++)
                 {
-                    gameState.players[i].figures.Add(
+                    gameState.Players[i].figures.Add(
                         figureBuilder.MakeFigure(
                             figureSets[i].positions[j],
-                            gameState.players[i],
+                            gameState.Players[i],
                             figureSets[i].figureTypes[j]));
                 }
             }
 
             // Выделяем память под массив
-            gameState.cells = new Cell[board.lenght, board.width];
+            Cell[,] cells = new Cell[board.lenght, board.width];
+            
 
             //Создаем игровое поле
             for (int i = 0; i < board.lenght; i++)
             {
                 for (int j = 0; j < board.width; j++)
                 {
-                    gameState.cells[i, j] = cellBuilder.MakeCell(
+                    cells[i, j] = cellBuilder.MakeCell(
                         new Position(i, j),
                         board.CellTypes[i, j]);
                 }
             }
+
+            gameState.Cells = cells;
+
 
             //Тут мы обращаемся к GameStateCalculator
             //И обновляем состояния клеток (ставим фигуры на игровое поле)
