@@ -12,9 +12,12 @@ public class FigureController : MonoBehaviour
 
     private FigureView upedFigure;
 
+    private Transform transformFigure;
+
     private void Awake()
     {
         prefabs = GameObject.FindWithTag("Prefabs").GetComponent<Prefabs>();
+        transformFigure = GameObject.FindWithTag("Figure").transform;
     }
 
 
@@ -25,9 +28,7 @@ public class FigureController : MonoBehaviour
 
     public void DestroyAll()
     {
-        Transform parent = GameObject.FindWithTag("Figure").transform;
-
-        foreach (Transform child in parent)
+        foreach (Transform child in transformFigure)
         {
             Destroy(child.gameObject);
         }
@@ -39,51 +40,53 @@ public class FigureController : MonoBehaviour
 
     public void CreateFigures(Map gameState)
     {
-        Transform parent = GameObject.FindWithTag("Figure").transform;
-
         figures = new List<List<FigureView>>();
 
-        // ИСПРАВИТЬ
-        foreach (ColorChessModel.Player player in gameState.Players)
+        foreach (Player player in gameState.Players)
         {
             List<FigureView> figuresViewList = new List<FigureView>();
 
-            foreach (ColorChessModel.Figure figure in player.figures)
+            foreach (Figure figure in player.figures)
             {
-                GameObject prefabsFigure = prefabs.GetFigure(figure.type);
-
-                GameObject figureGameObject = Instantiate(prefabsFigure, parent.transform.localPosition, Quaternion.AngleAxis(270, Vector3.up), parent);
-
-                Material[] materialFigure = figureGameObject.GetComponent<MeshRenderer>().materials;
-                materialFigure[1] = prefabs.GetColor(player.color);
-                figureGameObject.GetComponent<MeshRenderer>().materials = materialFigure;
-
-                FigureView figureView = figureGameObject.GetComponent<FigureView>();
-                figureView.FindComponents();
-                figureView.SetNumberPlayer(player.number);
-                figureView.Pos = figure.pos;
-                figureView.SetType(figure.type);
-                figureView.SetFigureController(this);
-
-                if (figure.type == FigureType.Horse)
-                {
-                    if (player.corner == CornerType.UpLeft || player.corner == CornerType.UpRight)
-                    {
-                        figureView.SetRotation(180);
-                    }
-                    else
-                    {
-                        figureView.SetRotation(0);
-                    }
-                }
-
-                figureGameObject.name = TypeToString.ToString(figure.type) + player.number;
-
-                figuresViewList.Add(figureView);
+                figuresViewList.Add(CreateFigure(figure, player.color, player.corner));
             }
 
             figures.Add(figuresViewList);
         }
+    }
+
+    public FigureView CreateFigure(Figure figure, ColorType color, CornerType corner)
+    {
+        GameObject prefabsFigure = prefabs.GetFigure(figure.type);
+
+        GameObject figureGameObject = Instantiate(prefabsFigure, transformFigure.transform.localPosition, Quaternion.AngleAxis(270, Vector3.up), transformFigure);
+
+        Material[] materialFigure = figureGameObject.GetComponent<MeshRenderer>().materials;
+        materialFigure[1] = prefabs.GetColor(color);
+        figureGameObject.GetComponent<MeshRenderer>().materials = materialFigure;
+
+        FigureView figureView = figureGameObject.GetComponent<FigureView>();
+        figureView.FindComponents();
+        figureView.SetNumberPlayer(figure.Number);
+        figureView.Pos = figure.pos;
+        figureView.SetType(figure.type);
+        figureView.SetFigureController(this);
+
+        if (figure.type == FigureType.Horse)
+        {
+            if (corner == CornerType.UpLeft || corner == CornerType.UpRight)
+            {
+                figureView.SetRotation(180);
+            }
+            else
+            {
+                figureView.SetRotation(0);
+            }
+        }
+
+        figureGameObject.name = TypeToString.ToString(figure.type) + figure.Number;
+
+        return figureView;
     }
 
     public void OnClicked(FigureView figureView)
@@ -116,17 +119,15 @@ public class FigureController : MonoBehaviour
             }
         }
 
-        
-
 
         return new FigureView();
     }
 
-    // ИСПРАВИТЬ
-    public void EatFigureView(ColorChessModel.Figure figure, Map gameState)
+    public void EatFigureView(Figure figure, Map gameState)
     {
         // Съедание фигуры
         // Удаляем из списка фигур и удаляем объект со сцены
+
         FigureView figureView = FindFigure(figure, gameState);
         figures[figure.Number].Remove(figureView);
         Destroy(figureView.gameObject);
