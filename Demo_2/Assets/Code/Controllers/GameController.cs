@@ -121,12 +121,15 @@ public class GameController : MonoBehaviour
         {
             for (int j = 0; j < CurrentGameState.Width; j++)
             {
-                if (CurrentGameState.cells[i, j] != PreviousvGameState.cells[i, j])
+                if (CurrentGameState.GetCell(i, j) != PreviousvGameState.GetCell(i, j))
                 {
                     cellController.ChangeMaterialCell(i, j, CurrentGameState);
                 }
             }
         }
+
+
+
 
         boardController.SetScoreUI(CurrentGameState);
     }
@@ -160,13 +163,15 @@ public class GameController : MonoBehaviour
         // Проверка на то, что игра не зациклилась
         TestCheckImmutabilityGameState();
 
+        TestSerialization.Save(CurrentGameState);
+
         if (CurrentGameState.EndGame == true)
         {
             EndGame();
             return;
         }
-        
-        PlayerType playerType = CurrentGameState.players[CurrentGameState.numberPlayerStep].type;
+
+        PlayerType playerType = CurrentGameState.GetPlayerType(CurrentGameState.NumberPlayerStep);
 
         switch (playerType)
         {
@@ -218,12 +223,12 @@ public class GameController : MonoBehaviour
             (score3[-1][CellType.Empty] == score4[-1][CellType.Empty]))
         {
             if (
-                (map1.players.Count == map2.players.Count) &&
-                (map2.players.Count == map3.players.Count) &&
-                (map3.players.Count == map4.players.Count)
+                (map1.PlayersCount == map2.PlayersCount) &&
+                (map2.PlayersCount == map3.PlayersCount) &&
+                (map3.PlayersCount == map4.PlayersCount)
                 )
             {
-                for (int i = 0; i < map1.players.Count; i++)
+                for (int i = 0; i < map1.PlayersCount; i++)
                 {
                     if (
                         (score1[i][CellType.Paint] == score1[i][CellType.Paint]) &&
@@ -286,12 +291,9 @@ public class GameController : MonoBehaviour
         gameStates = new List<Map>();
     }
 
-    //Thread testThread = null;
-
-
     private IEnumerator AIStep()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
 
         //testThread = new Thread(new ThreadStart(AIStepTest));
         //testThread.Start();
@@ -304,7 +306,6 @@ public class GameController : MonoBehaviour
 
     }
 
-
     private void SetFigViewForNewStep()
     {
         // Настраиваем FigureContoller на новый ход
@@ -313,9 +314,9 @@ public class GameController : MonoBehaviour
         figureController.UpedFigure = null;
         figureController.OFFAllBoxColiders();
 
-        if (CurrentGameState.players[CurrentGameState.numberPlayerStep].type == PlayerType.Human)
+        if (CurrentGameState.GetPlayerType(CurrentGameState.NumberPlayerStep)  == PlayerType.Human)
         {
-            figureController.OnBoxColiders(CurrentGameState.numberPlayerStep);
+            figureController.OnBoxColiders(CurrentGameState.NumberPlayerStep);
         }
     }
 
@@ -326,6 +327,29 @@ public class GameController : MonoBehaviour
         cellController.OFFALLBoxColiders();
     }
 
+    public bool GetBoolFigureInCell(Position position)
+    {
+        return CurrentGameState.GetCell(position).figure != null;
+    }
     public Map CurrentGameState { get { return gameStates[gameStates.Count - 1]; } }
     public Map PreviousvGameState { get { return gameStates[gameStates.Count - 2]; } }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            DrawNewGameState(TestSerialization.Load());
+        }
+        
+    }
+
+    public void testLoad()
+    {
+        Map loadMap = TestSerialization.Load();
+
+        // Тут нужно всё с FigureContoller синхронизировать
+
+        DrawNewGameState(loadMap);
+    }
+
 }
