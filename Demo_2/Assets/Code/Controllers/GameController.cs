@@ -128,9 +128,6 @@ public class GameController : MonoBehaviour
             }
         }
 
-
-
-
         boardController.SetScoreUI(CurrentGameState);
     }
 
@@ -338,9 +335,14 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            DrawNewGameState(TestSerialization.Load());
+            TestSerialization.Load();
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            TestSerialization.Save(CurrentGameState);
+        }
+
     }
 
     public void testLoad()

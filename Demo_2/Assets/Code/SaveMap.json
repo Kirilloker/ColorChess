@@ -4,7 +4,7 @@
     "$id": "2",
     "-1": {
       "$id": "3",
-      "Empty": 61,
+      "Empty": 58,
       "Paint": 0,
       "Dark": 0,
       "Block": 0
@@ -12,7 +12,7 @@
     "0": {
       "$id": "4",
       "Empty": 0,
-      "Paint": 10,
+      "Paint": 13,
       "Dark": 0,
       "Block": 0
     },
@@ -28,7 +28,7 @@
   "Length": 9,
   "NumberPlayerStep": 0,
   "PlayersCount": 2,
-  "CountEmptyCell": 61,
+  "CountEmptyCell": 58,
   "EndGame": false,
   "Score": {
     "$ref": "2"
@@ -119,10 +119,10 @@
           "$id": "19",
           "pos": {
             "$id": "20",
-            "X": 2,
-            "Y": 0
+            "X": 0,
+            "Y": 3
           },
-          "type": 3,
+          "type": 1,
           "player": {
             "$ref": "6"
           },
@@ -144,8 +144,8 @@
           "$id": "23",
           "pos": {
             "$id": "24",
-            "X": 0,
-            "Y": 3
+            "X": 1,
+            "Y": 2
           },
           "type": 1,
           "player": {
@@ -169,8 +169,8 @@
           "$id": "27",
           "pos": {
             "$id": "28",
-            "X": 1,
-            "Y": 2
+            "X": 2,
+            "Y": 1
           },
           "type": 1,
           "player": {
@@ -195,7 +195,7 @@
           "pos": {
             "$id": "32",
             "X": 3,
-            "Y": 2
+            "Y": 0
           },
           "type": 1,
           "player": {
@@ -219,10 +219,10 @@
           "$id": "35",
           "pos": {
             "$id": "36",
-            "X": 3,
+            "X": 1,
             "Y": 0
           },
-          "type": 1,
+          "type": 2,
           "player": {
             "$ref": "6"
           },
@@ -234,31 +234,6 @@
             },
             {
               "$id": "38",
-              "Empty": true,
-              "Paint": true
-            }
-          ],
-          "Number": 0
-        },
-        {
-          "$id": "39",
-          "pos": {
-            "$id": "40",
-            "X": 1,
-            "Y": 0
-          },
-          "type": 2,
-          "player": {
-            "$ref": "6"
-          },
-          "require": [
-            {
-              "$id": "41",
-              "Paint": true,
-              "Dark": true
-            },
-            {
-              "$id": "42",
               "Empty": true
             }
           ],
@@ -267,22 +242,47 @@
       ]
     },
     {
-      "$id": "43",
+      "$id": "39",
       "number": 1,
       "corner": 2,
       "color": 0,
       "type": 0,
       "figures": [
         {
-          "$id": "44",
+          "$id": "40",
           "pos": {
-            "$id": "45",
+            "$id": "41",
             "X": 8,
             "Y": 6
           },
           "type": 4,
           "player": {
-            "$ref": "43"
+            "$ref": "39"
+          },
+          "require": [
+            {
+              "$id": "42",
+              "Paint": true,
+              "Dark": true
+            },
+            {
+              "$id": "43",
+              "Empty": true,
+              "Paint": true
+            }
+          ],
+          "Number": 1
+        },
+        {
+          "$id": "44",
+          "pos": {
+            "$id": "45",
+            "X": 7,
+            "Y": 7
+          },
+          "type": 5,
+          "player": {
+            "$ref": "39"
           },
           "require": [
             {
@@ -302,12 +302,12 @@
           "$id": "48",
           "pos": {
             "$id": "49",
-            "X": 7,
+            "X": 8,
             "Y": 7
           },
-          "type": 5,
+          "type": 6,
           "player": {
-            "$ref": "43"
+            "$ref": "39"
           },
           "require": [
             {
@@ -317,8 +317,7 @@
             },
             {
               "$id": "51",
-              "Empty": true,
-              "Paint": true
+              "Empty": true
             }
           ],
           "Number": 1
@@ -327,12 +326,12 @@
           "$id": "52",
           "pos": {
             "$id": "53",
-            "X": 8,
-            "Y": 7
+            "X": 6,
+            "Y": 8
           },
-          "type": 6,
+          "type": 3,
           "player": {
-            "$ref": "43"
+            "$ref": "39"
           },
           "require": [
             {
@@ -342,7 +341,8 @@
             },
             {
               "$id": "55",
-              "Empty": true
+              "Empty": true,
+              "Paint": true
             }
           ],
           "Number": 1
@@ -351,12 +351,12 @@
           "$id": "56",
           "pos": {
             "$id": "57",
-            "X": 6,
-            "Y": 8
+            "X": 8,
+            "Y": 5
           },
-          "type": 3,
+          "type": 1,
           "player": {
-            "$ref": "43"
+            "$ref": "39"
           },
           "require": [
             {
@@ -376,12 +376,12 @@
           "$id": "60",
           "pos": {
             "$id": "61",
-            "X": 8,
+            "X": 7,
             "Y": 5
           },
           "type": 1,
           "player": {
-            "$ref": "43"
+            "$ref": "39"
           },
           "require": [
             {
@@ -402,11 +402,11 @@
           "pos": {
             "$id": "65",
             "X": 6,
-            "Y": 5
+            "Y": 7
           },
           "type": 1,
           "player": {
-            "$ref": "43"
+            "$ref": "39"
           },
           "require": [
             {
@@ -426,12 +426,12 @@
           "$id": "68",
           "pos": {
             "$id": "69",
-            "X": 6,
-            "Y": 7
+            "X": 5,
+            "Y": 8
           },
           "type": 1,
           "player": {
-            "$ref": "43"
+            "$ref": "39"
           },
           "require": [
             {
@@ -451,12 +451,12 @@
           "$id": "72",
           "pos": {
             "$id": "73",
-            "X": 5,
+            "X": 7,
             "Y": 8
           },
-          "type": 1,
+          "type": 2,
           "player": {
-            "$ref": "43"
+            "$ref": "39"
           },
           "require": [
             {
@@ -466,31 +466,6 @@
             },
             {
               "$id": "75",
-              "Empty": true,
-              "Paint": true
-            }
-          ],
-          "Number": 1
-        },
-        {
-          "$id": "76",
-          "pos": {
-            "$id": "77",
-            "X": 7,
-            "Y": 8
-          },
-          "type": 2,
-          "player": {
-            "$ref": "43"
-          },
-          "require": [
-            {
-              "$id": "78",
-              "Paint": true,
-              "Dark": true
-            },
-            {
-              "$id": "79",
               "Empty": true
             }
           ],
@@ -502,9 +477,9 @@
   "Cells": [
     [
       {
-        "$id": "80",
+        "$id": "76",
         "pos": {
-          "$id": "81",
+          "$id": "77",
           "X": 0,
           "Y": 0
         },
@@ -514,9 +489,9 @@
         "FigureType": 0
       },
       {
-        "$id": "82",
+        "$id": "78",
         "pos": {
-          "$id": "83",
+          "$id": "79",
           "X": 0,
           "Y": 1
         },
@@ -528,9 +503,9 @@
         "FigureType": 6
       },
       {
-        "$id": "84",
+        "$id": "80",
         "pos": {
-          "$id": "85",
+          "$id": "81",
           "X": 0,
           "Y": 2
         },
@@ -542,25 +517,49 @@
         "FigureType": 4
       },
       {
-        "$id": "86",
+        "$id": "82",
         "pos": {
-          "$id": "87",
+          "$id": "83",
           "X": 0,
           "Y": 3
         },
         "type": 1,
         "figure": {
-          "$ref": "23"
+          "$ref": "19"
         },
         "numberPlayer": 0,
         "FigureType": 1
+      },
+      {
+        "$id": "84",
+        "pos": {
+          "$id": "85",
+          "X": 0,
+          "Y": 4
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
+      },
+      {
+        "$id": "86",
+        "pos": {
+          "$id": "87",
+          "X": 0,
+          "Y": 5
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
       },
       {
         "$id": "88",
         "pos": {
           "$id": "89",
           "X": 0,
-          "Y": 4
+          "Y": 6
         },
         "type": 0,
         "figure": null,
@@ -572,7 +571,7 @@
         "pos": {
           "$id": "91",
           "X": 0,
-          "Y": 5
+          "Y": 7
         },
         "type": 0,
         "figure": null,
@@ -584,30 +583,6 @@
         "pos": {
           "$id": "93",
           "X": 0,
-          "Y": 6
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "94",
-        "pos": {
-          "$id": "95",
-          "X": 0,
-          "Y": 7
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "96",
-        "pos": {
-          "$id": "97",
-          "X": 0,
           "Y": 8
         },
         "type": 0,
@@ -618,23 +593,23 @@
     ],
     [
       {
-        "$id": "98",
+        "$id": "94",
         "pos": {
-          "$id": "99",
+          "$id": "95",
           "X": 1,
           "Y": 0
         },
         "type": 1,
         "figure": {
-          "$ref": "39"
+          "$ref": "35"
         },
         "numberPlayer": 0,
         "FigureType": 2
       },
       {
-        "$id": "100",
+        "$id": "96",
         "pos": {
-          "$id": "101",
+          "$id": "97",
           "X": 1,
           "Y": 1
         },
@@ -646,25 +621,49 @@
         "FigureType": 5
       },
       {
-        "$id": "102",
+        "$id": "98",
         "pos": {
-          "$id": "103",
+          "$id": "99",
           "X": 1,
           "Y": 2
         },
         "type": 1,
         "figure": {
-          "$ref": "27"
+          "$ref": "23"
         },
         "numberPlayer": 0,
         "FigureType": 1
+      },
+      {
+        "$id": "100",
+        "pos": {
+          "$id": "101",
+          "X": 1,
+          "Y": 3
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
+      },
+      {
+        "$id": "102",
+        "pos": {
+          "$id": "103",
+          "X": 1,
+          "Y": 4
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
       },
       {
         "$id": "104",
         "pos": {
           "$id": "105",
           "X": 1,
-          "Y": 3
+          "Y": 5
         },
         "type": 0,
         "figure": null,
@@ -676,7 +675,7 @@
         "pos": {
           "$id": "107",
           "X": 1,
-          "Y": 4
+          "Y": 6
         },
         "type": 0,
         "figure": null,
@@ -688,7 +687,7 @@
         "pos": {
           "$id": "109",
           "X": 1,
-          "Y": 5
+          "Y": 7
         },
         "type": 0,
         "figure": null,
@@ -700,30 +699,6 @@
         "pos": {
           "$id": "111",
           "X": 1,
-          "Y": 6
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "112",
-        "pos": {
-          "$id": "113",
-          "X": 1,
-          "Y": 7
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "114",
-        "pos": {
-          "$id": "115",
-          "X": 1,
           "Y": 8
         },
         "type": 0,
@@ -734,25 +709,11 @@
     ],
     [
       {
-        "$id": "116",
+        "$id": "112",
         "pos": {
-          "$id": "117",
+          "$id": "113",
           "X": 2,
           "Y": 0
-        },
-        "type": 1,
-        "figure": {
-          "$ref": "19"
-        },
-        "numberPlayer": 0,
-        "FigureType": 3
-      },
-      {
-        "$id": "118",
-        "pos": {
-          "$id": "119",
-          "X": 2,
-          "Y": 1
         },
         "type": 1,
         "figure": null,
@@ -760,11 +721,49 @@
         "FigureType": 0
       },
       {
+        "$id": "114",
+        "pos": {
+          "$id": "115",
+          "X": 2,
+          "Y": 1
+        },
+        "type": 1,
+        "figure": {
+          "$ref": "27"
+        },
+        "numberPlayer": 0,
+        "FigureType": 1
+      },
+      {
+        "$id": "116",
+        "pos": {
+          "$id": "117",
+          "X": 2,
+          "Y": 2
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
+      },
+      {
+        "$id": "118",
+        "pos": {
+          "$id": "119",
+          "X": 2,
+          "Y": 3
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
+      },
+      {
         "$id": "120",
         "pos": {
           "$id": "121",
           "X": 2,
-          "Y": 2
+          "Y": 4
         },
         "type": 0,
         "figure": null,
@@ -776,7 +775,7 @@
         "pos": {
           "$id": "123",
           "X": 2,
-          "Y": 3
+          "Y": 5
         },
         "type": 0,
         "figure": null,
@@ -788,7 +787,7 @@
         "pos": {
           "$id": "125",
           "X": 2,
-          "Y": 4
+          "Y": 6
         },
         "type": 0,
         "figure": null,
@@ -800,7 +799,7 @@
         "pos": {
           "$id": "127",
           "X": 2,
-          "Y": 5
+          "Y": 7
         },
         "type": 0,
         "figure": null,
@@ -812,30 +811,6 @@
         "pos": {
           "$id": "129",
           "X": 2,
-          "Y": 6
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "130",
-        "pos": {
-          "$id": "131",
-          "X": 2,
-          "Y": 7
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "132",
-        "pos": {
-          "$id": "133",
-          "X": 2,
           "Y": 8
         },
         "type": 0,
@@ -846,25 +821,49 @@
     ],
     [
       {
-        "$id": "134",
+        "$id": "130",
         "pos": {
-          "$id": "135",
+          "$id": "131",
           "X": 3,
           "Y": 0
         },
         "type": 1,
         "figure": {
-          "$ref": "35"
+          "$ref": "31"
         },
         "numberPlayer": 0,
         "FigureType": 1
+      },
+      {
+        "$id": "132",
+        "pos": {
+          "$id": "133",
+          "X": 3,
+          "Y": 1
+        },
+        "type": 1,
+        "figure": null,
+        "numberPlayer": 0,
+        "FigureType": 0
+      },
+      {
+        "$id": "134",
+        "pos": {
+          "$id": "135",
+          "X": 3,
+          "Y": 2
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
       },
       {
         "$id": "136",
         "pos": {
           "$id": "137",
           "X": 3,
-          "Y": 1
+          "Y": 3
         },
         "type": 0,
         "figure": null,
@@ -876,21 +875,19 @@
         "pos": {
           "$id": "139",
           "X": 3,
-          "Y": 2
+          "Y": 4
         },
-        "type": 1,
-        "figure": {
-          "$ref": "31"
-        },
-        "numberPlayer": 0,
-        "FigureType": 1
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
       },
       {
         "$id": "140",
         "pos": {
           "$id": "141",
           "X": 3,
-          "Y": 3
+          "Y": 5
         },
         "type": 0,
         "figure": null,
@@ -902,7 +899,7 @@
         "pos": {
           "$id": "143",
           "X": 3,
-          "Y": 4
+          "Y": 6
         },
         "type": 0,
         "figure": null,
@@ -914,7 +911,7 @@
         "pos": {
           "$id": "145",
           "X": 3,
-          "Y": 5
+          "Y": 7
         },
         "type": 0,
         "figure": null,
@@ -926,30 +923,6 @@
         "pos": {
           "$id": "147",
           "X": 3,
-          "Y": 6
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "148",
-        "pos": {
-          "$id": "149",
-          "X": 3,
-          "Y": 7
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "150",
-        "pos": {
-          "$id": "151",
-          "X": 3,
           "Y": 8
         },
         "type": 0,
@@ -960,9 +933,9 @@
     ],
     [
       {
-        "$id": "152",
+        "$id": "148",
         "pos": {
-          "$id": "153",
+          "$id": "149",
           "X": 4,
           "Y": 0
         },
@@ -972,11 +945,35 @@
         "FigureType": 0
       },
       {
+        "$id": "150",
+        "pos": {
+          "$id": "151",
+          "X": 4,
+          "Y": 1
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
+      },
+      {
+        "$id": "152",
+        "pos": {
+          "$id": "153",
+          "X": 4,
+          "Y": 2
+        },
+        "type": 1,
+        "figure": null,
+        "numberPlayer": 0,
+        "FigureType": 0
+      },
+      {
         "$id": "154",
         "pos": {
           "$id": "155",
           "X": 4,
-          "Y": 1
+          "Y": 3
         },
         "type": 0,
         "figure": null,
@@ -988,7 +985,7 @@
         "pos": {
           "$id": "157",
           "X": 4,
-          "Y": 2
+          "Y": 4
         },
         "type": 0,
         "figure": null,
@@ -1000,7 +997,7 @@
         "pos": {
           "$id": "159",
           "X": 4,
-          "Y": 3
+          "Y": 5
         },
         "type": 0,
         "figure": null,
@@ -1012,7 +1009,7 @@
         "pos": {
           "$id": "161",
           "X": 4,
-          "Y": 4
+          "Y": 6
         },
         "type": 0,
         "figure": null,
@@ -1024,7 +1021,7 @@
         "pos": {
           "$id": "163",
           "X": 4,
-          "Y": 5
+          "Y": 7
         },
         "type": 0,
         "figure": null,
@@ -1036,30 +1033,6 @@
         "pos": {
           "$id": "165",
           "X": 4,
-          "Y": 6
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "166",
-        "pos": {
-          "$id": "167",
-          "X": 4,
-          "Y": 7
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "168",
-        "pos": {
-          "$id": "169",
-          "X": 4,
           "Y": 8
         },
         "type": 0,
@@ -1070,11 +1043,35 @@
     ],
     [
       {
+        "$id": "166",
+        "pos": {
+          "$id": "167",
+          "X": 5,
+          "Y": 0
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
+      },
+      {
+        "$id": "168",
+        "pos": {
+          "$id": "169",
+          "X": 5,
+          "Y": 1
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
+      },
+      {
         "$id": "170",
         "pos": {
           "$id": "171",
           "X": 5,
-          "Y": 0
+          "Y": 2
         },
         "type": 0,
         "figure": null,
@@ -1086,11 +1083,11 @@
         "pos": {
           "$id": "173",
           "X": 5,
-          "Y": 1
+          "Y": 3
         },
-        "type": 0,
+        "type": 1,
         "figure": null,
-        "numberPlayer": -1,
+        "numberPlayer": 0,
         "FigureType": 0
       },
       {
@@ -1098,7 +1095,7 @@
         "pos": {
           "$id": "175",
           "X": 5,
-          "Y": 2
+          "Y": 4
         },
         "type": 0,
         "figure": null,
@@ -1110,7 +1107,7 @@
         "pos": {
           "$id": "177",
           "X": 5,
-          "Y": 3
+          "Y": 5
         },
         "type": 0,
         "figure": null,
@@ -1122,7 +1119,7 @@
         "pos": {
           "$id": "179",
           "X": 5,
-          "Y": 4
+          "Y": 6
         },
         "type": 0,
         "figure": null,
@@ -1134,7 +1131,7 @@
         "pos": {
           "$id": "181",
           "X": 5,
-          "Y": 5
+          "Y": 7
         },
         "type": 0,
         "figure": null,
@@ -1146,19 +1143,23 @@
         "pos": {
           "$id": "183",
           "X": 5,
-          "Y": 6
+          "Y": 8
         },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
+        "type": 1,
+        "figure": {
+          "$ref": "68"
+        },
+        "numberPlayer": 1,
+        "FigureType": 1
+      }
+    ],
+    [
       {
         "$id": "184",
         "pos": {
           "$id": "185",
-          "X": 5,
-          "Y": 7
+          "X": 6,
+          "Y": 0
         },
         "type": 0,
         "figure": null,
@@ -1169,24 +1170,20 @@
         "$id": "186",
         "pos": {
           "$id": "187",
-          "X": 5,
-          "Y": 8
+          "X": 6,
+          "Y": 1
         },
-        "type": 1,
-        "figure": {
-          "$ref": "72"
-        },
-        "numberPlayer": 1,
-        "FigureType": 1
-      }
-    ],
-    [
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
+      },
       {
         "$id": "188",
         "pos": {
           "$id": "189",
           "X": 6,
-          "Y": 0
+          "Y": 2
         },
         "type": 0,
         "figure": null,
@@ -1198,7 +1195,7 @@
         "pos": {
           "$id": "191",
           "X": 6,
-          "Y": 1
+          "Y": 3
         },
         "type": 0,
         "figure": null,
@@ -1210,11 +1207,11 @@
         "pos": {
           "$id": "193",
           "X": 6,
-          "Y": 2
+          "Y": 4
         },
-        "type": 0,
+        "type": 1,
         "figure": null,
-        "numberPlayer": -1,
+        "numberPlayer": 0,
         "FigureType": 0
       },
       {
@@ -1222,7 +1219,7 @@
         "pos": {
           "$id": "195",
           "X": 6,
-          "Y": 3
+          "Y": 5
         },
         "type": 0,
         "figure": null,
@@ -1234,7 +1231,7 @@
         "pos": {
           "$id": "197",
           "X": 6,
-          "Y": 4
+          "Y": 6
         },
         "type": 0,
         "figure": null,
@@ -1246,7 +1243,7 @@
         "pos": {
           "$id": "199",
           "X": 6,
-          "Y": 5
+          "Y": 7
         },
         "type": 1,
         "figure": {
@@ -1260,37 +1257,11 @@
         "pos": {
           "$id": "201",
           "X": 6,
-          "Y": 6
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "202",
-        "pos": {
-          "$id": "203",
-          "X": 6,
-          "Y": 7
-        },
-        "type": 1,
-        "figure": {
-          "$ref": "68"
-        },
-        "numberPlayer": 1,
-        "FigureType": 1
-      },
-      {
-        "$id": "204",
-        "pos": {
-          "$id": "205",
-          "X": 6,
           "Y": 8
         },
         "type": 1,
         "figure": {
-          "$ref": "56"
+          "$ref": "52"
         },
         "numberPlayer": 1,
         "FigureType": 3
@@ -1298,11 +1269,35 @@
     ],
     [
       {
+        "$id": "202",
+        "pos": {
+          "$id": "203",
+          "X": 7,
+          "Y": 0
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
+      },
+      {
+        "$id": "204",
+        "pos": {
+          "$id": "205",
+          "X": 7,
+          "Y": 1
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
+      },
+      {
         "$id": "206",
         "pos": {
           "$id": "207",
           "X": 7,
-          "Y": 0
+          "Y": 2
         },
         "type": 0,
         "figure": null,
@@ -1314,7 +1309,7 @@
         "pos": {
           "$id": "209",
           "X": 7,
-          "Y": 1
+          "Y": 3
         },
         "type": 0,
         "figure": null,
@@ -1326,7 +1321,7 @@
         "pos": {
           "$id": "211",
           "X": 7,
-          "Y": 2
+          "Y": 4
         },
         "type": 0,
         "figure": null,
@@ -1338,41 +1333,19 @@
         "pos": {
           "$id": "213",
           "X": 7,
-          "Y": 3
+          "Y": 5
         },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
+        "type": 1,
+        "figure": {
+          "$ref": "60"
+        },
+        "numberPlayer": 1,
+        "FigureType": 1
       },
       {
         "$id": "214",
         "pos": {
           "$id": "215",
-          "X": 7,
-          "Y": 4
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "216",
-        "pos": {
-          "$id": "217",
-          "X": 7,
-          "Y": 5
-        },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
-      },
-      {
-        "$id": "218",
-        "pos": {
-          "$id": "219",
           "X": 7,
           "Y": 6
         },
@@ -1382,29 +1355,29 @@
         "FigureType": 0
       },
       {
-        "$id": "220",
+        "$id": "216",
         "pos": {
-          "$id": "221",
+          "$id": "217",
           "X": 7,
           "Y": 7
         },
         "type": 1,
         "figure": {
-          "$ref": "48"
+          "$ref": "44"
         },
         "numberPlayer": 1,
         "FigureType": 5
       },
       {
-        "$id": "222",
+        "$id": "218",
         "pos": {
-          "$id": "223",
+          "$id": "219",
           "X": 7,
           "Y": 8
         },
         "type": 1,
         "figure": {
-          "$ref": "76"
+          "$ref": "72"
         },
         "numberPlayer": 1,
         "FigureType": 2
@@ -1412,11 +1385,35 @@
     ],
     [
       {
+        "$id": "220",
+        "pos": {
+          "$id": "221",
+          "X": 8,
+          "Y": 0
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
+      },
+      {
+        "$id": "222",
+        "pos": {
+          "$id": "223",
+          "X": 8,
+          "Y": 1
+        },
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
+      },
+      {
         "$id": "224",
         "pos": {
           "$id": "225",
           "X": 8,
-          "Y": 0
+          "Y": 2
         },
         "type": 0,
         "figure": null,
@@ -1428,7 +1425,7 @@
         "pos": {
           "$id": "227",
           "X": 8,
-          "Y": 1
+          "Y": 3
         },
         "type": 0,
         "figure": null,
@@ -1440,7 +1437,7 @@
         "pos": {
           "$id": "229",
           "X": 8,
-          "Y": 2
+          "Y": 4
         },
         "type": 0,
         "figure": null,
@@ -1452,71 +1449,47 @@
         "pos": {
           "$id": "231",
           "X": 8,
-          "Y": 3
+          "Y": 5
         },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
+        "type": 1,
+        "figure": {
+          "$ref": "56"
+        },
+        "numberPlayer": 1,
+        "FigureType": 1
       },
       {
         "$id": "232",
         "pos": {
           "$id": "233",
           "X": 8,
-          "Y": 4
+          "Y": 6
         },
-        "type": 0,
-        "figure": null,
-        "numberPlayer": -1,
-        "FigureType": 0
+        "type": 1,
+        "figure": {
+          "$ref": "40"
+        },
+        "numberPlayer": 1,
+        "FigureType": 4
       },
       {
         "$id": "234",
         "pos": {
           "$id": "235",
           "X": 8,
-          "Y": 5
-        },
-        "type": 1,
-        "figure": {
-          "$ref": "60"
-        },
-        "numberPlayer": 1,
-        "FigureType": 1
-      },
-      {
-        "$id": "236",
-        "pos": {
-          "$id": "237",
-          "X": 8,
-          "Y": 6
-        },
-        "type": 1,
-        "figure": {
-          "$ref": "44"
-        },
-        "numberPlayer": 1,
-        "FigureType": 4
-      },
-      {
-        "$id": "238",
-        "pos": {
-          "$id": "239",
-          "X": 8,
           "Y": 7
         },
         "type": 1,
         "figure": {
-          "$ref": "52"
+          "$ref": "48"
         },
         "numberPlayer": 1,
         "FigureType": 6
       },
       {
-        "$id": "240",
+        "$id": "236",
         "pos": {
-          "$id": "241",
+          "$id": "237",
           "X": 8,
           "Y": 8
         },
