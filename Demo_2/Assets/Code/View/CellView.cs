@@ -7,6 +7,7 @@ public class CellView : MonoBehaviour
 {
     private CellController cellController;
     private GameObject prompt;
+    private GameObject eatSignal;
 
     private MeshRenderer cellMesh;
     private BoxCollider boxCollider;
@@ -16,6 +17,7 @@ public class CellView : MonoBehaviour
         cellMesh = this.GetComponent<MeshRenderer>();
         boxCollider = this.GetComponent<BoxCollider>();
         prompt = this.transform.GetChild(0).gameObject;
+        eatSignal = this.transform.GetChild(1).gameObject;
     }
 
     private void OnMouseUpAsButton()
@@ -35,12 +37,21 @@ public class CellView : MonoBehaviour
 
     public void ShowPrompt()
     {
-        prompt.SetActive(true);
+        if (FigureInCell == true)
+        {
+            eatSignal.SetActive(true);
+        }
+        else
+        {
+            prompt.SetActive(true);
+        }
+        
     }
 
     public void HidePrompt()
     {
         prompt.SetActive(false);
+        eatSignal.SetActive(false);
     }
 
     public void OFFBoxColider()
@@ -59,6 +70,11 @@ public class CellView : MonoBehaviour
     {
         get { return new Position(transform.localPosition.x, transform.localPosition.z); }
         set { this.transform.localPosition = new Vector3(value.X, 0, value.Y); }
+    }
+
+    public bool FigureInCell
+    {
+        get { return cellController.GetBoolFigureInCell(Pos); }
     }
 
 }
