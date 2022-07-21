@@ -34,11 +34,7 @@ public class FigureView : MonoBehaviour
         Vector3 startPosition = transform.localPosition;
         Vector3 endPosition = way[1];
         
-        // АНИМАЦИЯ
         float progress;
-
-        //endPosition.y = transform.localPosition.y;
-
 
         for (int i = 0; i < way.Count; i++)
         {
@@ -80,8 +76,6 @@ public class FigureView : MonoBehaviour
         boxCollider.enabled = boxCol;
     }
     
-
-
     public void SetRotation(int rotate)
     {
         this.transform.rotation = Quaternion.AngleAxis(rotate, Vector3.up);

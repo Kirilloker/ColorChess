@@ -44,7 +44,7 @@ namespace ColorChessModel
 
         public static bool operator ==(Cell cell1, Cell cell2)
         {
-            return cell1.type == cell2.type && cell1.numberPlayer == cell2.numberPlayer;
+            return cell1.type == cell2.type && cell1.numberPlayer == cell2.numberPlayer && cell1.FigureType == cell2.FigureType;
         }
 
 
