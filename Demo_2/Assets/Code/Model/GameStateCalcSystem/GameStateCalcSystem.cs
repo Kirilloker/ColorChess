@@ -14,8 +14,6 @@ namespace ColorChessModel
 
         public static Map ApplyStep(Map _gameState, Figure figure, Cell endCell)
         {
-            // В игре это работать не будет, но нужно для тестов
-
             Map gameState = new Map(_gameState);
 
             // Получаем ссылку на новую фигуру, которая делает ход (потому что создалась копия карты)
@@ -43,14 +41,14 @@ namespace ColorChessModel
 
             UpdateGameState(gameState);
 
-            gameState.countStep++;
+            gameState.CountStep++;
 
             return gameState;
         }
 
         public static Map UpdateGameStateForBuilder(Map gameState)
         {
-            foreach (Player player in gameState.players)
+            foreach (Player player in gameState.Players)
             {
                 foreach (Figure figure in player.figures)
                 {
@@ -140,7 +138,7 @@ namespace ColorChessModel
             // Надеюсь такого не будет а то мне лень исправлять
             Dictionary<int, Dictionary<CellType, int>> dict = new Dictionary<int, Dictionary<CellType, int>>();
 
-            for (int i = -1; i < map.players.Count; i++)
+            for (int i = -1; i < map.PlayersCount; i++)
             {
                 dict[i] = new Dictionary<CellType, int>();
 

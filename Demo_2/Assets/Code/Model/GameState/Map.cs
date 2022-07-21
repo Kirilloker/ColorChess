@@ -6,15 +6,15 @@ namespace ColorChessModel
 {
     public class Map
     {
-        public Cell[,] cells = null;
-        public List<Player> players = new List<Player>();
-        public Dictionary<int, Dictionary<CellType, int>> score = new Dictionary<int, Dictionary<CellType, int>>();
-        public int countStep = 1;
+        private Cell[,] cells = null;
+        private List<Player> players = new List<Player>();
+        private int countStep = 1;
 
         // Сколько очков приносит тип клетки
         private int OneScorePaint = 1;
         private int OneScoreDark = 1;
 
+        public Dictionary<int, Dictionary<CellType, int>> score = new Dictionary<int, Dictionary<CellType, int>>();
 
         public Map() { }
         public Map(int x, int y)
@@ -28,11 +28,41 @@ namespace ColorChessModel
             this.players = _players;
         }
 
+        public Map(Map anotherMap)
+        {
+            this.players = new List<Player>();
+
+            for (int i = 0; i < anotherMap.players.Count; i++)
+            {
+                this.players.Add(new Player(anotherMap.players[i]));
+            }
+
+            cells = new Cell[anotherMap.Width, anotherMap.Length];
+
+            for (int i = 0; i < anotherMap.Width; i++)
+            {
+                for (int j = 0; j < anotherMap.Length; j++)
+                {
+                    cells[i, j] = new Cell(anotherMap.cells[i, j]);
+                }
+            }
+
+            foreach (Player player in this.players)
+            {
+                foreach (Figure figure in player.figures)
+                {
+                    this.cells[figure.pos.X, figure.pos.Y].figure = figure;
+                }
+            }
+
+            this.countStep = anotherMap.countStep;
+        }
+
         public void KillFigure(Figure deadFigure)
         {
             foreach (Figure figure in players[deadFigure.Number].figures)
             {
-                if (deadFigure.equals(figure) == true)
+                if (deadFigure.Equals(figure) == true)
                 {
                     players[deadFigure.Number].figures.Remove(figure);
                     break;
@@ -71,16 +101,30 @@ namespace ColorChessModel
             return cells[x, y].type;
         }
 
+        public PlayerType GetPlayerType(int numberPlayer)
+        {
+            return players[numberPlayer].type;
+        }
+        public CornerType GetPlayerCorner(int numberPlayer)
+        {
+            return players[numberPlayer].corner;
+        }
+        public int GetPlayerFiguresCount(int numberPlayer)
+        {
+            return players[numberPlayer].figures.Count;
+        }
+
         public int Width { get { return cells.GetLength(0); } }
         public int Length { get { return cells.GetLength(1); } }
-        public int numberPlayerStep { 
+        public int NumberPlayerStep { 
             get 
             {
-                
                 return (countStep - 1) % players.Count; 
             } 
         }
-        public List<Player> PLayers { get { return players; } }
+
+        //public List<Player> PLayers { get { return players; } }
+        public int PlayersCount { get { return players.Count; } }
 
         public int CountEmptyCell { 
             get 
@@ -92,35 +136,7 @@ namespace ColorChessModel
         public bool EndGame { get { return CountEmptyCell == 0; } }
         public Dictionary<int, Dictionary<CellType, int>> Score  { get { return score; } }
 
-        public Map(Map anotherMap)
-        {
-            this.players = new List<Player>();
 
-            for (int i = 0; i < anotherMap.players.Count; i++)
-            {
-                this.players.Add(new Player(anotherMap.players[i]));
-            }
-
-            cells = new Cell[anotherMap.Width, anotherMap.Length];
-
-            for (int i = 0; i < anotherMap.Width; i++)
-            {
-                for (int j = 0; j < anotherMap.Length; j++)
-                {
-                    cells[i, j] = new Cell(anotherMap.cells[i, j]);
-                }
-            }
-
-            foreach (Player player in this.players)
-            {
-                foreach (Figure figure in player.figures)
-                {
-                    this.cells[figure.pos.X, figure.pos.Y].figure = figure;
-                }
-            }
-
-            this.countStep = anotherMap.countStep;
-        }
 
         public override string ToString()
         {
@@ -157,7 +173,7 @@ namespace ColorChessModel
             {
                 for (int j = 0;  j < map1.players[i].figures.Count;  j++)
                 {
-                    if (map1.players[i].figures[j].equals(map2.players[i].figures[j]) == false)
+                    if (map1.players[i].figures[j].Equals(map2.players[i].figures[j]) == false)
                     {
                         return false;
                     }
@@ -226,97 +242,56 @@ namespace ColorChessModel
 
             return hash;
         }
+
+        // Свойства для сериализицаии
+
+        public List<Player> Players
+        {
+            get { return players; }
+            set
+            {
+                this.players = new List<Player>(value.Count);
+
+                foreach (var player in value)
+                {
+                    this.players.Add(new Player(player));
+                }
+
+                foreach (Player player in this.players)
+                {
+                    foreach (Figure figure in player.figures)
+                    {
+                        this.cells[figure.pos.X, figure.pos.Y].figure = figure;
+                    }
+                }
+            }
+        }
+
+        public Cell[,] Cells
+        {
+            get { return cells; }
+            set
+            {
+                cells = new Cell[value.GetLength(0), value.GetLength(1)];
+
+                for (int i = 0; i < value.GetLength(0); i++)
+                {
+                    for (int j = 0; j < value.GetLength(1); j++)
+                    {
+                        cells[i, j] = new Cell(value[i, j]);
+                    }
+                }
+
+            }
+        }
+
+        public int CountStep
+        {
+            get { return countStep; }
+            set { countStep = value; }
+        }
+
+
+
     };
 }
-
-
-/*
-
-public uint GetHash()
-        {
-            uint hash = 0;
-
-
-            foreach (var player in score)
-            {
-                foreach (var cell in player.Value)
-                {
-                    if (cell.Key == CellType.Paint)
-                    {
-                        hash += (uint)MathF.Pow(cell.Value, (player.Key + 1));
-                    }
-                    else if (cell.Key == CellType.Dark)
-                    {
-                        hash += (uint)MathF.Pow(cell.Value, (player.Key + 1) * 17);
-                    }
-                }
-            }
-
-            foreach (var player in players)
-            {
-                foreach (var figure in player.figures)
-                {
-                    hash += (uint)(((int)figure.type + 256) * 128 * (figure.pos.X + 1) * (figure.pos.X + 32));
-                }
-            }
-
-            return hash;
-        }
-
-
-
-
-
-
-
-
-
-
-        public uint GetHash()
-        {
-            uint hash = 0;
-
-            int param1 = 1;
-            int param2 = 2;
-            int param3 = 4;
-            int param4 = 8;
-            int param5 = 16;
-            int param6 = 32;
-            int param7 = 64;
-            int param8 = 128;
-            int param9 = 256;
-            int param10 = 512;
-            int param11 = 1024;
-            int param12 = 2048;
-
-
-
-
-
-
-            foreach (var player in score)
-            {
-                foreach (var cell in player.Value)
-                {
-                    if (cell.Key == CellType.Paint)
-                    {
-                        hash += (uint)MathF.Pow((cell.Value + param1) * param2, (player.Key + param3) * param4);
-                    }
-                    else if (cell.Key == CellType.Dark)
-                    {
-                        hash += (uint)MathF.Pow((cell.Value + param5) * param6, (player.Key + param7) * param8);
-                    }
-                }
-            }
-
-            foreach (var player in players)
-            {
-                foreach (var figure in player.figures)
-                {
-                    hash += (uint)(((int)figure.type + param9) * param10 * (figure.pos.X + param11) * (figure.pos.X + param12));
-                }
-            }
-
-            return hash;
-        }
- */

@@ -35,13 +35,6 @@ public class FigureController : MonoBehaviour
         upedFigure = null;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.F))
-        {
-            DestroyAll();
-        }
-    }
 
 
     public void CreateFigures(Map gameState)
@@ -51,7 +44,7 @@ public class FigureController : MonoBehaviour
         figures = new List<List<FigureView>>();
 
         // »—œ–¿¬»“‹
-        foreach (ColorChessModel.Player player in gameState.players)
+        foreach (ColorChessModel.Player player in gameState.Players)
         {
             List<FigureView> figuresViewList = new List<FigureView>();
 
@@ -122,6 +115,8 @@ public class FigureController : MonoBehaviour
                 }
             }
         }
+
+        
 
 
         return new FigureView();

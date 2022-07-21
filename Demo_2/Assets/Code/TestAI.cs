@@ -94,7 +94,7 @@ public static class TestAI
 
 		List<List<ColorChessModel.Cell>> avaiblePlayer = new List<List<ColorChessModel.Cell>>();
 		
-		ColorChessModel.Player player = map.players[numberPlayer];
+		ColorChessModel.Player player = map.Players[numberPlayer];
 
 		foreach (ColorChessModel.Figure figure in player.figures)
 		{
@@ -186,7 +186,7 @@ public static class TestAI
 		// Достигли максимальную глубину дерева
 		if (level >= MAX_LEVEL)
 		{
-			return EvaluationFunctrion(map);
+			return EvaluationFunction(map);
 		}
 
 		// Обработка хода Бота
@@ -200,7 +200,7 @@ public static class TestAI
 			for (int i = 0; i < avaible.Count; i++)
 			{
 				// Сколько процентов ходов обработать у фигуры
-				float percentStep = GetFigurePercentForStep(map.players[1].figures[i].type);
+				float percentStep = GetFigurePercentForStep(map.Players[1].figures[i].type);
 
 				// Количество ходов которое будет обработано у фигуры
 				int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
@@ -216,7 +216,7 @@ public static class TestAI
 					if (MaxMinEvaluation > beta) break;
 					if (beta < alpha) break;
 
-					Map copyMap = GameStateCalcSystem.ApplyStep(map, map.players[1].figures[i], avaible[i][j]);
+					Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[1].figures[i], avaible[i][j]);
 
 					int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
 
@@ -224,7 +224,7 @@ public static class TestAI
 					if ((level == 0) && (MinMax > MaxMinEvaluation))
 					{
 						bestCell = avaible[i][j];
-						bestFigure = map.players[1].figures[i];
+						bestFigure = map.Players[1].figures[i];
 					}
 
 					MaxMinEvaluation = Math.Max(MaxMinEvaluation, MinMax);
@@ -240,7 +240,7 @@ public static class TestAI
 
 			for (int i = 0; i < avaible.Count; i++)
 			{
-				float percentStep = GetFigurePercentForStep(map.players[0].figures[i].type);
+				float percentStep = GetFigurePercentForStep(map.Players[0].figures[i].type);
 				int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
 
 				if ((stepCalculate < 1) && (avaible[i].Count >= 1))
@@ -253,7 +253,7 @@ public static class TestAI
 					if (MaxMinEvaluation < alpha) break;
 					if (beta < alpha) break;
 
-					Map copyMap = GameStateCalcSystem.ApplyStep(map, map.players[0].figures[i], avaible[i][j]);
+					Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[0].figures[i], avaible[i][j]);
 
 					int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
 
@@ -267,7 +267,7 @@ public static class TestAI
 		return MaxMinEvaluation;
 	}
 
-	public static int EvaluationFunctrion(Map map)
+	public static int EvaluationFunction(Map map)
 	{
 		// Оценочная функция
 
@@ -282,10 +282,10 @@ public static class TestAI
 		evaluation -= score[0][CellType.Dark] * priceDark;
 
 		// Разница в количестве живых фигур у игрока
-        evaluation += (map.players[1].figures.Count - map.players[0].figures.Count) * priceKill;
+        evaluation += (map.GetPlayerFiguresCount(1) - map.GetPlayerFiguresCount(0)) * priceKill;
 
 		// Если Рядом с Пешками Врага стоит фигура Бота начисляется штраф
-        foreach (var figure in map.players[0].figures)
+        foreach (var figure in map.Players[0].figures)
         {
             if (figure.type == FigureType.Pawn)
             {

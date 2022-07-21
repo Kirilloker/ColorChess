@@ -35,7 +35,7 @@ public class CellController : MonoBehaviour
                 cells[i, j].FindComponents();
                 cells[i, j].SetCellController(this);
 
-                if (gameState.cells[i, j].type != CellType.Empty)
+                if (gameState.GetCell(i, j).type != CellType.Empty)
                 {
                     cells[i, j].GetComponent<MeshRenderer>().material = prefabs.GetColorCell(
                         gameState.GetColorTypeCell(i,j), gameState.GetCellType(i, j));
@@ -63,14 +63,6 @@ public class CellController : MonoBehaviour
         foreach (Transform child in parent)
         {
             Destroy(child.gameObject);
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.C))
-        {
-            DestroyAll();
         }
     }
 
@@ -111,5 +103,9 @@ public class CellController : MonoBehaviour
         {
             cells[way[i].pos.X, way[i].pos.Y].ONBoxColider();
         }
+    }
+    public bool GetBoolFigureInCell(Position position)
+    {
+        return gameController.GetBoolFigureInCell(position);
     }
 }

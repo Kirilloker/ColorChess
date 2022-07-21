@@ -58,7 +58,7 @@ public class BoardController : MonoBehaviour
         // Меняется цвет углом доски
 
         // ИСПРАВИТЬ
-        List<ColorChessModel.Player> players = gameState.PLayers;
+        List<ColorChessModel.Player> players = gameState.Players;
 
         var material_board = board.GetComponentInChildren<MeshRenderer>().materials;
 
