@@ -23,18 +23,19 @@ public class TestControllerBoardUI : MonoBehaviour
         
         int countAllFigure = 0;
 
-        foreach (var player in gameState.players)
+        for (int i = 0; i < gameState.PlayersCount; i++)
         {
-            SetScoreInCorner(player.corner, player.figures.Count);
-            countAllFigure += player.figures.Count;
+            SetScoreInCorner(gameState.GetPlayerCorner(i), gameState.GetPlayerFiguresCount(i));
+            countAllFigure += gameState.GetPlayerFiguresCount(i);
         }
+
         SetEmptyCell(gameState.Length * gameState.Width - countAllFigure);
 
         // ≈сли на карте страндартное расположение (2 игрока)
-        if (gameState.players.Count == 2 && gameState.players[0].corner == CornerType.DownLeft && gameState.players[1].corner == CornerType.UpRight)
+        if (gameState.PlayersCount == 2 && gameState.GetPlayerCorner(0) == CornerType.DownLeft && gameState.GetPlayerCorner(1) == CornerType.UpRight)
         {
-            SetScoreInCorner(CornerType.DownRight, gameState.PLayers[1].figures.Count);
-            SetScoreInCorner(CornerType.UpLeft, gameState.PLayers[0].figures.Count);
+            SetScoreInCorner(CornerType.DownRight, gameState.GetPlayerFiguresCount(1));
+            SetScoreInCorner(CornerType.UpLeft, gameState.GetPlayerFiguresCount(0));
         }
     }
 
@@ -55,16 +56,17 @@ public class TestControllerBoardUI : MonoBehaviour
 
         SetEmptyCell(gameState.CountEmptyCell);
 
-        foreach (var player in gameState.players)
+        for (int i = 0; i < gameState.PlayersCount; i++)
         {
-            SetScoreInCorner(player.corner, gameState.GetScorePlayer(player.number));
+            SetScoreInCorner(gameState.GetPlayerCorner(i), gameState.GetScorePlayer(i));
         }
 
+
         // ≈сли на карте страндартное расположение (2 игрока)
-        if (gameState.players.Count == 2 && gameState.players[0].corner == CornerType.DownLeft && gameState.players[1].corner == CornerType.UpRight)
+        if (gameState.PlayersCount == 2 && gameState.GetPlayerCorner(0) == CornerType.DownLeft && gameState.GetPlayerCorner(1) == CornerType.UpRight)
         {
-            SetScoreInCorner(CornerType.DownRight, gameState.GetScorePlayer(gameState.players[1].number));
-            SetScoreInCorner(CornerType.UpLeft, gameState.GetScorePlayer(gameState.players[0].number));
+            SetScoreInCorner(CornerType.DownRight, gameState.GetScorePlayer(1));
+            SetScoreInCorner(CornerType.UpLeft, gameState.GetScorePlayer(0));
         }
     }
 }
