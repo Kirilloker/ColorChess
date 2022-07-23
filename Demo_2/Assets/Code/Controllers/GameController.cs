@@ -49,9 +49,8 @@ public class GameController : MonoBehaviour
     {
         // Нажать на клетку можно только в том случае - если на ней включены подсказки
 
-        // ИСПРАВИТЬ
-        ColorChessModel.Cell cell = CurrentGameState.GetCell(cellView.Pos);
-        ColorChessModel.Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).figure;
+        Cell cell = CurrentGameState.GetCell(cellView.Pos);
+        Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).figure;
 
         ApplyStepView(cell, figure);
     }
@@ -130,7 +129,6 @@ public class GameController : MonoBehaviour
             {
                 if (CurrentGameState.GetCell(i, j) != CompareMap.GetCell(i, j))
                 {
-                    Debug.Log("Клетка " + i + " " + j + "  изменилась");
                     cellController.ChangeMaterialCell(i, j, CurrentGameState);
 
                     // Если клетка перекрасилась в Dark
@@ -311,7 +309,11 @@ public class GameController : MonoBehaviour
         cameraController.SwitchCameraWithDelay(CameraViewType.noteMenu);
 
         // ИСПРАВИТЬ - я бы куда-то это перенес 
-        
+
+        figureController.UpedFigure = null;
+        figureController.OFFAllBoxColiders();
+        cellController.OFFALLBoxColiders();
+
         IsFirstGame = false;
         gameStateBuilder = new GameStateBuilder();
         gameStates = new List<Map>();
