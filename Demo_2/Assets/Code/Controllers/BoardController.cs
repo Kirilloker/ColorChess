@@ -55,12 +55,11 @@ public class BoardController : MonoBehaviour
     {
         // Меняется цвет углом доски
 
-        // ИСПРАВИТЬ
-        List<ColorChessModel.Player> players = gameState.Players;
+        List<Player> players = gameState.Players;
 
         var material_board = board.GetComponentInChildren<MeshRenderer>().materials;
 
-        foreach (ColorChessModel.Player player in players)
+        foreach (Player player in players)
         {
             material_board[(int) player.corner + 1] = prefabs.GetColor(player.color);
         }

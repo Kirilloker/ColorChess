@@ -10,9 +10,8 @@ public static class TestAI
 	static int MAX_LEVEL = 4;
 
 	// Лучший ход
-	// ИСПРАВИТЬ 
-	public static ColorChessModel.Cell bestCell = null;
-	public static ColorChessModel.Figure bestFigure = null;
+	public static Cell bestCell = null;
+	public static Figure bestFigure = null;
 
 	#region Параметры оценочной функции
 	static int pricePaint = 9;
@@ -93,18 +92,16 @@ public static class TestAI
 	}
     #endregion
 
-
-    // ИСПРАВИТЬ 
-    private static List<List<ColorChessModel.Cell>> GetAvaibleForPlayer(Map map, int numberPlayer)
+    private static List<List<Cell>> GetAvaibleForPlayer(Map map, int numberPlayer)
 	{
 		// Возвращает двумерный массив: первый индекс - i-ая фигура игрока; 
 		// второй индекс - j-ая клетка на которую может сходить фигура
 
-		List<List<ColorChessModel.Cell>> avaiblePlayer = new List<List<ColorChessModel.Cell>>();
+		List<List<Cell>> avaiblePlayer = new List<List<Cell>>();
 		
-		ColorChessModel.Player player = map.Players[numberPlayer];
+		Player player = map.Players[numberPlayer];
 
-		foreach (ColorChessModel.Figure figure in player.figures)
+		foreach (Figure figure in player.figures)
 		{
 			avaiblePlayer.Add(WayCalcSystem.CalcAllSteps(map, figure));
 		}

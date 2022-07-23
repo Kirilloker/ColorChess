@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ColorChessModel
 {
-    class PawnAlgorithm : WayCalcStrategy
+    class PawnAlgorithm : IWayCalcStrategy
     {
         public List<Cell> AllSteps(Map map, Figure figure)
         {

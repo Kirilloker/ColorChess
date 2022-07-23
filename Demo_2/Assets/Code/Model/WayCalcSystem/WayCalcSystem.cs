@@ -3,9 +3,9 @@ namespace ColorChessModel
 {
     class WayCalcSystem
     {
-        private static WayCalcStrategy? algorithm;
+        private static IWayCalcStrategy? algorithm;
 
-        private static void SetAlgorithm(WayCalcStrategy _algorithm)
+        private static void SetAlgorithm(IWayCalcStrategy _algorithm)
         {
             algorithm = _algorithm;
         }

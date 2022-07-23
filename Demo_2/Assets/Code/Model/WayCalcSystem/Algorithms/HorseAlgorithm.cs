@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ColorChessModel
 {
-    class HorseAlgorithm : WayCalcStrategy
+    class HorseAlgorithm : IWayCalcStrategy
     {
         public List<Cell> AllSteps(Map map, Figure figure)
         {
