@@ -6,8 +6,6 @@ using UnityEngine;
 public class BoardController : MonoBehaviour
 {
     [SerializeField]
-    private GameController gameController;
-    [SerializeField]
     private GameObject boardDecor;
 
     private GameObject board;

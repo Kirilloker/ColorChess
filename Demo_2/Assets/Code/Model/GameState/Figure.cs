@@ -29,5 +29,10 @@ namespace ColorChessModel
             return this.pos == anotherFigure.pos && this.type == anotherFigure.type && this.Number == anotherFigure.Number;
         }
 
+
+        public string GetStringForHash()
+        {
+            return pos.GetStringForHash() + Number.ToString();
+        }
     };
 }

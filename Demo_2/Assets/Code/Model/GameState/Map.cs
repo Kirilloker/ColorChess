@@ -88,6 +88,8 @@ namespace ColorChessModel
 
         public ColorType GetColorType(int numberPlayer)
         {
+            if (numberPlayer < 0 || numberPlayer >= PlayersCount)
+                return ColorType.Default;
             return players[numberPlayer].color;
         }
 
@@ -122,10 +124,7 @@ namespace ColorChessModel
                 return (countStep - 1) % players.Count; 
             } 
         }
-
-        //public List<Player> PLayers { get { return players; } }
         public int PlayersCount { get { return players.Count; } }
-
         public int CountEmptyCell { 
             get 
             {
@@ -169,6 +168,22 @@ namespace ColorChessModel
 
         public static bool operator ==(Map map1, Map map2)
         {
+            if (map1.CountStep != map2.CountStep)
+                return false;
+            // Не полностью готовый оператор 
+            if (map1.CountEmptyCell != map2.CountEmptyCell)
+                return false;
+
+            if (map1.PlayersCount != map2.PlayersCount)
+                return false;
+
+            for (int i = 0; i < map1.PlayersCount; i++)
+            {
+                if (map1.players[i].figures.Count != map2.players[i].figures.Count)
+                    return false;
+            }
+
+
             for (int i = 0; i < map1.players.Count; i++)
             {
                 for (int j = 0;  j < map1.players[i].figures.Count;  j++)
@@ -242,6 +257,25 @@ namespace ColorChessModel
 
             return hash;
         }
+        public string GetStringForHash()
+        {
+            string stringForHash = "";
+
+            for (int i = 0; i < Length; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    stringForHash += cells[i, j].GetStringForHash();
+                }
+            }
+
+            for (int i = 0; i < PlayersCount; i++)
+            {
+                stringForHash += players[i].GetStringForHash();
+            }
+
+            return stringForHash;
+        }
 
         // Свойства для сериализицаии
 
@@ -257,13 +291,6 @@ namespace ColorChessModel
                     this.players.Add(new Player(player));
                 }
 
-                foreach (Player player in this.players)
-                {
-                    foreach (Figure figure in player.figures)
-                    {
-                        this.cells[figure.pos.X, figure.pos.Y].figure = figure;
-                    }
-                }
             }
         }
 
@@ -279,6 +306,14 @@ namespace ColorChessModel
                     for (int j = 0; j < value.GetLength(1); j++)
                     {
                         cells[i, j] = new Cell(value[i, j]);
+                    }
+                }
+
+                foreach (Player player in this.players)
+                {
+                    foreach (Figure figure in player.figures)
+                    {
+                        this.cells[figure.pos.X, figure.pos.Y].figure = figure;
                     }
                 }
 

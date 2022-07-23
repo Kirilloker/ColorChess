@@ -10,8 +10,6 @@ public class CellController : MonoBehaviour
 
     private Prefabs prefabs;
     public CellView[,] cells;
-    
-
 
     private void Start()
     {
@@ -25,7 +23,6 @@ public class CellController : MonoBehaviour
 
         cells = new CellView[gameState.Length, gameState.Width];
 
-        // »—ѕ–ј¬»“№ - на префабе клетки всЄ еще висит старый класс CELL
         for (int i = 0; i < gameState.Length; i++)
         {
             for (int j = 0; j < gameState.Width; j++)

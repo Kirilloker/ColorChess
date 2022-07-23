@@ -6,6 +6,12 @@ namespace ColorChessModel
         public int X;
         public int Y;
 
+        public Position()
+        {
+            X = -10;
+            Y = -10;
+        }
+
         public Position(int _X, int _Y)
         {
             X = _X;
@@ -37,6 +43,23 @@ namespace ColorChessModel
         public override string ToString()
         {
             return "(X:" + X + ";   Y:" + Y + ")";
+        }
+
+        public int _X 
+        { 
+            get { return X; } 
+            set { X = value; } 
+        }
+
+        public int _Y
+        {
+            get { return Y; }
+            set { Y = value; }
+        }
+
+        public string GetStringForHash()
+        {
+            return X.ToString() + Y.ToString();
         }
     };
 }

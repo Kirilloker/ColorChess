@@ -63,5 +63,10 @@ namespace ColorChessModel
                 else { return false; }
             }
         }
+
+        public string GetStringForHash()
+        {
+            return pos.GetStringForHash() + numberPlayer.ToString();
+        }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using ColorChessModel;
 using System;
 using System.Collections.Generic;
-
+using System.Security.Cryptography;
+using System.Text;
 
 public static class TestAI
 {
@@ -31,14 +32,21 @@ public static class TestAI
 
 	private static void SetWeightStartGame()
     {
-		// Начало
-		pawnPercent = 1f;
+        //Начало
+        pawnPercent = 1f;
         castlePercent = 0.5f;
         kingPercent = 0.1f;
         queenPercent = 0.4f;
         bishopWeight = 0.4f;
         horsePercent = 1f;
-    }
+
+  //      pawnPercent = 1f;
+		//castlePercent = 1f;
+		//kingPercent = 0.1f;
+		//queenPercent = 0.4f;
+		//bishopWeight = 1f;
+		//horsePercent = 1f;
+	}
 
 	private static void SetWeightSpeedGame()
 	{
@@ -218,7 +226,49 @@ public static class TestAI
 
 					Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[1].figures[i], avaible[i][j]);
 
-					int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+
+					int testByty = copyMap.GetStringForHash().GetHashCode();
+
+
+					int MinMax = 0;
+
+					if (TestHash.ContainsKey(testByty))
+					{
+						DebugConsole.Print("Такой уже есть хэш");
+						if (copyMap == TestMAP[testByty])
+						{
+							DebugConsole.Print("Карты равны это супер");
+						}
+						else
+						{
+							DebugConsole.Print("НЕ РАВНЫ!");
+						}
+						MinMax = TestHash[testByty];
+					}
+					else
+					{
+						if (TestInMapList(copyMap) == true)
+							TestCountEqualesMap++;
+						TestMaps.Add(copyMap);
+						
+
+						MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+					}
+
+					TestCountCalculate++;
+
+
+
+
+					//int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+
+
+					if (TestHash.ContainsKey(testByty) == false)
+					{
+
+						TestHash.Add(testByty, MinMax);
+						TestMAP.Add(testByty, copyMap);
+					}
 
 					// Запоминаем наилучший ход
 					if ((level == 0) && (MinMax > MaxMinEvaluation))
@@ -255,9 +305,44 @@ public static class TestAI
 
 					Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[0].figures[i], avaible[i][j]);
 
-					int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+					int testByty = copyMap.GetStringForHash().GetHashCode();
 
-					MaxMinEvaluation = Math.Min(MaxMinEvaluation, MinMax);
+
+					int MinMax = 0;
+
+					if (TestHash.ContainsKey(testByty))
+					{
+						DebugConsole.Print("Такой уже есть хэш");
+						if (copyMap == TestMAP[testByty])
+						{
+							DebugConsole.Print("Карты равны это супер");
+						}
+						else
+						{
+							DebugConsole.Print("НЕ РАВНЫ!");
+						}
+						MinMax = TestHash[testByty];
+					}
+                    else
+                    {
+						if (TestInMapList(copyMap) == true)
+							TestCountEqualesMap++;
+						TestMaps.Add(copyMap);
+						MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+					}
+
+
+                    TestCountCalculate++;
+
+					if (TestHash.ContainsKey(testByty) == false)
+                    {
+
+						TestHash.Add(testByty, MinMax);
+						TestMAP.Add(testByty, copyMap);
+					}
+
+
+                    MaxMinEvaluation = Math.Min(MaxMinEvaluation, MinMax);
 					beta = Math.Min(beta, MaxMinEvaluation);
 				}
 			}
@@ -265,6 +350,28 @@ public static class TestAI
 
 
 		return MaxMinEvaluation;
+	}
+
+    public static List<Map> TestMaps = new List<Map>();
+    public static int TestCountCalculate = 0;
+    public static int TestCountEqualesMap = 0;
+
+    public static Dictionary<int, int> TestHash = new Dictionary<int, int>();
+    public static Dictionary<int, Map> TestMAP = new Dictionary<int, Map>();
+
+    public static bool TestInMapList(Map map)
+    {
+        for (int i = 0; i < TestMaps.Count; i++)
+        {
+            if (map == TestMaps[i]) return true;
+        }
+        return false;
+    }
+
+    public static byte[] TestStringHash(string stringHash)
+    {
+		return new MD5CryptoServiceProvider().ComputeHash(ASCIIEncoding.ASCII.GetBytes(stringHash));
+
 	}
 
 	public static int EvaluationFunction(Map map)
