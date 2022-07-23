@@ -111,6 +111,12 @@ public class GameController : MonoBehaviour
 
     public void DrawNewGameState()
     {
+        // Это нужно чтобы нормально работало Шаг-Назад
+        DrawNewGameState(PreviousvGameState);
+    }
+
+    public void DrawNewGameState(Map CompareMap)
+    {
         // Если состояние клетки в модели изменилось по сравнению с предыдущим состоянием
         // То меняем у неё цвет
         // А так же меняем Очки на UI-board
@@ -122,8 +128,9 @@ public class GameController : MonoBehaviour
         {
             for (int j = 0; j < CurrentGameState.Width; j++)
             {
-                if (CurrentGameState.GetCell(i, j) != PreviousvGameState.GetCell(i, j))
+                if (CurrentGameState.GetCell(i, j) != CompareMap.GetCell(i, j))
                 {
+                    Debug.Log("Клетка " + i + " " + j + "  изменилась");
                     cellController.ChangeMaterialCell(i, j, CurrentGameState);
 
                     // Если клетка перекрасилась в Dark
@@ -310,6 +317,39 @@ public class GameController : MonoBehaviour
         gameStates = new List<Map>();
     }
 
+    public void BackStep()
+    {
+        // Отматывает ход назад на 1
+        if (gameStates.Count <= 2) return;
+
+        Map map = CurrentGameState;
+
+        gameStates.RemoveAt(gameStates.Count - 1);
+
+        figureController.DestroyAll();
+        figureController.CreateFigures(CurrentGameState);
+
+        DrawNewGameState(map);
+
+        StartNewStep();
+    }
+
+    private void LoadMap(Map map)
+    {
+        gameStates.Add(map);
+        DrawNewMap(map);
+    }
+
+    private void DrawNewMap(Map map)
+    {
+        figureController.DestroyAll();
+        figureController.CreateFigures(map);
+
+        DrawNewGameState();
+
+        StartNewStep();
+    }
+
     private IEnumerator AIStep()
     {
         yield return new WaitForSeconds(0.1f);
@@ -360,6 +400,8 @@ public class GameController : MonoBehaviour
     public Map CurrentGameState { get { return gameStates[gameStates.Count - 1]; } }
     public Map PreviousvGameState { get { return gameStates[gameStates.Count - 2]; } }
 
+
+
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.Space))
@@ -378,14 +420,7 @@ public class GameController : MonoBehaviour
     {
         Map loadMap = TestSerialization.Load();
 
-        gameStates.Add(loadMap);
-
-        figureController.DestroyAll();
-        figureController.CreateFigures(CurrentGameState);
-
-        DrawNewGameState();
-
-        StartNewStep();
+        LoadMap(loadMap);
     }
 
 }

@@ -4,7 +4,7 @@
     "$id": "2",
     "-1": {
       "$id": "3",
-      "Empty": 30,
+      "Empty": 61,
       "Paint": 0,
       "Dark": 0,
       "Block": 0
@@ -12,23 +12,23 @@
     "0": {
       "$id": "4",
       "Empty": 0,
-      "Paint": 8,
-      "Dark": 23,
+      "Paint": 10,
+      "Dark": 0,
       "Block": 0
     },
     "1": {
       "$id": "5",
       "Empty": 0,
-      "Paint": 0,
-      "Dark": 20,
+      "Paint": 10,
+      "Dark": 0,
       "Block": 0
     }
   },
   "Width": 9,
   "Length": 9,
-  "NumberPlayerStep": 1,
+  "NumberPlayerStep": 0,
   "PlayersCount": 2,
-  "CountEmptyCell": 30,
+  "CountEmptyCell": 61,
   "EndGame": false,
   "Score": {
     "$ref": "2"
@@ -45,10 +45,10 @@
           "$id": "7",
           "pos": {
             "$id": "8",
-            "X": 3,
-            "Y": 3,
-            "_X": 3,
-            "_Y": 3
+            "X": 0,
+            "Y": 2,
+            "_X": 0,
+            "_Y": 2
           },
           "type": 4,
           "player": {
@@ -152,10 +152,10 @@
           "$id": "23",
           "pos": {
             "$id": "24",
-            "X": 2,
-            "Y": 5,
-            "_X": 2,
-            "_Y": 5
+            "X": 0,
+            "Y": 3,
+            "_X": 0,
+            "_Y": 3
           },
           "type": 1,
           "player": {
@@ -180,9 +180,9 @@
           "pos": {
             "$id": "28",
             "X": 2,
-            "Y": 2,
+            "Y": 3,
             "_X": 2,
-            "_Y": 2
+            "_Y": 3
           },
           "type": 1,
           "player": {
@@ -206,9 +206,9 @@
           "$id": "31",
           "pos": {
             "$id": "32",
-            "X": 3,
+            "X": 2,
             "Y": 1,
-            "_X": 3,
+            "_X": 2,
             "_Y": 1
           },
           "type": 1,
@@ -429,9 +429,9 @@
           "$id": "64",
           "pos": {
             "$id": "65",
-            "X": 7,
+            "X": 6,
             "Y": 5,
-            "_X": 7,
+            "_X": 6,
             "_Y": 5
           },
           "type": 1,
@@ -483,9 +483,9 @@
           "$id": "72",
           "pos": {
             "$id": "73",
-            "X": 4,
+            "X": 5,
             "Y": 8,
-            "_X": 4,
+            "_X": 5,
             "_Y": 8
           },
           "type": 1,
@@ -510,9 +510,9 @@
           "$id": "76",
           "pos": {
             "$id": "77",
-            "X": 8,
+            "X": 7,
             "Y": 8,
-            "_X": 8,
+            "_X": 7,
             "_Y": 8
           },
           "type": 2,
@@ -560,7 +560,7 @@
           "_X": 0,
           "_Y": 1
         },
-        "type": 2,
+        "type": 1,
         "figure": {
           "$ref": "15"
         },
@@ -576,10 +576,12 @@
           "_X": 0,
           "_Y": 2
         },
-        "type": 2,
-        "figure": null,
+        "type": 1,
+        "figure": {
+          "$ref": "7"
+        },
         "numberPlayer": 0,
-        "FigureType": 0
+        "FigureType": 4
       },
       {
         "$id": "86",
@@ -590,10 +592,12 @@
           "_X": 0,
           "_Y": 3
         },
-        "type": 2,
-        "figure": null,
+        "type": 1,
+        "figure": {
+          "$ref": "23"
+        },
         "numberPlayer": 0,
-        "FigureType": 0
+        "FigureType": 1
       },
       {
         "$id": "88",
@@ -604,9 +608,9 @@
           "_X": 0,
           "_Y": 4
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -618,9 +622,9 @@
           "_X": 0,
           "_Y": 5
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -632,9 +636,9 @@
           "_X": 0,
           "_Y": 6
         },
-        "type": 1,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -646,9 +650,9 @@
           "_X": 0,
           "_Y": 7
         },
-        "type": 1,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -660,9 +664,9 @@
           "_X": 0,
           "_Y": 8
         },
-        "type": 1,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       }
     ],
@@ -676,7 +680,7 @@
           "_X": 1,
           "_Y": 0
         },
-        "type": 2,
+        "type": 1,
         "figure": {
           "$ref": "39"
         },
@@ -692,7 +696,7 @@
           "_X": 1,
           "_Y": 1
         },
-        "type": 2,
+        "type": 1,
         "figure": {
           "$ref": "11"
         },
@@ -708,7 +712,7 @@
           "_X": 1,
           "_Y": 2
         },
-        "type": 2,
+        "type": 1,
         "figure": null,
         "numberPlayer": 0,
         "FigureType": 0
@@ -722,9 +726,9 @@
           "_X": 1,
           "_Y": 3
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -736,9 +740,9 @@
           "_X": 1,
           "_Y": 4
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -750,9 +754,9 @@
           "_X": 1,
           "_Y": 5
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -792,9 +796,9 @@
           "_X": 1,
           "_Y": 8
         },
-        "type": 1,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       }
     ],
@@ -808,7 +812,7 @@
           "_X": 2,
           "_Y": 0
         },
-        "type": 2,
+        "type": 1,
         "figure": {
           "$ref": "19"
         },
@@ -824,10 +828,12 @@
           "_X": 2,
           "_Y": 1
         },
-        "type": 2,
-        "figure": null,
+        "type": 1,
+        "figure": {
+          "$ref": "31"
+        },
         "numberPlayer": 0,
-        "FigureType": 0
+        "FigureType": 1
       },
       {
         "$id": "120",
@@ -838,12 +844,10 @@
           "_X": 2,
           "_Y": 2
         },
-        "type": 2,
-        "figure": {
-          "$ref": "27"
-        },
-        "numberPlayer": 0,
-        "FigureType": 1
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
       },
       {
         "$id": "122",
@@ -854,10 +858,12 @@
           "_X": 2,
           "_Y": 3
         },
-        "type": 2,
-        "figure": null,
+        "type": 1,
+        "figure": {
+          "$ref": "27"
+        },
         "numberPlayer": 0,
-        "FigureType": 0
+        "FigureType": 1
       },
       {
         "$id": "124",
@@ -868,9 +874,9 @@
           "_X": 2,
           "_Y": 4
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -882,12 +888,10 @@
           "_X": 2,
           "_Y": 5
         },
-        "type": 2,
-        "figure": {
-          "$ref": "23"
-        },
-        "numberPlayer": 0,
-        "FigureType": 1
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
       },
       {
         "$id": "128",
@@ -926,9 +930,9 @@
           "_X": 2,
           "_Y": 8
         },
-        "type": 1,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       }
     ],
@@ -942,7 +946,7 @@
           "_X": 3,
           "_Y": 0
         },
-        "type": 2,
+        "type": 1,
         "figure": {
           "$ref": "35"
         },
@@ -958,12 +962,10 @@
           "_X": 3,
           "_Y": 1
         },
-        "type": 2,
-        "figure": {
-          "$ref": "31"
-        },
-        "numberPlayer": 0,
-        "FigureType": 1
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
       },
       {
         "$id": "138",
@@ -974,9 +976,9 @@
           "_X": 3,
           "_Y": 2
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -988,12 +990,10 @@
           "_X": 3,
           "_Y": 3
         },
-        "type": 2,
-        "figure": {
-          "$ref": "7"
-        },
-        "numberPlayer": 0,
-        "FigureType": 4
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
       },
       {
         "$id": "142",
@@ -1004,9 +1004,9 @@
           "_X": 3,
           "_Y": 4
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -1018,9 +1018,9 @@
           "_X": 3,
           "_Y": 5
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -1032,9 +1032,9 @@
           "_X": 3,
           "_Y": 6
         },
-        "type": 1,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -1046,9 +1046,9 @@
           "_X": 3,
           "_Y": 7
         },
-        "type": 1,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -1060,9 +1060,9 @@
           "_X": 3,
           "_Y": 8
         },
-        "type": 1,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 0,
+        "numberPlayer": -1,
         "FigureType": 0
       }
     ],
@@ -1146,9 +1146,9 @@
           "_X": 4,
           "_Y": 5
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 1,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -1160,9 +1160,9 @@
           "_X": 4,
           "_Y": 6
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 1,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -1174,9 +1174,9 @@
           "_X": 4,
           "_Y": 7
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 1,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -1188,12 +1188,10 @@
           "_X": 4,
           "_Y": 8
         },
-        "type": 2,
-        "figure": {
-          "$ref": "72"
-        },
-        "numberPlayer": 1,
-        "FigureType": 1
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
       }
     ],
     [
@@ -1276,9 +1274,9 @@
           "_X": 5,
           "_Y": 5
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 1,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -1290,9 +1288,9 @@
           "_X": 5,
           "_Y": 6
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 1,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -1304,9 +1302,9 @@
           "_X": 5,
           "_Y": 7
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 1,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -1318,10 +1316,12 @@
           "_X": 5,
           "_Y": 8
         },
-        "type": 2,
-        "figure": null,
+        "type": 1,
+        "figure": {
+          "$ref": "72"
+        },
         "numberPlayer": 1,
-        "FigureType": 0
+        "FigureType": 1
       }
     ],
     [
@@ -1404,10 +1404,12 @@
           "_X": 6,
           "_Y": 5
         },
-        "type": 2,
-        "figure": null,
+        "type": 1,
+        "figure": {
+          "$ref": "64"
+        },
         "numberPlayer": 1,
-        "FigureType": 0
+        "FigureType": 1
       },
       {
         "$id": "200",
@@ -1418,9 +1420,9 @@
           "_X": 6,
           "_Y": 6
         },
-        "type": 2,
+        "type": 0,
         "figure": null,
-        "numberPlayer": 1,
+        "numberPlayer": -1,
         "FigureType": 0
       },
       {
@@ -1432,7 +1434,7 @@
           "_X": 6,
           "_Y": 7
         },
-        "type": 2,
+        "type": 1,
         "figure": {
           "$ref": "68"
         },
@@ -1448,7 +1450,7 @@
           "_X": 6,
           "_Y": 8
         },
-        "type": 2,
+        "type": 1,
         "figure": {
           "$ref": "56"
         },
@@ -1536,12 +1538,10 @@
           "_X": 7,
           "_Y": 5
         },
-        "type": 2,
-        "figure": {
-          "$ref": "64"
-        },
-        "numberPlayer": 1,
-        "FigureType": 1
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
       },
       {
         "$id": "218",
@@ -1552,7 +1552,7 @@
           "_X": 7,
           "_Y": 6
         },
-        "type": 2,
+        "type": 1,
         "figure": null,
         "numberPlayer": 1,
         "FigureType": 0
@@ -1566,7 +1566,7 @@
           "_X": 7,
           "_Y": 7
         },
-        "type": 2,
+        "type": 1,
         "figure": {
           "$ref": "48"
         },
@@ -1582,10 +1582,12 @@
           "_X": 7,
           "_Y": 8
         },
-        "type": 2,
-        "figure": null,
+        "type": 1,
+        "figure": {
+          "$ref": "76"
+        },
         "numberPlayer": 1,
-        "FigureType": 0
+        "FigureType": 2
       }
     ],
     [
@@ -1668,7 +1670,7 @@
           "_X": 8,
           "_Y": 5
         },
-        "type": 2,
+        "type": 1,
         "figure": {
           "$ref": "60"
         },
@@ -1684,7 +1686,7 @@
           "_X": 8,
           "_Y": 6
         },
-        "type": 2,
+        "type": 1,
         "figure": {
           "$ref": "44"
         },
@@ -1700,7 +1702,7 @@
           "_X": 8,
           "_Y": 7
         },
-        "type": 2,
+        "type": 1,
         "figure": {
           "$ref": "52"
         },
@@ -1716,14 +1718,12 @@
           "_X": 8,
           "_Y": 8
         },
-        "type": 2,
-        "figure": {
-          "$ref": "76"
-        },
-        "numberPlayer": 1,
-        "FigureType": 2
+        "type": 0,
+        "figure": null,
+        "numberPlayer": -1,
+        "FigureType": 0
       }
     ]
   ],
-  "CountStep": 24
+  "CountStep": 3
 }
