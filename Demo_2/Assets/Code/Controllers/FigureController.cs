@@ -7,6 +7,9 @@ public class FigureController : MonoBehaviour
 {
     [SerializeField]
     private GameController gameController;
+    [SerializeField]
+    private AudioController audioController;
+
     private Prefabs prefabs;
     private List<List<FigureView>> figures = new List<List<FigureView>>();
 
@@ -20,10 +23,12 @@ public class FigureController : MonoBehaviour
         transformFigure = GameObject.FindWithTag("Figure").transform;
     }
 
-
-    public void AnimateMoveFigure(FigureView figure, List<Vector3> vector3)
+    public IEnumerator AnimateMoveFigure(FigureView figure, List<Vector3> vector3)
     {
-        StartCoroutine(figure.AnimateMove(vector3));
+        // Куратина нужна чтобы дождаться завершения хода и проиграть звук
+        yield return StartCoroutine(figure.AnimateMove(vector3));
+
+        audioController.PlayAudio(SoundType.Step);
     }
 
     public void DestroyAll()
@@ -35,8 +40,6 @@ public class FigureController : MonoBehaviour
 
         upedFigure = null;
     }
-
-
 
     public void CreateFigures(Map gameState)
     {
@@ -158,4 +161,7 @@ public class FigureController : MonoBehaviour
     }
 
     public FigureView UpedFigure { get { return upedFigure; } set { upedFigure = value; } }
+
+
+
 }

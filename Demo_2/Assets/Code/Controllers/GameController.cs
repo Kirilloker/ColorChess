@@ -21,6 +21,8 @@ public class GameController : MonoBehaviour
     private CameraController cameraController;
     [SerializeField]
     private BoardController boardController;
+    [SerializeField]
+    private AudioController audioController;
 
     private bool IsFirstGame = true;
 
@@ -59,14 +61,12 @@ public class GameController : MonoBehaviour
         // Получаем фигуру по которой нажали, считаем для неё все возможные пути
         // И включаем подсказки (А так же BoxColiders у клеток, на которых включились подсказки)
 
-        // ИСПРАВИТЬ
-        ColorChessModel.Figure selectFigure = CurrentGameState.GetCell(figureView.Pos).figure;
+        Figure selectFigure = CurrentGameState.GetCell(figureView.Pos).figure;
 
 
         if (selectFigure != null)
         {
-            // ИСПРАВИТЬ
-            List<ColorChessModel.Cell> allSteps = WayCalcSystem.CalcAllSteps(CurrentGameState, selectFigure);
+            List<Cell> allSteps = WayCalcSystem.CalcAllSteps(CurrentGameState, selectFigure);
             cellController.ShowAllSteps(allSteps);
             cellController.OnBoxColidersForList(allSteps);
         }
@@ -76,16 +76,14 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void ApplyStepView(ColorChessModel.Cell cell, ColorChessModel.Figure figure)
+    public void ApplyStepView(Cell cell, Figure figure)
     {
         // Применяем ход - отображаем всё в Unity
         // Получаем массив пути - запускаем анимацию фигуры по этому пути и перекрашиваем клеткти
         // Также меняем всё в Model
         // И в конце запускаем новый шаг
 
-
-
-        List<ColorChessModel.Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.pos, cell.pos, figure);
+        List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.pos, cell.pos, figure);
 
         Map map = GameStateCalcSystem.ApplyStep(CurrentGameState, figure, cell);
         gameStates.Add(map);
@@ -103,19 +101,22 @@ public class GameController : MonoBehaviour
             figureController.EatFigureView(cell.figure, CurrentGameState);
         }
 
-        figureController.AnimateMoveFigure(figureController.UpedFigure, wayVectors);
+        StartCoroutine(figureController.AnimateMoveFigure(figureController.UpedFigure, wayVectors));
         cellController.HideAllPrompts();
 
-        DrawNewGameState(CurrentGameState);
+        DrawNewGameState();
 
         StartNewStep();
     }
 
-    public void DrawNewGameState(Map gameState)
+    public void DrawNewGameState()
     {
         // Если состояние клетки в модели изменилось по сравнению с предыдущим состоянием
         // То меняем у неё цвет
         // А так же меняем Очки на UI-board
+
+        // 0 - ничего не изменилось 1 - появилась захваченная клетка 2 - исчезла захваченная клетка
+        int SoundCell = 0;
 
         for (int i = 0; i < CurrentGameState.Length; i++)
         {
@@ -124,8 +125,31 @@ public class GameController : MonoBehaviour
                 if (CurrentGameState.GetCell(i, j) != PreviousvGameState.GetCell(i, j))
                 {
                     cellController.ChangeMaterialCell(i, j, CurrentGameState);
+
+                    // Если клетка перекрасилась в Dark
+                    if (PreviousvGameState.GetCell(i, j).type != CellType.Dark &&
+                        CurrentGameState.GetCell(i, j).type == CellType.Dark)
+                    {
+                        SoundCell = 1;
+                    }
+
+                    // Если клетка перекрасилась из Dark 
+                    if (PreviousvGameState.GetCell(i, j).type == CellType.Dark &&
+                        CurrentGameState.GetCell(i, j).type != CellType.Dark)
+                    {
+                        SoundCell = 2;
+                    }
                 }
             }
+        }
+
+        if (SoundCell == 1)
+        {
+            audioController.PlayAudio(SoundType.DarkCapture);
+        }
+        if (SoundCell == 2)
+        {
+            audioController.PlayAudio(SoundType.ReverseDarkCapture);
         }
 
         boardController.SetScoreUI(CurrentGameState);
@@ -159,8 +183,6 @@ public class GameController : MonoBehaviour
 
         // Проверка на то, что игра не зациклилась
         TestCheckImmutabilityGameState();
-
-        TestSerialization.Save(CurrentGameState);
 
         if (CurrentGameState.EndGame == true)
         {
@@ -198,72 +220,72 @@ public class GameController : MonoBehaviour
 
     private void TestCheckImmutabilityGameState()
     {
-        // Проверка что за последние 4 хода на карте хоть что-то изменилось
+        //// Проверка что за последние 4 хода на карте хоть что-то изменилось
 
-        if (gameStates.Count <= 4)
-        {
-            return;
-        }
+        //if (gameStates.Count <= 4)
+        //{
+        //    return;
+        //}
 
-        var map1 = gameStates[gameStates.Count - 1];
-        var map2 = gameStates[gameStates.Count - 2];
-        var map3 = gameStates[gameStates.Count - 3];
-        var map4 = gameStates[gameStates.Count - 4];
+        //var map1 = gameStates[gameStates.Count - 1];
+        //var map2 = gameStates[gameStates.Count - 2];
+        //var map3 = gameStates[gameStates.Count - 3];
+        //var map4 = gameStates[gameStates.Count - 4];
 
-        var score1 = map1.score;
-        var score2 = map2.score;
-        var score3 = map3.score;
-        var score4 = map4.score;
+        //var score1 = map1.score;
+        //var score2 = map2.score;
+        //var score3 = map3.score;
+        //var score4 = map4.score;
 
-        if ((score1[-1][CellType.Empty] == score2[-1][CellType.Empty]) &&
-            (score2[-1][CellType.Empty] == score3[-1][CellType.Empty]) &&
-            (score3[-1][CellType.Empty] == score4[-1][CellType.Empty]))
-        {
-            if (
-                (map1.PlayersCount == map2.PlayersCount) &&
-                (map2.PlayersCount == map3.PlayersCount) &&
-                (map3.PlayersCount == map4.PlayersCount)
-                )
-            {
-                for (int i = 0; i < map1.PlayersCount; i++)
-                {
-                    if (
-                        (score1[i][CellType.Paint] == score1[i][CellType.Paint]) &&
-                        (score2[i][CellType.Paint] == score3[i][CellType.Paint]) &&
-                        (score3[i][CellType.Paint] == score4[i][CellType.Paint])
-                        )
-                    {
-                        if (
-                            (score1[i][CellType.Dark] == score1[i][CellType.Dark]) &&
-                            (score2[i][CellType.Dark] == score3[i][CellType.Dark]) &&
-                            (score3[i][CellType.Dark] == score4[i][CellType.Dark])
-                            )
-                        {
-                            //
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                return;
-            } 
-        }
-        else
-        {
-            return;
-        }
+        //if ((score1[-1][CellType.Empty] == score2[-1][CellType.Empty]) &&
+        //    (score2[-1][CellType.Empty] == score3[-1][CellType.Empty]) &&
+        //    (score3[-1][CellType.Empty] == score4[-1][CellType.Empty]))
+        //{
+        //    if (
+        //        (map1.PlayersCount == map2.PlayersCount) &&
+        //        (map2.PlayersCount == map3.PlayersCount) &&
+        //        (map3.PlayersCount == map4.PlayersCount)
+        //        )
+        //    {
+        //        for (int i = 0; i < map1.PlayersCount; i++)
+        //        {
+        //            if (
+        //                (score1[i][CellType.Paint] == score1[i][CellType.Paint]) &&
+        //                (score2[i][CellType.Paint] == score3[i][CellType.Paint]) &&
+        //                (score3[i][CellType.Paint] == score4[i][CellType.Paint])
+        //                )
+        //            {
+        //                if (
+        //                    (score1[i][CellType.Dark] == score1[i][CellType.Dark]) &&
+        //                    (score2[i][CellType.Dark] == score3[i][CellType.Dark]) &&
+        //                    (score3[i][CellType.Dark] == score4[i][CellType.Dark])
+        //                    )
+        //                {
+        //                    //
+        //                }
+        //                else
+        //                {
+        //                    return;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                return;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return;
+        //    } 
+        //}
+        //else
+        //{
+        //    return;
+        //}
 
-        Debug.Log("Карта повторилась 4 раза, конец игры!");
-        EndGame();
+        //Debug.Log("Карта повторилась 4 раза, конец игры!");
+        //EndGame();
     }
 
     public void DestroyAll()
@@ -290,17 +312,23 @@ public class GameController : MonoBehaviour
 
     private IEnumerator AIStep()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
-        //testThread = new Thread(new ThreadStart(AIStepTest));
-        //testThread.Start();
+        TestAI.TestMaps = new List<Map>(10000);
+        TestAI.TestHash = new Dictionary<int, int>(10000);
+        TestAI.TestMAP = new Dictionary<int, Map>(10000);
 
         TestAI.AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
 
         figureController.UpedFigure = figureController.FindFigure(TestAI.bestFigure, CurrentGameState);
 
-        ApplyStepView(TestAI.bestCell, TestAI.bestFigure);
+        Debug.Log("Было просчитано ходов: " + TestAI.TestCountCalculate);
+        TestAI.TestCountCalculate = 0;
 
+        Debug.Log("Одинаковых карт: " + TestAI.TestCountEqualesMap);
+        TestAI.TestCountEqualesMap = 0;
+
+        ApplyStepView(TestAI.bestCell, TestAI.bestFigure);
     }
 
     private void SetFigViewForNewStep()
@@ -322,6 +350,7 @@ public class GameController : MonoBehaviour
         // Настраиваем CellConroller на новый ход
 
         cellController.OFFALLBoxColiders();
+        cellController.HideAllPrompts();
     }
 
     public bool GetBoolFigureInCell(Position position)
@@ -333,12 +362,12 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            TestSerialization.Load();
+            testLoad();
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyUp(KeyCode.S))
         {
             TestSerialization.Save(CurrentGameState);
         }
@@ -349,9 +378,14 @@ public class GameController : MonoBehaviour
     {
         Map loadMap = TestSerialization.Load();
 
-        // Тут нужно всё с FigureContoller синхронизировать
+        gameStates.Add(loadMap);
 
-        DrawNewGameState(loadMap);
+        figureController.DestroyAll();
+        figureController.CreateFigures(CurrentGameState);
+
+        DrawNewGameState();
+
+        StartNewStep();
     }
 
 }

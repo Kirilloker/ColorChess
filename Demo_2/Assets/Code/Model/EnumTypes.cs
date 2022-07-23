@@ -47,6 +47,7 @@
 
     public enum ColorType
     {
+        Default,
         Red,
         Blue,
         Yellow,
@@ -69,5 +70,13 @@
         inGame1 = 2,
         inGame2 = 3,
         deskMenu = 4
+    }
+
+    public enum SoundType
+    {
+        Step,
+        DarkCapture,
+        ReverseStep,
+        ReverseDarkCapture
     }
 }
