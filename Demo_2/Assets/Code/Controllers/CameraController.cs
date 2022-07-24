@@ -29,7 +29,7 @@ public class CameraController : MonoBehaviour
     {
         SwitchCamera();
 
-        slider.value = 3.2f;
+        slider.value = 1.312481f;
         mainCamera.m_DefaultBlend.m_Time = 2f;
         trackInGame1 = cinemachines[(int)CameraViewType.inGame1].GetCinemachineComponent<CinemachineTrackedDolly>();
         trackInGame2 = cinemachines[(int)CameraViewType.inGame2].GetCinemachineComponent<CinemachineTrackedDolly>();
