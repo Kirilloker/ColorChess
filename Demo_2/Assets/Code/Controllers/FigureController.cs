@@ -162,6 +162,4 @@ public class FigureController : MonoBehaviour
 
     public FigureView UpedFigure { get { return upedFigure; } set { upedFigure = value; } }
 
-
-
 }

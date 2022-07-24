@@ -112,7 +112,7 @@ public class GameController : MonoBehaviour
     {
         // Это нужно чтобы нормально работало Шаг-Назад
         DrawNewGameState(PreviousvGameState);
-    }
+    }   
 
     public void DrawNewGameState(Map CompareMap)
     {
