@@ -162,7 +162,7 @@ public static class TestAI
 	public static int AlphaBeta(Map map, int level, int alpha, int beta)
 	{
 		// Список всех возможных ходов для определенного игрока
-		List<List<ColorChessModel.Cell>> avaible = new List<List<ColorChessModel.Cell>>();
+		List<List<Cell>> avaible = new List<List<Cell>>();
 
 		int MaxMinEvaluation = 0;
 
@@ -204,19 +204,21 @@ public static class TestAI
 
 			for (int i = 0; i < avaible.Count; i++)
 			{
-				// Сколько процентов ходов обработать у фигуры
-				float percentStep = GetFigurePercentForStep(map.Players[1].figures[i].type);
+                //Сколько процентов ходов обработать у фигуры
 
-				// Количество ходов которое будет обработано у фигуры
-				int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
+                float percentStep = GetFigurePercentForStep(map.Players[1].figures[i].type);
 
-				// Если получилось что 0 шагов обработаются, то обработать хотя бы 1 шаг
-				if ((stepCalculate < 1) && (avaible[i].Count >= 1))
-				{
-					stepCalculate = 1;
-				}
+                // Количество ходов которое будет обработано у фигуры
+                int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
 
-				for (int j = 0; j < stepCalculate; j++)
+                // Если получилось что 0 шагов обработаются, то обработать хотя бы 1 шаг
+                if ((stepCalculate < 1) && (avaible[i].Count >= 1))
+                {
+                    stepCalculate = 1;
+                }
+
+                //for (int j = 0; j < avaible[i].Count; j++)
+                for (int j = 0; j < stepCalculate; j++)
 				{
 					if (MaxMinEvaluation > beta) break;
 					if (beta < alpha) break;
@@ -224,48 +226,49 @@ public static class TestAI
 					Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[1].figures[i], avaible[i][j]);
 
 
-					int testByty = copyMap.GetStringForHash().GetHashCode();
+					//int testByty = copyMap.GetStringForHash().GetHashCode();
 
 
-					int MinMax = 0;
+					//int MinMax = 0;
 
-					if (TestHash.ContainsKey(testByty))
-					{
-						DebugConsole.Print("Такой уже есть хэш");
-						if (copyMap == TestMAP[testByty])
-						{
-							DebugConsole.Print("Карты равны это супер");
-						}
-						else
-						{
-							DebugConsole.Print("НЕ РАВНЫ!");
-						}
-						MinMax = TestHash[testByty];
-					}
-					else
-					{
-						if (TestInMapList(copyMap) == true)
-							TestCountEqualesMap++;
-						TestMaps.Add(copyMap);
+					//if (TestHash.ContainsKey(testByty))
+					//{
+					//	DebugConsole.Print("Такой уже есть хэш");
+					//	if (copyMap == TestMAP[testByty])
+					//	{
+					//		DebugConsole.Print("Карты равны это супер");
+					//	}
+					//	else
+					//	{
+					//		DebugConsole.Print("НЕ РАВНЫ!");
+					//	}
+					//	MinMax = TestHash[testByty];
+					//}
+					//else
+					//{
+					//	if (TestInMapList(copyMap) == true)
+					//		TestCountEqualesMap++;
+					//	TestMaps.Add(copyMap);
 						
 
-						MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
-					}
-
-					TestCountCalculate++;
+					//	MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+					//}
 
 
+					//TestCountCalculate++;
 
 
-					//int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
 
 
-					if (TestHash.ContainsKey(testByty) == false)
-					{
+					int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
 
-						TestHash.Add(testByty, MinMax);
-						TestMAP.Add(testByty, copyMap);
-					}
+
+					//if (TestHash.ContainsKey(testByty) == false)
+					//{
+
+					//	TestHash.Add(testByty, MinMax);
+					//	TestMAP.Add(testByty, copyMap);
+					//}
 
 					// Запоминаем наилучший ход
 					if ((level == 0) && (MinMax > MaxMinEvaluation))
@@ -275,8 +278,8 @@ public static class TestAI
 					}
 
 					MaxMinEvaluation = Math.Max(MaxMinEvaluation, MinMax);
-					alpha = Math.Max(alpha, MaxMinEvaluation);
-				}
+                    alpha = Math.Max(alpha, MaxMinEvaluation);
+                }
 			}
 		}
 		// Обработка хода Человека
@@ -287,61 +290,63 @@ public static class TestAI
 
 			for (int i = 0; i < avaible.Count; i++)
 			{
-				float percentStep = GetFigurePercentForStep(map.Players[0].figures[i].type);
-				int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
+                float percentStep = GetFigurePercentForStep(map.Players[0].figures[i].type);
+                int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
 
-				if ((stepCalculate < 1) && (avaible[i].Count >= 1))
-				{
-					stepCalculate = 1;
-				}
+                if ((stepCalculate < 1) && (avaible[i].Count >= 1))
+                {
+                    stepCalculate = 1;
+                }
 
-				for (int j = 0; j < stepCalculate; j++)
-				{
-					if (MaxMinEvaluation < alpha) break;
-					if (beta < alpha) break;
+                //for (int j = 0; j < avaible[i].Count; j++)
+                for (int j = 0; j < stepCalculate; j++)
+                {
+                    if (MaxMinEvaluation < alpha) break;
+                    if (beta < alpha) break;
 
-					Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[0].figures[i], avaible[i][j]);
+                    Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[0].figures[i], avaible[i][j]);
 
-					int testByty = copyMap.GetStringForHash().GetHashCode();
-
-
-					int MinMax = 0;
-
-					if (TestHash.ContainsKey(testByty))
-					{
-						DebugConsole.Print("Такой уже есть хэш");
-						if (copyMap == TestMAP[testByty])
-						{
-							DebugConsole.Print("Карты равны это супер");
-						}
-						else
-						{
-							DebugConsole.Print("НЕ РАВНЫ!");
-						}
-						MinMax = TestHash[testByty];
-					}
-                    else
-                    {
-						if (TestInMapList(copyMap) == true)
-							TestCountEqualesMap++;
-						TestMaps.Add(copyMap);
-						MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
-					}
+					//int testByty = copyMap.GetStringForHash().GetHashCode();
 
 
-                    TestCountCalculate++;
+					//int MinMax = 0;
 
-					if (TestHash.ContainsKey(testByty) == false)
-                    {
+					//if (TestHash.ContainsKey(testByty))
+					//{
+					//	DebugConsole.Print("Такой уже есть хэш");
+					//	if (copyMap == TestMAP[testByty])
+					//	{
+					//		DebugConsole.Print("Карты равны это супер");
+					//	}
+					//	else
+					//	{
+					//		DebugConsole.Print("НЕ РАВНЫ!");
+					//	}
+					//	MinMax = TestHash[testByty];
+					//}
+     //               else
+     //               {
+					//	if (TestInMapList(copyMap) == true)
+					//		TestCountEqualesMap++;
+					//	TestMaps.Add(copyMap);
+					//	MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+					//}
 
-						TestHash.Add(testByty, MinMax);
-						TestMAP.Add(testByty, copyMap);
-					}
+					int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+
+					TestCountCalculate++;
+
+					//if (TestHash.ContainsKey(testByty) == false)
+     //               {
+
+					//	TestHash.Add(testByty, MinMax);
+					//	TestMAP.Add(testByty, copyMap);
+					//}
 
 
                     MaxMinEvaluation = Math.Min(MaxMinEvaluation, MinMax);
-					beta = Math.Min(beta, MaxMinEvaluation);
-				}
+                    beta = Math.Min(beta, MaxMinEvaluation);
+                }
 			}
 		}
 
@@ -349,27 +354,27 @@ public static class TestAI
 		return MaxMinEvaluation;
 	}
 
-    public static List<Map> TestMaps = new List<Map>();
+    //public static List<Map> TestMaps = new List<Map>();
     public static int TestCountCalculate = 0;
-    public static int TestCountEqualesMap = 0;
+    //public static int TestCountEqualesMap = 0;
 
-    public static Dictionary<int, int> TestHash = new Dictionary<int, int>();
-    public static Dictionary<int, Map> TestMAP = new Dictionary<int, Map>();
+    //public static Dictionary<int, int> TestHash = new Dictionary<int, int>();
+    //public static Dictionary<int, Map> TestMAP = new Dictionary<int, Map>();
 
-    public static bool TestInMapList(Map map)
-    {
-        for (int i = 0; i < TestMaps.Count; i++)
-        {
-            if (map == TestMaps[i]) return true;
-        }
-        return false;
-    }
+ //   public static bool TestInMapList(Map map)
+ //   {
+ //       for (int i = 0; i < TestMaps.Count; i++)
+ //       {
+ //           if (map == TestMaps[i]) return true;
+ //       }
+ //       return false;
+ //   }
 
-    public static byte[] TestStringHash(string stringHash)
-    {
-		return new MD5CryptoServiceProvider().ComputeHash(ASCIIEncoding.ASCII.GetBytes(stringHash));
+ //   public static byte[] TestStringHash(string stringHash)
+ //   {
+	//	return new MD5CryptoServiceProvider().ComputeHash(ASCIIEncoding.ASCII.GetBytes(stringHash));
 
-	}
+	//}
 
 	public static int EvaluationFunction(Map map)
 	{

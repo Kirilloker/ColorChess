@@ -356,9 +356,12 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
-        TestAI.TestMaps = new List<Map>(10000);
-        TestAI.TestHash = new Dictionary<int, int>(10000);
-        TestAI.TestMAP = new Dictionary<int, Map>(10000);
+        //TestAI.TestMaps = new List<Map>(10000);
+        //TestAI.TestHash = new Dictionary<int, int>(10000);
+        //TestAI.TestMAP = new Dictionary<int, Map>(10000);
+
+        System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+        stopWatch.Start();
 
         TestAI.AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
 
@@ -367,8 +370,19 @@ public class GameController : MonoBehaviour
         Debug.Log("Было просчитано ходов: " + TestAI.TestCountCalculate);
         TestAI.TestCountCalculate = 0;
 
-        Debug.Log("Одинаковых карт: " + TestAI.TestCountEqualesMap);
-        TestAI.TestCountEqualesMap = 0;
+
+        stopWatch.Stop();
+        // Get the elapsed time as a TimeSpan value.
+        TimeSpan ts = stopWatch.Elapsed;
+
+        // Format and display the TimeSpan value.
+        string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            ts.Hours, ts.Minutes, ts.Seconds,
+            ts.Milliseconds / 10);
+        Debug.Log("RunTime " + elapsedTime);
+
+        //Debug.Log("Одинаковых карт: " + TestAI.TestCountEqualesMap);
+        //TestAI.TestCountEqualesMap = 0;
 
         ApplyStepView(TestAI.bestCell, TestAI.bestFigure);
     }

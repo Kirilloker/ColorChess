@@ -7,7 +7,6 @@ namespace ColorChessModel
     {
         public List<Cell> AllSteps(Map map, Figure figure)
         {
-            //List<Cell> avaibleCell = new List<Cell>(8);
             Dictionary<Cell, int> dict = new Dictionary<Cell, int>(10);
 
             Position posFigure = figure.pos;
@@ -23,7 +22,6 @@ namespace ColorChessModel
 
                     Cell cell = map.GetCell(posCell);
 
-
                     // Чтобы не съесть свою фигуру
                     if (cell.numberPlayer == figure.Number &&
                         cell.FigureType != FigureType.Empty) { continue; }
@@ -35,7 +33,6 @@ namespace ColorChessModel
                     test += (Check.SelfCellDark(cell, figure.Number)) ? -3 : 0;
 
                     dict.Add(cell, test);
-                    //avaibleCell.Add(cell);
                 }
             }
 
@@ -44,15 +41,12 @@ namespace ColorChessModel
             // Сортируем словарь и добовляем всё в массив
             dict = dict.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
 
-            //DebugConsole.Print("PAWN");
             foreach (Cell cell in dict.Keys)
             {
-                //DebugConsole.Print(dict[cell].ToString());
                 avaibleCell.Add(cell);
             }
 
             avaibleCell.Reverse();
-
 
             return avaibleCell;
         }
