@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
 {
     //Главная камера
     [SerializeField]
-    private Cinemachine.CinemachineBrain mainCamera;
+    private CinemachineBrain mainCamera;
 
     //Камеры
     [SerializeField]
@@ -35,7 +35,7 @@ public class CameraController : MonoBehaviour
         trackInGame2 = cinemachines[(int)CameraViewType.inGame2].GetCinemachineComponent<CinemachineTrackedDolly>();
     }
 
-    public void SwitchCamera()
+    private void SwitchCamera()
     {
         foreach (var cinemachine in cinemachines)
         {
@@ -45,16 +45,17 @@ public class CameraController : MonoBehaviour
         cinemachines[(int)viewCamera].m_Priority = 10;
     }
 
-    public void SwitchCameraWithDelay(CameraViewType _viewCamera)
+    public void SwitchCamera(CameraViewType _viewCamera)
     {
         viewCamera = _viewCamera;
-        Invoke("SwitchCamera", 0.50f);
+        Invoke("SwitchCamera", 1f);
     }
 
     public void RotateCamers()
     {
         ChangeCamersRotation(slider.value);
     }
+
     public void ChangeCamersRotation(float angle)
     {
         // Почему-то в Awake не получается инициализировать trackInGame, поэтому тут вот такой костыль
@@ -73,10 +74,20 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void CameraToMenu()
+    public void SetCameraSpeed(float speed)
     {
-        SwitchCameraWithDelay(CameraViewType.noteMenu);
+        mainCamera.m_DefaultBlend.m_Time = speed;
     }
 
+    public float GetCameraSpeed()
+    {
+        return mainCamera.m_DefaultBlend.m_Time;
+    }
+
+    public void CameraToMenu()
+    {
+        // Нужна для UI кнопок
+        SwitchCamera(CameraViewType.noteMenu);
+    }
 }
 

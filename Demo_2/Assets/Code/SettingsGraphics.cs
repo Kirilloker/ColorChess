@@ -13,6 +13,8 @@ public class SettingsGraphics : MonoBehaviour
     private Material BoarMaterial;
     [SerializeField]
     private CameraController cameraManager;
+    [SerializeField]
+    private FigureController figureController;
 
     private bool LowGraphics;
 
@@ -20,15 +22,15 @@ public class SettingsGraphics : MonoBehaviour
     {
         ChangeGraphics();
     }
+
     public void ChangeGraphics()
     {
         LowGraphics = SwitchGraphics.isOn;
 
-        //SwitchShadow();
+        SwitchShadow();
         SwitchSmoothness();
-        //SwitchCameraSpeed();
-
-        //cameraManager.Set_Camera_Change_Speed(0f);
+        SwitchCameraSpeed();
+        SwitchFigureAnimation();
     }
 
     public void SwitchShadow()
@@ -49,10 +51,15 @@ public class SettingsGraphics : MonoBehaviour
 
     public void SwitchCameraSpeed()
     {
-        //if (LowGraphics == true)
-        //    cameraManager.Set_Camera_Change_Speed(0f);
-        //else
-        //    cameraManager.Set_Camera_Change_Speed(2f);
+        if (LowGraphics == true)
+            cameraManager.SetCameraSpeed(0f);
+        else
+            cameraManager.SetCameraSpeed(2f);
+    }
+
+    public void SwitchFigureAnimation()
+    {
+        figureController.LowGraphics = LowGraphics;
     }
 }
 

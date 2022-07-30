@@ -4,6 +4,7 @@ using UnityEngine;
 using ColorChessModel;
 using System.Threading;
 using System;
+using System.Threading.Tasks;
 
 public class GameController : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class GameController : MonoBehaviour
 
     private bool IsFirstGame = true;
 
+    private float cameraSpeed;
+
     public void StartGame()
     {
         // Начало игры 
@@ -40,7 +43,8 @@ public class GameController : MonoBehaviour
         cellController.CreateCells(CurrentGameState);
         figureController.CreateFigures(CurrentGameState);
 
-        cameraController.SwitchCameraWithDelay(CameraViewType.inGame1);
+
+        cameraController.SwitchCamera(CameraViewType.inGame1);
 
         StartNewStep();
     }
@@ -185,9 +189,9 @@ public class GameController : MonoBehaviour
     public void StartNewStep()
     {
         // Новый ход
-
+        ChangeSpeedCameraConroller();
         // Проверка на то, что игра не зациклилась
-        TestCheckImmutabilityGameState();
+        //TestCheckImmutabilityGameState();
 
         if (CurrentGameState.EndGame == true)
         {
@@ -202,6 +206,15 @@ public class GameController : MonoBehaviour
             case PlayerType.Human:
                 SetFigViewForNewStep();
                 SetCellViewForNewStep();
+                
+                // Смена камеры
+                CornerType cornerPlayer = CurrentGameState.GetPlayerCorner(CurrentGameState.NumberPlayerStep);
+                
+                if (cornerPlayer == CornerType.DownLeft || cornerPlayer == CornerType.DownRight)
+                    cameraController.SwitchCamera(CameraViewType.inGame1);
+                else
+                    cameraController.SwitchCamera(CameraViewType.inGame2);
+
                 break;
 
             case PlayerType.AI:
@@ -223,7 +236,158 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void TestCheckImmutabilityGameState()
+    
+
+    public void DestroyAll()
+    {
+        figureController.DestroyAll();
+        cellController.DestroyAll();
+        boardController.Destroy();
+
+        boardController.ShowBoardDecor();
+    }
+
+    public void EndGame()
+    {
+        // Конец игры
+        Debug.Log("Конец игры");
+        Debug.Log(cameraSpeed);
+        cameraController.SetCameraSpeed(cameraSpeed);
+        cameraController.SwitchCamera(CameraViewType.noteMenu);
+
+        // ИСПРАВИТЬ - я бы куда-то это перенес 
+
+        figureController.UpedFigure = null;
+        figureController.OFFAllBoxColiders();
+        cellController.OFFALLBoxColiders();
+
+        IsFirstGame = false;
+        gameStateBuilder = new GameStateBuilder();
+        gameStates = new List<Map>();
+    }
+
+    public void BackStep()
+    {
+        // Отматывает ход назад на 1
+        if (gameStates.Count <= 2) return;
+
+        Map map = CurrentGameState;
+
+        gameStates.RemoveAt(gameStates.Count - 1);
+
+        figureController.DestroyAll();
+        figureController.CreateFigures(CurrentGameState);
+
+        DrawNewGameState(map);
+
+        StartNewStep();
+    }
+
+    private void LoadMap(Map map)
+    {
+        gameStates.Add(map);
+        DrawNewMap(map);
+    }
+
+    private void DrawNewMap(Map map)
+    {
+        figureController.DestroyAll();
+        figureController.CreateFigures(map);
+
+        DrawNewGameState();
+
+        StartNewStep();
+    }
+
+    private IEnumerator AIStep()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        if (true)
+        {
+            TestAI.testStep(CurrentGameState, this);
+        }
+        else
+        {
+            TestAI.AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
+            TestAIStepTest();
+        }
+    }   
+
+    public void TestAIStepTest()
+    {
+        figureController.UpedFigure = figureController.FindFigure(TestAI.bestFigure, CurrentGameState);
+        ApplyStepView(TestAI.bestCell, TestAI.bestFigure);
+    }
+
+    private void SetFigViewForNewStep()
+    {
+        // Настраиваем FigureContoller на новый ход
+        // Включаем у игрока который сейчас ходит (если это человек) BoxColiders у его фигур
+
+        figureController.UpedFigure = null;
+        figureController.OFFAllBoxColiders();
+
+        if (CurrentGameState.GetPlayerType(CurrentGameState.NumberPlayerStep)  == PlayerType.Human)
+        {
+            figureController.OnBoxColiders(CurrentGameState.NumberPlayerStep);
+        }
+    }
+
+    private void SetCellViewForNewStep()
+    {
+        // Настраиваем CellConroller на новый ход
+
+        cellController.OFFALLBoxColiders();
+        cellController.HideAllPrompts();
+    }
+
+    public bool GetBoolFigureInCell(Position position)
+    {
+        return CurrentGameState.GetCell(position).figure != null;
+    }
+    public Map CurrentGameState { get { return gameStates[gameStates.Count - 1]; } }
+    public Map PreviousvGameState { get { return gameStates[gameStates.Count - 2]; } }
+
+
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            testLoad();
+        }
+
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            TestSerialization.Save(CurrentGameState);
+        }
+
+    }
+
+    public void testLoad()
+    {
+        Map loadMap = TestSerialization.Load();
+
+        LoadMap(loadMap);
+    }
+
+    private void ChangeSpeedCameraConroller()
+    {
+        if (CurrentGameState.CountStep == 2)
+        {
+            cameraSpeed = cameraController.GetCameraSpeed();
+            cameraController.SetCameraSpeed(0f);
+        }
+    }
+
+}
+
+
+
+
+/*
+private void TestCheckImmutabilityGameState()
     {
         //// Проверка что за последние 4 хода на карте хоть что-то изменилось
 
@@ -292,137 +456,4 @@ public class GameController : MonoBehaviour
         //Debug.Log("Карта повторилась 4 раза, конец игры!");
         //EndGame();
     }
-
-    public void DestroyAll()
-    {
-        figureController.DestroyAll();
-        cellController.DestroyAll();
-        boardController.Destroy();
-
-        boardController.ShowBoardDecor();
-    }
-
-    public void EndGame()
-    {
-        // Конец игры
-        Debug.Log("Конец игры");
-        cameraController.SwitchCameraWithDelay(CameraViewType.noteMenu);
-
-        // ИСПРАВИТЬ - я бы куда-то это перенес 
-
-        figureController.UpedFigure = null;
-        figureController.OFFAllBoxColiders();
-        cellController.OFFALLBoxColiders();
-
-        IsFirstGame = false;
-        gameStateBuilder = new GameStateBuilder();
-        gameStates = new List<Map>();
-    }
-
-    public void BackStep()
-    {
-        // Отматывает ход назад на 1
-        if (gameStates.Count <= 2) return;
-
-        Map map = CurrentGameState;
-
-        gameStates.RemoveAt(gameStates.Count - 1);
-
-        figureController.DestroyAll();
-        figureController.CreateFigures(CurrentGameState);
-
-        DrawNewGameState(map);
-
-        StartNewStep();
-    }
-
-    private void LoadMap(Map map)
-    {
-        gameStates.Add(map);
-        DrawNewMap(map);
-    }
-
-    private void DrawNewMap(Map map)
-    {
-        figureController.DestroyAll();
-        figureController.CreateFigures(map);
-
-        DrawNewGameState();
-
-        StartNewStep();
-    }
-
-    private IEnumerator AIStep()
-    {
-        yield return new WaitForSeconds(0.1f);
-
-        TestAI.TestMaps = new List<Map>(10000);
-        TestAI.TestHash = new Dictionary<int, int>(10000);
-        TestAI.TestMAP = new Dictionary<int, Map>(10000);
-
-        TestAI.AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
-
-        figureController.UpedFigure = figureController.FindFigure(TestAI.bestFigure, CurrentGameState);
-
-        Debug.Log("Было просчитано ходов: " + TestAI.TestCountCalculate);
-        TestAI.TestCountCalculate = 0;
-
-        Debug.Log("Одинаковых карт: " + TestAI.TestCountEqualesMap);
-        TestAI.TestCountEqualesMap = 0;
-
-        ApplyStepView(TestAI.bestCell, TestAI.bestFigure);
-    }
-
-    private void SetFigViewForNewStep()
-    {
-        // Настраиваем FigureContoller на новый ход
-        // Включаем у игрока который сейчас ходит (если это человек) BoxColiders у его фигур
-
-        figureController.UpedFigure = null;
-        figureController.OFFAllBoxColiders();
-
-        if (CurrentGameState.GetPlayerType(CurrentGameState.NumberPlayerStep)  == PlayerType.Human)
-        {
-            figureController.OnBoxColiders(CurrentGameState.NumberPlayerStep);
-        }
-    }
-
-    private void SetCellViewForNewStep()
-    {
-        // Настраиваем CellConroller на новый ход
-
-        cellController.OFFALLBoxColiders();
-        cellController.HideAllPrompts();
-    }
-
-    public bool GetBoolFigureInCell(Position position)
-    {
-        return CurrentGameState.GetCell(position).figure != null;
-    }
-    public Map CurrentGameState { get { return gameStates[gameStates.Count - 1]; } }
-    public Map PreviousvGameState { get { return gameStates[gameStates.Count - 2]; } }
-
-
-
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            testLoad();
-        }
-
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            TestSerialization.Save(CurrentGameState);
-        }
-
-    }
-
-    public void testLoad()
-    {
-        Map loadMap = TestSerialization.Load();
-
-        LoadMap(loadMap);
-    }
-
-}
+ */

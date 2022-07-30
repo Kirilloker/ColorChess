@@ -1279,7 +1279,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.4047618, y: 1}
+    m_SensorSize: {x: 1.5897009, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1295,7 +1295,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188600847}
-  m_LocalRotation: {x: 0.37230185, y: 0.60660535, z: -0.58823466, w: 0.38392887}
+  m_LocalRotation: {x: 0.372301, y: 0.6066058, z: -0.5882352, w: 0.383928}
   m_LocalPosition: {x: 20.935476, y: 19.422848, z: 1.826278}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4132,7 +4132,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.4047618, y: 1}
+    m_SensorSize: {x: 1.5897009, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4274,7 +4274,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.4047618, y: 1}
+    m_SensorSize: {x: 1.5897009, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4569,7 +4569,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.4047618, y: 1}
+    m_SensorSize: {x: 1.5897009, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4640,6 +4640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameController: {fileID: 1370483316}
   audioController: {fileID: 9392454}
+  LowGraphics: 0
 --- !u!1 &615498500
 GameObject:
   m_ObjectHideFlags: 0
@@ -4810,9 +4811,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SwitchGraphics: {fileID: 1288644456}
-  GameDesk: {fileID: 0}
+  GameDesk: {fileID: 2633515610463674161}
   BoarMaterial: {fileID: 2100000, guid: 9cfca93b154d3bd4a90d50b34eacdade, type: 2}
-  cameraManager: {fileID: 0}
+  cameraManager: {fileID: 1437861948}
+  figureController: {fileID: 613001241}
 --- !u!1 &696022608
 GameObject:
   m_ObjectHideFlags: 0
@@ -5433,7 +5435,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &840269666
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6349,7 +6351,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c32b0c32dab89ee4f8b3adeacc88ff98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: {x: 15, y: 15, z: 51, w: 0}
 --- !u!114 &963194232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8073,7 +8074,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.4047618, y: 1}
+    m_SensorSize: {x: 1.5897009, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -8264,7 +8265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002f529f46d0b146803efce67719919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  but: {fileID: 0}
 --- !u!114 &1288732178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9357,7 +9357,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580770110}
-  m_LocalRotation: {x: 0.6114567, y: -0.06818069, z: 0.053002957, w: 0.78655124}
+  m_LocalRotation: {x: 0.61145675, y: -0.06818062, z: 0.05300291, w: 0.7865512}
   m_LocalPosition: {x: -19, y: 19, z: -8.576278}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9395,7 +9395,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.4047618, y: 1}
+    m_SensorSize: {x: 1.5897009, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -9667,7 +9667,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.4047618, y: 1}
+    m_SensorSize: {x: 1.5897009, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -9732,17 +9732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cefa9dd32d5651843a9fdb66d5ff5d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cell_prefab: {fileID: 3553602518156231347, guid: 0ab8fe7a629572148b404e8dfce02e52, type: 3}
-  Prompt_prefab: {fileID: 3393117072432546511, guid: 534359b6c5d842f4e87f72b251301d3e, type: 3}
-  Board_prefab: {fileID: 6830316709634425628, guid: fadb40973b4bdb745a46b91eae54f08a, type: 3}
-  King: {fileID: 7854913477194093735, guid: 19b4538b54c3dca42b00544788b4130d, type: 3}
-  Queen: {fileID: 6179308701643983893, guid: e88f05d352c31f44980a59872c612b4c, type: 3}
-  Castle: {fileID: 1749588521948173828, guid: a1748f093e0c32f42ae8c0c212668f49, type: 3}
-  Bishop: {fileID: 7760465665636388143, guid: a730f58600209084282e1cb43d8bd297, type: 3}
-  Horse: {fileID: 3541204598684217930, guid: 58b1f89056be73949b4904591f3be670, type: 3}
-  Pawn: {fileID: 8490855540979116012, guid: b81227381a7d2324090f82fe10d6f379, type: 3}
-  Random_custom: {fileID: 7854913477194093735, guid: 03a414bda05fdca4c852e80ce59c267e, type: 3}
-  custom1: {fileID: 0}
 --- !u!1 &1703268201
 GameObject:
   m_ObjectHideFlags: 0
@@ -9912,7 +9901,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1708793869}
-  m_LocalRotation: {x: -0.002604773, y: 0.71928716, z: -0.69470274, w: -0.0026969519}
+  m_LocalRotation: {x: -0.002605043, y: 0.71928716, z: -0.69470274, w: -0.0026972312}
   m_LocalPosition: {x: 0, y: 13, z: 9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9950,7 +9939,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.4047618, y: 1}
+    m_SensorSize: {x: 1.5897009, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -11042,7 +11031,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.4047618, y: 1}
+    m_SensorSize: {x: 1.5897009, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -11708,7 +11697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6fe328d3b22de246bb27ecda23fa3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pvCache: {fileID: 0}
 --- !u!114 &1879663769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13475,7 +13463,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6fe328d3b22de246bb27ecda23fa3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pvCache: {fileID: 0}
 --- !u!114 &2130899950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13488,7 +13475,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70aa9d0d7c9aea240958f5798e64f26e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pvCache: {fileID: 0}
 --- !u!114 &2130899951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15171,7 +15157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002f529f46d0b146803efce67719919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  but: {fileID: 0}
 --- !u!114 &5363384844898092367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15447,7 +15432,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002f529f46d0b146803efce67719919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  but: {fileID: 0}
 --- !u!114 &5363384844934254756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15631,7 +15615,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002f529f46d0b146803efce67719919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  but: {fileID: 0}
 --- !u!114 &5363384844973230608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16749,7 +16732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002f529f46d0b146803efce67719919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  but: {fileID: 0}
 --- !u!1 &5363384845350024693
 GameObject:
   m_ObjectHideFlags: 0
@@ -16850,7 +16832,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002f529f46d0b146803efce67719919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  but: {fileID: 0}
 --- !u!114 &5363384845445154444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17220,7 +17201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002f529f46d0b146803efce67719919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  but: {fileID: 0}
 --- !u!114 &5363384845546105780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17585,7 +17565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002f529f46d0b146803efce67719919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  but: {fileID: 0}
 --- !u!222 &5363384845599191352
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17902,7 +17881,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002f529f46d0b146803efce67719919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  but: {fileID: 0}
 --- !u!224 &5363384845717352244
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18401,7 +18379,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002f529f46d0b146803efce67719919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  but: {fileID: 0}
 --- !u!114 &5363384845785848283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18509,7 +18486,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5363384845923508521
 Transform:
   m_ObjectHideFlags: 0
@@ -19226,7 +19203,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002f529f46d0b146803efce67719919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  but: {fileID: 0}
 --- !u!114 &5363384846412228326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19619,7 +19595,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002f529f46d0b146803efce67719919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  but: {fileID: 0}
 --- !u!114 &5363384846527363310
 MonoBehaviour:
   m_ObjectHideFlags: 0
