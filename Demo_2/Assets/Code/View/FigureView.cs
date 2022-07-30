@@ -62,8 +62,15 @@ public class FigureView : MonoBehaviour
 
         yield return new WaitForSeconds(0.02f * Time.deltaTime);
 
+        Move(endPosition);
+
         Down();
         boxCollider.enabled = false; // Сам не понимаю из-за чего этот баг
+    }
+
+    public void Move(Vector3 endPos)
+    {
+        Pos = new Position(endPos.x, endPos.z);
     }
 
     private void OnMouseUpAsButton()
@@ -97,9 +104,19 @@ public class FigureView : MonoBehaviour
     }
 
     public Position Pos { 
-        get { return new Position(transform.localPosition.x, transform.localPosition.z); } 
-        set { this.transform.localPosition = new Vector3(value.X, 0, value.Y); }
+        get 
+        {
+            //return new Position(transform.localPosition.x, transform.localPosition.z); 
+            return pos;
+        } 
+        set 
+        {
+            pos = value;
+            this.transform.localPosition = new Vector3(value.X, 0, value.Y); 
+        }
     }
+
+    private Position pos;
 
     public FigureType Type { get { return type; } }
 

@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
-public static class TestAI
+public  class TestAI
 {
 	// Глубина дерева
 	static int MAX_LEVEL = 4;
@@ -223,49 +225,7 @@ public static class TestAI
 
 					Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[1].figures[i], avaible[i][j]);
 
-
-					int testByty = copyMap.GetStringForHash().GetHashCode();
-
-
-					int MinMax = 0;
-
-					if (TestHash.ContainsKey(testByty))
-					{
-						DebugConsole.Print("Такой уже есть хэш");
-						if (copyMap == TestMAP[testByty])
-						{
-							DebugConsole.Print("Карты равны это супер");
-						}
-						else
-						{
-							DebugConsole.Print("НЕ РАВНЫ!");
-						}
-						MinMax = TestHash[testByty];
-					}
-					else
-					{
-						if (TestInMapList(copyMap) == true)
-							TestCountEqualesMap++;
-						TestMaps.Add(copyMap);
-						
-
-						MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
-					}
-
-					TestCountCalculate++;
-
-
-
-
-					//int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
-
-
-					if (TestHash.ContainsKey(testByty) == false)
-					{
-
-						TestHash.Add(testByty, MinMax);
-						TestMAP.Add(testByty, copyMap);
-					}
+                    int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
 
 					// Запоминаем наилучший ход
 					if ((level == 0) && (MinMax > MaxMinEvaluation))
@@ -302,43 +262,7 @@ public static class TestAI
 
 					Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[0].figures[i], avaible[i][j]);
 
-					int testByty = copyMap.GetStringForHash().GetHashCode();
-
-
-					int MinMax = 0;
-
-					if (TestHash.ContainsKey(testByty))
-					{
-						DebugConsole.Print("Такой уже есть хэш");
-						if (copyMap == TestMAP[testByty])
-						{
-							DebugConsole.Print("Карты равны это супер");
-						}
-						else
-						{
-							DebugConsole.Print("НЕ РАВНЫ!");
-						}
-						MinMax = TestHash[testByty];
-					}
-                    else
-                    {
-						if (TestInMapList(copyMap) == true)
-							TestCountEqualesMap++;
-						TestMaps.Add(copyMap);
-						MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
-					}
-
-
-                    TestCountCalculate++;
-
-					if (TestHash.ContainsKey(testByty) == false)
-                    {
-
-						TestHash.Add(testByty, MinMax);
-						TestMAP.Add(testByty, copyMap);
-					}
-
-
+					int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
                     MaxMinEvaluation = Math.Min(MaxMinEvaluation, MinMax);
 					beta = Math.Min(beta, MaxMinEvaluation);
 				}
@@ -346,30 +270,10 @@ public static class TestAI
 		}
 
 
-		return MaxMinEvaluation;
+        return MaxMinEvaluation;
 	}
 
-    public static List<Map> TestMaps = new List<Map>();
-    public static int TestCountCalculate = 0;
-    public static int TestCountEqualesMap = 0;
 
-    public static Dictionary<int, int> TestHash = new Dictionary<int, int>();
-    public static Dictionary<int, Map> TestMAP = new Dictionary<int, Map>();
-
-    public static bool TestInMapList(Map map)
-    {
-        for (int i = 0; i < TestMaps.Count; i++)
-        {
-            if (map == TestMaps[i]) return true;
-        }
-        return false;
-    }
-
-    public static byte[] TestStringHash(string stringHash)
-    {
-		return new MD5CryptoServiceProvider().ComputeHash(ASCIIEncoding.ASCII.GetBytes(stringHash));
-
-	}
 
 	public static int EvaluationFunction(Map map)
 	{
@@ -399,6 +303,30 @@ public static class TestAI
 
         return evaluation;
 	}
+
+	public static void testStep(Map map, GameController _gameController)
+    {
+        Task t3 = Task.Run(() =>
+        {
+            DebugConsole.Print("Запуск Альфа Беты");
+            AlphaBeta(map, 0, int.MinValue, int.MaxValue);
+            DebugConsole.Print("Отправляю всё в гейм контроллер");
+            _gameController.TestAIStepTest();
+        });
+
+
+		//testMap = map;
+
+		//Thread myThread = new Thread(func);
+		//myThread.Start();
+	}
+
+	static Map testMap;
+	private static void func()
+    {
+		AlphaBeta(testMap, 0, int.MinValue, int.MaxValue);
+	}
+
 
 }
 

@@ -17,16 +17,22 @@ public class FigureController : MonoBehaviour
 
     private Transform transformFigure;
 
+    public bool LowGraphics;
+
     private void Awake()
     {
         prefabs = GameObject.FindWithTag("Prefabs").GetComponent<Prefabs>();
         transformFigure = GameObject.FindWithTag("Figure").transform;
     }
 
-    public IEnumerator AnimateMoveFigure(FigureView figure, List<Vector3> vector3)
+    public IEnumerator AnimateMoveFigure(FigureView figure, List<Vector3> vectorWay)
     {
         //  уратина нужна чтобы дождатьс€ завершени€ хода и проиграть звук
-        yield return StartCoroutine(figure.AnimateMove(vector3));
+        // ≈сли выключена слаба€ графика то фигура просто с анимирует ход, иначе телепортируетс€
+        if (LowGraphics == false) 
+            yield return StartCoroutine(figure.AnimateMove(vectorWay));
+        else
+            figure.Move(vectorWay[vectorWay.Count - 1]);
 
         audioController.PlayAudio(SoundType.Step);
     }
@@ -109,12 +115,13 @@ public class FigureController : MonoBehaviour
         gameController.FigureOnClicked(figureView);
     }
 
-    public FigureView FindFigure(ColorChessModel.Figure figureModel, Map gameState)
+    public FigureView FindFigure(Figure figureModel, Map gameState)
     {
         foreach (List<FigureView> player in figures)
         {
             foreach (FigureView figure in player)
             {
+                Debug.Log("TEST6");
                 if (figure.Pos == figureModel.pos)
                 {
                     return figure;

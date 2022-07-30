@@ -104,6 +104,7 @@ public class GameController : MonoBehaviour
             figureController.EatFigureView(cell.figure, CurrentGameState);
         }
 
+        // Ошибка тут
         StartCoroutine(figureController.AnimateMoveFigure(figureController.UpedFigure, wayVectors));
         cellController.HideAllPrompts();
 
@@ -251,7 +252,6 @@ public class GameController : MonoBehaviour
     {
         // Конец игры
         Debug.Log("Конец игры");
-        Debug.Log(cameraSpeed);
         cameraController.SetCameraSpeed(cameraSpeed);
         cameraController.SwitchCamera(CameraViewType.noteMenu);
 
@@ -305,6 +305,7 @@ public class GameController : MonoBehaviour
 
         if (true)
         {
+            // Возможно поможет - нужно убить поток после вычисления.
             TestAI.testStep(CurrentGameState, this);
         }
         else
