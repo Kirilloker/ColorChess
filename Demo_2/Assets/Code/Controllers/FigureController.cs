@@ -25,12 +25,14 @@ public class FigureController : MonoBehaviour
         transformFigure = GameObject.FindWithTag("Figure").transform;
     }
 
-    public IEnumerator AnimateMoveFigure(FigureView figure, List<Vector3> vectorWay)
+    //public IEnumerator AnimateMoveFigure(FigureView figure, List<Vector3> vectorWay)
+    public void AnimateMoveFigure(FigureView figure, List<Vector3> vectorWay)
     {
         //  уратина нужна чтобы дождатьс€ завершени€ хода и проиграть звук
         // ≈сли выключена слаба€ графика то фигура просто с анимирует ход, иначе телепортируетс€
-        if (LowGraphics == false) 
-            yield return StartCoroutine(figure.AnimateMove(vectorWay));
+        if (LowGraphics == false)
+            //yield return StartCoroutine(figure.AnimateMove(vectorWay));
+            StartCoroutine(figure.AnimateMove(vectorWay));
         else
             figure.Move(vectorWay[vectorWay.Count - 1]);
 
@@ -121,7 +123,6 @@ public class FigureController : MonoBehaviour
         {
             foreach (FigureView figure in player)
             {
-                Debug.Log("TEST6");
                 if (figure.Pos == figureModel.pos)
                 {
                     return figure;

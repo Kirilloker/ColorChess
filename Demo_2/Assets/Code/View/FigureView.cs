@@ -106,7 +106,7 @@ public class FigureView : MonoBehaviour
     public Position Pos { 
         get 
         {
-            //return new Position(transform.localPosition.x, transform.localPosition.z); 
+            //return new Position(transform.localPosition.x, transform.localPosition.z);
             return pos;
         } 
         set 

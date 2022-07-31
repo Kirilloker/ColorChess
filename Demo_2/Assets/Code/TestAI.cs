@@ -164,7 +164,7 @@ public  class TestAI
 	public static int AlphaBeta(Map map, int level, int alpha, int beta)
 	{
 		// Список всех возможных ходов для определенного игрока
-		List<List<ColorChessModel.Cell>> avaible = new List<List<ColorChessModel.Cell>>();
+		List<List<Cell>> avaible = new List<List<Cell>>();
 
 		int MaxMinEvaluation = 0;
 
@@ -230,6 +230,7 @@ public  class TestAI
 					// Запоминаем наилучший ход
 					if ((level == 0) && (MinMax > MaxMinEvaluation))
 					{
+						DebugConsole.Print("test2");
 						bestCell = avaible[i][j];
 						bestFigure = map.Players[1].figures[i];
 					}
@@ -302,29 +303,6 @@ public  class TestAI
         }
 
         return evaluation;
-	}
-
-	public static void testStep(Map map, GameController _gameController)
-    {
-        Task t3 = Task.Run(() =>
-        {
-            DebugConsole.Print("Запуск Альфа Беты");
-            AlphaBeta(map, 0, int.MinValue, int.MaxValue);
-            DebugConsole.Print("Отправляю всё в гейм контроллер");
-            _gameController.TestAIStepTest();
-        });
-
-
-		//testMap = map;
-
-		//Thread myThread = new Thread(func);
-		//myThread.Start();
-	}
-
-	static Map testMap;
-	private static void func()
-    {
-		AlphaBeta(testMap, 0, int.MinValue, int.MaxValue);
 	}
 
 

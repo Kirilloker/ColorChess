@@ -57,6 +57,7 @@ public class GameController : MonoBehaviour
         Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).figure;
 
         ApplyStepView(cell, figure);
+        //StartNewStep();
     }
 
     public void FigureOnClicked(FigureView figureView)
@@ -83,7 +84,7 @@ public class GameController : MonoBehaviour
     {
         // Применяем ход - отображаем всё в Unity
         // Получаем массив пути - запускаем анимацию фигуры по этому пути и перекрашиваем клеткти
-        // Также меняем всё в Model
+        // Также меняем всё в Model 
         // И в конце запускаем новый шаг
 
         List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.pos, cell.pos, figure);
@@ -98,14 +99,15 @@ public class GameController : MonoBehaviour
             wayVectors.Add(new Vector3(way[i].pos.X, 0f, way[i].pos.Y));
         }
 
-        //В клетке стоит фигура -> её хотят съесть
+        // В клетке стоит фигура -> её хотят съесть
         if (cell.figure != null)
         {
             figureController.EatFigureView(cell.figure, CurrentGameState);
         }
 
         // Ошибка тут
-        StartCoroutine(figureController.AnimateMoveFigure(figureController.UpedFigure, wayVectors));
+        //StartCoroutine(figureController.AnimateMoveFigure(figureController.UpedFigure, wayVectors));
+        figureController.AnimateMoveFigure(figureController.UpedFigure, wayVectors);
         cellController.HideAllPrompts();
 
         DrawNewGameState();
@@ -187,7 +189,7 @@ public class GameController : MonoBehaviour
 
     }
 
-    public void StartNewStep()
+    public async void StartNewStep()
     {
         // Новый ход
         ChangeSpeedCameraConroller();
@@ -200,14 +202,14 @@ public class GameController : MonoBehaviour
             return;
         }
 
+        SetFigViewForNewStep();
+        SetCellViewForNewStep();
+
         PlayerType playerType = CurrentGameState.GetPlayerType(CurrentGameState.NumberPlayerStep);
 
         switch (playerType)
         {
             case PlayerType.Human:
-                SetFigViewForNewStep();
-                SetCellViewForNewStep();
-                
                 // Смена камеры
                 CornerType cornerPlayer = CurrentGameState.GetPlayerCorner(CurrentGameState.NumberPlayerStep);
                 
@@ -219,7 +221,7 @@ public class GameController : MonoBehaviour
                 break;
 
             case PlayerType.AI:
-                StartCoroutine(AIStep());
+                AIStep();
                 break;
 
             case PlayerType.Online:
@@ -237,8 +239,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    
-
+   
     public void DestroyAll()
     {
         figureController.DestroyAll();
@@ -299,27 +300,20 @@ public class GameController : MonoBehaviour
         StartNewStep();
     }
 
-    private IEnumerator AIStep()
+    private async void AIStep()
     {
-        yield return new WaitForSeconds(0.1f);
-
-        if (true)
-        {
-            // Возможно поможет - нужно убить поток после вычисления.
-            TestAI.testStep(CurrentGameState, this);
-        }
-        else
+        await Task.Run(() =>
         {
             TestAI.AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
-            TestAIStepTest();
-        }
-    }   
+        });
 
-    public void TestAIStepTest()
-    {
+        if (gameStates.Count == 0) return;
+
         figureController.UpedFigure = figureController.FindFigure(TestAI.bestFigure, CurrentGameState);
         ApplyStepView(TestAI.bestCell, TestAI.bestFigure);
-    }
+        //StartNewStep();
+    }   
+
 
     private void SetFigViewForNewStep()
     {
