@@ -43,7 +43,6 @@ public class GameController : MonoBehaviour
         cellController.CreateCells(CurrentGameState);
         figureController.CreateFigures(CurrentGameState);
 
-
         cameraController.SwitchCamera(CameraViewType.inGame1);
 
         StartNewStep();
@@ -57,7 +56,6 @@ public class GameController : MonoBehaviour
         Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).figure;
 
         ApplyStepView(cell, figure);
-        //StartNewStep();
     }
 
     public void FigureOnClicked(FigureView figureView)
@@ -66,7 +64,6 @@ public class GameController : MonoBehaviour
         // И включаем подсказки (А так же BoxColiders у клеток, на которых включились подсказки)
 
         Figure selectFigure = CurrentGameState.GetCell(figureView.Pos).figure;
-
 
         if (selectFigure != null)
         {
@@ -105,8 +102,6 @@ public class GameController : MonoBehaviour
             figureController.EatFigureView(cell.figure, CurrentGameState);
         }
 
-        // Ошибка тут
-        //StartCoroutine(figureController.AnimateMoveFigure(figureController.UpedFigure, wayVectors));
         figureController.AnimateMoveFigure(figureController.UpedFigure, wayVectors);
         cellController.HideAllPrompts();
 
@@ -189,12 +184,10 @@ public class GameController : MonoBehaviour
 
     }
 
-    public async void StartNewStep()
+    public void StartNewStep()
     {
         // Новый ход
         ChangeSpeedCameraConroller();
-        // Проверка на то, что игра не зациклилась
-        //TestCheckImmutabilityGameState();
 
         if (CurrentGameState.EndGame == true)
         {
@@ -234,9 +227,8 @@ public class GameController : MonoBehaviour
     private void TestCheckNewGame()
     {
         if (IsFirstGame == false)
-        {
             DestroyAll();
-        }
+        
     }
 
    
@@ -324,9 +316,8 @@ public class GameController : MonoBehaviour
         figureController.OFFAllBoxColiders();
 
         if (CurrentGameState.GetPlayerType(CurrentGameState.NumberPlayerStep)  == PlayerType.Human)
-        {
             figureController.OnBoxColiders(CurrentGameState.NumberPlayerStep);
-        }
+        
     }
 
     private void SetCellViewForNewStep()
@@ -344,21 +335,6 @@ public class GameController : MonoBehaviour
     public Map CurrentGameState { get { return gameStates[gameStates.Count - 1]; } }
     public Map PreviousvGameState { get { return gameStates[gameStates.Count - 2]; } }
 
-
-
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            testLoad();
-        }
-
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            TestSerialization.Save(CurrentGameState);
-        }
-
-    }
 
     public void testLoad()
     {

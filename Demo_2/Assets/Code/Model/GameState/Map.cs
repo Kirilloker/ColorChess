@@ -227,11 +227,6 @@ namespace ColorChessModel
             int param11 = 1;
             int param12 = 32;
 
-
-
-
-
-
             foreach (var player in score)
             {
                 foreach (var cell in player.Value)
@@ -325,8 +320,6 @@ namespace ColorChessModel
             get { return countStep; }
             set { countStep = value; }
         }
-
-
 
     };
 }

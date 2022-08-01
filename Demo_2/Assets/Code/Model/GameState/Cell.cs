@@ -54,13 +54,13 @@ namespace ColorChessModel
 
             if (numberPlayerFigure == numberPlayer)
             {
-                if (require[0].ContainsKey(type) == true) { return require[0][type]; }
-                else { return false; }
+                if (require[0].ContainsKey(type) == true) return require[0][type];
+                else return false;
             }
             else
             {
-                if (require[1].ContainsKey(type) == true) { return require[1][type]; }
-                else { return false; }
+                if (require[1].ContainsKey(type) == true) return require[1][type]; 
+                else return false; 
             }
         }
 

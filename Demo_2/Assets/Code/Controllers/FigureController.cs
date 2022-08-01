@@ -25,13 +25,11 @@ public class FigureController : MonoBehaviour
         transformFigure = GameObject.FindWithTag("Figure").transform;
     }
 
-    //public IEnumerator AnimateMoveFigure(FigureView figure, List<Vector3> vectorWay)
     public void AnimateMoveFigure(FigureView figure, List<Vector3> vectorWay)
     {
         // Куратина нужна чтобы дождаться завершения хода и проиграть звук
         // Если выключена слабая графика то фигура просто с анимирует ход, иначе телепортируется
         if (LowGraphics == false)
-            //yield return StartCoroutine(figure.AnimateMove(vectorWay));
             StartCoroutine(figure.AnimateMove(vectorWay));
         else
             figure.Move(vectorWay[vectorWay.Count - 1]);
@@ -86,13 +84,9 @@ public class FigureController : MonoBehaviour
         if (figure.type == FigureType.Horse)
         {
             if (corner == CornerType.UpLeft || corner == CornerType.UpRight)
-            {
                 figureView.SetRotation(180);
-            }
             else
-            {
                 figureView.SetRotation(0);
-            }
         }
 
         figureGameObject.name = TypeToString.ToString(figure.type) + figure.Number;
@@ -107,9 +101,8 @@ public class FigureController : MonoBehaviour
         // Поднимаем выбранную 
 
         if (upedFigure != null)
-        {
             upedFigure.Down();
-        }
+        
 
         figureView.Up();
         upedFigure = figureView;
@@ -124,9 +117,7 @@ public class FigureController : MonoBehaviour
             foreach (FigureView figure in player)
             {
                 if (figure.Pos == figureModel.pos)
-                {
                     return figure;
-                }
             }
         }
 

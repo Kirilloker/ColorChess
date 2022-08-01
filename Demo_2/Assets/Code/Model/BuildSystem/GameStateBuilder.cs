@@ -125,6 +125,7 @@ namespace ColorChessModel
                         break;
                 }
             }
+
             return figureSet;
         }
 

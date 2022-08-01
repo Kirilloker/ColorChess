@@ -92,7 +92,7 @@ public class CellController : MonoBehaviour
         }
     }
 
-    public void OnBoxColidersForList(List<ColorChessModel.Cell> way)
+    public void OnBoxColidersForList(List<Cell> way)
     {
         OFFALLBoxColiders();
 

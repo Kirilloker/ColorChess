@@ -38,14 +38,9 @@ public class CellView : MonoBehaviour
     public void ShowPrompt()
     {
         if (FigureInCell == true)
-        {
             eatSignal.SetActive(true);
-        }
         else
-        {
             prompt.SetActive(true);
-        }
-        
     }
 
     public void HidePrompt()

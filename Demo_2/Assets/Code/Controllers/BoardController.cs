@@ -22,9 +22,8 @@ public class BoardController : MonoBehaviour
     public void CreateBoard(Map gameState)
     {
         if(board != null)
-        {
             GameObject.Destroy(board);
-        }
+        
 
         HideBoardDecor();
 
@@ -78,13 +77,6 @@ public class BoardController : MonoBehaviour
         GameObject.Destroy(board);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.B))
-        {
-            Destroy();
-        }
-    }
 
     public void HideBoardDecor()
     {

@@ -22,9 +22,8 @@ namespace ColorChessModel
 
             // Если в клетке в которую хотят сходить стоит фигура -> её хотят съесть
             if (endCell.figure != null)
-            {
                 gameState.KillFigure(endCell.figure);
-            }
+            
 
             List<Cell> Way = WayCalcSystem.CalcWay(gameState, newFigure.pos, endCell.pos, newFigure);
 
@@ -76,9 +75,7 @@ namespace ColorChessModel
 
                     if ((map.GetCell(i, j).type != CellType.Empty) &&
                         (map.GetCell(i, j).numberPlayer != -1))
-                    {
-                        MakeCapture(map, map.GetCell(i, j));
-                    }
+                    { MakeCapture(map, map.GetCell(i, j)); }
                 }
             }
         }
@@ -118,7 +115,6 @@ namespace ColorChessModel
                     Cell cell = map.GetCell(i, j);
 
                     score[cell.numberPlayer][cell.type] += 1;
-
                 }
             }
 
