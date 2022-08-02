@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using ColorChessModel;
 using System.Threading.Tasks;
+using System.IO;
+using Newtonsoft.Json;
 
 public class GameController : MonoBehaviour
 {
@@ -81,7 +83,7 @@ public class GameController : MonoBehaviour
         // Также меняем всё в Model 
         // И в конце запускаем новый шаг
 
-        Debug.Log(TestServerHelper.ConvertToJSON(step));
+        testStep = step;
 
         Figure figure = step.Figure;
         Cell cell = step.Cell;
@@ -104,7 +106,8 @@ public class GameController : MonoBehaviour
             figureController.EatFigureView(cell.figure, CurrentGameState);
         }
 
-        figureController.AnimateMoveFigure(figureController.UpedFigure, wayVectors);
+        //figureController.AnimateMoveFigure(figureController.UpedFigure, wayVectors);
+        figureController.AnimateMoveFigure(figureController.FindFigureView(figure, CurrentGameState), wayVectors);
         cellController.HideAllPrompts();
 
         DrawNewGameState();
@@ -302,7 +305,7 @@ public class GameController : MonoBehaviour
 
         if (gameStates.Count == 0) return;
 
-        figureController.UpedFigure = figureController.FindFigure(TestAI.bestFigure, CurrentGameState);
+        figureController.UpedFigure = figureController.FindFigureView(TestAI.bestFigure, CurrentGameState);
         ApplyStepView( new Step(TestAI.bestFigure, TestAI.bestCell));
         //StartNewStep();
     }   
@@ -351,6 +354,28 @@ public class GameController : MonoBehaviour
             cameraSpeed = cameraController.GetCameraSpeed();
             cameraController.SetCameraSpeed(0f);
         }
+    }
+
+    private Step testStep;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Debug.Log("Save Step");
+            StreamWriter file1 = File.CreateText("D://Github//GameColorChess//ColorChess//Demo_2//Assets//Code//SaveStep.json");
+            file1.WriteLine(TestServerHelper.ConvertToJSON(testStep));
+            file1.Close();
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Debug.Log("Load Step");
+            string data = File.ReadAllText("D://Github//GameColorChess//ColorChess//Demo_2//Assets//Code//SaveStep.json");
+            Debug.Log("step:" + data);
+            ApplyStepView(TestServerHelper.ConvertJSONtoSTEP(data));
+        }
+
     }
 
 }

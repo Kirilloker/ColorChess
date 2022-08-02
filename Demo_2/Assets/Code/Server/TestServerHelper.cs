@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Microsoft.AspNetCore.SignalR.Client;
 
 public class TestServerHelper
 {
@@ -15,6 +16,14 @@ public class TestServerHelper
     Игроки принимают этот ход и применяют его у себя (и возможно отправляют свою Map на проверку)
 
     */
+
+    HubConnection connection;
+    HubConnectionBuilder hubConnectionBuilder;
+
+    private void test()
+    {
+        connection.StartAsync();
+    }
 
     public static Map ConvertJSONtoMap(string JSON)
     {

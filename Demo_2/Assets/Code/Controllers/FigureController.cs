@@ -110,7 +110,7 @@ public class FigureController : MonoBehaviour
         gameController.FigureOnClicked(figureView);
     }
 
-    public FigureView FindFigure(Figure figureModel, Map gameState)
+    public FigureView FindFigureView(Figure figureModel, Map gameState)
     {
         foreach (List<FigureView> player in figures)
         {
@@ -130,7 +130,7 @@ public class FigureController : MonoBehaviour
         // Съедание фигуры
         // Удаляем из списка фигур и удаляем объект со сцены
 
-        FigureView figureView = FindFigure(figure, gameState);
+        FigureView figureView = FindFigureView(figure, gameState);
         figures[figure.Number].Remove(figureView);
         Destroy(figureView.gameObject);
     }
