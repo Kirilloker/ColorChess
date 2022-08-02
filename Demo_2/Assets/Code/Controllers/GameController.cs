@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ColorChessModel;
-using System.Threading;
-using System;
 using System.Threading.Tasks;
 
 public class GameController : MonoBehaviour
@@ -55,7 +52,7 @@ public class GameController : MonoBehaviour
         Cell cell = CurrentGameState.GetCell(cellView.Pos);
         Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).figure;
 
-        ApplyStepView(cell, figure);
+        ApplyStepView(new Step(figure, cell));
     }
 
     public void FigureOnClicked(FigureView figureView)
@@ -77,12 +74,17 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void ApplyStepView(Cell cell, Figure figure)
+    public void ApplyStepView(Step step)
     {
         // Применяем ход - отображаем всё в Unity
         // Получаем массив пути - запускаем анимацию фигуры по этому пути и перекрашиваем клеткти
         // Также меняем всё в Model 
         // И в конце запускаем новый шаг
+
+        Debug.Log(TestServerHelper.ConvertToJSON(step));
+
+        Figure figure = step.Figure;
+        Cell cell = step.Cell;
 
         List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.pos, cell.pos, figure);
 
@@ -228,7 +230,6 @@ public class GameController : MonoBehaviour
     {
         if (IsFirstGame == false)
             DestroyAll();
-        
     }
 
    
@@ -302,7 +303,7 @@ public class GameController : MonoBehaviour
         if (gameStates.Count == 0) return;
 
         figureController.UpedFigure = figureController.FindFigure(TestAI.bestFigure, CurrentGameState);
-        ApplyStepView(TestAI.bestCell, TestAI.bestFigure);
+        ApplyStepView( new Step(TestAI.bestFigure, TestAI.bestCell));
         //StartNewStep();
     }   
 
