@@ -1,9 +1,6 @@
 ﻿using ColorChessModel;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using UnityEngine;
-using Microsoft.AspNetCore.SignalR.Client;
 
 public class TestServerHelper
 {
@@ -17,13 +14,7 @@ public class TestServerHelper
 
     */
 
-    HubConnection connection;
-    HubConnectionBuilder hubConnectionBuilder;
 
-    private void test()
-    {
-        connection.StartAsync();
-    }
 
     public static Map ConvertJSONtoMap(string JSON)
     {
