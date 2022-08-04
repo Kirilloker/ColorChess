@@ -1,6 +1,8 @@
-﻿using ColorChessModel;
-using Newtonsoft.Json;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
+using ColorChessModel;
+using Newtonsoft.Json;
 
 public class TestServerHelper
 {
@@ -13,7 +15,6 @@ public class TestServerHelper
     Игроки принимают этот ход и применяют его у себя (и возможно отправляют свою Map на проверку)
 
     */
-
 
 
     public static Map ConvertJSONtoMap(string JSON)
@@ -46,7 +47,8 @@ public class TestServerHelper
 
 
     static Map myMap;
-    public static bool TestCheckStep(string _step, string _map)
+    static Map newMap;
+    public static bool NormalStep(string _step, string _map)
     {
         Step step = ConvertJSONtoSTEP(_step);
         Map map = ConvertJSONtoMap(_map);
@@ -54,27 +56,38 @@ public class TestServerHelper
         if (step.IsReal(myMap) == false)
             return false;
 
-        Map newMap = GameStateCalcSystem.ApplyStep(myMap, step.Figure, step.Cell);
+        newMap = GameStateCalcSystem.ApplyStep(myMap, step.Figure, step.Cell);
 
         if (myMap != map)
             return false;
 
         return true;
     }
-    
+
 
     public static void TestServerStep()
     {
         string step = "Step JSON";
         string map = "Map JSON";
 
-        if (TestCheckStep(step, map) == true)
+        if (NormalStep(step, map) == true)
         {
+            // Если такой ход можно сделать, тогда приравнимаем Map которая хранится на сервере с этой новой картой
 
+            int NumberWhoStep = myMap.PlayersCount;
+
+            myMap = new Map(newMap);
+
+            for (int i = 0; i < myMap.PlayersCount; i++)
+            {
+                if (i == NumberWhoStep) continue;
+
+                //SendStepPlayer(i, step);
+            }
         }
         else
         {
-            DebugConsole.Print("Что-то пошло не так");
+            DebugConsole.Print("Карта не совпала с сервером!");
         }
     }
 
@@ -87,6 +100,7 @@ public class Step
 
     public Step(Figure _figure, Cell _cell)
     {
+        // Тут надо что-то сделать но пока не очень понятно
         this.figure = _figure;
         this.cell = _cell;
     }
