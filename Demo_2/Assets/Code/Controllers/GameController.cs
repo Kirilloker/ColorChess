@@ -1,6 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ColorChessModel;
+using System.Threading;
+using System;
 using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
@@ -54,7 +57,7 @@ public class GameController : MonoBehaviour
         Cell cell = CurrentGameState.GetCell(cellView.Pos);
         Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).figure;
 
-        ApplyStepView(new Step(figure, cell));
+        ApplyStepView(cell, figure);
     }
 
     public void FigureOnClicked(FigureView figureView)
@@ -76,18 +79,21 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void ApplyStepView(Step step)
+    public void ApplyStepView(Cell cell, Figure figure)
     {
         // Применяем ход - отображаем всё в Unity
         // Получаем массив пути - запускаем анимацию фигуры по этому пути и перекрашиваем клеткти
         // Также меняем всё в Model 
         // И в конце запускаем новый шаг
 
+<<<<<<< HEAD
         testStep = step;
 
         Figure figure = step.Figure;
         Cell cell = step.Cell;
 
+=======
+>>>>>>> parent of 4617a64 (Step class)
         List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.pos, cell.pos, figure);
 
         Map map = GameStateCalcSystem.ApplyStep(CurrentGameState, figure, cell);
@@ -233,6 +239,7 @@ public class GameController : MonoBehaviour
     {
         if (IsFirstGame == false)
             DestroyAll();
+        
     }
 
    
@@ -305,8 +312,13 @@ public class GameController : MonoBehaviour
 
         if (gameStates.Count == 0) return;
 
+<<<<<<< HEAD
         figureController.UpedFigure = figureController.FindFigureView(TestAI.bestFigure, CurrentGameState);
         ApplyStepView( new Step(TestAI.bestFigure, TestAI.bestCell));
+=======
+        figureController.UpedFigure = figureController.FindFigure(TestAI.bestFigure, CurrentGameState);
+        ApplyStepView(TestAI.bestCell, TestAI.bestFigure);
+>>>>>>> parent of 4617a64 (Step class)
         //StartNewStep();
     }   
 

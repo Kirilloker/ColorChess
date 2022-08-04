@@ -14,16 +14,16 @@ namespace ColorChessModel
 
         public static Map ApplyStep(Map _gameState, Figure figure, Cell endCell)
         {
-            if (_gameState.NumberPlayerStep != figure.Number) return _gameState;
-
             Map gameState = new Map(_gameState);
 
             // Получаем ссылку на новую фигуру, которая делает ход (потому что создалась копия карты)
             Figure newFigure = gameState.GetCell(figure.pos).figure;
 
+
             // Если в клетке в которую хотят сходить стоит фигура -> её хотят съесть
             if (endCell.figure != null)
                 gameState.KillFigure(endCell.figure);
+            
 
             List<Cell> Way = WayCalcSystem.CalcWay(gameState, newFigure.pos, endCell.pos, newFigure);
 
@@ -36,6 +36,7 @@ namespace ColorChessModel
             Way[0].figure = null;
             Way[Way.Count - 1].figure = newFigure;
             newFigure.pos = new Position(endCell.pos);
+
 
             UpdateGameState(gameState);
 
