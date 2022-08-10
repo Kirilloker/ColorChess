@@ -15,6 +15,7 @@ public class Server : MonoBehaviour
 {
     private const string DefaultGameServerUrl = "ws://127.0.0.1:7890/DefaultGame";
     private WebSocket ws;
+    private GameController gameController;
 
     void Start()
     {
@@ -27,7 +28,7 @@ public class Server : MonoBehaviour
         ws.Send("0WannaPlay");
     }
 
-    public void OpenConnection(string url)
+    private void OpenConnection(string url)
     {
         if (ws != null)
         {
