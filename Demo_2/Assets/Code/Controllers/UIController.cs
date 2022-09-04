@@ -22,6 +22,7 @@ public class UIController : MonoBehaviour
         gameController.SelectGameMode(GameModeType.Network);
     }
 
+
     public void StartGame()
     {
         gameController.StartGame();

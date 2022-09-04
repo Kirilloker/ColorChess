@@ -26,12 +26,20 @@ public class GameController : MonoBehaviour
     private BoardController boardController;
     [SerializeField]
     private AudioController audioController;
+    [SerializeField]
+    private Server server;
 
     private bool IsFirstGame = true;
 
     private float cameraSpeed;
 
+    
+
     public void StartGame()
+    {
+        StartGame(gameStateBuilder.CreateGameState());
+    }
+    public void StartGame(Map map)
     {
         // Начало игры 
         // Создаем Доску Клетки и Игроков
@@ -39,7 +47,7 @@ public class GameController : MonoBehaviour
         // Проверяем не было ли игры до этого - если да - удаляем старую доску
         TestCheckNewGame();
 
-        gameStates.Add(gameStateBuilder.CreateGameState());
+        gameStates.Add(map);
 
         boardController.CreateBoard(CurrentGameState);
         cellController.CreateCells(CurrentGameState);
@@ -85,6 +93,18 @@ public class GameController : MonoBehaviour
         // Получаем массив пути - запускаем анимацию фигуры по этому пути и перекрашиваем клеткти
         // Также меняем всё в Model 
         // И в конце запускаем новый шаг
+
+        bool itServer = false;
+
+        foreach (var player in CurrentGameState.Players)
+        {
+            if (player.type == PlayerType.Online) itServer = true;
+        }
+
+        if (itServer)
+        {
+            server.SendStep(step);
+        }
 
         Figure figure = step.Figure;
         Cell cell = step.Cell;

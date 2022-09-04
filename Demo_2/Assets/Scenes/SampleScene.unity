@@ -3678,7 +3678,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.282995, y: 1}
+    m_SensorSize: {x: 2.3227446, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3970,7 +3970,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.282995, y: 1}
+    m_SensorSize: {x: 2.3227446, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3986,7 +3986,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 606196812}
-  m_LocalRotation: {x: 0.18531275, y: 0.0729409, z: -0.013794541, w: 0.9798717}
+  m_LocalRotation: {x: 0.18531273, y: 0.07294087, z: -0.013794533, w: 0.9798717}
   m_LocalPosition: {x: -17.0628, y: 22.263765, z: -32.748226}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4721,7 +4721,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.282995, y: 1}
+    m_SensorSize: {x: 2.3227446, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -5768,9 +5768,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 47.91047
+  near clip plane: 0.1
+  far clip plane: 5000
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -5795,8 +5795,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.64, y: 29.77, z: 27.38}
+  m_LocalRotation: {x: 0.18531273, y: 0.07294087, z: -0.013794533, w: 0.9798717}
+  m_LocalPosition: {x: -15.6628, y: 22.023766, z: -32.788227}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7920,6 +7920,7 @@ MonoBehaviour:
   cameraController: {fileID: 1437861948}
   boardController: {fileID: 2102268947}
   audioController: {fileID: 9392454}
+  server: {fileID: 1631649716}
 --- !u!4 &1370483317
 Transform:
   m_ObjectHideFlags: 0
@@ -8553,7 +8554,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.282995, y: 1}
+    m_SensorSize: {x: 2.3227446, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -8591,6 +8592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c8c511f3b49094ab5ea85fae0ba68b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameController: {fileID: 1370483316}
 --- !u!4 &1631649717
 Transform:
   m_ObjectHideFlags: 0
@@ -8850,7 +8852,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1708793869}
-  m_LocalRotation: {x: -0.002605043, y: 0.71928716, z: -0.69470274, w: -0.0026972312}
+  m_LocalRotation: {x: -0.002604773, y: 0.71928716, z: -0.69470274, w: -0.0026969519}
   m_LocalPosition: {x: 0, y: 13, z: 9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8888,7 +8890,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.282995, y: 1}
+    m_SensorSize: {x: 2.3227446, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -9867,7 +9869,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.282995, y: 1}
+    m_SensorSize: {x: 2.3227446, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -11511,7 +11513,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2061567043
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11977,8 +11979,6 @@ GameObject:
   - component: {fileID: 2130899953}
   - component: {fileID: 2130899952}
   - component: {fileID: 2130899951}
-  - component: {fileID: 2130899950}
-  - component: {fileID: 2130899949}
   m_Layer: 5
   m_Name: Search
   m_TagString: Untagged
@@ -12007,30 +12007,6 @@ RectTransform:
   m_AnchoredPosition: {x: -1.6, y: 4.4}
   m_SizeDelta: {x: 27.004, y: 16.5956}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2130899949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2130899947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6fe328d3b22de246bb27ecda23fa3ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2130899950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2130899947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70aa9d0d7c9aea240958f5798e64f26e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2130899951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12075,9 +12051,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2130899950}
-        m_TargetAssemblyTypeName: test_server, Assembly-CSharp
-        m_MethodName: create_play_session
+      - m_Target: {fileID: 1631649716}
+        m_TargetAssemblyTypeName: Server, Assembly-CSharp
+        m_MethodName: ConnectToDefaultGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12086,30 +12062,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2061567042}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1003644697}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &2130899952
 MonoBehaviour:
@@ -16945,7 +16897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5363384845923508521
 Transform:
   m_ObjectHideFlags: 0
