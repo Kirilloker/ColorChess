@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ColorChessModel;
 using Newtonsoft.Json;
 
-static public class TestServerHelper
+static public class JsonConverter
 {
     /*
     Игрок1 делает ход - отправляет класс Step(figure, cell) и свою Map (после сделанного хода)
@@ -42,19 +42,7 @@ static public class TestServerHelper
         new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
     }
 
-    public static Map VerifyAndApplyStep(string _step, Map _map)
-    {
-        Step step = ConvertJSONtoSTEP(_step);
 
-        if (step.IsReal(_map) == false)
-        {
-            return null;
-        }
-
-
-        Map newMap = GameStateCalcSystem.ApplyStep(_map, step.Figure, step.Cell);
-        return newMap;
-    }
 }
 
 public class Step

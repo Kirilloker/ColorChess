@@ -30,8 +30,8 @@ public class Room
             map = gameStateBuilder.CreateGameState();
 
             //Формируем сообщения и отправляем игрокам
-            string msgToPlayer1 = "1" + TestServerHelper.ConvertToJSON(map.ConvertMapToPlayer(0));
-            string msgToPlayer2 = "1" + TestServerHelper.ConvertToJSON(map.ConvertMapToPlayer(1));
+            string msgToPlayer1 = "1" + JsonConverter.ConvertToJSON(map.ConvertMapToPlayer(0));
+            string msgToPlayer2 = "1" + JsonConverter.ConvertToJSON(map.ConvertMapToPlayer(1));
             connectionsHub.SendMessageTo(msgToPlayer1, player1ID);
             connectionsHub.SendMessageTo(msgToPlayer2, player2ID);
         });
@@ -45,11 +45,11 @@ public class Room
             {
                 if (map.NumberPlayerStep == 0)
                 {
-                    Map newMap = TestServerHelper.VerifyAndApplyStep(step, map);
+                    Map newMap = VerifyAndApplyStep(step, map);
                     if((Object)newMap != null)
                     {
                         map = newMap;
-                        Task.Run(() => { connectionsHub.SendMessageTo("2" + step, player2ID); });
+                        connectionsHub.SendMessageTo("2" + step, player2ID);
                         if (newMap.EndGame) CloseRoom();
                     }
                     else
@@ -62,11 +62,11 @@ public class Room
             {
                 if (map.NumberPlayerStep == 1)
                 {
-                    Map newMap = TestServerHelper.VerifyAndApplyStep(step, map);
+                    Map newMap = VerifyAndApplyStep(step, map);
                     if ((Object)newMap != null)
                     {
                         map = newMap;
-                        Task.Run(() => { connectionsHub.SendMessageTo("2" + step, player1ID); });
+                        connectionsHub.SendMessageTo("2" + step, player1ID);
                         if (newMap.EndGame) CloseRoom();
                     }
                     else
@@ -78,6 +78,20 @@ public class Room
            
         });
     }
+
+    private  Map VerifyAndApplyStep(string _step, Map _map)
+    {
+        Step step = JsonConverter.ConvertJSONtoSTEP(_step);
+
+        if (step.IsReal(_map) == false)
+        {
+            return null;
+        }
+
+        Map newMap = GameStateCalcSystem.ApplyStep(_map, step.Figure, step.Cell);
+        return newMap;
+    }
+
 
     public async void CloseRoom()
     {
