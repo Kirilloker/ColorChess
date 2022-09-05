@@ -65,6 +65,13 @@ public class GameController : MonoBehaviour
         Cell cell = CurrentGameState.GetCell(cellView.Pos);
         Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).figure;
 
+
+
+        if (ItServer && CurrentGameState.EndGame == false)
+        {
+            server.SendStep(new Step(figure, cell));
+        }
+
         ApplyStepView(new Step(figure, cell));
     }
 
@@ -94,17 +101,6 @@ public class GameController : MonoBehaviour
         // Также меняем всё в Model 
         // И в конце запускаем новый шаг
 
-        bool itServer = false;
-
-        foreach (var player in CurrentGameState.Players)
-        {
-            if (player.type == PlayerType.Online) itServer = true;
-        }
-
-        if (itServer)
-        {
-            server.SendStep(step);
-        }
 
         Figure figure = step.Figure;
         Cell cell = step.Cell;
@@ -269,6 +265,8 @@ public class GameController : MonoBehaviour
 
     public void EndGame()
     {
+        if (ItServer == true) server.CloseConnection();
+
         // Конец игры
         Debug.Log("Конец игры");
         cameraController.SetCameraSpeed(cameraSpeed);
@@ -397,6 +395,19 @@ public class GameController : MonoBehaviour
             ApplyStepView(TestServerHelper.ConvertJSONtoSTEP(data));
         }
 
+    }
+
+    private bool ItServer { get 
+        {
+            bool itServer = false;
+
+            foreach (var player in CurrentGameState.Players)
+            {
+                if (player.type == PlayerType.Online) itServer = true;
+            }
+
+            return itServer;
+        } 
     }
 
 }

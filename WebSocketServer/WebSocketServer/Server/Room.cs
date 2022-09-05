@@ -49,8 +49,8 @@ public class Room
                     if((Object)newMap != null)
                     {
                         map = newMap;
-                        connectionsHub.SendMessageTo("2" + step, player2ID);
-                        Console.WriteLine("I rely step!");
+                        Task.Run(() => { connectionsHub.SendMessageTo("2" + step, player2ID); });
+                        if (newMap.EndGame) CloseRoom();
                     }
                     else
                     {
@@ -66,8 +66,8 @@ public class Room
                     if ((Object)newMap != null)
                     {
                         map = newMap;
-                        connectionsHub.SendMessageTo("2" + step, player1ID);
-                        Console.WriteLine("I rely step!");
+                        Task.Run(() => { connectionsHub.SendMessageTo("2" + step, player1ID); });
+                        if (newMap.EndGame) CloseRoom();
                     }
                     else
                     {
@@ -76,6 +76,15 @@ public class Room
                 }
             }
            
+        });
+    }
+
+    public async void CloseRoom()
+    {
+        await Task.Run(() =>
+        {
+            DefaultGameRoomManager.DeleteRoom(player1ID, player2ID);
+            
         });
     }
 }

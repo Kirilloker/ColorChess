@@ -15,7 +15,8 @@ enum MessageType
 
 public class Server : MonoBehaviour
 {
-    private const string DefaultGameServerUrl = "ws://127.0.0.1:7890/DefaultGame";
+    //private const string DefaultGameServerUrl = "ws://127.0.0.1:7890/DefaultGame";
+    private const string DefaultGameServerUrl = "ws://192.168.0.42:7890/DefaultGame";
     private WebSocket ws;
    
     

@@ -38,6 +38,15 @@ static public class DefaultGameRoomManager
         }
     }
 
+    static public void DeleteRoom(string playerId1, string playerId2)
+    {
+        lock (locker)
+        {
+           rooms.Remove(playerId1);
+           rooms.Remove(playerId2);
+        }
+    }
+
     static public void SendPlayerStepToRoom(string playerID, string step)
     {
         rooms[playerID].ApplyPlayerStep(playerID, step); 
