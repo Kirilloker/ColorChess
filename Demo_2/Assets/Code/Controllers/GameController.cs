@@ -69,7 +69,10 @@ public class GameController : MonoBehaviour
 
         if (ItServer && CurrentGameState.EndGame == false)
         {
-            server.SendStep(new Step(figure, cell));
+            //server.SendStep(new Step(figure, cell));
+            var signalRClient = GameObject.Find("SignalRClient").GetComponent<SignalRClient>();
+            //signalRClient.SendChat("Hello World");
+            signalRClient.SendChat(TestServerHelper.ConvertToJSON(new Step(figure, cell)));
         }
 
         ApplyStepView(new Step(figure, cell));
