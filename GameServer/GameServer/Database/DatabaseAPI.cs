@@ -305,6 +305,9 @@ public static class DB
         }
     }
 
+    /// <summary>
+    /// Добавление комнаты
+    /// </summary>
     public static void AddRoom(int user1Id, int user2Id, string map)
     {
         using (ColorChessContext db = new ColorChessContext())
@@ -351,6 +354,23 @@ public static class DB
             try
             {
                 User user = db.Users.Where(b => b.Id == userId).ToList()[0];
+                user.Name = newName;
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error: " + Error.NotFound);
+            }
+        }
+    }
+
+    public static void ChangeRoom(int userId, string map)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                List<Room> rooms = db.Rooms.Where(b => b.User1Id = userId);
                 user.Name = newName;
                 db.SaveChanges();
             }

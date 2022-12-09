@@ -15,7 +15,7 @@ public class SignarRTest : MonoBehaviour
     private async void test()
     {
         var connection = new HubConnectionBuilder()
-               .WithUrl("http://192.168.1.38:11000/Chat")
+               .WithUrl("http://192.168.1.38:11000/Game")
                .Build();
         try
         {
