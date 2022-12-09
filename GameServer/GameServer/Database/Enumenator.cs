@@ -6,7 +6,9 @@
     public static readonly string NotFoundOpponent = "Not Found Opponent";
     public static readonly string NotFoundEnum = "Not Found Enum";
     public static readonly string UserExist = "This user exist";
+    public static readonly string RoomExist = "This room exist";
     public static readonly string UserStatisticExist = "This user statistic exist";
+    public static readonly string UserInLobbyExist = "This user in Lobby exist";
 }
 
 public enum AttributeUS

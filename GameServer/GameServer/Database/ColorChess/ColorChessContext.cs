@@ -13,6 +13,7 @@ namespace FirstEF6App
 		public DbSet<User> Users { get; set; }
 		public DbSet<GameStatistic> GameStatistics { get; set; }
 		public DbSet<UserStatistic> UserStatistics { get; set; }
-		public DbSet<Lobby> Lobby { get; set; }
+		public DbSet<Lobby> Lobbies { get; set; }
+		public DbSet<Room> Rooms { get; set; }
 	}
 }

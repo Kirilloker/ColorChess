@@ -8,9 +8,7 @@ public class GameStatistic
     public int Player2Score { get; set; }
     public DateTime Date { get; set; }
 
-
     public int User1Id { get; set; }
     public int User2Id { get; set; }
-    //public User Player1 { get; set; }
-    //public User Player2 { get; set; }
+
 }

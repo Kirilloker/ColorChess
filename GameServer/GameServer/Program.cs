@@ -1,5 +1,3 @@
-Console.WriteLine(DB.GetUser("kolinka"));
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSignalR();
