@@ -8,6 +8,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSignalR();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -42,9 +43,8 @@ var app = builder.Build();
 
 app.MapPost("/login", () =>
 {
-    var user = "��� �� ��� ����� � ��";
+    var user = "Data from db";
 
-    //���� �� ����� ������������
     if (user is null) return Results.Unauthorized();
 
     var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, "name from db") };
