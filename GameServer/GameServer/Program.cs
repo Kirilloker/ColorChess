@@ -8,6 +8,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSignalR();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -39,13 +40,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapPost("/login", () =>
 {
-    var user = "��� �� ��� ����� � ��";
+    //var user = "Data from db";
 
-    //���� �� ����� ������������
-    if (user is null) return Results.Unauthorized();
+    //if (user is null) return Results.Unauthorized();
 
     var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, "name from db") };
 
@@ -68,4 +70,4 @@ app.MapPost("/login", () =>
 app.MapHub<GameHub>("/Game");
 
 
-app.Run("http://localhost:11000");
+app.Run("http://192.168.1.38:11000");
