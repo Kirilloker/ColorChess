@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using GameServer.GameServer;
+using Microsoft.AspNetCore.Authorization;
 
-public class ChatHub : Hub
+
+[Authorize]
+public class GameHub : Hub
 {
     public async Task SendSomeStr(string message)
     {
