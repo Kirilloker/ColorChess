@@ -339,6 +339,15 @@ public static class DB
             }
         }
     }
+
+
+    /// <summary>
+    /// Добавление комнаты
+    /// </summary>
+    public static void AddRoom(User user1, User user2, string map) 
+    {
+        AddRoom(user1.Id, user2.Id, map);
+    }
     #endregion
 
     #region Changes
@@ -364,21 +373,43 @@ public static class DB
         }
     }
 
+    /// <summary>
+    /// Изменяет Map в Room
+    /// </summary>
     public static void ChangeRoom(int userId, string map)
     {
         using (ColorChessContext db = new ColorChessContext())
         {
             try
             {
-                List<Room> rooms = db.Rooms.Where(b => b.User1Id = userId);
-                user.Name = newName;
-                db.SaveChanges();
+                List<Room> rooms = db.Rooms
+                    .Where(b => b.User1Id == userId || b.User2Id == userId)
+                    .ToList();
+
+                if (rooms.Count == 1) 
+                {
+                    Room room = rooms[0];
+                    room.Map = map;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    Console.WriteLine("Error: " + Error.Unknown);
+                }
             }
             catch (Exception)
             {
                 Console.WriteLine("Error: " + Error.NotFound);
             }
         }
+    }
+
+    /// <summary>
+    /// Изменяет Map в Room
+    /// </summary>
+    public static void ChangeRoom(User user, string map) 
+    {
+        ChangeRoom(user.Id, map);
     }
 
     /// <summary>
@@ -453,7 +484,6 @@ public static class DB
 
     #endregion
 
-
     #region Delete
 
     /// <summary>
@@ -477,8 +507,6 @@ public static class DB
         }
     }
 
-
-
     /// <summary>
     /// Удаляет пользователя из лобби 
     /// </summary>
@@ -488,8 +516,31 @@ public static class DB
         DeleteUserInLobby(user.Id);
     }
 
-    #endregion
+    /// <summary>
+    /// Удаляет все комнаты связанные с пользователем
+    /// </summary>
+    public static void DeleteRoom(int userId)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                List<Room> rooms = db.Rooms.Where(b => b.User1Id == userId || b.User2Id == userId).ToList();
 
+                db.Rooms.RemoveRange(rooms);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error: " + Error.NotFound);
+            }
+        }
+    }
+
+
+
+
+    #endregion
 
     #region Clear
 
@@ -576,9 +627,30 @@ public static class DB
             }
         }
     }
+
+    /// <summary>
+    /// Очишает таблицу Room
+    /// </summary>
+    public static void ClearRoom()
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                List<Room> rooms = db.Rooms.ToList();
+
+                db.Rooms.RemoveRange(rooms);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error: " + Error.Unknown);
+            }
+        }
+    }
     #endregion
 
-
+    #region Another Function
     /// <summary>
     /// Поиск противника для пользователя
     /// </summary>
@@ -671,8 +743,6 @@ public static class DB
         }
     }
 
-
-
-
+    #endregion
 
 }
