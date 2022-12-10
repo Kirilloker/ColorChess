@@ -73,9 +73,9 @@ app.UseEndpoints(endpoints =>
         User user = DB.GetUser(name);
 
         if (user is null) return Results.Unauthorized();
-        if(user.Password != password) return Results.Unauthorized();
+        if (user.Password != password) return Results.Unauthorized();
 
-        var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), new Claim(ClaimTypes.UserData, name), new Claim(ClaimTypes.UserData, password)};
+        var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), new Claim(ClaimTypes.UserData, name), new Claim(ClaimTypes.UserData, password) };
 
 
         var jwt = new JwtSecurityToken(
@@ -94,4 +94,5 @@ app.UseEndpoints(endpoints =>
 });
 
 
-app.Run("http://192.168.1.38:11000");
+app.Run("http://192.168.1.116:11000");
+

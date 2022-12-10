@@ -15,9 +15,10 @@ public static class DB
             {
                 return db.Users.Where(b => b.Id == userID).ToList()[0];
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetUser: " + Error.NotFound);
                 return null;
             }
         }
@@ -35,9 +36,10 @@ public static class DB
             {
                 return db.Users.Where(b => b.Name == userName).ToList()[0];
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetUser: " + Error.NotFound);
                 return null;
             }
         }
@@ -55,9 +57,10 @@ public static class DB
             {
                 return db.Users.Where(b => b.Id == userID).ToList()[0].Name;
             }
-            catch 
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetNameUser: " + Error.NotFound);
                 return Error.NotFound;
             }
         }
@@ -74,9 +77,10 @@ public static class DB
             {
                 return db.Users.Where(b => b.Id == userID).ToList()[0].Password;
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetPasswordUser: " + Error.NotFound);
                 return Error.NotFound;
             }
         }
@@ -101,9 +105,10 @@ public static class DB
             {
                 return db.Users.Where(b => b.Name == name).ToList()[0].Password;
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetPasswordUser: " + Error.NotFound);
                 return Error.NotFound;
             }
         }
@@ -120,9 +125,10 @@ public static class DB
             {
                 return db.UserStatistics.Where(b => b.UserId == userId).ToList()[0];
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetUserStatistic: " + Error.NotFound);
                 return null;
             }
         }
@@ -151,9 +157,10 @@ public static class DB
             {
                 return db.GameStatistics.Where(b => (b.User2Id == userId || b.User1Id == userId)).ToList();
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetGameStatisticUser: " + Error.NotFound);
                 return null;
             }
         }
@@ -178,9 +185,10 @@ public static class DB
             {
                 return db.Lobbies.Where(b => (b.UserId == userId)).ToList()[0];
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetLobby: " + Error.NotFound);
                 return null;
             }
         }
@@ -206,9 +214,10 @@ public static class DB
             {
                 return db.Rooms.Where(b => (b.User2Id == userId || b.User1Id == userId)).ToList()[0];
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetRoom: " + Error.NotFound);
                 return null;
             }
         }
@@ -233,9 +242,10 @@ public static class DB
             {
                 return db.Users.ToList();
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetAllUser: " + Error.Unknown);
                 return null;
             }
         }
@@ -252,9 +262,10 @@ public static class DB
             {
                 return db.UserStatistics.ToList();
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetAllUserStatistic: " + Error.Unknown);
                 return null;
             }
         }
@@ -271,9 +282,10 @@ public static class DB
             {
                 return db.GameStatistics.ToList();
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetAllGameStatistic: " + Error.Unknown);
                 return null;
             }
         }
@@ -290,9 +302,10 @@ public static class DB
             {
                 return db.Lobbies.ToList();
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetAllLobby: " + Error.Unknown);
                 return null;
             }
         }
@@ -309,9 +322,10 @@ public static class DB
             {
                 return db.Rooms.ToList();
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetAllRoom: " + Error.Unknown);
                 return null;
             }
         }
@@ -340,13 +354,14 @@ public static class DB
                 }
                 else
                 {
-                    Console.WriteLine("Error: " + Error.UserExist);
+                    Console.WriteLine("Error AddUser: " + Error.UserExist);
                 }
 
             }
-            catch 
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error AddUser: " + Error.Unknown);
             }
         }
     }
@@ -387,13 +402,14 @@ public static class DB
                 }
                 else
                 {
-                    Console.WriteLine("Error: " + Error.UserStatisticExist);
+                    Console.WriteLine("Error AddUserStatistic: " + Error.UserStatisticExist);
                 }
 
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error AddUserStatistic: " + Error.Unknown);
             }
         }
     }
@@ -426,13 +442,14 @@ public static class DB
                 }
                 else
                 {
-                    Console.WriteLine("Error: " + Error.UserInLobbyExist);
+                    Console.WriteLine("Error AddUserInLobby: " + Error.UserInLobbyExist);
                 }
 
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error AddUserInLobby: " + Error.Unknown);
             }
 
         }
@@ -472,9 +489,10 @@ public static class DB
                 db.GameStatistics.Add(statistic);
                 db.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error AddGameStatistic: " + Error.Unknown);
             }
         }
     }
@@ -503,13 +521,14 @@ public static class DB
                 }
                 else
                 {
-                    Console.WriteLine("Error: " + Error.RoomExist);
+                    Console.WriteLine("Error AddRoom: " + Error.RoomExist);
                 }
 
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error AddRoom: " + Error.Unknown);
             }
         }
     }
@@ -540,9 +559,10 @@ public static class DB
                 user.Name = newName;
                 db.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error ChangeNameUser: " + Error.NotFound);
             }
         }
     }
@@ -568,12 +588,13 @@ public static class DB
                 }
                 else
                 {
-                    Console.WriteLine("Error: " + Error.Unknown);
+                    Console.WriteLine("Error ChangeRoom: " + Error.Unknown);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error ChangeRoom: " + Error.NotFound);
             }
         }
     }
@@ -599,9 +620,10 @@ public static class DB
                 user.Name = newName;
                 db.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error ChangeNameUser: " + Error.NotFound);
             }
         }
     }
@@ -635,15 +657,16 @@ public static class DB
                         userStatistic.Rate += value;
                         break;
                     default:
-                        Console.WriteLine("Error: " + Error.UnknownAttribute);
+                        Console.WriteLine("Error ChangeUserStatistic: " + Error.UnknownAttribute);
                         break;
                 }
 
                 db.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error ChangeUserStatistic: " + Error.Unknown);
             }
         }
     }
@@ -674,9 +697,10 @@ public static class DB
                 db.Lobbies.RemoveRange(lobbies);
                 db.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error DeleteUserInLobby: " + Error.NotFound);
             }
         }
     }
@@ -704,9 +728,10 @@ public static class DB
                 db.Rooms.RemoveRange(rooms);
                 db.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.NotFound);
+                Console.WriteLine(e);
+                Console.WriteLine("Error DeleteRoom: " + Error.NotFound);
             }
         }
     }
@@ -732,9 +757,10 @@ public static class DB
                 db.Lobbies.RemoveRange(lobbies);
                 db.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error ClearLobby: " + Error.Unknown);
             }
         }
     }
@@ -753,9 +779,10 @@ public static class DB
                 db.Users.RemoveRange(users);
                 db.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error ClearUsers: " + Error.Unknown);
             }
         }
     }
@@ -776,7 +803,7 @@ public static class DB
             }
             catch (Exception)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine("Error ClearUserStatistics: " + Error.Unknown);
             }
         }
     }
@@ -795,9 +822,10 @@ public static class DB
                 db.GameStatistics.RemoveRange(gameStatisitcs);
                 db.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error ClearGameStatistics: " + Error.Unknown);
             }
         }
     }
@@ -816,9 +844,10 @@ public static class DB
                 db.Rooms.RemoveRange(rooms);
                 db.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Error: " + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error ClearRoom: " + Error.Unknown);
             }
         }
     }
@@ -878,7 +907,7 @@ public static class DB
                                 }
                             }
 
-                            Console.WriteLine("Error:" + Error.NotFoundOpponent);
+                            Console.WriteLine("Error SearchOpponent:" + Error.NotFoundOpponent);
                             return -1;
                         }
                         else if (userLobby.GameMode == GameMode.Default)
@@ -887,14 +916,14 @@ public static class DB
                         }
                         else
                         {
-                            Console.WriteLine("Error:" + Error.NotFoundEnum);
+                            Console.WriteLine("Error SearchOpponent:" + Error.NotFoundEnum);
                             return -1;
                         }
 
                     }
                     else
                     {
-                        Console.WriteLine("Error:" + Error.NotFound);
+                        Console.WriteLine("Error SearchOpponent:" + Error.NotFound);
                         return -1;
                     }
                 }
@@ -905,13 +934,14 @@ public static class DB
                 }
                 else
                 {
-                    Console.WriteLine("Error:" + Error.NotFound);
+                    Console.WriteLine("Error SearchOpponent:" + Error.NotFound);
                     return -1;
                 }
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error:" + Error.Unknown);
+                Console.WriteLine(e);
+                Console.WriteLine("Error SearchOpponent:" + Error.Unknown);
                 return -1;
             }
         }
@@ -922,4 +952,3 @@ public static class DB
     #endregion
 
 }
-
