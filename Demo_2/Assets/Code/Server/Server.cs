@@ -63,6 +63,10 @@ public class Server : MonoBehaviour
                .Build();
 
         _connection.On<string>("ServerStartGame", ServerStartGame);
+        _connection.On("Rebeca", (string mes) =>
+        {
+            Debug.Log("s:" + mes);
+        });
 
         try
         {
