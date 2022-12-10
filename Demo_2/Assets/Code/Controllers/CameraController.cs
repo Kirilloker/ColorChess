@@ -89,5 +89,10 @@ public class CameraController : MonoBehaviour
         // Нужна для UI кнопок
         SwitchCamera(CameraViewType.noteMenu);
     }
+
+    public void CameraToDesktop()
+    {
+        SwitchCamera(CameraViewType.deskMenu);
+    }
 }
 
