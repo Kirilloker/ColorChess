@@ -18,31 +18,42 @@ public class Server : MonoBehaviour
 {
     public GameController gameController;
     private HubConnection connection;
-    private const string GameServerHubUrl = "http://192.168.1.116:11000/Game";
-    private const string LoginInUrl = "http://192.168.1.116:11000/login";
+    private const string GameServerHubUrl = "http://192.168.1.38:11000/Game";
+    private const string LoginInUrl = "http://192.168.1.38:11000/login";
 
-    private string UserName = "kirillok";
-    private string Password = "qwerty01";
+    private string UserName = "tealvl";
+    private string Password = "qwerty02";
 
     public void ConnectToDefaultGame()
     {
         ConnectToGameServerHubAndFindTheRoom();
     }
-    public void SendStep(Step clientStep)
+    public async void SendStep(Step clientStep)        
     {
-        connection.InvokeAsync("SendPlayerStep", clientStep);
+        await Task.Run(() =>
+        {
+            Debug.Log("sending step");
+            connection.InvokeAsync("SendPlayerStep", clientStep);
+        });
     }
-    //________________________________________________________________
     public void CloseConnection()
     {
         connection.StopAsync();
     }
+    //________________________________________________________________
+
+    private void ServerSendStep(string opponentStep)
+    {
+        Step step = TestServerHelper.ConvertJSONtoSTEP(opponentStep);
+        ApplyPlayerStep(step);
+    }
+
     private void ServerStartGame(string gameState)
     {
         Map map = TestServerHelper.ConvertJSONtoMap(gameState);
         StartGame(map);
     }
-    //_________________________________________
+    //_______________________________________________________________
 
     private async void ConnectToGameServerHubAndFindTheRoom()
     {
@@ -63,10 +74,8 @@ public class Server : MonoBehaviour
                .Build();
 
         _connection.On<string>("ServerStartGame", ServerStartGame);
-        _connection.On("Rebeca", (string mes) =>
-        {
-            Debug.Log("s:" + mes);
-        });
+        _connection.On<string>("ServerSendStep", ServerSendStep);
+        //_connection.On<string>("ServerEndGame", ServerSendStep);
 
         try
         {
@@ -80,7 +89,7 @@ public class Server : MonoBehaviour
         this.connection = _connection;
         await connection.InvokeAsync("FindRoom", "Default");
     }
-    //_________________________________________________________________
+    //_______________________________________________________________
     private async void StartGame(Map map)
     {
        await Task.Run(() => { gameController.StartGame(map); });
