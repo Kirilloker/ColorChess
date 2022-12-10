@@ -21,13 +21,12 @@ public class Server : MonoBehaviour
     private const string GameServerHubUrl = "http://192.168.1.116:11000/Game";
     private const string LoginInUrl = "http://192.168.1.116:11000/login";
 
-    private string UserName = "tealvl";
-    private string Password = "qwerty02";
+    private string UserName = "kirillok";
+    private string Password = "qwerty01";
 
     public void ConnectToDefaultGame()
     {
-        ConnectToGameServerHub();
-        connection.InvokeAsync("FindRoom", "Default");
+        ConnectToGameServerHubAndFindTheRoom();
     }
     public void SendStep(Step clientStep)
     {
@@ -45,7 +44,7 @@ public class Server : MonoBehaviour
     }
     //_________________________________________
 
-    private async void ConnectToGameServerHub()
+    private async void ConnectToGameServerHubAndFindTheRoom()
     {
         var _connection = new HubConnectionBuilder()
                .WithUrl(GameServerHubUrl, options =>
@@ -75,6 +74,7 @@ public class Server : MonoBehaviour
         }
 
         this.connection = _connection;
+        await connection.InvokeAsync("FindRoom", "Default");
     }
     //_________________________________________________________________
     private async void StartGame(Map map)

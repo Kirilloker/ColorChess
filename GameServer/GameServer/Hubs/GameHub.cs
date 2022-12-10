@@ -63,7 +63,8 @@ public class GameHub : Hub
     {
         await Task.Run(() =>
         {
-            if(exception == null) Console.WriteLine($"User ({Context.UserIdentifier}) disconnected from gameHub");
+            DB.DeleteUserInLobby(int.Parse(Context.UserIdentifier));
+            if (exception == null) Console.WriteLine($"User ({Context.UserIdentifier}) disconnected from gameHub");
 
             else Console.WriteLine(exception);
 
