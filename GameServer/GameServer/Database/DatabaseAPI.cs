@@ -1,9 +1,4 @@
 ﻿using FirstEF6App;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Data.Entity;
 
 public static class DB 
 {
@@ -97,10 +92,12 @@ public static class DB
         return GetUserStatistic(user.Id);
     }
 
+
+
     /// <summary>
     /// Возврашает все статистики игры пользователя
     /// </summary>
-    static List<GameStatistic> GetAllGameStatistic(int userId)
+    static List<GameStatistic> GetGameStatisticUser(int userId)
     {
         using (ColorChessContext db = new ColorChessContext())
         {
@@ -119,10 +116,38 @@ public static class DB
     /// <summary>
     /// Возврашает все статистики игры пользователя
     /// </summary>
-    static List<GameStatistic> GetAllGameStatistic(User user)
+    static List<GameStatistic> GetGameStatisticUser(User user)
     {
-        return GetAllGameStatistic(user.Id);
+        return GetGameStatisticUser(user.Id);
     }
+
+    /// <summary>
+    /// Возврашает строку Lobby
+    /// </summary>
+    static Lobby GetLobby(int userId)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                return db.Lobbies.Where(b => (b.UserId == userId)).ToList()[0];
+            }
+            catch
+            {
+                Console.WriteLine("Error: " + Error.NotFound);
+                return null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Возврашает строку Lobby
+    /// </summary>
+    static Lobby GetLobby(User user)
+    {
+        return GetLobby(user.Id);
+    }
+
 
     /// <summary>
     /// Возврашает комнату
@@ -138,6 +163,109 @@ public static class DB
             catch
             {
                 Console.WriteLine("Error: " + Error.NotFound);
+                return null;
+            }
+        }
+    }
+
+
+
+
+
+    #endregion
+
+    #region Get All DB
+
+    /// <summary>
+    /// Возврашает всех пользователей
+    /// </summary>
+    public static List<User> GetAllUser()
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                return db.Users.ToList();
+            }
+            catch
+            {
+                Console.WriteLine("Error: " + Error.Unknown);
+                return null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Возврашает статистики всех пользователей
+    /// </summary>
+    public static List<UserStatistic> GetAllUserStatistic()
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                return db.UserStatistics.ToList();
+            }
+            catch
+            {
+                Console.WriteLine("Error: " + Error.Unknown);
+                return null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Возврашает игровые статистики всех пользователей
+    /// </summary>
+    public static List<GameStatistic> GetAllGameStatistic()
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                return db.GameStatistics.ToList();
+            }
+            catch
+            {
+                Console.WriteLine("Error: " + Error.Unknown);
+                return null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Возврашает все Lobby
+    /// </summary>
+    public static List<Lobby> GetAllLobby()
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                return db.Lobbies.ToList();
+            }
+            catch
+            {
+                Console.WriteLine("Error: " + Error.Unknown);
+                return null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Возврашает все комнаты
+    /// </summary>
+    public static List<Room> GetAllRoom()
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                return db.Rooms.ToList();
+            }
+            catch
+            {
+                Console.WriteLine("Error: " + Error.Unknown);
                 return null;
             }
         }
@@ -339,6 +467,15 @@ public static class DB
             }
         }
     }
+
+
+    /// <summary>
+    /// Добавление комнаты
+    /// </summary>
+    public static void AddRoom(User user1, User user2, string map) 
+    {
+        AddRoom(user1.Id, user2.Id, map);
+    }
     #endregion
 
     #region Changes
@@ -364,21 +501,43 @@ public static class DB
         }
     }
 
+    /// <summary>
+    /// Изменяет Map в Room
+    /// </summary>
     public static void ChangeRoom(int userId, string map)
     {
         using (ColorChessContext db = new ColorChessContext())
         {
             try
             {
-                List<Room> rooms = db.Rooms.Where(b => b.User1Id = userId);
-                user.Name = newName;
-                db.SaveChanges();
+                List<Room> rooms = db.Rooms
+                    .Where(b => b.User1Id == userId || b.User2Id == userId)
+                    .ToList();
+
+                if (rooms.Count == 1) 
+                {
+                    Room room = rooms[0];
+                    room.Map = map;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    Console.WriteLine("Error: " + Error.Unknown);
+                }
             }
             catch (Exception)
             {
                 Console.WriteLine("Error: " + Error.NotFound);
             }
         }
+    }
+
+    /// <summary>
+    /// Изменяет Map в Room
+    /// </summary>
+    public static void ChangeRoom(User user, string map) 
+    {
+        ChangeRoom(user.Id, map);
     }
 
     /// <summary>
@@ -453,7 +612,6 @@ public static class DB
 
     #endregion
 
-
     #region Delete
 
     /// <summary>
@@ -477,8 +635,6 @@ public static class DB
         }
     }
 
-
-
     /// <summary>
     /// Удаляет пользователя из лобби 
     /// </summary>
@@ -488,10 +644,33 @@ public static class DB
         DeleteUserInLobby(user.Id);
     }
 
+    /// <summary>
+    /// Удаляет все комнаты связанные с пользователем
+    /// </summary>
+    public static void DeleteRoom(int userId)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                List<Room> rooms = db.Rooms.Where(b => b.User1Id == userId || b.User2Id == userId).ToList();
+
+                db.Rooms.RemoveRange(rooms);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error: " + Error.NotFound);
+            }
+        }
+    }
+
+
+
+
     #endregion
 
-
-    #region Clear
+    #region ClearDB
 
     /// <summary>
     /// Очишает таблицу Lobby
@@ -576,9 +755,30 @@ public static class DB
             }
         }
     }
+
+    /// <summary>
+    /// Очишает таблицу Room
+    /// </summary>
+    public static void ClearRoom()
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                List<Room> rooms = db.Rooms.ToList();
+
+                db.Rooms.RemoveRange(rooms);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error: " + Error.Unknown);
+            }
+        }
+    }
     #endregion
 
-
+    #region Another Function
     /// <summary>
     /// Поиск противника для пользователя
     /// </summary>
@@ -671,8 +871,7 @@ public static class DB
         }
     }
 
-
-
-
+    #endregion
 
 }
+
