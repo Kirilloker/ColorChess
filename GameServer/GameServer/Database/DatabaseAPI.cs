@@ -889,11 +889,12 @@ public static class DB
 
                     if (opponentLobbyList.Count != 0)
                     {
-                        UserStatistic userStatistic = db.UserStatistics
-                            .Where(b => b.UserId == userLobby.UserId).ToList()[0];
 
                         if (userLobby.GameMode == GameMode.Rating)
                         {
+                            UserStatistic userStatistic = db.UserStatistics
+                                .Where(b => b.UserId == userLobby.UserId).ToList()[0];
+
                             for (int i = 0; i < opponentLobbyList.Count; i++)
                             {
                                 int opponentId = opponentLobbyList[i].Id;
@@ -907,7 +908,7 @@ public static class DB
                                 }
                             }
 
-                            Console.WriteLine("Error SearchOpponent:" + Error.NotFoundOpponent);
+                            Console.WriteLine("Error SearchOpponent: " + Error.NotFoundOpponent);
                             return -1;
                         }
                         else if (userLobby.GameMode == GameMode.Default)
@@ -916,14 +917,14 @@ public static class DB
                         }
                         else
                         {
-                            Console.WriteLine("Error SearchOpponent:" + Error.NotFoundEnum);
+                            Console.WriteLine("Error SearchOpponent: " + Error.NotFoundEnum);
                             return -1;
                         }
 
                     }
                     else
                     {
-                        Console.WriteLine("Error SearchOpponent:" + Error.NotFound);
+                        Console.WriteLine("Error SearchOpponent: " + Error.NotFoundOpponent);
                         return -1;
                     }
                 }
@@ -934,14 +935,14 @@ public static class DB
                 }
                 else
                 {
-                    Console.WriteLine("Error SearchOpponent:" + Error.NotFound);
+                    Console.WriteLine("Error SearchOpponent: " + Error.NotFound);
                     return -1;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error SearchOpponent:" + Error.Unknown);
+                Console.WriteLine("Error SearchOpponent: " + Error.Unknown);
                 return -1;
             }
         }

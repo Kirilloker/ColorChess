@@ -16,25 +16,26 @@ public class GameHub : Hub
         await Task.Run(() =>
         {
             GameMode gameMode;
+            int userId = int.Parse(Context.UserIdentifier);
             
             if (_gameMode == "Default") 
                 gameMode = GameMode.Default;
             else gameMode = GameMode.Default;
 
-            DB.AddUserInLobby(int.Parse(Context.UserIdentifier), gameMode);
-            int opponentId = DB.SearchOpponent(int.Parse(Context.UserIdentifier));
+            DB.AddUserInLobby(userId, gameMode);
+            int opponentId = DB.SearchOpponent(userId);
             if (opponentId != -1)
             {
                 GameStateBuilder builder = new GameStateBuilder();
                 builder.SetDefaultOnlineGameState();
                 Map gameState = builder.CreateGameState();
 
-                DB.AddRoom(int.Parse(Context.UserIdentifier), opponentId, JsonConverter.ConvertToJSON(gameState));
-                DB.DeleteUserInLobby(int.Parse(Context.UserIdentifier));
+                DB.AddRoom(userId, opponentId, JsonConverter.ConvertToJSON(gameState));
+                DB.DeleteUserInLobby(userId);
                 DB.DeleteUserInLobby(opponentId);
 
-                Clients.User(Context.UserIdentifier).SendAsync("", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(0)));
-                Clients.User(opponentId.ToString()).SendAsync("", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(1)));
+                Clients.User(Context.UserIdentifier).SendAsync("Rebeca", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(0)));
+                Clients.User(opponentId.ToString()).SendAsync("Rebeca", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(1)));
             }    
         });    
     }

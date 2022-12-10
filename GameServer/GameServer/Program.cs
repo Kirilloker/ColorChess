@@ -6,6 +6,9 @@ using System.Security.Claims;
 using System.Text;
 
 
+DB.ClearLobby();
+DB.ClearRoom();
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSignalR();
