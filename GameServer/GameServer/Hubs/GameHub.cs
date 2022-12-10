@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using GameServer.GameServer;
 using Microsoft.AspNetCore.Authorization;
+using ColorChessModel;
 
 
 [Authorize]
@@ -11,11 +11,25 @@ public class GameHub : Hub
         await Task.Run(() => Console.WriteLine(message));
     }
 
-    public async Task FindRoom(string gameMode)
+    public async Task FindRoom(GameMode gameMode)
     {
         await Task.Run(() =>
         {
+            DB.AddUserInLobby(int.Parse(Context.UserIdentifier), gameMode);
+            int opponentId = DB.SearchOpponent(int.Parse(Context.UserIdentifier));
+            if (opponentId != -1)
+            {
+                GameStateBuilder builder = new GameStateBuilder();
+                builder.SetDefaultOnlineGameState();
+                Map gameState = builder.CreateGameState();
 
+                DB.AddRoom(int.Parse(Context.UserIdentifier), opponentId, JsonConverter.ConvertToJSON(gameState));
+                DB.DeleteUserInLobby(int.Parse(Context.UserIdentifier));
+                DB.DeleteUserInLobby(opponentId);
+
+                Clients.User(Context.UserIdentifier).SendAsync("", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(0)));
+                Clients.User(opponentId.ToString()).SendAsync("", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(1)));
+            }    
         });    
     }
 

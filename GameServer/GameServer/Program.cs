@@ -68,7 +68,7 @@ app.UseEndpoints(endpoints =>
         if (user is null) return Results.Unauthorized();
         if(user.Password != password) return Results.Unauthorized();
 
-        var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, name), new Claim(ClaimTypes.UserData, password)};
+        var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), new Claim(ClaimTypes.UserData, name), new Claim(ClaimTypes.UserData, password)};
 
         var jwt = new JwtSecurityToken(
               issuer: AuthOptions.ISSUER,
