@@ -7,27 +7,34 @@ using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddSignalR();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.Events = new JwtBearerEvents
         {
-            OnMessageReceived = context =>
+            OnAuthenticationFailed = (context) =>
             {
-                var accessToken = context.Request.Query["access_token"];
+                Console.WriteLine(context.Exception.Message);
+                return Task.CompletedTask;
+            }
+        };
 
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = (context) =>
+            {
+                var accessToken = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""); ;
                 var path = context.HttpContext.Request.Path;
-                if (!string.IsNullOrEmpty(accessToken) &&
-                    (path.StartsWithSegments("/Game")))
+                if (path.StartsWithSegments("/Game"))
                 {
                     context.Token = accessToken;
+                    context.Options.Validate();
                 }
                 return Task.CompletedTask;
             }
         };
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -35,39 +42,43 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true
         };
     });
-
+builder.Services.AddSignalR();
 
 
 var app = builder.Build();
 
+
+app.UseRouting();
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
-app.MapPost("/login", () =>
+app.UseEndpoints(endpoints =>
 {
-    //var user = "Data from db";
-
-    //if (user is null) return Results.Unauthorized();
-
-    var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, "name from db") };
-
-    var jwt = new JwtSecurityToken(
-          issuer: AuthOptions.ISSUER,
-          audience: AuthOptions.AUDIENCE,
-          claims: claims,
-          expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(20)),
-          signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-    var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-    var response = new
+    endpoints.MapHub<GameHub>("/Game");
+    endpoints.MapPost("/login", async (HttpContext context) =>
     {
-        access_token = encodedJwt,
-    };
+        //var user = "Data from db";
+        //if (user is null) return Results.Unauthorized();
+        using StreamReader reader = new StreamReader(context.Request.Body);
+        string name = await reader.ReadToEndAsync();
+        var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, name) };
 
-    return Results.Json(response);
+        var jwt = new JwtSecurityToken(
+              issuer: AuthOptions.ISSUER,
+              audience: AuthOptions.AUDIENCE,
+              claims: claims,
+              expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(20)),
+              signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+        var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+        var response = new
+        {
+            access_token = encodedJwt,
+        };
+        return Results.Json(response);
+    });
 });
-
-
-app.MapHub<GameHub>("/Game");
 
 
 app.Run("http://192.168.1.38:11000");
