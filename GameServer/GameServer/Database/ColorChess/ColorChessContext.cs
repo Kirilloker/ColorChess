@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace FirstEF6App
 {
-	class ColorChessContext : Microsoft.EntityFrameworkCore.DbContext
+	class ColorChessContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

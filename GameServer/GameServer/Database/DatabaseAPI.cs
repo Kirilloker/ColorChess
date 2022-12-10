@@ -460,15 +460,15 @@ public static class DB
     /// <summary>
     ///  Добавление информации за игру
     /// </summary>
-    public static void AddGameStatistic(int time, int user1Score, int user2Score, DateTime dateTime, User user1, User user2)
+    public static void AddGameStatistic(int time, int user1Score, int user2Score, DateTime dateTime, GameMode gameMode, User user1, User user2)
     {
-        AddGameStatistic(time, user1Score, user2Score, dateTime, user1.Id, user2.Id);
+        AddGameStatistic(time, user1Score, user2Score, dateTime, gameMode, user1.Id, user2.Id);
     }
 
     /// <summary>
     ///  Добавление информации за игру
     /// </summary>
-    public static void AddGameStatistic(int time, int user1Score, int user2Score, DateTime dateTime, int user1Id, int user2Id)
+    public static void AddGameStatistic(int time, int user1Score, int user2Score, DateTime dateTime, GameMode gameMode, int user1Id, int user2Id)
     {
 
         using (ColorChessContext db = new ColorChessContext())
@@ -482,6 +482,7 @@ public static class DB
                     Player1Score = user1Score,
                     Player2Score = user2Score,
                     Date = dateTime,
+                    GameMode = gameMode,
                     User1Id = user1Id,
                     User2Id = user2Id
                 };
@@ -500,7 +501,7 @@ public static class DB
     /// <summary>
     /// Добавление комнаты
     /// </summary>
-    public static void AddRoom(int user1Id, int user2Id, string map)
+    public static void AddRoom(int user1Id, int user2Id, string map, GameMode gameMode)
     {
         using (ColorChessContext db = new ColorChessContext())
         {
@@ -515,7 +516,7 @@ public static class DB
 
                 if (rooms.Count == 0)
                 {
-                    Room room = new Room { User1Id = user1Id, User2Id = user2Id, Map = map };
+                    Room room = new Room { User1Id = user1Id, User2Id = user2Id, Map = map, GameMode = gameMode };
                     db.Rooms.Add(room);
                     db.SaveChanges();
                 }
@@ -537,9 +538,9 @@ public static class DB
     /// <summary>
     /// Добавление комнаты
     /// </summary>
-    public static void AddRoom(User user1, User user2, string map) 
+    public static void AddRoom(User user1, User user2, string map, GameMode gameMode) 
     {
-        AddRoom(user1.Id, user2.Id, map);
+        AddRoom(user1.Id, user2.Id, map, gameMode);
     }
     #endregion
 
