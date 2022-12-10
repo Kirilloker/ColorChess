@@ -379,21 +379,22 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Debug.Log("Save Step");
-            StreamWriter file1 = File.CreateText("D://Github//GameColorChess//ColorChess//Demo_2//Assets//Code//SaveStep.json");
-            file1.WriteLine(TestServerHelper.ConvertToJSON(testStep));
-            file1.Close();
-        }
+        //if (Input.Get
+        //KeyDown(KeyCode.S))
+        //{
+        //    Debug.Log("Save Step");
+        //    StreamWriter file1 = File.CreateText("D://Github//GameColorChess//ColorChess//Demo_2//Assets//Code//SaveStep.json");
+        //    file1.WriteLine(TestServerHelper.ConvertToJSON(testStep));
+        //    file1.Close();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            Debug.Log("Load Step");
-            string data = File.ReadAllText("D://Github//GameColorChess//ColorChess//Demo_2//Assets//Code//SaveStep.json");
-            Debug.Log("step:" + data);
-            ApplyStepView(TestServerHelper.ConvertJSONtoSTEP(data));
-        }
+        //if (Input.GetKeyDown(KeyCode.D))
+        //{
+        //    Debug.Log("Load Step");
+        //    string data = File.ReadAllText("D://Github//GameColorChess//ColorChess//Demo_2//Assets//Code//SaveStep.json");
+        //    Debug.Log("step:" + data);
+        //    ApplyStepView(TestServerHelper.ConvertJSONtoSTEP(data));
+        //}
 
     }
 

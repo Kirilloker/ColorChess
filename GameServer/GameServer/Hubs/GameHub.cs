@@ -30,7 +30,7 @@ public class GameHub : Hub
                     builder.SetDefaultOnlineGameState();
                     Map gameState = builder.CreateGameState();
 
-                    DB.AddRoom(userId, opponentId, JsonConverter.ConvertToJSON(gameState));
+                    DB.AddRoom(userId, opponentId, JsonConverter.ConvertToJSON(gameState), gameMode);
                     DB.DeleteUserInLobby(userId);
                     DB.DeleteUserInLobby(opponentId);
                     Console.WriteLine("1");
