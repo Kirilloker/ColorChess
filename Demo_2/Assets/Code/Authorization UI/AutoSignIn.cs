@@ -21,7 +21,7 @@ public class AutoSignIn : MonoBehaviour
         string password = TryGetValueInHashTable("password");
         
         //if (UserExist(login, password)
-        if (false)
+        if (true)
         {
             AuthorizationMenu.SetActive(false);
             MainMenu.SetActive(true);
@@ -48,7 +48,7 @@ public class AutoSignIn : MonoBehaviour
 
         }
 
-        return "Error";
+        return "";
     }
 
     public Hashtable GameData

@@ -2,10 +2,7 @@ using UnityEngine;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Net.Http;
-using System.Text.Json;
 using Newtonsoft.Json;
-using UnityEngine.Networking.Types;
-using Microsoft.AspNetCore.Connections;
 
 public class SignarRTest : MonoBehaviour
 {

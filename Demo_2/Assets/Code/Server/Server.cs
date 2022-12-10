@@ -21,8 +21,8 @@ public class Server : MonoBehaviour
     private const string GameServerHubUrl = "http://192.168.1.38:11000/Game";
     private const string LoginInUrl = "http://192.168.1.38:11000/login";
 
-    private string UserName = "tealvl";
-    private string Password = "qwerty02";
+    private string UserName = "kirillok";
+    private string Password = "qwerty01";
 
     public void ConnectToDefaultGame()
     {
