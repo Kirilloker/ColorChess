@@ -41,21 +41,5 @@ public class SignarRTest : MonoBehaviour
         }
 
         await connection.InvokeAsync("SendSomeStr", "hello");
-    }
-
-    private async void Authoriazation()
-    {
-        HttpClient httpClient = new HttpClient();
-        StringContent stringContent = new StringContent("");
-        var response = await httpClient.PostAsync("http://192.168.1.38:11000/login", stringContent);
-        Debug.Log(response);
-        string responseText = await response.Content.ReadAsStringAsync();
-
-        Debug.Log(responseText);
-
-
-        //test();
-
-    }
-        
+    }       
 }

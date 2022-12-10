@@ -73,8 +73,10 @@ app.UseEndpoints(endpoints =>
         string name = text.Split(" ")[0];
         string password = text.Split(" ")[1];
 
-        //var user = "Data from db";
-        //if (user is null) return Results.Unauthorized();
+        User user = DB.GetUser(name);
+
+        if (user is null) return Results.Unauthorized();
+        if(user.Password != password) return Results.Unauthorized();
 
         var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, name), new Claim(ClaimTypes.UserData, password)};
 
@@ -92,6 +94,5 @@ app.UseEndpoints(endpoints =>
         return Results.Json(response);
     });
 });
-
 
 app.Run("http://192.168.1.38:11000");
