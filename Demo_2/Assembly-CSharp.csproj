@@ -106,6 +106,7 @@
     <Compile Include="Assets\Code\Server\TestServerHelper.cs" />
     <Compile Include="Assets\Code\Server\Server.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\CellBuilder.cs" />
+    <Compile Include="Assets\AccessToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
