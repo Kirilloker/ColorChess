@@ -206,7 +206,7 @@ public static class DB
     /// <summary>
     /// Возврашает комнату
     /// </summary>
-    static Room GetRoom(int userId)
+    public static Room GetRoom(int userId)
     {
         using (ColorChessContext db = new ColorChessContext())
         {
