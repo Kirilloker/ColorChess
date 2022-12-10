@@ -17,8 +17,7 @@ public class GameHub : Hub
         {
             Console.WriteLine(gameMode);
 
-        });
-        
+        });    
     }
 
     public async Task SendPlayerStep(string step)

@@ -22,7 +22,7 @@ public class SignarRTest : MonoBehaviour
                    options.AccessTokenProvider = async () =>
                    {
                        HttpClient client = new HttpClient();
-                       HttpContent content = new StringContent("kirillok");
+                       HttpContent content = new StringContent("kirillok qwerty01");
                        HttpResponseMessage response = await client.PostAsync("http://192.168.1.38:11000/login", content);
                        string contentText = await response.Content.ReadAsStringAsync();
                        string token = JsonConvert.DeserializeObject<AccessToken>(contentText).access_token;
@@ -31,11 +31,6 @@ public class SignarRTest : MonoBehaviour
                    options.UseDefaultCredentials= true;
                })
                .Build();
-
-        while (connection.State != HubConnectionState.Connected)
-        {
-
-        }
         try
         {
             await connection.StartAsync();

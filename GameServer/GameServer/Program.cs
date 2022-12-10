@@ -7,7 +7,11 @@ using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSignalR();
+
 builder.Services.AddAuthorization();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -37,12 +41,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
+            ValidIssuer = AuthOptions.ISSUER,
             ValidateIssuer = true,
+            ValidAudience = AuthOptions.AUDIENCE,
+            ValidateAudience = true,
+            ValidateLifetime = true,
             IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-            ValidateIssuerSigningKey = true
+            ValidateIssuerSigningKey = true,
         };
     });
-builder.Services.AddSignalR();
+
 
 
 var app = builder.Build();
@@ -59,11 +67,16 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHub<GameHub>("/Game");
     endpoints.MapPost("/login", async (HttpContext context) =>
     {
+        
+        using StreamReader reader = new StreamReader(context.Request.Body);
+        string text = await reader.ReadToEndAsync();
+        string name = text.Split(" ")[0];
+        string password = text.Split(" ")[1];
+
         //var user = "Data from db";
         //if (user is null) return Results.Unauthorized();
-        using StreamReader reader = new StreamReader(context.Request.Body);
-        string name = await reader.ReadToEndAsync();
-        var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, name) };
+
+        var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, name), new Claim(ClaimTypes.UserData, password)};
 
         var jwt = new JwtSecurityToken(
               issuer: AuthOptions.ISSUER,
