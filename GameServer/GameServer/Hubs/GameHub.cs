@@ -6,45 +6,39 @@ using ColorChessModel;
 [Authorize]
 public class GameHub : Hub
 {
-    public async Task SendSomeStr(string message)
-    {
-        await Task.Run(() => Console.WriteLine(message));
-    }
-
     public async Task FindRoom(string _gameMode)
     {
         await Task.Run( async () =>
         {
             GameMode gameMode;
             int userId = int.Parse(Context.UserIdentifier);
-            
-            if (_gameMode == "Default")
+
+            switch (_gameMode)
             {
-                gameMode = GameMode.Default;
-
-                DB.AddUserInLobby(userId, gameMode);
-                int opponentId = DB.SearchOpponent(userId);
-                if (opponentId != -1)
+                case "Default":
                 {
-                    GameStateBuilder builder = new GameStateBuilder();
-                    builder.SetDefaultOnlineGameState();
-                    Map gameState = builder.CreateGameState();
+                    gameMode = GameMode.Default;
 
-                    DB.AddRoom(userId, opponentId, JsonConverter.ConvertToJSON(gameState));
-                    DB.DeleteUserInLobby(userId);
-                    DB.DeleteUserInLobby(opponentId);
-                    Console.WriteLine("1");
-                    await Clients.User(Context.UserIdentifier).SendAsync("ServerStartGame", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(0)));
-                    Console.WriteLine("2");
-                    await Clients.User(opponentId.ToString()).SendAsync("ServerStartGame", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(1)));
-                    Console.WriteLine("3");
+                    DB.AddUserInLobby(userId, gameMode);
+                    int opponentId = DB.SearchOpponent(userId);
+                    if (opponentId != -1)
+                    {
+                        GameStateBuilder builder = new GameStateBuilder();
+                        builder.SetDefaultOnlineGameState();
+                        Map gameState = builder.CreateGameState();
+
+                        DB.AddRoom(userId, opponentId, JsonConverter.ConvertToJSON(gameState));
+                        DB.DeleteUserInLobby(userId);
+                        DB.DeleteUserInLobby(opponentId);
+
+                        await Clients.User(Context.UserIdentifier).SendAsync("ServerStartGame", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(0)));
+                        await Clients.User(opponentId.ToString()).SendAsync("ServerStartGame", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(1)));
+                    }
                 }
+                    break;
+                default:
+                    break;
             }
-                
-
-            else gameMode = GameMode.Default;
-
-           
         });    
     }
 
@@ -52,9 +46,26 @@ public class GameHub : Hub
     {
         await Task.Run(() =>
         {
-            Console.WriteLine(step);
+            int playerId = int.Parse(Context.UserIdentifier);
+            Room room = DB.GetRoom(playerId);
+            GameMode gameMode 
+        switch (_gameMode)
+        {
+            case "Default":
+            {
+                if (room.User1Id == playerId)
+                {
 
-        });
+                }
+                else
+                {
+
+                }
+            }
+                break;
+            default:
+                break;
+        };
     }
 
     public override async Task OnConnectedAsync()

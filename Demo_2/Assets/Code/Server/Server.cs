@@ -30,7 +30,7 @@ public class Server : MonoBehaviour
     }
     public void SendStep(Step clientStep)
     {
-        //ws.Send("2" + TestServerHelper.ConvertToJSON(clientStep));
+        connection.InvokeAsync("SendPlayerStep", clientStep);
     }
     //________________________________________________________________
     public void CloseConnection()
