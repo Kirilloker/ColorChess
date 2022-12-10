@@ -18,23 +18,26 @@ public class Server : MonoBehaviour
 {
     public GameController gameController;
     private HubConnection connection;
-    private const string GameServerHubUrl = "http://192.168.1.38:11000/Game";
-    private const string LoginInUrl = "http://192.168.1.38:11000/login";
+    private const string GameServerHubUrl = "http://192.168.1.116:11000/Game";
+    private const string LoginInUrl = "http://192.168.1.116:11000/login";
 
-    private string UserName = "kirillok";
-    private string Password = "qwerty01";
+    private string UserName = "tealvl";
+    private string Password = "qwerty02";
 
     public void ConnectToDefaultGame()
     {
         ConnectToGameServerHub();
-        connection.InvokeAsync("FindRoom", GameMode.Default);
+        connection.InvokeAsync("FindRoom", "Default");
     }
     public void SendStep(Step clientStep)
     {
         //ws.Send("2" + TestServerHelper.ConvertToJSON(clientStep));
     }
     //________________________________________________________________
-
+    public void CloseConnection()
+    {
+        connection.StopAsync();
+    }
     private void ServerStartGame(string gameState)
     {
         Map map = TestServerHelper.ConvertJSONtoMap(gameState);

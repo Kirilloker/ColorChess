@@ -11,10 +11,16 @@ public class GameHub : Hub
         await Task.Run(() => Console.WriteLine(message));
     }
 
-    public async Task FindRoom(GameMode gameMode)
+    public async Task FindRoom(string _gameMode)
     {
         await Task.Run(() =>
         {
+            GameMode gameMode;
+            
+            if (_gameMode == "Default") 
+                gameMode = GameMode.Default;
+            else gameMode = GameMode.Default;
+
             DB.AddUserInLobby(int.Parse(Context.UserIdentifier), gameMode);
             int opponentId = DB.SearchOpponent(int.Parse(Context.UserIdentifier));
             if (opponentId != -1)
