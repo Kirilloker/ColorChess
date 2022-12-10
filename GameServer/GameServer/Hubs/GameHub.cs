@@ -33,9 +33,11 @@ public class GameHub : Hub
                     DB.AddRoom(userId, opponentId, JsonConverter.ConvertToJSON(gameState));
                     DB.DeleteUserInLobby(userId);
                     DB.DeleteUserInLobby(opponentId);
-
+                    Console.WriteLine("1");
                     await Clients.User(Context.UserIdentifier).SendAsync("ServerStartGame", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(0)));
+                    Console.WriteLine("2");
                     await Clients.User(opponentId.ToString()).SendAsync("ServerStartGame", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(1)));
+                    Console.WriteLine("3");
                 }
             }
                 
