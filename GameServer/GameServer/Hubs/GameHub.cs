@@ -15,7 +15,6 @@ public class GameHub : Hub
     {
         await Task.Run(() =>
         {
-            Console.WriteLine(gameMode);
 
         });    
     }
@@ -33,7 +32,7 @@ public class GameHub : Hub
     {
         await Task.Run(() =>
         {
-            Console.WriteLine($"User ({Context.UserIdentifier}) connected");
+            Console.WriteLine($"User ({Context.UserIdentifier}) connected to gameHub");
 
         });
 
@@ -44,7 +43,7 @@ public class GameHub : Hub
     {
         await Task.Run(() =>
         {
-            if(exception != null) Console.WriteLine($"User ({Context.UserIdentifier}) disconnected");
+            if(exception == null) Console.WriteLine($"User ({Context.UserIdentifier}) disconnected from gameHub");
 
             else Console.WriteLine(exception);
 
