@@ -51,10 +51,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
-
 var app = builder.Build();
-
 
 app.UseRouting();
 
@@ -73,8 +70,7 @@ app.UseEndpoints(endpoints =>
         string name = text.Split(" ")[0];
         string password = text.Split(" ")[1];
 
-        //var user = "Data from db";
-        //if (user is null) return Results.Unauthorized();
+        User user = DB.GetUser(name);
 
         if (user is null) return Results.Unauthorized();
         if(user.Password != password) return Results.Unauthorized();
