@@ -67,7 +67,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHub<GameHub>("/Game");
     endpoints.MapPost("/login", async (HttpContext context) =>
     {
-        
+
         using StreamReader reader = new StreamReader(context.Request.Body);
         string text = await reader.ReadToEndAsync();
         string name = text.Split(" ")[0];
@@ -76,7 +76,7 @@ app.UseEndpoints(endpoints =>
         //var user = "Data from db";
         //if (user is null) return Results.Unauthorized();
 
-        var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, name), new Claim(ClaimTypes.UserData, password)};
+        var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, name), new Claim(ClaimTypes.UserData, password) };
 
         var jwt = new JwtSecurityToken(
               issuer: AuthOptions.ISSUER,

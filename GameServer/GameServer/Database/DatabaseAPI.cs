@@ -45,7 +45,7 @@ public static class DB
 
 
     /// <summary>
-    /// Возвращает имя Пользователя
+    /// Возвращает пароль Пользователя
     /// </summary>>
     public static string GetNameUser(int userID)
     {
@@ -56,6 +56,52 @@ public static class DB
                 return db.Users.Where(b => b.Id == userID).ToList()[0].Name;
             }
             catch 
+            {
+                Console.WriteLine("Error: " + Error.NotFound);
+                return Error.NotFound;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Возвращает пароль Пользователя
+    /// </summary>>
+    public static string GetPasswordUser(int userID)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                return db.Users.Where(b => b.Id == userID).ToList()[0].Password;
+            }
+            catch
+            {
+                Console.WriteLine("Error: " + Error.NotFound);
+                return Error.NotFound;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Возвращает пароль Пользователя
+    /// </summary>>
+    public static string GetPasswordUser(User user) 
+    {
+        return GetPasswordUser(user.Id);
+    }
+
+    /// <summary>
+    /// Возвращает пароль Пользователя
+    /// </summary>>
+    public static string GetPasswordUser(string name)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                return db.Users.Where(b => b.Name == name).ToList()[0].Password;
+            }
+            catch
             {
                 Console.WriteLine("Error: " + Error.NotFound);
                 return Error.NotFound;
@@ -870,6 +916,8 @@ public static class DB
             }
         }
     }
+
+
 
     #endregion
 
