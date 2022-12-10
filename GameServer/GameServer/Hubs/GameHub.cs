@@ -34,8 +34,8 @@ public class GameHub : Hub
                 DB.DeleteUserInLobby(userId);
                 DB.DeleteUserInLobby(opponentId);
 
-                Clients.User(Context.UserIdentifier).SendAsync("Rebeca", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(0)));
-                Clients.User(opponentId.ToString()).SendAsync("Rebeca", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(1)));
+                Clients.User(Context.UserIdentifier).SendAsync("ServerStartGame", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(0)));
+                Clients.User(opponentId.ToString()).SendAsync("ServerStartGame", JsonConverter.ConvertToJSON(gameState.ConvertMapToPlayer(1)));
             }    
         });    
     }
