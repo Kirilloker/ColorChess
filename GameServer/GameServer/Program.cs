@@ -94,6 +94,36 @@ app.UseEndpoints(endpoints =>
         };
         return Results.Json(response);
     });
+    endpoints.MapPost("/registry", async (HttpContext context) =>
+    {
+        using StreamReader reader = new StreamReader(context.Request.Body);
+        string text = await reader.ReadToEndAsync();
+        string name = text.Split(" ")[0];
+        string password = text.Split(" ")[1];
+
+        User user = DB.GetUser(name);
+
+        if (user == null)
+        {
+            User newUser = new User { Name = login, Password = password };
+            DB.AddUser(newUser);
+
+            newUser = DB.GetUser(newUser.Name);
+
+            UserStatistic userStatistic = new UserStatistic { Win = 0, Lose = 0, Draw = 0, MaxScore = 0, Rate = 0, UserId = newUser.Id };
+            DB.AddUserStatistic(userStatistic);
+
+            return true;
+        }
+        else
+        {
+            return Results.UnprocessableEntity();
+        }
+
+        
+
+        
+    });
 });
 
 

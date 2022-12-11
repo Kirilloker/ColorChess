@@ -109,22 +109,25 @@ public class Server : MonoBehaviour
     }
     private async void LoginIn(string _name, string _password)
     {
-        HttpClient client = new HttpClient();
-        HttpContent content = new StringContent(_name + " " + _password);
-        HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
-        string contentText = await response.Content.ReadAsStringAsync();
-        string result = response.StatusCode.ToString();
+        await Task.Run( async () =>
+        {
+            HttpClient client = new HttpClient();
+            HttpContent content = new StringContent(_name + " " + _password);
+            HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
+            string contentText = await response.Content.ReadAsStringAsync();
+            string result = response.StatusCode.ToString();
 
-        if (result == "OK")
-        {
-            UserName = _name;
-            Password = _password;
-            IsLoginIn = true;
-        }
-        else if (result == "Unauthorized")
-        {
-            IsLoginIn = false;
-        }
+            if (result == "OK")
+            {
+                UserName = _name;
+                Password = _password;
+                IsLoginIn = true;
+            }
+            else if (result == "Unauthorized")
+            {
+                IsLoginIn = false;
+            }
+        });
     }
    
 
