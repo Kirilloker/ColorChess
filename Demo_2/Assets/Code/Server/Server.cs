@@ -24,13 +24,7 @@ public class Server : MonoBehaviour
     private string UserName = "tealvl";
     private string Password = "qwerty02";
 
-
     private bool IsLoggedIn = false;
-
-    private void Start()
-    {
-        GameObject.Find("DebugUI").GetComponent<DebugConsole>().PrintUI("Test");
-    }
 
     public void ConnectToDefaultGame()
     {
