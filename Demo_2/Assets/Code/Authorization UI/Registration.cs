@@ -14,10 +14,17 @@ public class Registration : MonoBehaviour
     CameraController cameraController;
     [SerializeField]
     GameObject ImageWarning;
+    [SerializeReference]
+    AutoSignIn AutoSignIn;
 
     public void StartRegistration()
     {
-        if ((loginInp.text.Length <= 2) || (passwordInp.text.Length <= 2)) return;
+        if (
+            (loginInp.text.Length <= 2) || (passwordInp.text.Length <= 2)
+            ||
+            (loginInp.text.Length >= 40) || (passwordInp.text.Length >= 40)
+            ) 
+            return;
 
         //if (AddUser(loginInp.text, passwordInp.text) == true) 
         if (true)
@@ -33,6 +40,8 @@ public class Registration : MonoBehaviour
             RegistrationMenu.SetActive(false);
 
             cameraController.SwitchCamera(CameraViewType.noteMenu);
+
+            AutoSignIn.Authorization();
         }
         else 
         {

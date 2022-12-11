@@ -1,5 +1,6 @@
 using ColorChessModel;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class AutoSignIn : MonoBehaviour
@@ -9,11 +10,22 @@ public class AutoSignIn : MonoBehaviour
     GameObject AuthorizationMenu;
     [SerializeField]
     GameObject MainMenu;
+    [SerializeField]
+    TMP_Text AccountText;
+    [SerializeField]
+    GameObject StartMenuDesktop;
 
     private Hashtable gameData;
 
     public void Start()
     {
+        Authorization();
+    }
+
+    public void Authorization() 
+    {
+        StartMenuDesktop.SetActive(true);
+
         BinarySerializer serializer = new BinarySerializer();
         serializer.LoadData();
         GameData = serializer.GetData();
@@ -26,6 +38,12 @@ public class AutoSignIn : MonoBehaviour
         {
             AuthorizationMenu.SetActive(false);
             MainMenu.SetActive(true);
+
+            AccountText.text = "Account: " + login;
+        }
+        else
+        {
+            AccountText.text = "Not found Account!";
         }
     }
 
