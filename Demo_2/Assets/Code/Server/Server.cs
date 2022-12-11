@@ -24,21 +24,22 @@ public class Server : MonoBehaviour
     private string UserName = "kirillok";
     private string Password = "qwerty01";
 
-    private void Start()
-    {
-        GameObject.Find("DebugUI").GetComponent<DebugConsole>().PrintUI("Example");
-    }
 
     private bool IsLoggedIn = false;
+
+    private void Start()
+    {
+        GameObject.Find("DebugUI").GetComponent<DebugConsole>().PrintUI("Test");
+    }
 
     public void ConnectToDefaultGame()
     {
         ConnectToGameServerHubAndFindTheRoom();
     }
-    public async void SendStep(Step clientStep)        
+    public void SendStep(Step clientStep)        
     {
-        Debug.Log("sending step");
-        await connection.InvokeAsync("SendPlayerStep", clientStep);
+        GameObject.Find("DebugUI").GetComponent<DebugConsole>().PrintUI("sending step"); 
+        connection.InvokeAsync("SendPlayerStep", clientStep);
     }
     public void CloseConnection()
     {
@@ -48,6 +49,7 @@ public class Server : MonoBehaviour
 
     private void ServerSendStep(string opponentStep)
     {
+        GameObject.Find("DebugUI").GetComponent<DebugConsole>().PrintUI("server send step");
         Step step = TestServerHelper.ConvertJSONtoSTEP(opponentStep);
         ApplyPlayerStep(step);
     }

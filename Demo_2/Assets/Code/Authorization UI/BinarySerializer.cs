@@ -5,7 +5,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class BinarySerializer
 {
