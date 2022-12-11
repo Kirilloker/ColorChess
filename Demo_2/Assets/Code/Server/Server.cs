@@ -24,17 +24,16 @@ public class Server : MonoBehaviour
     private string UserName = "kirillok";
     private string Password = "qwerty01";
 
+    private bool IsLoggedIn = false;
+
     public void ConnectToDefaultGame()
     {
         ConnectToGameServerHubAndFindTheRoom();
     }
     public async void SendStep(Step clientStep)        
     {
-        await Task.Run(() =>
-        {
-            Debug.Log("sending step");
-            connection.InvokeAsync("SendPlayerStep", clientStep);
-        });
+        Debug.Log("sending step");
+        await connection.InvokeAsync("SendPlayerStep", clientStep);
     }
     public void CloseConnection()
     {
@@ -98,5 +97,19 @@ public class Server : MonoBehaviour
     private async void ApplyPlayerStep(Step step)
     {
         await Task.Run(() => { gameController.ApplyStepView(step); });
-    }  
+    }
+    //________________________________________________________________
+
+    //private async void LoginIn()
+    //{
+    //    try
+    //    {
+    //        HttpClient client = new HttpClient();
+    //        HttpContent content = new StringContent(UserName + " " + Password);
+    //        HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
+    //        string contentText = await response.Content.ReadAsStringAsync();
+    //        IsLoggedIn = true;
+
+    //    }
+    //}
 }
