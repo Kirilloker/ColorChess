@@ -48,6 +48,11 @@ public class Server : MonoBehaviour
         await LoginIn(name, password);
         return IsLoginIn;
     }
+
+    public async Task<bool> TryRegisry(string name, string password)
+    {
+        return await Regisry(name, password);
+    }
     
     //Методы вызываемы сервером во время игры________________________
     private void ServerSendStep(string opponentStep)
@@ -112,7 +117,6 @@ public class Server : MonoBehaviour
             HttpClient client = new HttpClient();
             HttpContent content = new StringContent(_name + " " + _password);
             HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
-            string contentText = await response.Content.ReadAsStringAsync();
             string result = response.StatusCode.ToString();
 
             if (result == "OK")
@@ -126,7 +130,26 @@ public class Server : MonoBehaviour
                 IsLoginIn = false;
             }
     }
-   
+
+    private async Task<bool> Regisry(string _name, string _password)
+    {
+        HttpClient client = new HttpClient();
+        HttpContent content = new StringContent(_name + " " + _password);
+        HttpResponseMessage response = await client.PostAsync(RegistrationUrl, content);
+        string result = response.StatusCode.ToString();
+
+        if (result == "OK")
+        {
+            return true;
+        }
+        else if (result == "UnprocessableEntity")
+        {
+            return false;
+        }
+
+        return false;
+    }
+
     //Методы для вызова логики в игре________________________________
     private async void StartGame(Map map)
     {
