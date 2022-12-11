@@ -100,7 +100,7 @@ public class GameController : MonoBehaviour
         // Получаем массив пути - запускаем анимацию фигуры по этому пути и перекрашиваем клеткти
         // Также меняем всё в Model 
         // И в конце запускаем новый шаг
-
+        Debug.Log("ApplyStepView");
 
         Figure figure = step.Figure;
         Cell cell = step.Cell;

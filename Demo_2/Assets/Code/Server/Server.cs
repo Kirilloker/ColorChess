@@ -18,8 +18,8 @@ public class Server : MonoBehaviour
 {
     public GameController gameController;
     private HubConnection connection;
-    private const string GameServerHubUrl = "http://192.168.1.38:11000/Game";
-    private const string LoginInUrl = "http://192.168.1.38:11000/login";
+    private const string GameServerHubUrl = "http://192.168.1.116:11000/Game";
+    private const string LoginInUrl = "http://192.168.1.116:11000/login";
 
     private string UserName = "tealvl";
     private string Password = "qwerty02";
@@ -32,7 +32,7 @@ public class Server : MonoBehaviour
     }
     public void SendStep(Step clientStep)        
     {
-        SendStepToServer(clientStep);
+        SendStepToServer(TestServerHelper.ConvertToJSON(clientStep));
     }
     public void CloseConnection()
     {
@@ -42,7 +42,7 @@ public class Server : MonoBehaviour
 
     private void ServerSendStep(string opponentStep)
     {
-        GameObject.Find("DebugUI").GetComponent<DebugConsole>().PrintUI("server send step");
+        Debug.Log("ServerSendStep:" + opponentStep);
         Step step = TestServerHelper.ConvertJSONtoSTEP(opponentStep);
         ApplyPlayerStep(step);
     }
@@ -88,7 +88,7 @@ public class Server : MonoBehaviour
         this.connection = _connection;
         await connection.InvokeAsync("FindRoom", "Default");
     }
-    private async void SendStepToServer(Step clientStep)
+    private async void SendStepToServer(string clientStep)
     {
         await connection.InvokeAsync("SendPlayerStep", clientStep);
     }

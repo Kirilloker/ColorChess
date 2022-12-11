@@ -97,5 +97,5 @@ app.UseEndpoints(endpoints =>
 });
 
 
-app.Run("http://192.168.1.38:11000");
+app.Run("http://192.168.1.116:11000");
 
