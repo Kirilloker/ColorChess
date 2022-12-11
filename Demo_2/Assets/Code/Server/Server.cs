@@ -52,6 +52,12 @@ public class Server : MonoBehaviour
         Map map = TestServerHelper.ConvertJSONtoMap(gameState);
         StartGame(map);
     }
+
+    private void ServerEndGame()
+    {
+        connection.StopAsync();
+        connection = null;
+    }
     //_______________________________________________________________
 
     private async void ConnectToGameServerHubAndFindTheRoom()
@@ -74,7 +80,7 @@ public class Server : MonoBehaviour
 
         _connection.On<string>("ServerStartGame", ServerStartGame);
         _connection.On<string>("ServerSendStep", ServerSendStep);
-        //_connection.On<string>("ServerEndGame", ServerSendStep);
+        _connection.On("ServerEndGame", ServerEndGame);
 
         try
         {

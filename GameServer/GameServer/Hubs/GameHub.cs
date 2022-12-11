@@ -24,7 +24,7 @@ public class GameHub : Hub
                         if (opponentId != -1)
                         {
                             GameStateBuilder builder = new GameStateBuilder();
-                            builder.SetDefaultOnlineGameState();
+                            builder.SetDefaultHotSeatGameState();
                             Map gameState = builder.CreateGameState();
 
                             DB.AddRoom(userId, opponentId, JsonConverter.ConvertToJSON(gameState), GameMode.Default);
@@ -67,10 +67,46 @@ public class GameHub : Hub
                                     await Clients.User(room.User2Id.ToString()).SendAsync("ServerSendStep", step);
 
                                     DB.ChangeRoom(playerId, JsonConverter.ConvertToJSON(newMap));
-                                    Console.WriteLine("Player 0 send step to player 1");
                                     if (newMap.EndGame)
                                     {
-                                        //Тут логика завершения игры
+                                        int player1Score = newMap.GetScorePlayer(0);
+                                        int player2Score = newMap.GetScorePlayer(1);
+                                        //Удаляем комнату и добавляем статистику игры
+                                        DB.DeleteRoom(playerId);
+                                        DB.AddGameStatistic(10, player1Score, player2Score,
+                                            DateTime.Now, GameMode.Default, room.User1Id, room.User2Id);
+
+                                        //Юзер статистика 
+                                        UserStatistic player1Stat = DB.GetUserStatistic(room.User1Id);
+                                        UserStatistic player2Stat = DB.GetUserStatistic(room.User2Id);
+
+                                        //Меняем рекорд набранных очков
+                                        if (player1Stat.MaxScore < player1Score)
+                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.MaxScore, player1Score);
+                                        if (player2Stat.MaxScore < player2Score)
+                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.MaxScore, player2Score);
+
+                                        //Если ничья
+                                        if (player1Score == player2Score)
+                                        {
+                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Draw, 1);
+                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Draw, 1);
+                                        }
+                                        //Если выиграл 1 игрок
+                                        else if (player1Score > player2Score)
+                                        {
+                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Win, 1);
+                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Lose, 1);
+                                        }
+                                        //Если выиграл 2 игрок
+                                        else if (player1Score < player2Score)
+                                        {
+                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Lose, 1);
+                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Win, 1);
+                                        }
+                                        // вызвать метод конца игры на клиентах
+                                        await Clients.User(room.User1Id.ToString()).SendAsync("ServerEndGame");
+                                        await Clients.User(room.User2Id.ToString()).SendAsync("ServerEndGame");
                                     }
                                 }
                             }
@@ -88,12 +124,48 @@ public class GameHub : Hub
                                 if ((Object)newMap != null)
                                 {
                                     await Clients.User(room.User1Id.ToString()).SendAsync("ServerSendStep", step);
-                                    Console.WriteLine("Player 0 send step to player 1");
                                     DB.ChangeRoom(playerId, JsonConverter.ConvertToJSON(newMap));
 
                                     if (newMap.EndGame)
                                     {
-                                        //Тут логика завершения игры
+                                        int player1Score = newMap.GetScorePlayer(0);
+                                        int player2Score = newMap.GetScorePlayer(1);
+                                        //Удаляем комнату и добавляем статистику игры
+                                        DB.DeleteRoom(playerId);
+                                        DB.AddGameStatistic(10, player1Score, player2Score,
+                                            DateTime.Now, GameMode.Default, room.User1Id, room.User2Id);
+
+                                        //Юзер статистика 
+                                        UserStatistic player1Stat = DB.GetUserStatistic(room.User1Id);
+                                        UserStatistic player2Stat = DB.GetUserStatistic(room.User2Id);
+
+                                        //Меняем рекорд набранных очков
+                                        if (player1Stat.MaxScore < player1Score)
+                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.MaxScore, player1Score);
+                                        if (player2Stat.MaxScore < player2Score)
+                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.MaxScore, player2Score);
+
+                                        //Если ничья
+                                        if (player1Score == player2Score)
+                                        {
+                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Draw, 1);
+                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Draw, 1);
+                                        }
+                                        //Если выиграл 1 игрок
+                                        else if (player1Score > player2Score)
+                                        {
+                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Win, 1);
+                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Lose, 1);
+                                        }
+                                        //Если выиграл 2 игрок
+                                        else if (player1Score < player2Score)
+                                        {
+                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Lose, 1);
+                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Win, 1);
+                                        }
+                                        // вызвать метод конца игры на клиентах
+                                        await Clients.User(room.User1Id.ToString()).SendAsync("ServerEndGame");
+                                        await Clients.User(room.User2Id.ToString()).SendAsync("ServerEndGame");
                                     }
                                 }
                             }
