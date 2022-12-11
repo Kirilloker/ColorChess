@@ -11,26 +11,36 @@ public class Registration : MonoBehaviour
     [SerializeField]
     TMP_InputField passwordInp;
     [SerializeField]
-    private CameraController cameraController;
+    CameraController cameraController;
+    [SerializeField]
+    GameObject ImageWarning;
 
     public void StartRegistration()
     {
         if ((loginInp.text.Length <= 2) || (passwordInp.text.Length <= 2)) return;
 
-        // if (CheckUserExist(loginInp.text) == true) return;
+        //if (AddUser(loginInp.text, passwordInp.text) == true) 
+        if (true)
+        {
+            ImageWarning.SetActive(false);
 
-        // AddUser(loginInp.text, passwordInp.text);
+            BinarySerializer binarySerializer = new BinarySerializer();
+            binarySerializer.SetDefaultData();
+            binarySerializer.GetData()["login"] = loginInp.text;
+            binarySerializer.GetData()["password"] = passwordInp.text;
+            binarySerializer.SaveData();
 
-        BinarySerializer binarySerializer= new BinarySerializer();
-        binarySerializer.SetDefaultData();
-        binarySerializer.GetData()["login"] = loginInp.text;
-        binarySerializer.GetData()["password"] = passwordInp.text;
-        binarySerializer.SaveData();
+            RegistrationMenu.SetActive(false);
+
+            cameraController.SwitchCamera(CameraViewType.noteMenu);
+        }
+        else 
+        {
+            Debug.Log("не получилось зарегистрироваться грусть печаль");
+            ImageWarning.SetActive(true);
+        }
 
 
-        RegistrationMenu.SetActive(false);
-
-        cameraController.SwitchCamera(CameraViewType.noteMenu);
     }
 }
 

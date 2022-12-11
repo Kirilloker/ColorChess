@@ -11,22 +11,35 @@ public class SignIn : MonoBehaviour
     [SerializeField]
     TMP_InputField passwordInp;
     [SerializeField]
-    private CameraController cameraController;
+    CameraController cameraController;
+    [SerializeField]
+    GameObject ImageWarning;
 
     public void StartSigIn()
     {
         if ((loginInp.text.Length <= 2) || (passwordInp.text.Length <= 2)) return;
 
-        // if (CheckUserCorrect(loginInp.text, passwordInp.text) == false) return;
+        //if (SignIn(loginInp.text, passwordInp.text) == true) 
+        if (true)
+        {
+            ImageWarning.SetActive(false);
 
-        BinarySerializer binarySerializer = new BinarySerializer();
-        binarySerializer.SetDefaultData();
-        binarySerializer.GetData()["login"] = loginInp.text;
-        binarySerializer.GetData()["password"] = passwordInp.text;
-        binarySerializer.SaveData();
+            BinarySerializer binarySerializer = new BinarySerializer();
+            binarySerializer.SetDefaultData();
+            binarySerializer.GetData()["login"] = loginInp.text;
+            binarySerializer.GetData()["password"] = passwordInp.text;
+            binarySerializer.SaveData();
 
-        SigInMenu.SetActive(false);
+            SigInMenu.SetActive(false);
 
-        cameraController.SwitchCamera(CameraViewType.noteMenu);
+            cameraController.SwitchCamera(CameraViewType.noteMenu);
+        }
+        else 
+        {
+            Debug.Log("не получилось авторизироваться грусть печаль");
+            ImageWarning.SetActive(true);
+        }
+
+
     }
 }

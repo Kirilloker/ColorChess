@@ -20,15 +20,13 @@ public class AutoSignIn : MonoBehaviour
 
         string login = TryGetValueInHashTable("login");
         string password = TryGetValueInHashTable("password");
-        
-        //if (UserExist(login, password)
+
+        //if (SignIn(login, password) == true) 
         if (true)
         {
             AuthorizationMenu.SetActive(false);
             MainMenu.SetActive(true);
         }
-
-        Debug.Log("TestTest TEst");
     }
 
     private string TryGetValueInHashTable(string key)
