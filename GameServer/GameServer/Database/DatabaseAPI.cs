@@ -644,18 +644,23 @@ public static class DB
                 {
                     case AttributeUS.Win:
                         userStatistic.Win += value;
+                        if ((userStatistic.Win) < 0) userStatistic.Win = 0;
                         break;
                     case AttributeUS.Lose:
                         userStatistic.Lose += value;
+                        if ((userStatistic.Lose) < 0) userStatistic.Lose = 0;
                         break;
                     case AttributeUS.MaxScore:
-                        userStatistic.MaxScore += value;
+                        userStatistic.MaxScore = value;
+                        if ((userStatistic.MaxScore) < 0) userStatistic.MaxScore = 0;
                         break;
                     case AttributeUS.Draw:
                         userStatistic.Draw += value;
+                        if ((userStatistic.Draw) < 0) userStatistic.Draw = 0;
                         break;
                     case AttributeUS.Rate:
                         userStatistic.Rate += value;
+                        if ((userStatistic.Rate) < 0) userStatistic.Rate = 0;
                         break;
                     default:
                         Console.WriteLine("Error ChangeUserStatistic: " + Error.UnknownAttribute);

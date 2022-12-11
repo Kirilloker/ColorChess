@@ -24,7 +24,7 @@ public class GameHub : Hub
                         if (opponentId != -1)
                         {
                             GameStateBuilder builder = new GameStateBuilder();
-                            builder.SetDefaultOnlineGameState();
+                            builder.SetDefaultHotSeatGameState();
                             Map gameState = builder.CreateGameState();
 
                             DB.AddRoom(userId, opponentId, JsonConverter.ConvertToJSON(gameState), GameMode.Default);
