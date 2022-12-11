@@ -20,11 +20,12 @@ public class Server : MonoBehaviour
     private HubConnection connection;
     private const string GameServerHubUrl = "http://192.168.1.116:11000/Game";
     private const string LoginInUrl = "http://192.168.1.116:11000/login";
+    private const string RegistrationUrl = "";
 
     private string UserName = "kirillok";
     private string Password = "qwerty01";
 
-    private bool IsLoggedIn = false;
+    
 
     public void ConnectToDefaultGame()
     {
@@ -71,6 +72,7 @@ public class Server : MonoBehaviour
                        HttpContent content = new StringContent(UserName + " " + Password);
                        HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
                        string contentText = await response.Content.ReadAsStringAsync();
+                       Debug.Log(contentText);
                        string token = JsonConvert.DeserializeObject<AccessToken>(contentText).access_token;
                        return token;
                    };
