@@ -56,17 +56,23 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\Rotate.cs" />
     <Compile Include="Assets\Code\Controllers\GameController.cs" />
     <Compile Include="Assets\Code\Model\GameStateCalcSystem\GameStateCalcSystem.cs" />
     <Compile Include="Assets\Code\Controllers\UIController.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\HorseBuilder.cs" />
     <Compile Include="Assets\Code\Model\GameState\Map.cs" />
+    <Compile Include="Assets\Code\Authorization UI\BinarySerializer.cs" />
+    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterGUI.cs" />
     <Compile Include="Assets\Code\Test\TestHash.cs" />
     <Compile Include="Assets\Code\View\FigureView.cs" />
     <Compile Include="Assets\Old Code\UI.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\QueenBuilder.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\WayCalcSystem.cs" />
+    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\MultiKeyDictionary.cs" />
+    <Compile Include="Assets\Code\Authorization UI\SignOut.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilderDirector.cs" />
+    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Reporter.cs" />
     <Compile Include="Assets\Code\Controllers\BoardController.cs" />
     <Compile Include="Assets\Code\SettingsGraphics.cs" />
     <Compile Include="Assets\Code\Model\Interfaces\WayCalcStrategy.cs" />
@@ -77,13 +83,17 @@
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\KingBuilder.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\FigureBuilder.cs" />
     <Compile Include="Assets\Code\Test\TestSerialization.cs" />
+    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterMessageReceiver.cs" />
     <Compile Include="Assets\Code\Model\GameState\Player.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\BishopBuilder.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\KingAlgorithm.cs" />
     <Compile Include="Assets\Code\Model\GameState\Position.cs" />
     <Compile Include="Assets\Code\Controllers\CameraController.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\QueenAlgorithm.cs" />
+    <Compile Include="Assets\Code\Authorization UI\SignIn.cs" />
+    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\TestReporter.cs" />
     <Compile Include="Assets\SignarRTest.cs" />
+    <Compile Include="Assets\Code\Authorization UI\AutoSignIn.cs" />
     <Compile Include="Assets\Code\Prefabs.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\HorseAlgorithm.cs" />
     <Compile Include="Assets\Code\Controllers\TestControllerBoardUI.cs" />
@@ -103,21 +113,11 @@
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\Check.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\PlayerBuilder.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\CastleAlgorithm.cs" />
+    <Compile Include="Assets\Code\Authorization UI\Registration.cs" />
     <Compile Include="Assets\Code\Controllers\FigureController.cs" />
     <Compile Include="Assets\Code\Server\TestServerHelper.cs" />
     <Compile Include="Assets\Code\Server\Server.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\CellBuilder.cs" />
-    <Compile Include="Assets\Code\Authorization UI\Registration.cs" />
-    <Compile Include="Assets\Code\Authorization UI\SignOut.cs" />
-    <Compile Include="Assets\Code\Authorization UI\SignIn.cs" />
-    <Compile Include="Assets\Code\Authorization UI\BinarySerializer.cs" />
-    <Compile Include="Assets\Code\Authorization UI\AutoSignIn.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\TestReporter.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\MultiKeyDictionary.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterGUI.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Reporter.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterMessageReceiver.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\Rotate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

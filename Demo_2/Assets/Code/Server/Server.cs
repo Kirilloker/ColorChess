@@ -18,15 +18,18 @@ public class Server : MonoBehaviour
 {
     public GameController gameController;
     private HubConnection connection;
+
+    private bool IsLoginIn = false;
+
     private const string GameServerHubUrl = "http://192.168.1.116:11000/Game";
     private const string LoginInUrl = "http://192.168.1.116:11000/login";
     private const string RegistrationUrl = "";
 
-    private string UserName = "kirillok";
-    private string Password = "qwerty01";
-
+    private string UserName = "";
+    private string Password = "";
     
 
+    //Публичный инерфейс класса_______________________________________
     public void ConnectToDefaultGame()
     {
         ConnectToGameServerHubAndFindTheRoom();
@@ -39,28 +42,32 @@ public class Server : MonoBehaviour
     {
         connection.StopAsync();
     }
-    //________________________________________________________________
 
+    public bool TryLoginIn(string name, string password)
+    {
+        LoginIn(name, password);
+        return IsLoginIn;
+    }
+    
+    //Методы вызываемы сервером во время игры________________________
     private void ServerSendStep(string opponentStep)
     {
         Debug.Log("ServerSendStep:" + opponentStep);
         Step step = TestServerHelper.ConvertJSONtoSTEP(opponentStep);
         ApplyPlayerStep(step);
     }
-
     private void ServerStartGame(string gameState)
     {
         Map map = TestServerHelper.ConvertJSONtoMap(gameState);
         StartGame(map);
     }
-
     private void ServerEndGame()
     {
         connection.StopAsync();
         connection = null;
     }
-    //_______________________________________________________________
-
+   
+    //Методы для обращений к серверу__________________________________
     private async void ConnectToGameServerHubAndFindTheRoom()
     {
         var _connection = new HubConnectionBuilder()
@@ -100,28 +107,34 @@ public class Server : MonoBehaviour
     {
         await connection.InvokeAsync("SendPlayerStep", clientStep);
     }
-    //_______________________________________________________________
+    private async void LoginIn(string _name, string _password)
+    {
+        HttpClient client = new HttpClient();
+        HttpContent content = new StringContent(_name + " " + _password);
+        HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
+        string contentText = await response.Content.ReadAsStringAsync();
+        string result = response.StatusCode.ToString();
+
+        if (result == "OK")
+        {
+            UserName = _name;
+            Password = _password;
+            IsLoginIn = true;
+        }
+        else if (result == "Unauthorized")
+        {
+            IsLoginIn = false;
+        }
+    }
+   
+
+    //Методы для вызова логики в игре________________________________
     private async void StartGame(Map map)
     {
        await Task.Run(() => { gameController.StartGame(map); });
     }
-
     private async void ApplyPlayerStep(Step step)
     {
         await Task.Run(() => { gameController.ApplyStepView(step); });
     }
-    //________________________________________________________________
-
-    //private async void LoginIn()
-    //{
-    //    try
-    //    {
-    //        HttpClient client = new HttpClient();
-    //        HttpContent content = new StringContent(UserName + " " + Password);
-    //        HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
-    //        string contentText = await response.Content.ReadAsStringAsync();
-    //        IsLoggedIn = true;
-
-    //    }
-    //}
 }
