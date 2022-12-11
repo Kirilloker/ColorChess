@@ -5,7 +5,7 @@ namespace ColorChessModel
     {
         public Position pos;
         public CellType type;
-        public Figure? figure;
+        public Figure figure;
         public int numberPlayer;
         public Cell() { }
 
@@ -47,6 +47,15 @@ namespace ColorChessModel
             return cell1.type == cell2.type && cell1.numberPlayer == cell2.numberPlayer && cell1.FigureType == cell2.FigureType;
         }
 
+        public override int GetHashCode()
+        {
+            return 
+                this.numberPlayer.GetHashCode() * 
+                this.pos.GetHashCode() * 
+                this.figure.GetHashCode() -
+                this.type.GetHashCode();
+        }
+
 
         public bool Avaible(Dictionary<CellType, bool>[] require, int numberPlayerFigure)
         {
@@ -67,6 +76,15 @@ namespace ColorChessModel
         public string GetStringForHash()
         {
             return pos.GetStringForHash() + numberPlayer.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Cell cell &&
+                   EqualityComparer<Position>.Default.Equals(pos, cell.pos) &&
+                   type == cell.type &&
+                   numberPlayer == cell.numberPlayer &&
+                   FigureType == cell.FigureType;
         }
     }
 }

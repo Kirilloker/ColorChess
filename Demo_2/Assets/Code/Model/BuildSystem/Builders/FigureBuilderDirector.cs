@@ -3,7 +3,7 @@ namespace ColorChessModel
 {
     class FigureBuilderDirector
     {
-        private FigureBuilder? builder;
+        private FigureBuilder builder;
 
         public FigureBuilderDirector() { }
 

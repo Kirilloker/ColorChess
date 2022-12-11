@@ -27,7 +27,8 @@ public class Registration : MonoBehaviour
             return;
 
         //if (AddUser(loginInp.text, passwordInp.text) == true) 
-        if (true)
+        bool x = true;
+        if (x)
         {
             ImageWarning.SetActive(false);
 

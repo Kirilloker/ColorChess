@@ -3,10 +3,10 @@ namespace ColorChessModel
 {
     public class Figure
     {
-        public Position? pos;
+        public Position pos;
         public FigureType type;
-        public Player? player;
-        public Dictionary<CellType, bool>[]? require;
+        public Player player;
+        public Dictionary<CellType, bool>[] require;
 
 
         public Figure() { }
@@ -27,6 +27,13 @@ namespace ColorChessModel
         public bool Equals(Figure anotherFigure)
         {
             return this.pos == anotherFigure.pos && this.type == anotherFigure.type && this.Number == anotherFigure.Number;
+        }
+
+        public override int GetHashCode()
+        {
+            return
+                this.pos.GetHashCode() *
+                this.type.GetHashCode();
         }
 
 
