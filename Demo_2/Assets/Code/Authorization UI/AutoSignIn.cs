@@ -1,3 +1,4 @@
+using ColorChessModel;
 using System.Collections;
 using UnityEngine;
 
@@ -26,7 +27,6 @@ public class AutoSignIn : MonoBehaviour
             AuthorizationMenu.SetActive(false);
             MainMenu.SetActive(true);
         }
-
     }
 
     private string TryGetValueInHashTable(string key)
