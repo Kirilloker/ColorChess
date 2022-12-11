@@ -137,7 +137,7 @@ public class Server : MonoBehaviour
         HttpContent content = new StringContent(_name + " " + _password);
         HttpResponseMessage response = await client.PostAsync(RegistrationUrl, content);
         string result = response.StatusCode.ToString();
-
+        Debug.Log(result);
         if (result == "OK")
         {
             return true;
