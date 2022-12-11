@@ -45,6 +45,11 @@ namespace ColorChessModel
             return "(X:" + X + ";   Y:" + Y + ")";
         }
 
+        public override int GetHashCode()
+        {
+            return this.X.GetHashCode() * this.Y.GetHashCode();
+        }
+
         public int _X 
         { 
             get { return X; } 
@@ -61,5 +66,14 @@ namespace ColorChessModel
         {
             return X.ToString() + Y.ToString();
         }
-    };
+
+        public override bool Equals(object obj)
+        {
+            return obj is Position position &&
+                   X == position.X &&
+                   Y == position.Y &&
+                   _X == position._X &&
+                   _Y == position._Y;
+        }
+    }
 }

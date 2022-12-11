@@ -34,7 +34,8 @@ public class AutoSignIn : MonoBehaviour
         string password = TryGetValueInHashTable("password");
 
         //if (SignIn(login, password) == true) 
-        if (true)
+        bool x = true;
+        if (x)
         {
             AuthorizationMenu.SetActive(false);
             MainMenu.SetActive(true);
