@@ -24,6 +24,11 @@ public class Server : MonoBehaviour
     private string UserName = "kirillok";
     private string Password = "qwerty01";
 
+    private void Start()
+    {
+        GameObject.Find("DebugUI").GetComponent<DebugConsole>().PrintUI("Example");
+    }
+
     public void ConnectToDefaultGame()
     {
         ConnectToGameServerHubAndFindTheRoom();
