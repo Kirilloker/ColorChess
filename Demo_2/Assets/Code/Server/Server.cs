@@ -21,8 +21,8 @@ public class Server : MonoBehaviour
     private const string GameServerHubUrl = "http://192.168.1.38:11000/Game";
     private const string LoginInUrl = "http://192.168.1.38:11000/login";
 
-    private string UserName = "kirillok";
-    private string Password = "qwerty01";
+    private string UserName = "tealvl";
+    private string Password = "qwerty02";
 
 
     private bool IsLoggedIn = false;
@@ -38,8 +38,7 @@ public class Server : MonoBehaviour
     }
     public void SendStep(Step clientStep)        
     {
-        GameObject.Find("DebugUI").GetComponent<DebugConsole>().PrintUI("sending step"); 
-        connection.InvokeAsync("SendPlayerStep", clientStep);
+        SendStepToServer();
     }
     public void CloseConnection()
     {
@@ -94,6 +93,10 @@ public class Server : MonoBehaviour
 
         this.connection = _connection;
         await connection.InvokeAsync("FindRoom", "Default");
+    }
+    private async void SendStepToServer()
+    {
+        await connection.InvokeAsync("SendPlayerStep", clientStep);
     }
     //_______________________________________________________________
     private async void StartGame(Map map)
