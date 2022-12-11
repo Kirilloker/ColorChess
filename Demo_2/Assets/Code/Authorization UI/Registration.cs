@@ -16,8 +16,10 @@ public class Registration : MonoBehaviour
     GameObject ImageWarning;
     [SerializeReference]
     AutoSignIn AutoSignIn;
+    [SerializeField]
+    Server server;
 
-    public void StartRegistration()
+    public async void StartRegistration()
     {
         if (
             (loginInp.text.Length <= 2) || (passwordInp.text.Length <= 2)
@@ -27,8 +29,9 @@ public class Registration : MonoBehaviour
             return;
 
         //if (AddUser(loginInp.text, passwordInp.text) == true) 
-        bool x = true;
-        if (x)
+        if (await server.TryRegisry(loginInp.text, passwordInp.text) == true)
+        //bool x = true;
+        //if (x)
         {
             ImageWarning.SetActive(false);
 

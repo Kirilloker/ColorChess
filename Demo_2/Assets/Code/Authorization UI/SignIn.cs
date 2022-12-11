@@ -16,8 +16,12 @@ public class SignIn : MonoBehaviour
     GameObject ImageWarning;
     [SerializeReference]
     AutoSignIn AutoSignIn;
+    [SerializeField]
+    Server server;
+    [SerializeField]
+    GameObject StartMenuDesktop;
 
-    public void StartSigIn()
+    public async void StartSigIn()
     {
         if (
             (loginInp.text.Length <= 2) || (passwordInp.text.Length <= 2)
@@ -26,9 +30,7 @@ public class SignIn : MonoBehaviour
             )
             return;
 
-        //if (SignIn(loginInp.text, passwordInp.text) == true) 
-        bool x = true;
-        if (x)
+        if (await server.TryLoginIn(loginInp.text, passwordInp.text) == true)
         {
             ImageWarning.SetActive(false);
 

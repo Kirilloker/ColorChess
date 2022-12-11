@@ -1,4 +1,3 @@
-using ColorChessModel;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -14,6 +13,9 @@ public class AutoSignIn : MonoBehaviour
     TMP_Text AccountText;
     [SerializeField]
     GameObject StartMenuDesktop;
+    [SerializeField]
+    Server server;
+
 
     private Hashtable gameData;
 
@@ -22,7 +24,7 @@ public class AutoSignIn : MonoBehaviour
         Authorization();
     }
 
-    public void Authorization() 
+    public async void Authorization() 
     {
         StartMenuDesktop.SetActive(true);
 
@@ -33,9 +35,7 @@ public class AutoSignIn : MonoBehaviour
         string login = TryGetValueInHashTable("login");
         string password = TryGetValueInHashTable("password");
 
-        //if (SignIn(login, password) == true) 
-        bool x = true;
-        if (x)
+        if (await server.TryLoginIn(login, password) == true)
         {
             AuthorizationMenu.SetActive(false);
             MainMenu.SetActive(true);
@@ -46,6 +46,8 @@ public class AutoSignIn : MonoBehaviour
         {
             AccountText.text = "Not found Account!";
         }
+
+        //Debug.Log(server.TryLoginIn(login, password).Result);
     }
 
     private string TryGetValueInHashTable(string key)
