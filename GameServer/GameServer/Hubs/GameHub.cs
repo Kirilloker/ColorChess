@@ -212,13 +212,78 @@ public class GameHub : Hub
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        await Task.Run(() =>
+        await Task.Run( async () =>
         {
-            DB.DeleteUserInLobby(int.Parse(Context.UserIdentifier));
+            int leavedUser = int.Parse(Context.UserIdentifier);
+            DB.DeleteUserInLobby(leavedUser);
+
+            Room room = DB.GetRoom(leavedUser);
+
+            if(room != null && room.GameMode == GameMode.Default)
+            {
+                Map map = JsonConverter.ConvertJSONtoMap(room.Map);
+                int anotherUser;
+                int leavedUserScore;
+                int anotherUserScore;
+
+                if(leavedUser == room.User1Id)
+                {
+                    anotherUser = room.User2Id;
+                    
+                    leavedUserScore = map.GetScorePlayer(0);
+                    anotherUserScore = map.GetScorePlayer(1);
+
+                    //Удаляем комнату и добавляем статистику игры
+                    DB.DeleteRoom(leavedUser);
+                    DB.AddGameStatistic(1, leavedUserScore, anotherUserScore,
+                        DateTime.Now, GameMode.Default, leavedUserScore, anotherUserScore);
+
+                    //Юзер статистика 
+                    UserStatistic leavedUserStat = DB.GetUserStatistic(leavedUser);
+                    UserStatistic anotherUserStat = DB.GetUserStatistic(anotherUser);
+
+                    //Меняем рекорд набранных очков
+                    if (leavedUserStat.MaxScore < leavedUserScore)
+                        DB.ChangeUserStatistic(leavedUser, AttributeUS.MaxScore, leavedUserScore);
+                    if (anotherUserStat.MaxScore < anotherUserScore)
+                        DB.ChangeUserStatistic(anotherUser, AttributeUS.MaxScore, anotherUserScore);
+
+                    DB.ChangeUserStatistic(leavedUser, AttributeUS.Lose, 1);
+                    DB.ChangeUserStatistic(anotherUser, AttributeUS.Win, 1);
+
+                    await Clients.User(anotherUser.ToString()).SendAsync("ServerEndGame");
+                }
+                else
+                {
+                    anotherUser = room.User1Id;
+
+                    leavedUserScore = map.GetScorePlayer(1);
+                    anotherUserScore = map.GetScorePlayer(0);
+
+                    //Удаляем комнату и добавляем статистику игры
+                    DB.DeleteRoom(leavedUser);
+                    DB.AddGameStatistic(1, anotherUserScore, leavedUserScore,
+                        DateTime.Now, GameMode.Default, anotherUserScore, leavedUserScore);
+
+                    //Юзер статистика 
+                    UserStatistic leavedUserStat = DB.GetUserStatistic(leavedUser);
+                    UserStatistic anotherUserStat = DB.GetUserStatistic(anotherUser);
+
+                    //Меняем рекорд набранных очков
+                    if (leavedUserStat.MaxScore < leavedUserScore)
+                        DB.ChangeUserStatistic(leavedUser, AttributeUS.MaxScore, leavedUserScore);
+                    if (anotherUserStat.MaxScore < anotherUserScore)
+                        DB.ChangeUserStatistic(anotherUser, AttributeUS.MaxScore, anotherUserScore);
+
+                    DB.ChangeUserStatistic(leavedUser, AttributeUS.Lose, 1);
+                    DB.ChangeUserStatistic(anotherUser, AttributeUS.Win, 1);
+
+                    await Clients.User(anotherUser.ToString()).SendAsync("ServerEndGame");
+                }    
+            }
+            
             if (exception == null) Console.WriteLine($"User ({Context.UserIdentifier}) disconnected from gameHub");
-
             else Console.WriteLine(exception);
-
         });
         await base.OnDisconnectedAsync(exception);
     }
