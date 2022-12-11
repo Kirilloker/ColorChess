@@ -27,6 +27,8 @@ public class AutoSignIn : MonoBehaviour
             AuthorizationMenu.SetActive(false);
             MainMenu.SetActive(true);
         }
+
+        Debug.Log("TestTest TEst");
     }
 
     private string TryGetValueInHashTable(string key)

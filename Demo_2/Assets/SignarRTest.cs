@@ -10,7 +10,7 @@ public class SignarRTest : MonoBehaviour
     void Start()
     {
         test();
-        GameObject.Find("DebugUI").GetComponent<DebugConsole>().PrintUI("Example");
+        
     }
 
     private async void test()
