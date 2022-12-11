@@ -32,7 +32,7 @@ public class Server : MonoBehaviour
     }
     public void SendStep(Step clientStep)        
     {
-        SendStepToServer();
+        SendStepToServer(clientStep);
     }
     public void CloseConnection()
     {
@@ -88,7 +88,7 @@ public class Server : MonoBehaviour
         this.connection = _connection;
         await connection.InvokeAsync("FindRoom", "Default");
     }
-    private async void SendStepToServer()
+    private async void SendStepToServer(Step clientStep)
     {
         await connection.InvokeAsync("SendPlayerStep", clientStep);
     }
