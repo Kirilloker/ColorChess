@@ -58,7 +58,8 @@ sysinfo.txt
 crashlytics-build.properties
 
 Demo_2/ProjectSettings/ProjectVersion.txt
-Demo_2/Packages/packages-lock.json
 *.xml
 Demo_2/Assets/Plugins/Newtonsoft.Json.dll
 Demo_2/Assets/Plugins/Newtonsoft.Json.dll.meta
+Build2
+Build1
