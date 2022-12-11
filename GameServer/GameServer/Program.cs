@@ -105,7 +105,7 @@ app.UseEndpoints(endpoints =>
 
         if (user == null)
         {
-            User newUser = new User { Name = login, Password = password };
+            User newUser = new User { Name = name, Password = password };
             DB.AddUser(newUser);
 
             newUser = DB.GetUser(newUser.Name);
@@ -113,16 +113,12 @@ app.UseEndpoints(endpoints =>
             UserStatistic userStatistic = new UserStatistic { Win = 0, Lose = 0, Draw = 0, MaxScore = 0, Rate = 0, UserId = newUser.Id };
             DB.AddUserStatistic(userStatistic);
 
-            return true;
+            return Results.Ok();
         }
         else
         {
             return Results.UnprocessableEntity();
         }
-
-        
-
-        
     });
 });
 

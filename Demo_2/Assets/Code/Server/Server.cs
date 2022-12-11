@@ -23,7 +23,7 @@ public class Server : MonoBehaviour
 
     private const string GameServerHubUrl = "http://192.168.1.116:11000/Game";
     private const string LoginInUrl = "http://192.168.1.116:11000/login";
-    private const string RegistrationUrl = "";
+    private const string RegistrationUrl = "http://192.168.1.116:11000/registry";
 
     private string UserName = "";
     private string Password = "";
@@ -43,9 +43,9 @@ public class Server : MonoBehaviour
         connection.StopAsync();
     }
 
-    public bool TryLoginIn(string name, string password)
+    public async Task<bool> TryLoginIn(string name, string password)
     {
-        LoginIn(name, password);
+        await LoginIn(name, password);
         return IsLoginIn;
     }
     
@@ -107,10 +107,8 @@ public class Server : MonoBehaviour
     {
         await connection.InvokeAsync("SendPlayerStep", clientStep);
     }
-    private async void LoginIn(string _name, string _password)
+    private async Task LoginIn(string _name, string _password)
     {
-        await Task.Run( async () =>
-        {
             HttpClient client = new HttpClient();
             HttpContent content = new StringContent(_name + " " + _password);
             HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
@@ -127,10 +125,8 @@ public class Server : MonoBehaviour
             {
                 IsLoginIn = false;
             }
-        });
     }
    
-
     //Методы для вызова логики в игре________________________________
     private async void StartGame(Map map)
     {
