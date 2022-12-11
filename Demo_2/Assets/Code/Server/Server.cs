@@ -84,7 +84,6 @@ public class Server : MonoBehaviour
                        HttpContent content = new StringContent(UserName + " " + Password);
                        HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
                        string contentText = await response.Content.ReadAsStringAsync();
-                       Debug.Log(contentText);
                        string token = JsonConvert.DeserializeObject<AccessToken>(contentText).access_token;
                        return token;
                    };

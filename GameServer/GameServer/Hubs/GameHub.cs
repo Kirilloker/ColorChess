@@ -229,7 +229,9 @@ public class GameHub : Hub
                 if(leavedUser == room.User1Id)
                 {
                     anotherUser = room.User2Id;
-                    
+
+                    Console.WriteLine(room.Map);
+
                     leavedUserScore = map.GetScorePlayer(0);
                     anotherUserScore = map.GetScorePlayer(1);
 
@@ -256,6 +258,8 @@ public class GameHub : Hub
                 else
                 {
                     anotherUser = room.User1Id;
+
+                    Console.WriteLine(room.Map);
 
                     leavedUserScore = map.GetScorePlayer(1);
                     anotherUserScore = map.GetScorePlayer(0);
