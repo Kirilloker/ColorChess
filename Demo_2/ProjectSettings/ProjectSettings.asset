@@ -154,7 +154,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.DUCO.ColorChess
-    Standalone: com.DefaultCompany.Demo2
+    Standalone: com.DUCO.ColorChess
   buildNumber:
     Standalone: 0
     iPhone: 0

@@ -21,25 +21,18 @@ public class Server : MonoBehaviour
     private const string GameServerHubUrl = "http://192.168.1.38:11000/Game";
     private const string LoginInUrl = "http://192.168.1.38:11000/login";
 
-    private string UserName = "kirillok";
-    private string Password = "qwerty01";
+    private string UserName = "tealvl";
+    private string Password = "qwerty02";
 
-    private void Start()
-    {
-        GameObject.Find("DebugUI").GetComponent<DebugConsole>().PrintUI("Example");
-    }
+    private bool IsLoggedIn = false;
 
     public void ConnectToDefaultGame()
     {
         ConnectToGameServerHubAndFindTheRoom();
     }
-    public async void SendStep(Step clientStep)        
+    public void SendStep(Step clientStep)        
     {
-        await Task.Run(() =>
-        {
-            Debug.Log("sending step");
-            connection.InvokeAsync("SendPlayerStep", clientStep);
-        });
+        SendStepToServer();
     }
     public void CloseConnection()
     {
@@ -49,6 +42,7 @@ public class Server : MonoBehaviour
 
     private void ServerSendStep(string opponentStep)
     {
+        GameObject.Find("DebugUI").GetComponent<DebugConsole>().PrintUI("server send step");
         Step step = TestServerHelper.ConvertJSONtoSTEP(opponentStep);
         ApplyPlayerStep(step);
     }
@@ -94,6 +88,10 @@ public class Server : MonoBehaviour
         this.connection = _connection;
         await connection.InvokeAsync("FindRoom", "Default");
     }
+    private async void SendStepToServer()
+    {
+        await connection.InvokeAsync("SendPlayerStep", clientStep);
+    }
     //_______________________________________________________________
     private async void StartGame(Map map)
     {
@@ -103,5 +101,19 @@ public class Server : MonoBehaviour
     private async void ApplyPlayerStep(Step step)
     {
         await Task.Run(() => { gameController.ApplyStepView(step); });
-    }  
+    }
+    //________________________________________________________________
+
+    //private async void LoginIn()
+    //{
+    //    try
+    //    {
+    //        HttpClient client = new HttpClient();
+    //        HttpContent content = new StringContent(UserName + " " + Password);
+    //        HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
+    //        string contentText = await response.Content.ReadAsStringAsync();
+    //        IsLoggedIn = true;
+
+    //    }
+    //}
 }
