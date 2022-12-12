@@ -56,6 +56,11 @@ public class Server : MonoBehaviour
     {
         return await Regisry(name, password);
     }
+
+    public async void DisconectFromServer() 
+    {
+        await connection.StopAsync();
+    }
     
     //Ìועמהû גûחûגאולû סונגונמל גמ גנולÿ טדנû________________________
     private void ServerSendStep(string opponentStep)
