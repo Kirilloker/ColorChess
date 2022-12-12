@@ -71,8 +71,11 @@ public class Server : MonoBehaviour
     }
     private void ServerEndGame()
     {
+        Debug.Log("ServerEndGame");
+        gameController.EndGame();
         connection.StopAsync();
         connection = null;
+        
     }
    
     //Методы для обращений к серверу__________________________________

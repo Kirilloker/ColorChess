@@ -29,6 +29,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private Server server;
 
+
     private bool IsFirstGame = true;
 
     private float cameraSpeed;
@@ -265,7 +266,11 @@ public class GameController : MonoBehaviour
 
     public void EndGame()
     {
-        if (ItServer == true) server.CloseConnection();
+        if (ItServer == true)
+        {
+            uiController.OnlineGameExut();
+            server.CloseConnection();
+        }
 
         // Конец игры
         Debug.Log("Конец игры");
