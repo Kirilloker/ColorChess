@@ -21,9 +21,12 @@ public class Server : MonoBehaviour
 
     private bool IsLoginIn = false;
 
-    private const string GameServerHubUrl = "http://192.168.1.116:11000/Game";
-    private const string LoginInUrl = "http://192.168.1.116:11000/login";
-    private const string RegistrationUrl = "http://192.168.1.116:11000/registry";
+    private const string baseIP = "192.168.1.116";
+    //private const string baseIP = "172.20.10.10";
+
+    private const string GameServerHubUrl = "http://" + baseIP + ":11000/Game";
+    private const string LoginInUrl = "http://" + baseIP + ":11000/login";
+    private const string RegistrationUrl = "http://" + baseIP + ":11000/registry";
 
     private string UserName = "";
     private string Password = "";
