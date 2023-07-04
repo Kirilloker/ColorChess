@@ -5,6 +5,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
+const string baseIP = "192.168.1.116";
+//const string baseIP = "172.20.10.10";
 
 DB.ClearLobby();
 DB.ClearRoom();
@@ -123,5 +125,5 @@ app.UseEndpoints(endpoints =>
 });
 
 
-app.Run("http://192.168.1.116:11000");
+app.Run("http://" + baseIP + ":11000");
 

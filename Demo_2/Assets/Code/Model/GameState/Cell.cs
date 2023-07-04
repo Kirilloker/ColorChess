@@ -47,14 +47,14 @@ namespace ColorChessModel
             return cell1.type == cell2.type && cell1.numberPlayer == cell2.numberPlayer && cell1.FigureType == cell2.FigureType;
         }
 
-        public override int GetHashCode()
-        {
-            return 
-                this.numberPlayer.GetHashCode() * 
-                this.pos.GetHashCode() * 
-                this.figure.GetHashCode() -
-                this.type.GetHashCode();
-        }
+        //public override int GetHashCode()
+        //{
+        //    return 
+        //        this.numberPlayer.GetHashCode() * 
+        //        this.pos.GetHashCode() * 
+        //        this.figure.GetHashCode() -
+        //        this.type.GetHashCode();
+        //}
 
 
         public bool Avaible(Dictionary<CellType, bool>[] require, int numberPlayerFigure)

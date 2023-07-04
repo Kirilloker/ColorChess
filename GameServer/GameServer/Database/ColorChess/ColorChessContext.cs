@@ -9,7 +9,8 @@ namespace FirstEF6App
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(
-                "server=192.168.1.116;user=kirillok;password=loki5566;database=usersdb5;",
+                //"server=192.168.1.116;user=kirillok;password=loki5566;database=usersdb5;",
+                "server=localhost;user=root;password=loki5566;database=usersdb5;",
                 new MySqlServerVersion(new Version(8, 0, 13))
             );
         }

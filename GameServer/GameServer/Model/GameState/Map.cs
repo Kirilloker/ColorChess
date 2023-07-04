@@ -83,8 +83,16 @@ namespace ColorChessModel
 
         public int GetScorePlayer(int numberPlayer)
         {
-            return score[numberPlayer][CellType.Paint] * OneScorePaint +
-                score[numberPlayer][CellType.Dark] * OneScoreDark;
+            if (score.Count == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return score[numberPlayer][CellType.Paint] * OneScorePaint +
+    score[numberPlayer][CellType.Dark] * OneScoreDark;
+            }
+
         }
 
         public Cell GetCell(Position posCell)
