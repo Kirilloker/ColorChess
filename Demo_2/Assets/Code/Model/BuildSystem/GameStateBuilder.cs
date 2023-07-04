@@ -18,7 +18,7 @@ namespace ColorChessModel
 
         private PlayersDiscription playersDiscription;
         private CellDiscription board;
-        private List<FigureSetDiscription>? figureSets;
+        private List<FigureSetDiscription> figureSets;
 
         public GameStateBuilder()
         {
@@ -79,7 +79,7 @@ namespace ColorChessModel
             return gameState;
         }
 
-        public void SetCustomGameState(PlayersDiscription _playersDiscription, CellDiscription _board, List<FigureSetDiscription>? _figureSets)
+        public void SetCustomGameState(PlayersDiscription _playersDiscription, CellDiscription _board, List<FigureSetDiscription> _figureSets)
         {
             playersDiscription = _playersDiscription;
             board = _board;

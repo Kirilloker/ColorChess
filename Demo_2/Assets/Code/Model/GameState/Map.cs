@@ -72,8 +72,16 @@ namespace ColorChessModel
 
         public int GetScorePlayer(int numberPlayer)
         {
-            return score[numberPlayer][CellType.Paint] * OneScorePaint +
-                score[numberPlayer][CellType.Dark] * OneScoreDark;
+            if (score.Count == 0) 
+            {
+                return 0;
+            }
+            else 
+            {
+                return score[numberPlayer][CellType.Paint] * OneScorePaint +
+    score[numberPlayer][CellType.Dark] * OneScoreDark;
+            }
+
         }
 
         public Cell GetCell(Position posCell)
@@ -205,10 +213,13 @@ namespace ColorChessModel
                     }
                 }
             }
-
             return true;
         }
 
+        public override int GetHashCode()
+        {
+            return (int)GetHash();
+        }
 
         public uint GetHash()
         {
@@ -272,6 +283,25 @@ namespace ColorChessModel
             return stringForHash;
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Map map &&
+                   EqualityComparer<Cell[,]>.Default.Equals(cells, map.cells) &&
+                   EqualityComparer<List<Player>>.Default.Equals(players, map.players) &&
+                   countStep == map.countStep &&
+                   OneScorePaint == map.OneScorePaint &&
+                   OneScoreDark == map.OneScoreDark &&
+                   EqualityComparer<Dictionary<int, Dictionary<CellType, int>>>.Default.Equals(score, map.score) &&
+                   Width == map.Width &&
+                   Length == map.Length &&
+                   PlayersCount == map.PlayersCount &&
+                   CountEmptyCell == map.CountEmptyCell &&
+                   EqualityComparer<Dictionary<int, Dictionary<CellType, int>>>.Default.Equals(Score, map.Score) &&
+                   EqualityComparer<List<Player>>.Default.Equals(Players, map.Players) &&
+                   EqualityComparer<Cell[,]>.Default.Equals(Cells, map.Cells) &&
+                   CountStep == map.CountStep;
+        }
+
         // Свойства для сериализицаии
 
         public List<Player> Players
@@ -321,5 +351,4 @@ namespace ColorChessModel
             set { countStep = value; }
         }
 
-    };
-}
+    }}

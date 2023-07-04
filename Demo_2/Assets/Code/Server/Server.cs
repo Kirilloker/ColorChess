@@ -2,107 +2,171 @@ using ColorChessModel;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using WebSocketSharp;
 using System.Threading.Tasks;
-
-enum MessageType
+using Microsoft.AspNetCore.SignalR.Client;
+using System;
+using System.Net.Http;
+using Newtonsoft.Json;
+public enum GameMode
 {
-    GameSearch = 0,
-    CurrentGameState = 1,
-    PlayerStep = 2,
-    InvalidStep = 3
+    Default = 0,
+    Rating = 1,
+    Custom = 2,
 }
 
 public class Server : MonoBehaviour
 {
-    //private const string DefaultGameServerUrl = "ws://127.0.0.1:7890/DefaultGame";
-    private const string DefaultGameServerUrl = "ws://192.168.0.42:7890/DefaultGame";
-    private WebSocket ws;
-   
+    public GameController gameController;
+    private HubConnection connection;
+
+    private bool IsLoginIn = false;
+
+    private const string baseIP = "192.168.1.116";
+    //private const string baseIP = "172.20.10.10";
+
+    private const string GameServerHubUrl = "http://" + baseIP + ":11000/Game";
+    private const string LoginInUrl = "http://" + baseIP + ":11000/login";
+    private const string RegistrationUrl = "http://" + baseIP + ":11000/registry";
+
+    private string UserName = "";
+    private string Password = "";
     
+
+    //Публичный инерфейс класса_______________________________________
     public void ConnectToDefaultGame()
     {
-       OpenConnection(DefaultGameServerUrl);
-        ws.Send("0WannaPlay");
+        ConnectToGameServerHubAndFindTheRoom();
     }
-
-    private void OpenConnection(string url)
+    public void SendStep(Step clientStep)        
     {
-        if (ws != null)
-        {
-            CloseConnection();
-        }
-
-        ws = new WebSocket(url);
-
-        ws.OnOpen += Ws_OnOpen;
-        ws.OnClose += Ws_OnClose;
-        ws.OnMessage += Ws_OnMessage;
-        ws.OnError += Ws_OnError;
-
-        ws.Connect();
+        SendStepToServer(TestServerHelper.ConvertToJSON(clientStep));
     }
-
     public void CloseConnection()
     {
-        ws.Close();
-        ws = null;
+        connection.StopAsync();
     }
 
-    //Puck-Puck
-    public GameController gameController;
-    private void Ws_OnMessage(object sender, MessageEventArgs e)
+    public async Task<bool> TryLoginIn(string name, string password)
     {
+        await LoginIn(name, password);
+        return IsLoginIn;
+    }
 
-        MessageType msgType = (MessageType)int.Parse(e.Data.ToString().Substring(0, 1));
-        string msg = e.Data.ToString().Substring(1);
+    public async Task<bool> TryRegisry(string name, string password)
+    {
+        return await Regisry(name, password);
+    }
 
-        switch (msgType)
+    public async void DisconectFromServer() 
+    {
+        await connection.StopAsync();
+    }
+    
+    //Методы вызываемы сервером во время игры________________________
+    private void ServerSendStep(string opponentStep)
+    {
+        Debug.Log("ServerSendStep:" + opponentStep);
+        Step step = TestServerHelper.ConvertJSONtoSTEP(opponentStep);
+        ApplyPlayerStep(step);
+    }
+    private void ServerStartGame(string gameState)
+    {
+        Map map = TestServerHelper.ConvertJSONtoMap(gameState);
+        StartGame(map);
+    }
+    private void ServerEndGame()
+    {
+        Debug.Log("ServerEndGame");
+        gameController.EndGame();
+        connection.StopAsync();
+        connection = null;
+        
+    }
+   
+    //Методы для обращений к серверу__________________________________
+    private async void ConnectToGameServerHubAndFindTheRoom()
+    {
+        var _connection = new HubConnectionBuilder()
+               .WithUrl(GameServerHubUrl, options =>
+               {
+                   options.AccessTokenProvider = async () =>
+                   {
+                       HttpClient client = new HttpClient();
+                       HttpContent content = new StringContent(UserName + " " + Password);
+                       HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
+                       string contentText = await response.Content.ReadAsStringAsync();
+                       string token = JsonConvert.DeserializeObject<AccessToken>(contentText).access_token;
+                       return token;
+                   };
+                   options.UseDefaultCredentials = true;
+               })
+               .Build();
+
+        _connection.On<string>("ServerStartGame", ServerStartGame);
+        _connection.On<string>("ServerSendStep", ServerSendStep);
+        _connection.On("ServerEndGame", ServerEndGame);
+
+        try
         {
-            case MessageType.CurrentGameState:
-                Debug.Log($"I recieved game state: {msg}");
-                Map map = TestServerHelper.ConvertJSONtoMap(msg);
-                StartGame(map);
-                break;
-            case MessageType.InvalidStep:
-                break;
-            case MessageType.PlayerStep:
-                Debug.Log($"I recieved game state: {msg}");
-                ApplyPlayerStep(TestServerHelper.ConvertJSONtoSTEP(msg));
-                break;
-            default:
-                break;
+            await _connection.StartAsync();
         }
-    }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.Message);
+        }
 
-    private void Ws_OnError(object sender, ErrorEventArgs e)
+        this.connection = _connection;
+        await connection.InvokeAsync("FindRoom", "Default");
+    }
+    private async void SendStepToServer(string clientStep)
     {
-        Debug.Log(e.Message);
-        Debug.Log(e.Exception.ToString());
+        await connection.InvokeAsync("SendPlayerStep", clientStep);
     }
-
-    private void Ws_OnClose(object sender, CloseEventArgs e)
+    private async Task LoginIn(string _name, string _password)
     {
-        Debug.Log(ws.ReadyState);
+            HttpClient client = new HttpClient();
+            HttpContent content = new StringContent(_name + " " + _password);
+            HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
+            string result = response.StatusCode.ToString();
+
+            if (result == "OK")
+            {
+                UserName = _name;
+                Password = _password;
+                IsLoginIn = true;
+            }
+            else if (result == "Unauthorized")
+            {
+                IsLoginIn = false;
+            }
     }
 
-    private void Ws_OnOpen(object sender, System.EventArgs e)
+    private async Task<bool> Regisry(string _name, string _password)
     {
-        Debug.Log(ws.ReadyState);
+        HttpClient client = new HttpClient();
+        HttpContent content = new StringContent(_name + " " + _password);
+        HttpResponseMessage response = await client.PostAsync(RegistrationUrl, content);
+        string result = response.StatusCode.ToString();
+        Debug.Log(result);
+        if (result == "OK")
+        {
+            return true;
+        }
+        else if (result == "UnprocessableEntity")
+        {
+            return false;
+        }
+
+        return false;
     }
 
+    //Методы для вызова логики в игре________________________________
     private async void StartGame(Map map)
     {
        await Task.Run(() => { gameController.StartGame(map); });
     }
-
     private async void ApplyPlayerStep(Step step)
     {
         await Task.Run(() => { gameController.ApplyStepView(step); });
-    }
-
-    public void SendStep(Step clientStep)
-    {
-        ws.Send("2" + TestServerHelper.ConvertToJSON(clientStep));
     }
 }
