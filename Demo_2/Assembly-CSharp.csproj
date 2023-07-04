@@ -118,6 +118,7 @@
     <Compile Include="Assets\Code\Server\TestServerHelper.cs" />
     <Compile Include="Assets\Code\Server\Server.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\CellBuilder.cs" />
+    <Compile Include="Assets\Code\Model\GameStateCalcSystem\GameStateToIntArray.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
