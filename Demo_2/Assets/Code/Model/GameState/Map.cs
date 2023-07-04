@@ -216,73 +216,7 @@ namespace ColorChessModel
             return true;
         }
 
-        public override int GetHashCode()
-        {
-            return (int)GetHash();
-        }
-
-        public uint GetHash()
-        {
-            uint hash = 0;
-
-            int param1 = 0;
-            int param2 = 1;
-            int param3 = 1;
-            int param4 = 1;
-            int param5 = 0;
-            int param6 = 1;
-            int param7 = 1;
-            int param8 = 17;
-            int param9 = 256;
-            int param10 = 128;
-            int param11 = 1;
-            int param12 = 32;
-
-            foreach (var player in score)
-            {
-                foreach (var cell in player.Value)
-                {
-                    if (cell.Key == CellType.Paint)
-                    {
-                        hash += (uint)MathF.Pow((cell.Value + param1) * param2, (player.Key + param3) * param4);
-                    }
-                    else if (cell.Key == CellType.Dark)
-                    {
-                        hash += (uint)MathF.Pow((cell.Value + param5) * param6, (player.Key + param7) * param8);
-                    }
-                }
-            }
-            
-            foreach (var player in players)
-            {
-                foreach (var figure in player.figures)
-                {
-                    hash += (uint)(((int)figure.type + param9) * param10 * (figure.pos.X + param11) * (figure.pos.X + param12) * 10000 * figure.pos.X);
-                }
-            }
-
-            return hash;
-        }
-        public string GetStringForHash()
-        {
-            string stringForHash = "";
-
-            for (int i = 0; i < Length; i++)
-            {
-                for (int j = 0; j < Width; j++)
-                {
-                    stringForHash += cells[i, j].GetStringForHash();
-                }
-            }
-
-            for (int i = 0; i < PlayersCount; i++)
-            {
-                stringForHash += players[i].GetStringForHash();
-            }
-
-            return stringForHash;
-        }
-
+    
         public override bool Equals(object obj)
         {
             return obj is Map map &&

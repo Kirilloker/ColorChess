@@ -1,12 +1,12 @@
 ﻿using ColorChessModel;
 using System;
 using System.Collections.Generic;
-
+using System.Diagnostics;
 
 public class TestAI
 {
     // Глубина дерева
-    static int MAX_LEVEL = 4;
+    static int MAX_LEVEL = 6;
 
     // Лучший ход
     public static Cell bestCell = null;
@@ -59,6 +59,7 @@ public class TestAI
 
     public static int AlphaBeta(Map map, int level, int alpha, int beta)
     {
+        TestWatch.Start1();
         // Список всех возможных ходов для определенного игрока
         List<List<Cell>> avaible = new();
 
@@ -86,33 +87,64 @@ public class TestAI
 
 
         int MaxMinEvaluation;
+
+        TestWatch.Stop1();
+
         // Обработка хода Бота
         if (level % 2 == 0)
         {
             // Получаем список всех ходов 
+            TestWatch.Start2();
             avaible = GetAvaibleForPlayer(map, 1);
             MaxMinEvaluation = int.MinValue;
+            TestWatch.Stop2();
+
+            TestWatch.Start4();
 
             for (int i = 0; i < avaible.Count; i++)
             {
+                TestWatch.Start3();
                 // Сколько процентов ходов обработать у фигуры
                 float percentStep = figurePercent[(int)(map.Players[1].figures[i].type) - 1];
 
                 // Количество ходов которое будет обработано у фигуры
-                int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
+                //int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
+                int stepCalculate = avaible[i].Count;
+                stepCalculate = 2;
+                if (avaible[i].Count <= stepCalculate) stepCalculate = avaible[i].Count;
 
                 // Если получилось что 0 шагов обработаются, то обработать хотя бы 1 шаг
                 if ((stepCalculate < 1) && (avaible[i].Count >= 1))
                     stepCalculate = 1;
 
+                TestWatch.Stop3();
+
+                TestWatch.Start6();
+
                 for (int j = 0; j < stepCalculate; j++)
                 {
+                    TestWatch.Start5();
                     if (MaxMinEvaluation > beta) break;
                     if (beta < alpha) break;
 
                     Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[1].figures[i], avaible[i][j]);
+                    TestWatch.Stop5();
 
+                    //TestWatch.Start6();
                     int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+                    TestTrash.test++;
+
+                    //var x = GameStateToIntArray.ConvertMapToIntArray(copyMap);
+                    //int test = TestTrash.Contain(x);
+
+                    //int MinMax;
+                    //if (test != Int32.MinValue) MinMax = test;
+                    //else
+                    //{
+                    //    MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+                    //    TestTrash.Add(x, MinMax);
+                    //}
+
 
                     // Запоминаем наилучший ход
                     if ((level == 0) && (MinMax > MaxMinEvaluation))
@@ -124,7 +156,11 @@ public class TestAI
                     MaxMinEvaluation = Math.Max(MaxMinEvaluation, MinMax);
                     alpha = Math.Max(alpha, MaxMinEvaluation);
                 }
+
+                TestWatch.Stop6();
             }
+
+            TestWatch.Stop4();
         }
         // Обработка хода Человека
         else
@@ -135,7 +171,10 @@ public class TestAI
             for (int i = 0; i < avaible.Count; i++)
             {
                 float percentStep = figurePercent[(int)(map.Players[0].figures[i].type) - 1];
-                int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
+                //int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
+                int stepCalculate = avaible[i].Count;
+                stepCalculate = 2;
+                if (avaible[i].Count <= stepCalculate) stepCalculate = avaible[i].Count;
 
                 if ((stepCalculate < 1) && (avaible[i].Count >= 1)) stepCalculate = 1;
 
@@ -147,6 +186,20 @@ public class TestAI
                     Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[0].figures[i], avaible[i][j]);
 
                     int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+
+                    TestTrash.test++;
+                    //var x = GameStateToIntArray.ConvertMapToIntArray(copyMap);
+                    //int test = TestTrash.Contain(x);
+
+
+                    //int MinMax;
+                    //if (test != Int32.MinValue) MinMax = test;
+                    //else
+                    //{
+                    //    MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+                    //    TestTrash.Add(x, MinMax);
+                    //}
+
                     MaxMinEvaluation = Math.Min(MaxMinEvaluation, MinMax);
                     beta = Math.Min(beta, MaxMinEvaluation);
                 }

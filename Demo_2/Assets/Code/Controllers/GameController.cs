@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using static UnityEditor.Progress;
+using System.Diagnostics;
 
 public class GameController : MonoBehaviour
 {
@@ -95,7 +96,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Такой фигуры не нашлось");
+            UnityEngine.Debug.Log("Такой фигуры не нашлось");
         }
     }
 
@@ -105,30 +106,13 @@ public class GameController : MonoBehaviour
         // Получаем массив пути - запускаем анимацию фигуры по этому пути и перекрашиваем клеткти
         // Также меняем всё в Model 
         // И в конце запускаем новый шаг
-        Debug.Log("ApplyStepView");
 
         Figure figure = step.Figure;
         Cell cell = step.Cell;
 
         List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.pos, cell.pos, figure);
 
-        Debug.Log("Before Map:");
-        string test1 = "";
-        string test2 = "";
-        foreach (var item in GameStateToIntArray.ConvertMapToIntArray(CurrentGameState))
-        {
-            test1 += item + " ";
-        }
-        Debug.Log(test1);
-
         Map map = GameStateCalcSystem.ApplyStep(CurrentGameState, figure, cell);
-
-        Debug.Log("After Map:");
-        foreach (var item in GameStateToIntArray.ConvertMapToIntArray(map))
-        {
-            test2 += item + " ";
-        }
-        Debug.Log(test2);
 
         gameStates.Add(map);
 
@@ -294,7 +278,7 @@ public class GameController : MonoBehaviour
         }
 
         // Конец игры
-        Debug.Log("Конец игры");
+        UnityEngine.Debug.Log("Конец игры");
         cameraController.SetCameraSpeed(cameraSpeed);
         cameraController.SwitchCamera(CameraViewType.noteMenu);
 
@@ -346,13 +330,22 @@ public class GameController : MonoBehaviour
     {
         await Task.Run(() =>
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            stopwatch.Start();
+            TestWatch.Reset();
+            TestTrash.test = 0;
             TestAI.AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
+            UnityEngine.Debug.Log(stopwatch.Elapsed.TotalMilliseconds);
+            UnityEngine.Debug.Log("Test:" + TestTrash.test);
+            TestWatch.Print();
+             
         });
 
         if (gameStates.Count == 0) return;
 
         figureController.UpedFigure = figureController.FindFigureView(TestAI.bestFigure, CurrentGameState);
         ApplyStepView( new Step(TestAI.bestFigure, TestAI.bestCell));
+        
     }   
 
 
