@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
+using static UnityEditor.Progress;
 
 public class GameController : MonoBehaviour
 {
@@ -111,7 +112,24 @@ public class GameController : MonoBehaviour
 
         List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.pos, cell.pos, figure);
 
+        Debug.Log("Before Map:");
+        string test1 = "";
+        string test2 = "";
+        foreach (var item in GameStateToIntArray.ConvertMapToIntArray(CurrentGameState))
+        {
+            test1 += item + " ";
+        }
+        Debug.Log(test1);
+
         Map map = GameStateCalcSystem.ApplyStep(CurrentGameState, figure, cell);
+
+        Debug.Log("After Map:");
+        foreach (var item in GameStateToIntArray.ConvertMapToIntArray(map))
+        {
+            test2 += item + " ";
+        }
+        Debug.Log(test2);
+
         gameStates.Add(map);
 
         List<Vector3> wayVectors = new List<Vector3>();

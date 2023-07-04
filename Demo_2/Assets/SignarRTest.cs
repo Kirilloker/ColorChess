@@ -9,7 +9,7 @@ public class SignarRTest : MonoBehaviour
 {
     void Start()
     {
-        test();
+        //test();
         
     }
 
