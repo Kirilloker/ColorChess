@@ -1,5 +1,4 @@
-﻿using ColorChessModel;
-
+﻿
 namespace ColorChessModel
 {
     public static class TypeToString
@@ -13,6 +12,8 @@ namespace ColorChessModel
                     return "Human";
                 case PlayerType.AI:
                     return "AI";
+                case PlayerType.AI2:
+                    return "AI2";
                 case PlayerType.Online:
                     return "Online";
                 default:

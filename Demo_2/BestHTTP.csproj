@@ -873,15 +873,15 @@
     <Compile Include="Assets\Best HTTP\Source\Caching\HTTPCacheMaintananceParams.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\BERGenerator.cs" />
     <Compile Include="Assets\Best HTTP\Examples\SignalRCore\TestHubSample.cs" />
-    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\pkcs\CertBag.cs" />
     <Compile Include="Assets\Best HTTP\Source\Extensions\HeaderValue.cs" />
     <Compile Include="Assets\Best HTTP\Examples\SignalRCore\HubWithAuthorizationSample.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\ocsp\RespID.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\signers\GOST3410Signer.cs" />
-    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\tls\DtlsRecordLayer.cs" />
+    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\pkcs\CertBag.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\esf\CommitmentTypeIndication.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\x509\qualified\TypeOfBiometricData.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\x509\qualified\RFC3739QCObjectIdentifiers.cs" />
+    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\tls\DtlsRecordLayer.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\math\ec\ECLookupTable.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\math\ec\custom\sec\SecT233R1Point.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\cms\RecipientIdentifier.cs" />
@@ -1994,29 +1994,11 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>H:\GameDev\Unity\2021.3.5f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Plastic.Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Plastic.Antlr3.Runtime">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="unityplastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
-    </Reference>
-    <Reference Include="log4netPlastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
-    </Reference>
-    <Reference Include="clipper_library">
-      <HintPath>Library\PackageCache\com.unity.cinemachine@2.8.6\Runtime\ThirdParty\clipper_library.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="websocket-sharp">
-      <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection">
       <HintPath>Assets\Plugins\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Plastic.Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>Assets\Plugins\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -2039,8 +2021,14 @@
     <Reference Include="Microsoft.Extensions.Logging">
       <HintPath>Assets\Plugins\Microsoft.Extensions.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Plastic.Antlr3.Runtime">
+      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Logging.Abstractions">
       <HintPath>Assets\Plugins\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="unityplastic">
+      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Json">
       <HintPath>Assets\Plugins\System.Text.Json.dll</HintPath>
@@ -2054,11 +2042,17 @@
     <Reference Include="System.Text.Encodings.Web">
       <HintPath>Assets\Plugins\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
+    <Reference Include="log4netPlastic">
+      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.SignalR.Client.Core">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Client.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.SignalR.Client">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="clipper_library">
+      <HintPath>Library\PackageCache\com.unity.cinemachine@2.8.6\Runtime\ThirdParty\clipper_library.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Http.Connections.Common">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.Http.Connections.Common.dll</HintPath>
@@ -2072,11 +2066,17 @@
     <Reference Include="System.IO.Pipelines">
       <HintPath>Assets\Plugins\System.IO.Pipelines.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
       <HintPath>Assets\Plugins\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Features">
       <HintPath>Assets\Plugins\Microsoft.Extensions.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Android.Types">
       <HintPath>H:\GameDev\Unity\2021.3.5f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>

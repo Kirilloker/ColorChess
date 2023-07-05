@@ -105,6 +105,12 @@ public class Step
         this.cell = _cell;
     }
 
+    public Step() 
+    {
+        this.figure = null;
+        this.cell = null;
+    }
+
     public Figure Figure { get { return figure; } set { figure = value; } }
     public Cell Cell { get { return cell; } set { cell = value; } }
 

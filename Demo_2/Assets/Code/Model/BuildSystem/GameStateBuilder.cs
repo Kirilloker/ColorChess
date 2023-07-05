@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ColorChessModel
 {
@@ -166,7 +162,7 @@ namespace ColorChessModel
             playersDiscription = new PlayersDiscription();
 
             playersDiscription.PlayerNumbers.Add(0);
-            playersDiscription.PlayerTypes.Add(PlayerType.Human);
+            playersDiscription.PlayerTypes.Add(PlayerType.AI2);
             playersDiscription.PlayerCorners.Add(CornerType.DownLeft);
             playersDiscription.PlayerColors.Add(ColorType.Blue);
 

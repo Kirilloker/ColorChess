@@ -1,14 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ColorChessModel;
-using System.Threading;
-using System;
 using System.Threading.Tasks;
-using System.IO;
-using Newtonsoft.Json;
-using static UnityEditor.Progress;
-using System.Diagnostics;
 
 public class GameController : MonoBehaviour
 {
@@ -31,12 +24,9 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private Server server;
 
-
     private bool IsFirstGame = true;
 
     private float cameraSpeed;
-
-    
 
     public void StartGame()
     {
@@ -68,13 +58,9 @@ public class GameController : MonoBehaviour
         Cell cell = CurrentGameState.GetCell(cellView.Pos);
         Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).figure;
 
-
-
         if (ItServer && CurrentGameState.EndGame == false)
         {
-            //server.SendStep(new Step(figure, cell));
             var signalRClient = GameObject.Find("SignalRClient").GetComponent<SignalRClient>();
-            //signalRClient.SendChat("Hello World");
             signalRClient.SendChat(TestServerHelper.ConvertToJSON(new Step(figure, cell)));
         }
 
@@ -238,15 +224,14 @@ public class GameController : MonoBehaviour
                     cameraController.SwitchCamera(CameraViewType.inGame1);
                 else
                     cameraController.SwitchCamera(CameraViewType.inGame2);
-
                 break;
-
             case PlayerType.AI:
-                AIStep();
-                break;
-
+                AIStep(playerType);
+                break;             
+            case PlayerType.AI2:
+                AIStep(playerType);
+                break;             
             case PlayerType.Online:
-                //
                 //
                 break;
         }
@@ -256,9 +241,7 @@ public class GameController : MonoBehaviour
     {
         if (IsFirstGame == false)
             DestroyAll();
-        
     }
-
    
     public void DestroyAll()
     {
@@ -325,29 +308,21 @@ public class GameController : MonoBehaviour
 
         StartNewStep();
     }
-
-    private async void AIStep()
+    private async void AIStep(PlayerType AIType)
     {
+        Step step = new();
+
         await Task.Run(() =>
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            stopwatch.Start();
-            TestWatch.Reset();
-            TestTrash.test = 0;
-            TestAI.AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
-            UnityEngine.Debug.Log(stopwatch.Elapsed.TotalMilliseconds);
-            UnityEngine.Debug.Log("Test:" + TestTrash.test);
-            TestWatch.Print();
-             
+            if (AIType == PlayerType.AI) step = TestAI.getStep(CurrentGameState);
+            else if (AIType == PlayerType.AI2) step = TestAI.getStep(CurrentGameState);
         });
 
         if (gameStates.Count == 0) return;
 
-        figureController.UpedFigure = figureController.FindFigureView(TestAI.bestFigure, CurrentGameState);
-        ApplyStepView( new Step(TestAI.bestFigure, TestAI.bestCell));
-        
-    }   
-
+        figureController.UpedFigure = figureController.FindFigureView(step.Figure, CurrentGameState);
+        ApplyStepView(step);
+    }
 
     private void SetFigViewForNewStep()
     {
@@ -359,13 +334,11 @@ public class GameController : MonoBehaviour
 
         if (CurrentGameState.GetPlayerType(CurrentGameState.NumberPlayerStep)  == PlayerType.Human)
             figureController.OnBoxColiders(CurrentGameState.NumberPlayerStep);
-        
     }
 
     private void SetCellViewForNewStep()
     {
         // Ќастраиваем CellConroller на новый ход
-
         cellController.OFFALLBoxColiders();
         cellController.HideAllPrompts();
     }
@@ -378,13 +351,6 @@ public class GameController : MonoBehaviour
     public Map PreviousvGameState { get { return gameStates[gameStates.Count - 2]; } }
 
 
-    public void testLoad()
-    {
-        Map loadMap = TestSerialization.Load();
-
-        LoadMap(loadMap);
-    }
-
     private void ChangeSpeedCameraConroller()
     {
         if (CurrentGameState.CountStep == 2)
@@ -394,115 +360,15 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private Step testStep;
-
-    private void Update()
-    {
-        //if (Input.Get
-        //KeyDown(KeyCode.S))
-        //{
-        //    Debug.Log("Save Step");
-        //    StreamWriter file1 = File.CreateText("D://Github//GameColorChess//ColorChess//Demo_2//Assets//Code//SaveStep.json");
-        //    file1.WriteLine(TestServerHelper.ConvertToJSON(testStep));
-        //    file1.Close();
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.D))
-        //{
-        //    Debug.Log("Load Step");
-        //    string data = File.ReadAllText("D://Github//GameColorChess//ColorChess//Demo_2//Assets//Code//SaveStep.json");
-        //    Debug.Log("step:" + data);
-        //    ApplyStepView(TestServerHelper.ConvertJSONtoSTEP(data));
-        //}
-
-    }
-
     private bool ItServer { get 
         {
             bool itServer = false;
 
             foreach (var player in CurrentGameState.Players)
-            {
                 if (player.type == PlayerType.Online) itServer = true;
-            }
-
+            
             return itServer;
         } 
     }
 
 }
-
-
-
-
-/*
-private void TestCheckImmutabilityGameState()
-    {
-        //// ѕроверка что за последние 4 хода на карте хоть что-то изменилось
-
-        //if (gameStates.Count <= 4)
-        //{
-        //    return;
-        //}
-
-        //var map1 = gameStates[gameStates.Count - 1];
-        //var map2 = gameStates[gameStates.Count - 2];
-        //var map3 = gameStates[gameStates.Count - 3];
-        //var map4 = gameStates[gameStates.Count - 4];
-
-        //var score1 = map1.score;
-        //var score2 = map2.score;
-        //var score3 = map3.score;
-        //var score4 = map4.score;
-
-        //if ((score1[-1][CellType.Empty] == score2[-1][CellType.Empty]) &&
-        //    (score2[-1][CellType.Empty] == score3[-1][CellType.Empty]) &&
-        //    (score3[-1][CellType.Empty] == score4[-1][CellType.Empty]))
-        //{
-        //    if (
-        //        (map1.PlayersCount == map2.PlayersCount) &&
-        //        (map2.PlayersCount == map3.PlayersCount) &&
-        //        (map3.PlayersCount == map4.PlayersCount)
-        //        )
-        //    {
-        //        for (int i = 0; i < map1.PlayersCount; i++)
-        //        {
-        //            if (
-        //                (score1[i][CellType.Paint] == score1[i][CellType.Paint]) &&
-        //                (score2[i][CellType.Paint] == score3[i][CellType.Paint]) &&
-        //                (score3[i][CellType.Paint] == score4[i][CellType.Paint])
-        //                )
-        //            {
-        //                if (
-        //                    (score1[i][CellType.Dark] == score1[i][CellType.Dark]) &&
-        //                    (score2[i][CellType.Dark] == score3[i][CellType.Dark]) &&
-        //                    (score3[i][CellType.Dark] == score4[i][CellType.Dark])
-        //                    )
-        //                {
-        //                    //
-        //                }
-        //                else
-        //                {
-        //                    return;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                return;
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return;
-        //    } 
-        //}
-        //else
-        //{
-        //    return;
-        //}
-
-        //Debug.Log(" арта повторилась 4 раза, конец игры!");
-        //EndGame();
-    }
- */

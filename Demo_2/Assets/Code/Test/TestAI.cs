@@ -6,7 +6,7 @@ using System.Diagnostics;
 public class TestAI
 {
     // Глубина дерева
-    static int MAX_LEVEL = 6;
+    static int MAX_LEVEL = 4;
 
     // Лучший ход
     public static Cell bestCell = null;
@@ -26,6 +26,11 @@ public class TestAI
     static float[] figurePercentSlow = { 1f, 0.4f, 0.4f, 0.2f, 0.3f, 0.5f };
     static float[] figurePercentEnd = { 0.3f, 0.3f, 0.5f, 0.2f, 0.2f, 0.3f };
 
+    // Номер бота
+    static int myNumber = 0;
+    // Количество человек в игре 
+    static int playerCount = 0;
+    static List<int> AnotherPlayer;
 
     private static List<List<Cell>> GetAvaibleForPlayer(Map map, int numberPlayer)
     {
@@ -59,14 +64,18 @@ public class TestAI
 
     public static int AlphaBeta(Map map, int level, int alpha, int beta)
     {
-        TestWatch.Start1();
         // Список всех возможных ходов для определенного игрока
         List<List<Cell>> avaible = new();
 
         // Конец игры
         if (map.EndGame == true)
         {
-            if (map.GetScorePlayer(1) > map.GetScorePlayer(0))
+            int total = 0;
+
+            foreach (var player in AnotherPlayer)
+                total += map.GetScorePlayer(player);
+
+            if (map.GetScorePlayer(myNumber) > total)
                 // Если победил AI
                 return 10000;
             else
@@ -85,129 +94,84 @@ public class TestAI
         if (level >= MAX_LEVEL)
             return EvaluationFunction(map);
 
-
-        int MaxMinEvaluation;
-
-        TestWatch.Stop1();
+        int MaxMinEvaluation = 0;
 
         // Обработка хода Бота
         if (level % 2 == 0)
         {
             // Получаем список всех ходов 
-            TestWatch.Start2();
-            avaible = GetAvaibleForPlayer(map, 1);
+            avaible = GetAvaibleForPlayer(map, myNumber);
             MaxMinEvaluation = int.MinValue;
-            TestWatch.Stop2();
-
-            TestWatch.Start4();
 
             for (int i = 0; i < avaible.Count; i++)
             {
-                TestWatch.Start3();
                 // Сколько процентов ходов обработать у фигуры
-                float percentStep = figurePercent[(int)(map.Players[1].figures[i].type) - 1];
+                float percentStep = figurePercent[(int)(map.Players[myNumber].figures[i].type) - 1];
 
                 // Количество ходов которое будет обработано у фигуры
-                //int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
-                int stepCalculate = avaible[i].Count;
-                stepCalculate = 2;
-                if (avaible[i].Count <= stepCalculate) stepCalculate = avaible[i].Count;
+                int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
 
                 // Если получилось что 0 шагов обработаются, то обработать хотя бы 1 шаг
                 if ((stepCalculate < 1) && (avaible[i].Count >= 1))
                     stepCalculate = 1;
 
-                TestWatch.Stop3();
-
-                TestWatch.Start6();
-
                 for (int j = 0; j < stepCalculate; j++)
                 {
-                    TestWatch.Start5();
+                    if (stop || timer.Elapsed.TotalSeconds > TIMER) { stop = true; return MaxMinEvaluation; };
+
                     if (MaxMinEvaluation > beta) break;
                     if (beta < alpha) break;
 
-                    Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[1].figures[i], avaible[i][j]);
-                    TestWatch.Stop5();
+                    Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[myNumber].figures[i], avaible[i][j]);
 
-                    //TestWatch.Start6();
                     int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
-                    TestTrash.test++;
-
-                    //var x = GameStateToIntArray.ConvertMapToIntArray(copyMap);
-                    //int test = TestTrash.Contain(x);
-
-                    //int MinMax;
-                    //if (test != Int32.MinValue) MinMax = test;
-                    //else
-                    //{
-                    //    MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
-                    //    TestTrash.Add(x, MinMax);
-                    //}
-
 
                     // Запоминаем наилучший ход
                     if ((level == 0) && (MinMax > MaxMinEvaluation))
                     {
                         bestCell = avaible[i][j];
-                        bestFigure = map.Players[1].figures[i];
+                        bestFigure = map.Players[myNumber].figures[i];
                     }
 
                     MaxMinEvaluation = Math.Max(MaxMinEvaluation, MinMax);
                     alpha = Math.Max(alpha, MaxMinEvaluation);
                 }
-
-                TestWatch.Stop6();
             }
-
-            TestWatch.Stop4();
         }
-        // Обработка хода Человека
+        // Обработка хода Противника
         else
         {
-            avaible = GetAvaibleForPlayer(map, 0);
-            MaxMinEvaluation = int.MaxValue;
-
-            for (int i = 0; i < avaible.Count; i++)
+            foreach (var player in AnotherPlayer)
             {
-                float percentStep = figurePercent[(int)(map.Players[0].figures[i].type) - 1];
-                //int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
-                int stepCalculate = avaible[i].Count;
-                stepCalculate = 2;
-                if (avaible[i].Count <= stepCalculate) stepCalculate = avaible[i].Count;
+                avaible = GetAvaibleForPlayer(map, player);
+                MaxMinEvaluation = int.MaxValue;
 
-                if ((stepCalculate < 1) && (avaible[i].Count >= 1)) stepCalculate = 1;
-
-                for (int j = 0; j < stepCalculate; j++)
+                for (int i = 0; i < avaible.Count; i++)
                 {
-                    if (MaxMinEvaluation < alpha) break;
-                    if (beta < alpha) break;
+                    float percentStep = figurePercent[(int)(map.Players[player].figures[i].type) - 1];
+                    int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
 
-                    Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[0].figures[i], avaible[i][j]);
+                    if ((stepCalculate < 1) && (avaible[i].Count >= 1)) stepCalculate = 1;
 
-                    int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
+                    for (int j = 0; j < stepCalculate; j++)
+                    {
+                        if (stop || timer.Elapsed.TotalSeconds > TIMER) { stop = true; return MaxMinEvaluation; };
 
-                    TestTrash.test++;
-                    //var x = GameStateToIntArray.ConvertMapToIntArray(copyMap);
-                    //int test = TestTrash.Contain(x);
+                        if (MaxMinEvaluation < alpha) break;
+                        if (beta < alpha) break;
 
+                        Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[player].figures[i], avaible[i][j]);
 
-                    //int MinMax;
-                    //if (test != Int32.MinValue) MinMax = test;
-                    //else
-                    //{
-                    //    MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
-                    //    TestTrash.Add(x, MinMax);
-                    //}
+                        int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
 
-                    MaxMinEvaluation = Math.Min(MaxMinEvaluation, MinMax);
-                    beta = Math.Min(beta, MaxMinEvaluation);
+                        MaxMinEvaluation = Math.Min(MaxMinEvaluation, MinMax);
+                        beta = Math.Min(beta, MaxMinEvaluation);
+                    }
                 }
             }
         }
 
-        return MaxMinEvaluation
-;
+        return MaxMinEvaluation;
     }
 
 
@@ -218,23 +182,49 @@ public class TestAI
 
         int evaluation = 0;
 
-        evaluation += score[1][CellType.Paint] * pricePaint;
-        evaluation += score[1][CellType.Dark] * priceDark;
+        evaluation += score[myNumber][CellType.Paint] * pricePaint;
+        evaluation += score[myNumber][CellType.Dark] * priceDark;
 
-        evaluation -= score[0][CellType.Paint] * pricePaint;
-        evaluation -= score[0][CellType.Dark] * priceDark;
+        foreach (var player in AnotherPlayer)
+        {
+            evaluation -= score[player][CellType.Paint] * pricePaint;
+            evaluation -= score[player][CellType.Dark] * priceDark;
+
+            // Если Рядом с Пешками Врага стоит фигура Бота начисляется штраф
+            foreach (var figure in map.Players[player].figures)
+                if (figure.type == FigureType.Pawn)
+                    evaluation -= (Check.BesideEnemy(figure.pos, map, figure.Number)) ? priceAroundEnemyPawn : 0;
+        }
+
+        int total = 0;
+
+        foreach (var player in AnotherPlayer)
+            total += map.GetPlayerFiguresCount(player);
 
         // Разница в количестве живых фигур у игрока
-        evaluation += (map.GetPlayerFiguresCount(1) - map.GetPlayerFiguresCount(0)) * priceKill;
-
-        // Если Рядом с Пешками Врага стоит фигура Бота начисляется штраф
-        foreach (var figure in map.Players[0].figures)
-            if (figure.type == FigureType.Pawn)
-                evaluation -= (Check.BesideEnemy(figure.pos, map, figure.Number)) ? priceAroundEnemyPawn : 0;
+        evaluation += (map.GetPlayerFiguresCount(myNumber) - total) * priceKill;
 
         return evaluation;
     }
 
+    static Stopwatch timer = new();
+    static bool stop = false;
+    static float TIMER = 8f;
 
+    public static Step getStep(Map CurrentGameState) 
+    {
+        stop = false;
+        timer.Reset();
+
+        myNumber = CurrentGameState.NumberPlayerStep;
+        playerCount = CurrentGameState.PlayersCount;
+        AnotherPlayer = new();
+        for (int i = 0; i < playerCount; i++)
+            if (i != myNumber) AnotherPlayer.Add(i);      
+        
+        timer.Start();
+        AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
+        return new Step(bestFigure, bestCell);
+    }
 }
 
