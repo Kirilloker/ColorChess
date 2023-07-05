@@ -125,6 +125,8 @@
     <Compile Include="Assets\Code\AI\MonteCarloAI.cs" />
     <Compile Include="Assets\Code\Test\TestTrash.cs" />
     <Compile Include="Assets\Code\Test\TestWatch.cs" />
+    <Compile Include="Assets\Code\Model\Interfaces\IAI.cs" />
+    <Compile Include="Assets\Code\Model\Step.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

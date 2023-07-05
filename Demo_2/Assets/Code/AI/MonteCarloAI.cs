@@ -2,24 +2,24 @@
 using System;
 using System.Collections.Generic;
 
-static class MonteCarloAI : IAI
+public class MonteCarloAI : IAI
 {
     private static int numOfRandomGames = 1000;
     private static int randomGameDepth = 10;
 
-    public static Step getStep(Map startGameState)
+    public Step getStep(Map startGameState)
     {
         if (startGameState.EndGame) throw new Exception("Try to GetBestStep in MonteCarloAI when game already ended");
         Random rnd = new Random();
         List<List<Cell>> avaibleFirstSteps = GetAvaibleStepsForActivePlayer(startGameState);
         //Ключ в паре - количество игр, значение - суммарная оценка всех игр.
-        List<List<Pair<int, int>>> stepsCountAndScore = List<List<Pair<int, int>>>(avaibleFirstSteps.Count);
+        List<List<Pair<int, int>>> stepsCountAndScore = new List<List<Pair<int, int>>>(avaibleFirstSteps.Count);
         for (int i = 0; i < avaibleFirstSteps.Count; i++)
         {
             stepsCountAndScore.Add(new List<Pair<int, int>>(avaibleFirstSteps[0].Count));
             for (int j = 0; j < avaibleFirstSteps[0].Count; j++)
             {
-                stepsCountAndScore[i][j] = new Pair<int, int> {0, 0};
+                stepsCountAndScore[i][j] = new Pair<int, int> (0, 0);
             }
         }
 
