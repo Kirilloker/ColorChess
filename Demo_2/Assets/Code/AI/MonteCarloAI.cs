@@ -16,8 +16,8 @@ public class MonteCarloAI : IAI
         List<List<Pair<int, int>>> stepsCountAndScore = new List<List<Pair<int, int>>>(avaibleFirstSteps.Count);
         for (int i = 0; i < avaibleFirstSteps.Count; i++)
         {
-            stepsCountAndScore.Add(new List<Pair<int, int>>(avaibleFirstSteps[0].Count));
-            for (int j = 0; j < avaibleFirstSteps[0].Count; j++)
+            stepsCountAndScore.Add(new List<Pair<int, int>>(avaibleFirstSteps[i].Count));
+            for (int j = 0; j < avaibleFirstSteps[i].Count; j++)
             {
                 stepsCountAndScore[i][j] = new Pair<int, int> (0, 0);
             }
@@ -41,7 +41,7 @@ public class MonteCarloAI : IAI
 
         for (int i = 0; i < stepsCountAndScore.Count; i++)
         {
-            for (int j = 0; j < stepsCountAndScore[0].Count; j++)
+            for (int j = 0; j < stepsCountAndScore[i].Count; j++)
             {
                 curAverage = stepsCountAndScore[i][j].Second / stepsCountAndScore[i][j].First;
                 if (curAverage > maxAverage)
