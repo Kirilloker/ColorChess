@@ -39,9 +39,7 @@ public class FigureController : MonoBehaviour
     public void DestroyAll()
     {
         foreach (Transform child in transformFigure)
-        {
             Destroy(child.gameObject);
-        }
 
         upedFigure = null;
     }

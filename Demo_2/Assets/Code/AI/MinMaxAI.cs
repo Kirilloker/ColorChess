@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-//using MathNet.Numerics.Distributions;
 
-public class TestAI : IAI
+public class MinMaxAI : IAI
 {
     // Глубина дерева
     int MAX_LEVEL = 4;
@@ -16,9 +15,20 @@ public class TestAI : IAI
     // Параметры ОФ
     int pricePaint = 9;
     int priceDark = 10;
-    int priceKill = 70;
     int priceAroundEnemyPawn = 60;
 
+    // pawn - castle - bishop - king - horse - queen 
+    int[] priceFigure = { 80, 100, 60, 150, 75, 70};
+
+    static float priceMiddle = 1.5f;
+    static float priceCorner = 1.1f;
+    static float priceGrawe = 1.3f;
+    float[,] pricePos = { 
+        { priceCorner,  priceGrawe,     priceCorner},
+        { priceGrawe,   priceMiddle,    priceGrawe},
+        { priceCorner,  priceGrawe,     priceCorner}
+    };
+    
     // pawn - castle - bishop - king - horse - queen 
     float[] figurePercent = { 0, 0, 0, 0, 0, 0 };
     float[] figurePercentStart = { 1f, 0.5f, 0.1f, 0.4f, 0.4f, 1f };
@@ -40,9 +50,29 @@ public class TestAI : IAI
     // Вспомогательная переменная, которая останавливает расчет в случае долгого выполнения
     bool stop = false;
 
-    public TestAI() 
+    public MinMaxAI() 
     {
+        //pricePaint = 0;
+        //priceDark = 0;
+        //priceAroundEnemyPawn = 0;
 
+        //// pawn - castle - bishop - king - horse - queen 
+        ////priceFigure
+        ////figurePercentStart
+        ////figurePercentSpeed
+        ////figurePercentMidle
+        ////figurePercentSlow
+        ////figurePercentEnd
+
+        //for (int i = 0; i < priceFigure.Length; i++) 
+        //{
+        //    priceFigure[i] = 0;
+        //}
+
+
+        //priceMiddle = 0;
+        //priceCorner = 0;
+        //priceGrawe = 0;
     }
 
     private List<List<Cell>> GetAvaibleForPlayer(Map map, int numberPlayer)
@@ -192,32 +222,40 @@ public class TestAI : IAI
     {
         // Оценочная функция
         var score = map.Score;
+        float evaluation = 0;
 
-        int evaluation = 0;
-
-        evaluation += score[myNumber][CellType.Paint] * pricePaint;
-        evaluation += score[myNumber][CellType.Dark] * priceDark;
-
+        // Если Рядом с Пешками Врага стоит фигура Бота начисляется штраф
         foreach (var player in AnotherPlayer)
-        {
-            evaluation -= score[player][CellType.Paint] * pricePaint;
-            evaluation -= score[player][CellType.Dark] * priceDark;
+            foreach (var figure in map.Players[player].figures) 
+                if ((figure.type == FigureType.Pawn) && (Check.BesideEnemy(figure.pos, map, myNumber)))
+                        evaluation -= priceAroundEnemyPawn;
 
-            // Если Рядом с Пешками Врага стоит фигура Бота начисляется штраф
-            foreach (var figure in map.Players[player].figures)
-                if (figure.type == FigureType.Pawn)
-                    evaluation -= (Check.BesideEnemy(figure.pos, map, figure.Number)) ? priceAroundEnemyPawn : 0;
+        for (int i = 0; i < map.Length; i++)
+        {
+            for (int j = 0; j < map.Width; j++)
+            {
+                Cell cell = map.Cells[i, j];
+                if (cell.numberPlayer == -1) continue;
+
+                float _pricePos = pricePos[(i % 9) / 3, (j % 9) / 3];
+                float priceCell = 0;
+
+
+                if (cell.FigureType != FigureType.Empty)
+                    priceCell += (priceFigure[(int)cell.FigureType - 1] * _pricePos);
+
+                if (cell.type == CellType.Paint) priceCell += (pricePaint * _pricePos);
+                else if (cell.type == CellType.Dark) priceCell += (priceDark * _pricePos);
+
+                
+                if (cell.numberPlayer == myNumber) 
+                    evaluation += priceCell;
+                else
+                    evaluation -= priceCell;
+            }
         }
 
-        int total = 0;
-
-        foreach (var player in AnotherPlayer)
-            total += map.GetPlayerFiguresCount(player);
-
-        // Разница в количестве живых фигур у игрока
-        evaluation += (map.GetPlayerFiguresCount(myNumber) - total) * priceKill;
-
-        return evaluation;
+        return (int)evaluation;
     }
 
 

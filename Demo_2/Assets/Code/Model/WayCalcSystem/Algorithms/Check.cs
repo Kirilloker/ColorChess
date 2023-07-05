@@ -41,6 +41,8 @@ namespace ColorChessModel
 
         public static bool BesideEnemy(Position posCell, Map map, int numberPlayer)
         {
+            if (map.GetCell(posCell).type == CellType.Dark) return false;
+
             for (int i = posCell.X - 1; i <= posCell.X + 1; i++)
             {
                 for (int j = posCell.Y - 1; j <= posCell.Y + 1; j++)
@@ -50,10 +52,8 @@ namespace ColorChessModel
 
                     Cell cell = map.GetCell(posCellCheck);
 
-                    if ((cell.figure != null) && (cell.numberPlayer != numberPlayer))
-                    {
+                    if ((cell.figure != null) && (cell.numberPlayer == numberPlayer))
                         return true;
-                    }
                 }
             }
 

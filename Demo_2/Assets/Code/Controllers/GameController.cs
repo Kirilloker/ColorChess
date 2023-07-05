@@ -63,7 +63,7 @@ public class GameController : MonoBehaviour
         {
             if (CurrentGameState.GetPlayerType(i) == PlayerType.AI) 
             {
-                ai[i] = new TestAI();
+                ai[i] = new MinMaxAI();
             }
             else if (CurrentGameState.GetPlayerType(i) == PlayerType.AI2)
             {
