@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class MonteCarloAI : IAI
 {
-    private static int numOfRandomGames = 1000;
-    private static int randomGameDepth = 10;
+    private static int numOfRandomGames = 5000;
+    private static int randomGameDepth = 15;
 
     public Step getStep(Map startGameState)
     {
@@ -44,12 +44,13 @@ public class MonteCarloAI : IAI
             stepsCountAndScore[figureNum][cellNum].Second += gameStateScore;
         }
 
-        int fig = 0, cell = 0, maxAverage = 0, curAverage = 0;
+        int fig = 0, cell = 0, maxAverage = int.MinValue, curAverage = 0;
 
         for (int i = 0; i < stepsCountAndScore.Count; i++)
         {
             for (int j = 0; j < stepsCountAndScore[i].Count; j++)
             {
+                if (stepsCountAndScore[i][j].First == 0) continue;
                 curAverage = stepsCountAndScore[i][j].Second / stepsCountAndScore[i][j].First;
                 if (curAverage > maxAverage)
                 {
@@ -60,6 +61,7 @@ public class MonteCarloAI : IAI
             }
         }
 
+        UnityEngine.Debug.Log(maxAverage);
         return new Step(startGameState.Players[startGameState.NumberPlayerStep].figures[fig], avaibleFirstSteps[fig][cell]);
     }
 
