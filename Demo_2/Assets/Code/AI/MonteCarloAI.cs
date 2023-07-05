@@ -28,6 +28,13 @@ public class MonteCarloAI : IAI
             Map startGameStateCopy = new Map(startGameState);
             int figureNum = rnd.Next(avaibleFirstSteps.Count);
             int cellNum = rnd.Next(avaibleFirstSteps[figureNum].Count);
+            
+            while (avaibleFirstSteps[figureNum].Count == 0)
+            {
+                figureNum = rnd.Next(avaibleFirstSteps.Count);
+                cellNum = rnd.Next(avaibleFirstSteps[figureNum].Count);
+            }
+
             Figure figureForStep = startGameStateCopy.Players[startGameStateCopy.NumberPlayerStep].figures[figureNum];
             Cell cellForStep = avaibleFirstSteps[figureNum][cellNum];
             startGameStateCopy = GameStateCalcSystem.ApplyStep(startGameStateCopy, figureForStep, cellForStep);
@@ -68,6 +75,13 @@ public class MonteCarloAI : IAI
             List<List<Cell>> avaibleSteps = GetAvaibleStepsForActivePlayer(gameState);
             int figureNum = rnd.Next(avaibleSteps.Count);
             int cellNum = rnd.Next(avaibleSteps[figureNum].Count);
+
+            while (avaibleSteps[figureNum].Count == 0) 
+            {
+                figureNum = rnd.Next(avaibleSteps.Count);
+                cellNum = rnd.Next(avaibleSteps[figureNum].Count);
+            }
+
             Figure figureForStep = gameState.Players[gameState.NumberPlayerStep].figures[figureNum];
             Cell cellForStep = avaibleSteps[figureNum][cellNum];
             gameState = GameStateCalcSystem.ApplyStep(gameState, figureForStep, cellForStep);
