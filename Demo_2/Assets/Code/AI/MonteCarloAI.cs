@@ -19,7 +19,7 @@ public class MonteCarloAI : IAI
             stepsCountAndScore.Add(new List<Pair<int, int>>(avaibleFirstSteps[i].Count));
             for (int j = 0; j < avaibleFirstSteps[i].Count; j++)
             {
-                stepsCountAndScore[i][j] = new Pair<int, int> (0, 0);
+                stepsCountAndScore[i].Add(new Pair<int, int> (0, 0));
             }
         }
 

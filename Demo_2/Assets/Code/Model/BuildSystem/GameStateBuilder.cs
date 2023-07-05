@@ -167,7 +167,7 @@ namespace ColorChessModel
             playersDiscription.PlayerColors.Add(ColorType.Blue);
 
             playersDiscription.PlayerNumbers.Add(1);
-            playersDiscription.PlayerTypes.Add(PlayerType.AI);
+            playersDiscription.PlayerTypes.Add(PlayerType.AI2);
             playersDiscription.PlayerCorners.Add(CornerType.UpRight);
             playersDiscription.PlayerColors.Add(ColorType.Red);
 

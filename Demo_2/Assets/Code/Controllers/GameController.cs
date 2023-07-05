@@ -67,7 +67,7 @@ public class GameController : MonoBehaviour
             }
             else if (CurrentGameState.GetPlayerType(i) == PlayerType.AI2)
             {
-                //ai[i] = new TestAI();
+                ai[i] = new MonteCarloAI();
             }
         }
     }
