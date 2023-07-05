@@ -1,23 +1,20 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Demo_2/Assets/Best HTTP/Examples/Helpers/Plugins/WebGL/OpenWindow.jslib.meta
 guid: c6e1a5a72cbe7f344b6c42b70b81ed30
-timeCreated: 1572243826
-licenseType: Store
-========
-guid: 020dacd649c9aa647821210d2d611262
->>>>>>>> SignalR:Demo_2/Assets/Plugins/Microsoft.AspNetCore.Connections.Abstractions.dll.meta
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
   iconMap: {}
   executionOrder: {}
+  defineConstraints: []
   isPreloaded: 0
   isOverridable: 0
+  isExplicitlyReferenced: 0
+  validateReferences: 1
   platformData:
   - first:
       Any: 
     second:
-      enabled: 0
+      enabled: 1
       settings: {}
   - first:
       Editor: Editor
@@ -26,15 +23,11 @@ PluginImporter:
       settings:
         DefaultValueInitialized: true
   - first:
-      Facebook: WebGL
+      Windows Store Apps: WindowsStoreApps
     second:
-      enabled: 1
-      settings: {}
-  - first:
-      WebGL: WebGL
-    second:
-      enabled: 1
-      settings: {}
+      enabled: 0
+      settings:
+        CPU: AnyCPU
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{BEB26363-517D-4E06-9FB5-8F9899D2A060}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -56,13 +57,18 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\Rotate.cs" />
     <Compile Include="Assets\Code\Controllers\GameController.cs" />
     <Compile Include="Assets\Code\Model\GameStateCalcSystem\GameStateCalcSystem.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\HorseBuilder.cs" />
     <Compile Include="Assets\Code\Model\GameState\Map.cs" />
+    <Compile Include="Assets\Code\Authorization UI\BinarySerializer.cs" />
     <Compile Include="Assets\Code\Test\TestHash.cs" />
+    <Compile Include="Assets\Code\Test\TestWatch.cs" />
     <Compile Include="Assets\Code\View\FigureView.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\QueenBuilder.cs" />
+    <Compile Include="Assets\Code\Authorization UI\SignOut.cs" />
+    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Reporter.cs" />
     <Compile Include="Assets\Code\SettingsGraphics.cs" />
     <Compile Include="Assets\Code\TypeToString.cs" />
     <Compile Include="Assets\Code\Test\TestSerialization.cs" />
@@ -71,24 +77,34 @@
     <Compile Include="Assets\Code\Controllers\CameraController.cs" />
     <Compile Include="Assets\Scenes\Preload.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\QueenAlgorithm.cs" />
+    <Compile Include="Assets\Code\Authorization UI\SignIn.cs" />
+    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\TestReporter.cs" />
     <Compile Include="Assets\Test Server\SignalRClient.cs" />
+    <Compile Include="Assets\SignarRTest.cs" />
+    <Compile Include="Assets\Code\Authorization UI\AutoSignIn.cs" />
     <Compile Include="Assets\Code\Prefabs.cs" />
+    <Compile Include="Assets\Code\Test\TestTrash.cs" />
     <Compile Include="Assets\Code\Model\EnumTypes.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\PawnAlgorithm.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\PawnBuilder.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Structs.cs" />
     <Compile Include="Assets\Old Code\Tutorial.cs" />
+    <Compile Include="Assets\AccessToken.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\BishopAlgorithm.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\CastleBuilder.cs" />
     <Compile Include="Assets\Code\Controllers\AudioController.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\CastleAlgorithm.cs" />
+    <Compile Include="Assets\Code\Authorization UI\Registration.cs" />
     <Compile Include="Assets\Code\Controllers\FigureController.cs" />
     <Compile Include="Assets\Code\Server\TestServerHelper.cs" />
     <Compile Include="Assets\Code\Server\Server.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\CellBuilder.cs" />
+    <Compile Include="Assets\Code\Model\GameStateCalcSystem\GameStateToIntArray.cs" />
     <Compile Include="Assets\Code\Controllers\UIController.cs" />
+    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterGUI.cs" />
     <Compile Include="Assets\Old Code\UI.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\WayCalcSystem.cs" />
+    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\MultiKeyDictionary.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilderDirector.cs" />
     <Compile Include="Assets\Code\Controllers\BoardController.cs" />
     <Compile Include="Assets\Code\Model\Interfaces\WayCalcStrategy.cs" />
@@ -98,6 +114,7 @@
     <Compile Include="Assets\Code\Model\BuildSystem\GameStateBuilder.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\KingBuilder.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\FigureBuilder.cs" />
+    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterMessageReceiver.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\KingAlgorithm.cs" />
     <Compile Include="Assets\Code\Model\GameState\Position.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\HorseAlgorithm.cs" />
@@ -108,22 +125,9 @@
     <Compile Include="Assets\Code\Model\GameState\Cell.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\Check.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\PlayerBuilder.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\TestReporter.cs" />
-    <Compile Include="Assets\Code\Model\GameStateCalcSystem\GameStateToIntArray.cs" />
-    <Compile Include="Assets\Code\Authorization UI\Registration.cs" />
-    <Compile Include="Assets\Code\Authorization UI\SignOut.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Reporter.cs" />
-    <Compile Include="Assets\Code\Authorization UI\BinarySerializer.cs" />
-    <Compile Include="Assets\Code\Authorization UI\AutoSignIn.cs" />
-    <Compile Include="Assets\AccessToken.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterGUI.cs" />
-    <Compile Include="Assets\Code\Authorization UI\SignIn.cs" />
-    <Compile Include="Assets\SignarRTest.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterMessageReceiver.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\Rotate.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\MultiKeyDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
@@ -145,8 +149,12 @@
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="MathNet.Numerics, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MathNet.Numerics.5.0.0\lib\net461\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>H:\GameDev\Unity\2021.3.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -390,15 +398,6 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>H:\GameDev\Unity\2021.3.5f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="clipper_library">
-      <HintPath>Library\PackageCache\com.unity.cinemachine@2.8.6\Runtime\ThirdParty\clipper_library.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="websocket-sharp">
-      <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection">
       <HintPath>Assets\Plugins\Microsoft.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
@@ -444,6 +443,9 @@
     <Reference Include="Microsoft.AspNetCore.SignalR.Client">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Client.dll</HintPath>
     </Reference>
+    <Reference Include="clipper_library">
+      <HintPath>Library\PackageCache\com.unity.cinemachine@2.8.6\Runtime\ThirdParty\clipper_library.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Http.Connections.Common">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.Http.Connections.Common.dll</HintPath>
     </Reference>
@@ -456,11 +458,17 @@
     <Reference Include="System.IO.Pipelines">
       <HintPath>Assets\Plugins\System.IO.Pipelines.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
       <HintPath>Assets\Plugins\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Features">
       <HintPath>Assets\Plugins\Microsoft.Extensions.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Android.Types">
       <HintPath>H:\GameDev\Unity\2021.3.5f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
