@@ -2,50 +2,37 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-//using MathNet.Numerics.Distributions;
 
-public class TestAI : IAI
+public class TestAI
 {
     // Глубина дерева
-    int MAX_LEVEL = 4;
+    static int MAX_LEVEL = 4;
 
     // Лучший ход
-    public Cell bestCell = null;
-    public Figure bestFigure = null;
+    public static Cell bestCell = null;
+    public static Figure bestFigure = null;
 
     // Параметры ОФ
-    int pricePaint = 9;
-    int priceDark = 10;
-    int priceKill = 70;
-    int priceAroundEnemyPawn = 60;
+    static int pricePaint = 9;
+    static int priceDark = 10;
+    static int priceKill = 70;
+    static int priceAroundEnemyPawn = 60;
 
     // pawn - castle - bishop - king - horse - queen 
-    float[] figurePercent = { 0, 0, 0, 0, 0, 0 };
-    float[] figurePercentStart = { 1f, 0.5f, 0.1f, 0.4f, 0.4f, 1f };
-    float[] figurePercentSpeed = { 0.5f, 0.4f, 0.1f, 0.3f, 0.3f, 1f };
-    float[] figurePercentMidle = { 0.4f, 0.4f, 0.3f, 0.2f, 0.2f, 0.7f };
-    float[] figurePercentSlow = { 1f, 0.4f, 0.4f, 0.2f, 0.3f, 0.5f };
-    float[] figurePercentEnd = { 0.3f, 0.3f, 0.5f, 0.2f, 0.2f, 0.3f };
+    static float[] figurePercent = { 0, 0, 0, 0, 0, 0 };
+    static float[] figurePercentStart = { 1f, 0.5f, 0.1f, 0.4f, 0.4f, 1f };
+    static float[] figurePercentSpeed = { 0.5f, 0.4f, 0.1f, 0.3f, 0.3f, 1f };
+    static float[] figurePercentMidle = { 0.4f, 0.4f, 0.3f, 0.2f, 0.2f, 0.7f };
+    static float[] figurePercentSlow = { 1f, 0.4f, 0.4f, 0.2f, 0.3f, 0.5f };
+    static float[] figurePercentEnd = { 0.3f, 0.3f, 0.5f, 0.2f, 0.2f, 0.3f };
 
     // Номер бота
-    int myNumber = 0;
+    static int myNumber = 0;
     // Количество человек в игре 
-    int playerCount = 0;
-    List<int> AnotherPlayer;
+    static int playerCount = 0;
+    static List<int> AnotherPlayer;
 
-    // Таймер, который следит за временем выполнение Alpha-Beta
-    Stopwatch timer = new();
-    // Время, выделенное на расчет Alpha-Beta
-    float TIMER = 8f;
-    // Вспомогательная переменная, которая останавливает расчет в случае долгого выполнения
-    bool stop = false;
-
-    public TestAI() 
-    {
-
-    }
-
-    private List<List<Cell>> GetAvaibleForPlayer(Map map, int numberPlayer)
+    private static List<List<Cell>> GetAvaibleForPlayer(Map map, int numberPlayer)
     {
         // Возвращает двумерный массив: первый индекс - i-ая фигура игрока; 
         // второй индекс - j-ая клетка на которую может сходить фигура
@@ -60,7 +47,7 @@ public class TestAI : IAI
         return avaiblePlayer;
     }
 
-    private void SwitchGameSutuation(float percentEmptyCell)
+    private static void SwitchGameSutuation(float percentEmptyCell)
     {
         // Меняет стадию игры Начало-Разгон-Середина-Замедление-Конец
         if (percentEmptyCell < 0.25)
@@ -75,7 +62,7 @@ public class TestAI : IAI
             figurePercent = figurePercentEnd;
     }
 
-    private int AlphaBeta(Map map, int level, int alpha, int beta)
+    public static int AlphaBeta(Map map, int level, int alpha, int beta)
     {
         // Список всех возможных ходов для определенного игрока
         List<List<Cell>> avaible = new();
@@ -188,7 +175,7 @@ public class TestAI : IAI
     }
 
 
-    private int EvaluationFunction(Map map)
+    public static int EvaluationFunction(Map map)
     {
         // Оценочная функция
         var score = map.Score;
@@ -220,22 +207,23 @@ public class TestAI : IAI
         return evaluation;
     }
 
+    static Stopwatch timer = new();
+    static bool stop = false;
+    static float TIMER = 8f;
 
-    public Step getStep(Map CurrentGameState) 
+    public static Step getStep(Map CurrentGameState) 
     {
         stop = false;
         timer.Reset();
+
         myNumber = CurrentGameState.NumberPlayerStep;
         playerCount = CurrentGameState.PlayersCount;
         AnotherPlayer = new();
-
         for (int i = 0; i < playerCount; i++)
             if (i != myNumber) AnotherPlayer.Add(i);      
         
         timer.Start();
-
         AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
-
         return new Step(bestFigure, bestCell);
     }
 }

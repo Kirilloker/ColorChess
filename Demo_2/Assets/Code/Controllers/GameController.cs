@@ -28,9 +28,6 @@ public class GameController : MonoBehaviour
 
     private float cameraSpeed;
 
-    // Список игроков с AI
-    private IAI[] ai;
-
     public void StartGame()
     {
         StartGame(gameStateBuilder.CreateGameState());
@@ -48,30 +45,11 @@ public class GameController : MonoBehaviour
         boardController.CreateBoard(CurrentGameState);
         cellController.CreateCells(CurrentGameState);
         figureController.CreateFigures(CurrentGameState);
-        cameraController.SwitchCamera(CameraViewType.inGame1);
 
-        InitAI();
+        cameraController.SwitchCamera(CameraViewType.inGame1);
 
         StartNewStep();
     }
-
-    void InitAI() 
-    {
-        ai = new IAI[CurrentGameState.PlayersCount];
-
-        for (int i = 0; i < CurrentGameState.PlayersCount; i++)
-        {
-            if (CurrentGameState.GetPlayerType(i) == PlayerType.AI) 
-            {
-                ai[i] = new TestAI();
-            }
-            else if (CurrentGameState.GetPlayerType(i) == PlayerType.AI2)
-            {
-                //ai[i] = new TestAI();
-            }
-        }
-    }
-
 
     public void CellOnClicked(CellView cellView)
     {
@@ -104,7 +82,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Такой фигуры не нашлось");
+            UnityEngine.Debug.Log("Такой фигуры не нашлось");
         }
     }
 
@@ -336,7 +314,8 @@ public class GameController : MonoBehaviour
 
         await Task.Run(() =>
         {
-            step = ai[CurrentGameState.NumberPlayerStep].getStep(CurrentGameState);
+            if (AIType == PlayerType.AI) step = TestAI.getStep(CurrentGameState);
+            else if (AIType == PlayerType.AI2) step = TestAI.getStep(CurrentGameState);
         });
 
         if (gameStates.Count == 0) return;
