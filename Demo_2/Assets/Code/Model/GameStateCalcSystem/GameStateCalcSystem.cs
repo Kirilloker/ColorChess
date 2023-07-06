@@ -23,6 +23,7 @@ namespace ColorChessModel
             if (endCell.figure != null)
                 gameState.KillFigure(endCell.figure);
 
+            // Тут ошибка бывает
             List<Cell> Way = WayCalcSystem.CalcWay(gameState, newFigure.pos, endCell.pos, newFigure);
 
             for (int i = 0; i < Way.Count; i++)
