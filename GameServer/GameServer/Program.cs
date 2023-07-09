@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
-const string baseIP = "192.168.1.116";
-//const string baseIP = "172.20.10.10";
+Config.LoadConfig();
 
 DB.ClearLobby();
 DB.ClearRoom();
@@ -28,4 +25,9 @@ app.UseEndpoints(endpoints =>
     endpoints.MapPost("/registry", LoginAndRegistry.Registry);
 });
 
+<<<<<<< Updated upstream
 app.Run("http://" + baseIP + ":11000");
+=======
+
+app.Run("http://" + Config.IpServer + ":11000");
+>>>>>>> Stashed changes

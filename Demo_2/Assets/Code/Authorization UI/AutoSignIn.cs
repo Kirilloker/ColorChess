@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
+using System.Net.Http;
+using System.Net.Sockets;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AutoSignIn : MonoBehaviour
-{
-
+{ 
     [SerializeField]
     GameObject AuthorizationMenu;
     [SerializeField]
@@ -15,7 +18,9 @@ public class AutoSignIn : MonoBehaviour
     GameObject StartMenuDesktop;
     [SerializeField]
     Server server;
-
+    [SerializeField]
+    GameObject icon_online_game;
+ 
 
     private Hashtable gameData;
 
@@ -26,7 +31,15 @@ public class AutoSignIn : MonoBehaviour
 
     public async void Authorization() 
     {
-        StartMenuDesktop.SetActive(true);
+        if (Application.internetReachability == NetworkReachability.NotReachable) 
+        {
+            // нет интернета 
+            AccountText.text = "Intertnet not working!";
+            AuthorizationMenu.SetActive(false);
+            MainMenu.SetActive(true);
+            return;
+        }
+
 
         BinarySerializer serializer = new BinarySerializer();
         serializer.LoadData();
@@ -35,19 +48,42 @@ public class AutoSignIn : MonoBehaviour
         string login = TryGetValueInHashTable("login");
         string password = TryGetValueInHashTable("password");
 
-        if (await server.TryLoginIn(login, password) == true)
+        try
+        {
+            if (await server.TryLoginIn(login, password) == true)
+            { 
+                AccountText.text = "Account: " + login;
+                // Включаем прозрачность на иконке для сетевой игры
+                icon_online_game.SetActive(true);
+            }    
+            else
+            {
+                AccountText.text = "Not found Account!";
+                return;
+            }
+        }
+        catch (SocketException ex)
+        {
+            Debug.Log("Сервер не отвечает:" + ex);
+            AccountText.text = "Server not responding";
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.Log("Сервер не отвечает:" + ex);
+            AccountText.text = "Server not responding";
+        }
+        catch (Exception ex)
+        { 
+            // Ошибка
+            Debug.Log("Произошла ошибка: " + ex);
+            AccountText.text = "Unknown error when connecting to server";
+        }
+        finally 
         {
             AuthorizationMenu.SetActive(false);
             MainMenu.SetActive(true);
-
-            AccountText.text = "Account: " + login;
-        }
-        else
-        {
-            AccountText.text = "Not found Account!";
         }
 
-        //Debug.Log(server.TryLoginIn(login, password).Result);
     }
 
     private string TryGetValueInHashTable(string key)
@@ -55,18 +91,13 @@ public class AutoSignIn : MonoBehaviour
         try
         {
             if (GameData.ContainsKey(key) == true)
-            {
                 return (string)gameData[key];
-            }
             else
-            {
                 Debug.Log("Не удалось достать значение по ключу:" + key);
-            }
         }
         catch
         {
             Debug.Log("ОШИБКА не удалось достать значение по ключу:" + key);
-
         }
 
         return "";
@@ -74,13 +105,7 @@ public class AutoSignIn : MonoBehaviour
 
     public Hashtable GameData
     {
-        get
-        {
-            return gameData;
-        }
-        set
-        {
-            gameData = value;
-        }
+        get { return gameData; }
+        set { gameData = value; }
     }
 }

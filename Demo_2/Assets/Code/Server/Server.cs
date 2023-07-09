@@ -1,6 +1,4 @@
 using ColorChessModel;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -124,9 +122,15 @@ public class Server : MonoBehaviour
     }
     private async Task LoginIn(string _name, string _password)
     {
-            HttpClient client = new HttpClient();
-            HttpContent content = new StringContent(_name + " " + _password);
-            HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
+        HttpClient client = new HttpClient();
+        client.Timeout = TimeSpan.FromSeconds(5); // Устанавливаем таймаут в 5 секунд
+
+        HttpContent content = new StringContent(_name + " " + _password);
+        HttpResponseMessage response;
+
+        try
+        {
+            response = await client.PostAsync(LoginInUrl, content);
             string result = response.StatusCode.ToString();
 
             if (result == "OK")
@@ -139,7 +143,15 @@ public class Server : MonoBehaviour
             {
                 IsLoginIn = false;
             }
+        }
+        catch (TaskCanceledException)
+        {
+            // Обработка случая, когда запрос был отменен из-за истечения таймаута
+            Debug.Log("Сервер не отвечает");
+            IsLoginIn = false;
+        }
     }
+
 
     private async Task<bool> Regisry(string _name, string _password)
     {
@@ -147,15 +159,13 @@ public class Server : MonoBehaviour
         HttpContent content = new StringContent(_name + " " + _password);
         HttpResponseMessage response = await client.PostAsync(RegistrationUrl, content);
         string result = response.StatusCode.ToString();
+        
         Debug.Log(result);
+        
         if (result == "OK")
-        {
             return true;
-        }
         else if (result == "UnprocessableEntity")
-        {
             return false;
-        }
 
         return false;
     }

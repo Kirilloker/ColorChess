@@ -383,12 +383,10 @@ public class GameController : MonoBehaviour
 
     private bool ItServer { get 
         {
-            bool itServer = false;
-
             foreach (var player in CurrentGameState.Players)
-                if (player.type == PlayerType.Online) itServer = true;
+                if (player.type == PlayerType.Online) return true;
             
-            return itServer;
+            return false;
         } 
     }
 

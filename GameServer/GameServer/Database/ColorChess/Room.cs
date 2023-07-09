@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class Room
+﻿public class Room
 {
     public int Id { get; set; }
     public string Map { get; set; }

@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ColorChessModel;
-using System.Diagnostics;
-using UnityEngine;
 using System.Text;
 
 static public class TestTrash 

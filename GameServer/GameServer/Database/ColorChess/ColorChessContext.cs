@@ -1,16 +1,16 @@
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace FirstEF6App
 {
-	class ColorChessContext : DbContext
+    class ColorChessContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(
-                "server=192.168.1.100;user=kirillok;password=loki5566;database=usersdb5;",
-                //"server=localhost;user=root;password=loki5566;database=usersdb5;",
+                "server="   + Config.IpDB           + ";" + 
+                "user="     + Config.UserDB         + ";" + 
+                "password=" + Config.PasswordDB     + ";" +
+                "database=" +Config.NameDB          + ";",
                 new MySqlServerVersion(new Version(8, 0, 13))
             );
         }

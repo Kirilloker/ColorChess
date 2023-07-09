@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using ColorChessModel;
+﻿using ColorChessModel;
 using Newtonsoft.Json;
 
 static public class JsonConverter

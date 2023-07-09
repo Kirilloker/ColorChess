@@ -1,5 +1,3 @@
-using System;
-
 public class GameStatistic
 {
     public int Id { get; set; }
