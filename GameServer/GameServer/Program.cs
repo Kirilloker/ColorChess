@@ -126,4 +126,3 @@ app.UseEndpoints(endpoints =>
 
 
 app.Run("http://" + baseIP + ":11000");
-
