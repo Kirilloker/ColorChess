@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Net.Sockets;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class AutoSignIn : MonoBehaviour
 { 
@@ -20,6 +19,8 @@ public class AutoSignIn : MonoBehaviour
     Server server;
     [SerializeField]
     GameObject icon_online_game;
+    [SerializeField]
+    CameraController cameraController;
  
 
     private Hashtable gameData;
@@ -31,6 +32,8 @@ public class AutoSignIn : MonoBehaviour
 
     public async void Authorization() 
     {
+        icon_online_game.SetActive(false);
+
         if (Application.internetReachability == NetworkReachability.NotReachable) 
         {
             // нет интернета 
@@ -53,13 +56,12 @@ public class AutoSignIn : MonoBehaviour
             if (await server.TryLoginIn(login, password) == true)
             { 
                 AccountText.text = "Account: " + login;
-                // ¬ключаем прозрачность на иконке дл€ сетевой игры
+                // ¬ключаем иконку дл€ сетевой игры
                 icon_online_game.SetActive(true);
             }    
             else
             {
                 AccountText.text = "Not found Account!";
-                return;
             }
         }
         catch (SocketException ex)
@@ -82,6 +84,7 @@ public class AutoSignIn : MonoBehaviour
         {
             AuthorizationMenu.SetActive(false);
             MainMenu.SetActive(true);
+            cameraController.CameraToMenu();
         }
 
     }

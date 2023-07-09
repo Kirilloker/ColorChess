@@ -34,7 +34,7 @@ public static class Config
         IpServer = conf.IpServer;
         IpDB = conf.IpDB;
         UserDB = conf.UserDB;
-        PasswordDB = conf.UserDB;
+        PasswordDB = conf.PasswordDB;
         NameDB = conf.NameDB;
     }
 

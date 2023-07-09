@@ -19,7 +19,7 @@ public class Server : MonoBehaviour
 
     private bool IsLoginIn = false;
 
-    private const string baseIP = "192.168.1.116";
+    private const string baseIP = "192.168.1.100";
     //private const string baseIP = "172.20.10.10";
 
     private const string GameServerHubUrl = "http://" + baseIP + ":11000/Game";
