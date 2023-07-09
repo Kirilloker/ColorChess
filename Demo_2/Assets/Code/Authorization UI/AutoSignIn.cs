@@ -62,6 +62,7 @@ public class AutoSignIn : MonoBehaviour
             else
             {
                 AccountText.text = "Not found Account!";
+                return;
             }
         }
         catch (SocketException ex)
@@ -80,13 +81,10 @@ public class AutoSignIn : MonoBehaviour
             Debug.Log("Произошла ошибка: " + ex);
             AccountText.text = "Unknown error when connecting to server";
         }
-        finally 
-        {
-            AuthorizationMenu.SetActive(false);
-            MainMenu.SetActive(true);
-            cameraController.CameraToMenu();
-        }
-
+        
+        AuthorizationMenu.SetActive(false);
+        MainMenu.SetActive(true);
+        cameraController.CameraToMenu();
     }
 
     private string TryGetValueInHashTable(string key)

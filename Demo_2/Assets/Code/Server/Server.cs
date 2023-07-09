@@ -33,6 +33,7 @@ public class Server : MonoBehaviour
     //Публичный инерфейс класса_______________________________________
     public void ConnectToDefaultGame()
     {
+        Debug.Log("ConnectToDefaultGame");
         ConnectToGameServerHubAndFindTheRoom();
     }
     public void SendStep(Step clientStep)        
@@ -69,6 +70,7 @@ public class Server : MonoBehaviour
     }
     private void ServerStartGame(string gameState)
     {
+        Debug.Log("ServerStartGame");
         Map map = TestServerHelper.ConvertJSONtoMap(gameState);
         StartGame(map);
     }
@@ -122,6 +124,7 @@ public class Server : MonoBehaviour
     }
     private async Task LoginIn(string _name, string _password)
     {
+        Debug.Log("LoginIn");
         HttpClient client = new HttpClient();
         client.Timeout = TimeSpan.FromSeconds(5); // Устанавливаем таймаут в 5 секунд
 
@@ -132,6 +135,8 @@ public class Server : MonoBehaviour
         {
             response = await client.PostAsync(LoginInUrl, content);
             string result = response.StatusCode.ToString();
+
+            Debug.Log(response);
 
             if (result == "OK")
             {
@@ -173,10 +178,12 @@ public class Server : MonoBehaviour
     //Методы для вызова логики в игре________________________________
     private async void StartGame(Map map)
     {
-       await Task.Run(() => { gameController.StartGame(map); });
+        Debug.Log("StartGame");
+        await Task.Run(() => { gameController.StartGame(map); });
     }
     private async void ApplyPlayerStep(Step step)
     {
+        Debug.Log("ApplyPlayerStep");
         await Task.Run(() => { gameController.ApplyStepView(step); });
     }
 }

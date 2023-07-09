@@ -22,7 +22,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapHub<GameHub>("/Game");
     endpoints.MapPost("/login", (HttpContext context) => {  LoginAndRegistry.Login(context).Result.ExecuteAsync(context);});
-    endpoints.MapPost("/registry", LoginAndRegistry.Registry);
+    endpoints.MapPost("/registry", (HttpContext context) => {  LoginAndRegistry.Registry(context).Result.ExecuteAsync(context);});
 });
 
 
