@@ -21,7 +21,7 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapHub<GameHub>("/Game");
-    endpoints.MapPost("/login", LoginAndRegistry.Login);
+    endpoints.MapPost("/login", (HttpContext context) => {  LoginAndRegistry.Login(context).Result.ExecuteAsync(context);});
     endpoints.MapPost("/registry", LoginAndRegistry.Registry);
 });
 
