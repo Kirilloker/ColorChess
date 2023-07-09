@@ -25,9 +25,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapPost("/registry", LoginAndRegistry.Registry);
 });
 
-<<<<<<< Updated upstream
-app.Run("http://" + baseIP + ":11000");
-=======
 
 app.Run("http://" + Config.IpServer + ":11000");
->>>>>>> Stashed changes
+
