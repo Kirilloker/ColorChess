@@ -4,7 +4,7 @@ using System.Security.Claims;
 
 public static class LoginAndRegistry
 {
-    public static async Task<IResult> Login(HttpContext context)
+    public static async Task Login(HttpContext context)
     {
         using StreamReader reader = new StreamReader(context.Request.Body);
         string text = await reader.ReadToEndAsync();
@@ -13,8 +13,8 @@ public static class LoginAndRegistry
 
         User user = DB.GetUser(name);
 
-        if (user is null) return Results.Unauthorized();
-        if (user.Password != password) return Results.Unauthorized();
+        if (user is null)  await Results.Unauthorized().ExecuteAsync(context);
+        if (user.Password != password) await Results.Unauthorized().ExecuteAsync(context);
 
         var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), new Claim(ClaimTypes.UserData, name), new Claim(ClaimTypes.UserData, password) };
 
@@ -30,7 +30,7 @@ public static class LoginAndRegistry
         {
             access_token = encodedJwt,
         };
-        return Results.Json(response);
+        Results.Json(response).ExecuteAsync(context);
     }
 
     public static async Task<IResult> Registry(HttpContext context)
