@@ -62,13 +62,9 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < CurrentGameState.PlayersCount; i++)
         {
             if (CurrentGameState.GetPlayerType(i) == PlayerType.AI) 
-            {
                 ai[i] = new MinMaxAI();
-            }
             else if (CurrentGameState.GetPlayerType(i) == PlayerType.AI2)
-            {
                 ai[i] = new MonteCarloAI();
-            }
         }
     }
 
@@ -76,15 +72,11 @@ public class GameController : MonoBehaviour
     public void CellOnClicked(CellView cellView)
     {
         // Нажать на клетку можно только в том случае - если на ней включены подсказки
-
         Cell cell = CurrentGameState.GetCell(cellView.Pos);
         Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).figure;
         Step step = new Step(figure, cell);
 
-        ApplyStepView(new Step(figure, cell));
-
-        if (IsServer && CurrentGameState.EndGame == false)
-            server.SendStep(step);
+        ApplyStepView(step);
 
     }
 
@@ -120,23 +112,20 @@ public class GameController : MonoBehaviour
         List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.pos, cell.pos, figure);
 
         Map map = GameStateCalcSystem.ApplyStep(CurrentGameState, figure, cell);
-
         gameStates.Add(map);
+
+        if (IsServer && CurrentGameState.EndGame == false)
+            server.SendStep(step);
 
         List<Vector3> wayVectors = new List<Vector3>();
 
         for (int i = 0; i < way.Count; i++)
-        {
             wayVectors.Add(new Vector3(way[i].pos.X, 0f, way[i].pos.Y));
-        }
 
         // В клетке стоит фигура -> её хотят съесть
         if (cell.figure != null)
-        {
             figureController.EatFigureView(cell.figure, CurrentGameState);
-        }
 
-        //figureController.AnimateMoveFigure(figureController.UpedFigure, wayVectors);
         figureController.AnimateMoveFigure(figureController.FindFigureView(figure, CurrentGameState), wayVectors);
         cellController.HideAllPrompts();
 
@@ -186,13 +175,9 @@ public class GameController : MonoBehaviour
         }
 
         if (SoundCell == 1)
-        {
             audioController.PlayAudio(SoundType.DarkCapture);
-        }
         if (SoundCell == 2)
-        {
             audioController.PlayAudio(SoundType.ReverseDarkCapture);
-        }
 
         boardController.SetScoreUI(CurrentGameState);
     }
@@ -319,7 +304,7 @@ public class GameController : MonoBehaviour
         gameStates.Add(map);
         DrawNewMap(map);
     }
-
+   
     private void DrawNewMap(Map map)
     {
         figureController.DestroyAll();
