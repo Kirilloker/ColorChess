@@ -79,14 +79,16 @@ public class GameController : MonoBehaviour
 
         Cell cell = CurrentGameState.GetCell(cellView.Pos);
         Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).figure;
+        Step step = new Step(figure, cell);
 
         if (ItServer && CurrentGameState.EndGame == false)
         {
-            var signalRClient = GameObject.Find("SignalRClient").GetComponent<SignalRClient>();
-            signalRClient.SendChat(TestServerHelper.ConvertToJSON(new Step(figure, cell)));
+            //var signalRClient = GameObject.Find("SignalRClient").GetComponent<SignalRClient>();
+            //signalRClient.SendChat(TestServerHelper.ConvertToJSON(new Step(figure, cell)));
+            server.SendStep(step);
         }
 
-        ApplyStepView(new Step(figure, cell));
+        ApplyStepView(step);
     }
 
     public void FigureOnClicked(FigureView figureView)
