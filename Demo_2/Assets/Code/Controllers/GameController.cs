@@ -109,11 +109,13 @@ public class GameController : MonoBehaviour
         Cell cell = step.Cell;
 
         List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.pos, cell.pos, figure);
+        
+        if (IsServer && CurrentGameState.Players[CurrentGameState.NumberPlayerStep].type == PlayerType.Human) 
+            server.SendStep(step);
 
         Map map = GameStateCalcSystem.ApplyStep(CurrentGameState, figure, cell);
         gameStates.Add(map);
 
-        if (IsServer) server.SendStep(step);
 
         List<Vector3> wayVectors = new List<Vector3>();
 
