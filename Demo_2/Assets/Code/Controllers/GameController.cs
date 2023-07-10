@@ -81,14 +81,11 @@ public class GameController : MonoBehaviour
         Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).figure;
         Step step = new Step(figure, cell);
 
-        if (ItServer && CurrentGameState.EndGame == false)
-        {
-            //var signalRClient = GameObject.Find("SignalRClient").GetComponent<SignalRClient>();
-            //signalRClient.SendChat(TestServerHelper.ConvertToJSON(new Step(figure, cell)));
-            server.SendStep(step);
-        }
+        ApplyStepView(new Step(figure, cell));
 
-        ApplyStepView(step);
+        if (IsServer && CurrentGameState.EndGame == false)
+            server.SendStep(step);
+
     }
 
     public void FigureOnClicked(FigureView figureView)
@@ -278,7 +275,7 @@ public class GameController : MonoBehaviour
 
     public void EndGame()
     {
-        if (ItServer == true)
+        if (IsServer == true)
         {
             uiController.OnlineGameExut();
             server.CloseConnection();
@@ -383,7 +380,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private bool ItServer { get 
+    private bool IsServer { get 
         {
             foreach (var player in CurrentGameState.Players)
                 if (player.type == PlayerType.Online) return true;
