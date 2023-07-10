@@ -22,9 +22,6 @@ public class BoardController : MonoBehaviour
 
     public void CreateBoard(Map gameState)
     {
-        string threadName = Thread.CurrentThread.Name;
-        Debug.Log("Current thread name: " + threadName);
-        
         if (board != null)
             Destroy(board);
         
@@ -83,10 +80,6 @@ public class BoardController : MonoBehaviour
 
     public void HideBoardDecor()
     {
-        //MainThreadDispatcher.Instance.Enqueue(() =>
-        //{
-        //    boardDecor.SetActive(true);
-        //});
         boardDecor.SetActive(false);
     }
 

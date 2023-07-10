@@ -6,6 +6,7 @@ using System;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading;
+using System.Collections;
 
 public enum GameMode
 {
@@ -68,20 +69,21 @@ public class Server : MonoBehaviour
     {
         Debug.Log("ServerSendStep:" + opponentStep);
         Step step = TestServerHelper.ConvertJSONtoSTEP(opponentStep);
-        ApplyPlayerStep(step);
+        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+        {
+            ApplyPlayerStep(step);
+        });
+        //ApplyPlayerStep(step);
     }
     private void ServerStartGame(string gameState)
     {
-        string threadName = Thread.CurrentThread.Name;
-        Debug.Log("Current thread name: " + threadName);
-
         Debug.Log("ServerStartGame");
         Map map = TestServerHelper.ConvertJSONtoMap(gameState);
-
-        gameController.StartGame(map);
+        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+        {
+            gameController.StartGame(map);
+        });
         //StartGame(map);
-
-
     }
     private void ServerEndGame()
     {
@@ -89,7 +91,6 @@ public class Server : MonoBehaviour
         gameController.EndGame();
         connection.StopAsync();
         connection = null;
-        
     }
    
     //Методы для обращений к серверу__________________________________
@@ -193,6 +194,19 @@ public class Server : MonoBehaviour
     private async void ApplyPlayerStep(Step step)
     {
         Debug.Log("ApplyPlayerStep");
-        await Task.Run(() => { gameController.ApplyStepView(step); });
+        await Task.Run(() => { gameController.ApplyStepView(step); }); 
+    }
+
+    private IEnumerator StartApplyPlayerStep(Step step)
+    {
+        gameController.ApplyStepView(step); // Запуск игры
+
+        yield return null; // Ожидание следующего кадра
+    }
+
+    private IEnumerator StartGameCoroutine(Map map)
+    {
+        StartGame(map); // Запуск игры
+        yield return null; // Ожидание следующего кадра
     }
 }
