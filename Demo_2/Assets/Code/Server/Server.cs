@@ -71,7 +71,7 @@ public class Server : MonoBehaviour
         Step step = TestServerHelper.ConvertJSONtoSTEP(opponentStep);
         UnityMainThreadDispatcher.Instance().Enqueue(() =>
         {
-            ApplyPlayerStep(step);
+            gameController.ApplyStepView(step);
         });
         //ApplyPlayerStep(step);
     }
