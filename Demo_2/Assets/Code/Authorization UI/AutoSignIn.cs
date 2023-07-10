@@ -84,7 +84,7 @@ public class AutoSignIn : MonoBehaviour
         
         AuthorizationMenu.SetActive(false);
         MainMenu.SetActive(true);
-        cameraController.CameraToMenu();
+        //cameraController.CameraToMenu();
     }
 
     private string TryGetValueInHashTable(string key)

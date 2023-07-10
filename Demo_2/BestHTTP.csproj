@@ -1618,8 +1618,8 @@
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\digests\RipeMD320Digest.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\x509\SubjectPublicKeyInfoFactory.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\agreement\kdf\DHKekGenerator.cs" />
-    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\misc\NetscapeRevocationURL.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\Asn1Set.cs" />
+    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\misc\NetscapeRevocationURL.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\tls\DtlsHandshakeRetransmit.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\DefiniteLengthInputStream.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\operators\Asn1Signature.cs" />

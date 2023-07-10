@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Threading;
+
 public enum GameMode
 {
     Default = 0,
@@ -70,9 +72,16 @@ public class Server : MonoBehaviour
     }
     private void ServerStartGame(string gameState)
     {
+        string threadName = Thread.CurrentThread.Name;
+        Debug.Log("Current thread name: " + threadName);
+
         Debug.Log("ServerStartGame");
         Map map = TestServerHelper.ConvertJSONtoMap(gameState);
-        StartGame(map);
+
+        gameController.StartGame(map);
+        //StartGame(map);
+
+
     }
     private void ServerEndGame()
     {

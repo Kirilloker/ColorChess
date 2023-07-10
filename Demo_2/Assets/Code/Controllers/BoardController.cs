@@ -1,6 +1,7 @@
 using ColorChessModel;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class BoardController : MonoBehaviour
@@ -21,10 +22,12 @@ public class BoardController : MonoBehaviour
 
     public void CreateBoard(Map gameState)
     {
-        if(board != null)
-            GameObject.Destroy(board);
+        string threadName = Thread.CurrentThread.Name;
+        Debug.Log("Current thread name: " + threadName);
         
-
+        if (board != null)
+            Destroy(board);
+        
         HideBoardDecor();
 
         Transform parent = GameObject.FindWithTag("Arena").transform;
@@ -80,6 +83,10 @@ public class BoardController : MonoBehaviour
 
     public void HideBoardDecor()
     {
+        //MainThreadDispatcher.Instance.Enqueue(() =>
+        //{
+        //    boardDecor.SetActive(true);
+        //});
         boardDecor.SetActive(false);
     }
 

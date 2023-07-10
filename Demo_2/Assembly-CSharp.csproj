@@ -70,6 +70,7 @@
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Reporter.cs" />
     <Compile Include="Assets\Code\Model\Interfaces\IAI.cs" />
     <Compile Include="Assets\Code\Test\TestSerialization.cs" />
+    <Compile Include="Assets\Code\Another\TypeToString.cs" />
     <Compile Include="Assets\Code\Model\GameState\Player.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\BishopBuilder.cs" />
     <Compile Include="Assets\Code\Controllers\CameraController.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\BishopAlgorithm.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\CastleBuilder.cs" />
     <Compile Include="Assets\Code\Controllers\AudioController.cs" />
+    <Compile Include="Assets\Code\Another\SettingsGraphics.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\CastleAlgorithm.cs" />
     <Compile Include="Assets\Code\Authorization UI\Registration.cs" />
     <Compile Include="Assets\Code\Controllers\FigureController.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Assets\Code\Controllers\UIController.cs" />
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterGUI.cs" />
     <Compile Include="Assets\Old Code\UI.cs" />
+    <Compile Include="Assets\MainThreadDispatcher.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\WayCalcSystem.cs" />
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\MultiKeyDictionary.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilderDirector.cs" />
@@ -119,14 +122,12 @@
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\HorseAlgorithm.cs" />
     <Compile Include="Assets\Code\Controllers\TestControllerBoardUI.cs" />
     <Compile Include="Assets\Code\Model\GameState\Figure.cs" />
+    <Compile Include="Assets\Code\Another\DebugConsole.cs" />
     <Compile Include="Assets\Code\AI\MinMaxAI.cs" />
     <Compile Include="Assets\Code\Model\GameState\Cell.cs" />
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\Check.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\PlayerBuilder.cs" />
-    <Compile Include="Assets\Code\Another\DebugConsole.cs" />
     <Compile Include="Assets\Code\Another\Prefabs.cs" />
-    <Compile Include="Assets\Code\Another\SettingsGraphics.cs" />
-    <Compile Include="Assets\Code\Another\TypeToString.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
