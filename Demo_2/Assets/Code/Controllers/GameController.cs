@@ -77,7 +77,6 @@ public class GameController : MonoBehaviour
         Step step = new Step(figure, cell);
 
         ApplyStepView(step);
-
     }
 
     public void FigureOnClicked(FigureView figureView)
@@ -114,8 +113,7 @@ public class GameController : MonoBehaviour
         Map map = GameStateCalcSystem.ApplyStep(CurrentGameState, figure, cell);
         gameStates.Add(map);
 
-        if (IsServer && CurrentGameState.EndGame == false)
-            server.SendStep(step);
+        if (IsServer) server.SendStep(step);
 
         List<Vector3> wayVectors = new List<Vector3>();
 
