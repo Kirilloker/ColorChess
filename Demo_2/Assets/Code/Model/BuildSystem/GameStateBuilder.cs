@@ -82,11 +82,12 @@ namespace ColorChessModel
             figureSets = _figureSets;
         }
 
-        private void SetDefaultBoard()
+        private void SetDefaultBoard() { SetBoard(9, 9); }
+        private void SetBoard(int _lenght, int _width)
         {
             board = new CellDiscription();
-            board.lenght = 9;
-            board.width = 9;
+            board.lenght = _lenght;
+            board.width = _width;
             board.CellTypes = new CellType[board.lenght, board.width];
 
             for (int i = 0; i < board.lenght; i++)
@@ -193,5 +194,23 @@ namespace ColorChessModel
             SetDefaultBoard();
             SetDefaultFigureSets();
         }
+
+        public void SetCustomGameState(int sizeMap, PlayerType[] typePlayer, CornerType[] cornerPlayer, ColorType[] colorPlayer) 
+        {
+            playersDiscription = new PlayersDiscription();
+
+            for (int i = 0; i < typePlayer.Length; i++)
+            {
+                if (typePlayer[i] == PlayerType.None) continue;
+                playersDiscription.PlayerNumbers.Add(playersDiscription.PlayerNumbers.Count);
+                playersDiscription.PlayerTypes.Add(typePlayer[i]);
+                playersDiscription.PlayerCorners.Add(cornerPlayer[i]);
+                playersDiscription.PlayerColors.Add(colorPlayer[i]);
+            }
+
+            SetBoard(sizeMap, sizeMap);
+            SetDefaultFigureSets();
+        }
+
     };
 }

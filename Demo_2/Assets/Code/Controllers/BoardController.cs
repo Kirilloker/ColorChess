@@ -59,9 +59,7 @@ public class BoardController : MonoBehaviour
         var material_board = board.GetComponentInChildren<MeshRenderer>().materials;
 
         foreach (Player player in players)
-        {
             material_board[(int) player.corner + 1] = prefabs.GetColor(player.color);
-        }
 
         if (players.Count == 2 && players[0].corner == CornerType.DownLeft && players[1].corner == CornerType.UpRight)
         {

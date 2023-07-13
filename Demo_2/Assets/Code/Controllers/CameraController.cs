@@ -38,9 +38,7 @@ public class CameraController : MonoBehaviour
     private void SwitchCamera()
     {
         foreach (var cinemachine in cinemachines)
-        {
             cinemachine.m_Priority = 1;
-        }
 
         cinemachines[(int)viewCamera].m_Priority = 10;
     }

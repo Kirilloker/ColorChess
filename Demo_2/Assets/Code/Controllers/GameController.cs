@@ -204,6 +204,11 @@ public class GameController : MonoBehaviour
 
     }
 
+    public void SelectCustomGameMode(int sizeMap, PlayerType[] typePlayer, CornerType[] cornerPlayer, ColorType[] colorPlayer) 
+    {
+        gameStateBuilder.SetCustomGameState(sizeMap, typePlayer, cornerPlayer, colorPlayer);
+    }
+
     public void StartNewStep()
     {
         // Новый ход

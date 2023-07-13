@@ -24,7 +24,7 @@ public class Registration : MonoBehaviour
         if (
             (loginInp.text.Length <= 2) || (passwordInp.text.Length <= 2)
             ||
-            (loginInp.text.Length >= 40) || (passwordInp.text.Length >= 40)
+            (loginInp.text.Length >= 20) || (passwordInp.text.Length >= 40)
             ) 
             return;
 

@@ -80,5 +80,26 @@ namespace ColorChessModel
         }
     }
 
+    public class GameDefaultSetDescription 
+    {
+        int sizeMap;
+        PlayerType[] typePlayer = new PlayerType[4];
+        CornerType[] cornerPlayer = new CornerType[4];
+        ColorType[] colorPlayer = new ColorType[4];
+
+        public GameDefaultSetDescription() 
+        {
+            sizeMap = 9;
+            typePlayer = new PlayerType[4]
+                { PlayerType.None, PlayerType.None, PlayerType.None, PlayerType.None};
+
+            cornerPlayer = new CornerType[4]
+                { CornerType.DownLeft, CornerType.UpRight, CornerType.DownRight, CornerType.UpLeft};
+
+            colorPlayer = new ColorType[4]
+                { ColorType.Red, ColorType.Blue, ColorType.Green, ColorType.Yellow};
+        }
+    }
+
 
 }

@@ -102,6 +102,7 @@
     <Compile Include="Assets\Code\Model\GameStateCalcSystem\GameStateToIntArray.cs" />
     <Compile Include="Assets\Code\Model\Step.cs" />
     <Compile Include="Assets\Code\Controllers\UIController.cs" />
+    <Compile Include="Assets\Code\Test\UnityMainThreadDispatcher.cs" />
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterGUI.cs" />
     <Compile Include="Assets\Old Code\UI.cs" />
     <Compile Include="Assets\MainThreadDispatcher.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\Check.cs" />
     <Compile Include="Assets\Code\Model\BuildSystem\Builders\PlayerBuilder.cs" />
     <Compile Include="Assets\Code\Another\Prefabs.cs" />
+    <Compile Include="Assets\Code\Server\ServerUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
