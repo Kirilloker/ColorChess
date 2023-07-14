@@ -1,4 +1,5 @@
 using ColorChessModel;
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -30,26 +31,33 @@ public class SignIn : MonoBehaviour
             )
             return;
 
-        if (await server.TryLoginIn(loginInp.text, passwordInp.text) == true)
+        try 
         {
-            ImageWarning.SetActive(false);
+            if (await server.TryLoginIn(loginInp.text, passwordInp.text) == true)
+            {
+                ImageWarning.SetActive(false);
 
-            BinarySerializer binarySerializer = new BinarySerializer();
-            binarySerializer.SetDefaultData();
-            binarySerializer.GetData()["login"] = loginInp.text;
-            binarySerializer.GetData()["password"] = passwordInp.text;
-            binarySerializer.SaveData();
+                BinarySerializer binarySerializer = new BinarySerializer();
+                binarySerializer.SetDefaultData();
+                binarySerializer.GetData()["login"] = loginInp.text;
+                binarySerializer.GetData()["password"] = passwordInp.text;
+                binarySerializer.SaveData();
 
-            SigInMenu.SetActive(false);
+                SigInMenu.SetActive(false);
 
-            cameraController.SwitchCamera(CameraViewType.noteMenu);
+                cameraController.SwitchCamera(CameraViewType.noteMenu);
 
-            AutoSignIn.Authorization();
+                AutoSignIn.Authorization();
+            }
+            else 
+            {
+                Debug.Log("не получилось авторизироваться грусть печаль");
+                ImageWarning.SetActive(true);
+            }
         }
-        else 
+        catch (Exception ex) 
         {
-            Debug.Log("не получилось авторизироваться грусть печаль");
-            ImageWarning.SetActive(true);
+            Debug.Log(ex);
         }
 
 

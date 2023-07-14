@@ -127,7 +127,7 @@ public class Server : MonoBehaviour
         HttpContent content = new StringContent(_name + " " + _password);
         HttpResponseMessage response;
 
-        try
+        //try
         {
             response = await client.PostAsync(LoginInUrl, content);
             string result = response.StatusCode.ToString();
@@ -143,12 +143,12 @@ public class Server : MonoBehaviour
                 IsLoginIn = false;
             }
         }
-        catch (TaskCanceledException)
-        {
-            // Обработка случая, когда запрос был отменен из-за истечения таймаута
-            Debug.Log("Сервер не отвечает");
-            IsLoginIn = false;
-        }
+        //catch (TaskCanceledException)
+        //{
+        //    // Обработка случая, когда запрос был отменен из-за истечения таймаута
+        //    Debug.Log("Сервер не отвечает");
+        //    IsLoginIn = false;
+        //}
     }
 
 

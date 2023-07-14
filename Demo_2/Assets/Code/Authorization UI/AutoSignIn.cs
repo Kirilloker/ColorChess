@@ -20,6 +20,8 @@ public class AutoSignIn : MonoBehaviour
     [SerializeField]
     GameObject icon_online_game;
     [SerializeField]
+    GameObject icon_unable_online_game;
+    [SerializeField]
     CameraController cameraController;
  
 
@@ -53,38 +55,41 @@ public class AutoSignIn : MonoBehaviour
 
         try
         {
+            // Если такой аккаунт существует
             if (await server.TryLoginIn(login, password) == true)
             { 
                 AccountText.text = "Account: " + login;
-                // Включаем иконку для сетевой игры
-                icon_online_game.SetActive(true);
+                iconSetOnline(true);
+                AuthorizationMenu.SetActive(false);
+                MainMenu.SetActive(true);
             }    
+            // Есл логин\пароль не правильный
             else
             {
                 AccountText.text = "Not found Account!";
+                iconSetOnline(false);
                 return;
             }
         }
-        catch (SocketException ex)
-        {
-            Debug.Log("Сервер не отвечает:" + ex);
-            AccountText.text = "Server not responding";
-        }
-        catch (HttpRequestException ex)
-        {
-            Debug.Log("Сервер не отвечает:" + ex);
-            AccountText.text = "Server not responding";
-        }
+        // Если произошла ошибка с сервером
         catch (Exception ex)
-        { 
-            // Ошибка
-            Debug.Log("Произошла ошибка: " + ex);
-            AccountText.text = "Unknown error when connecting to server";
+        {
+            Debug.Log("Сервер не работает");
+            AccountText.text = "Server not responding";
+            iconSetOnline(false);
+            AuthorizationMenu.SetActive(false);
+            MainMenu.SetActive(true);
+            return;
         }
-        
-        AuthorizationMenu.SetActive(false);
-        MainMenu.SetActive(true);
-        //cameraController.CameraToMenu();
+
+
+    }
+
+
+    void iconSetOnline(bool IsOnline) 
+    {
+        icon_online_game.SetActive(IsOnline);
+        icon_unable_online_game.SetActive(!IsOnline);
     }
 
     private string TryGetValueInHashTable(string key)

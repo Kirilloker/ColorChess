@@ -21,7 +21,14 @@ public class UIController : MonoBehaviour
     [SerializeField]
     GameObject BackToMenuInOnlineButton;
     [SerializeField]
-    GameObject StopSearchButton;
+    GameObject StopSearchButton; 
+
+    [SerializeField]
+    GameObject GameUI;  
+    [SerializeField]
+    GameObject MainUI;
+    [SerializeField]
+    GameObject CustomUI;
 
     public void SelectStandartHotSeat()
     {
@@ -55,8 +62,15 @@ public class UIController : MonoBehaviour
     }
 
 
+    public void ViewUIGame(bool isStartGame) 
+    {
+        GameUI.SetActive(isStartGame);
+        MainUI.SetActive(!isStartGame);
+    }
+
+
     // Custom Settings
-    [SerializeField]
+    [SerializeField]    
     Text sizeText;
 
     int sizeMap = 9;
@@ -98,7 +112,8 @@ public class UIController : MonoBehaviour
         if (CheckCountPlayer() == false) return; 
 
         gameController.SelectCustomGameMode(sizeMap, typePlayer, cornerPlayer, colorPlayer);
-        gameController.StartGame();
+        CustomUI.SetActive(false);
+        StartGame();
     }
 
     int SizeMap 
