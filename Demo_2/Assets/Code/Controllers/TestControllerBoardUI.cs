@@ -55,9 +55,7 @@ public class TestControllerBoardUI : MonoBehaviour
         SetEmptyCell(gameState.CountEmptyCell);
 
         for (int i = 0; i < gameState.PlayersCount; i++)
-        {
             SetScoreInCorner(gameState.GetPlayerCorner(i), gameState.GetScorePlayer(i));
-        }
 
 
         // ≈сли на карте страндартное расположение (2 игрока)

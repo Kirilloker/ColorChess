@@ -53,9 +53,7 @@ public class FigureController : MonoBehaviour
             List<FigureView> figuresViewList = new List<FigureView>();
 
             foreach (Figure figure in player.figures)
-            {
                 figuresViewList.Add(CreateFigure(figure, player.color, player.corner));
-            }
 
             figures.Add(figuresViewList);
         }
@@ -135,25 +133,19 @@ public class FigureController : MonoBehaviour
     public void OnBoxColiders(int numberPlayer)
     {
         foreach (FigureView figure in figures[numberPlayer])
-        {
             figure.StateBoxColodier(true);
-        }
     }
 
     public void OffBoxColidersPlayers(int numberPlayer)
     {
         foreach (FigureView figure in figures[numberPlayer])
-        {
             figure.StateBoxColodier(false);
-        }
     }
 
     public void OFFAllBoxColiders()
     {
         for (int i = 0; i < figures.Count; i++)
-        {
             OffBoxColidersPlayers(i);
-        }
     }
 
     public FigureView UpedFigure { get { return upedFigure; } set { upedFigure = value; } }

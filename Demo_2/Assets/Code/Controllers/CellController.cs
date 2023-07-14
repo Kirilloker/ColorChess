@@ -27,7 +27,10 @@ public class CellController : MonoBehaviour
         {
             for (int j = 0; j < gameState.Width; j++)
             {
-                GameObject cell = Instantiate(prefabsCell, new Vector3(i, 0f, j), Quaternion.AngleAxis(-90, Vector3.right), parent) as GameObject;
+                GameObject cell = Instantiate(prefabsCell, new Vector3(i, 0f, j), Quaternion.AngleAxis(-90, Vector3.right)) as GameObject;
+                cell.transform.SetParent(parent.transform);
+                cell.transform.localPosition = new Vector3(i, 0f, j);
+                cell.transform.localScale = new Vector3(50f, 50f, 50f);
                 cells[i, j] = cell.GetComponent<CellView>();
                 cells[i, j].FindComponents();
                 cells[i, j].SetCellController(this);
@@ -58,9 +61,7 @@ public class CellController : MonoBehaviour
         Transform parent = GameObject.FindWithTag("Cell").transform;
 
         foreach (Transform child in parent)
-        {
             Destroy(child.gameObject);
-        }
     }
 
     public void ShowAllSteps(List<ColorChessModel.Cell> way)
@@ -68,28 +69,20 @@ public class CellController : MonoBehaviour
         HideAllPrompts();
 
         for (int i = 0; i < way.Count; i++)
-        {
             cells[way[i].pos.X, way[i].pos.Y].ShowPrompt();
-        }
     }
 
     public void HideAllPrompts()
     {
         for (int i = 0; i < cells.GetLength(0); i++)
-        {
             for (int j = 0; j < cells.GetLength(1); j++)
-            {
                 cells[i, j].HidePrompt();
-            }
-        }
     }
 
     public void OFFALLBoxColiders()
     {
         foreach (CellView cell in cells)
-        {
             cell.OFFBoxColider();
-        }
     }
 
     public void OnBoxColidersForList(List<Cell> way)
@@ -97,9 +90,7 @@ public class CellController : MonoBehaviour
         OFFALLBoxColiders();
 
         for (int i = 0; i < way.Count; i++)
-        {
             cells[way[i].pos.X, way[i].pos.Y].ONBoxColider();
-        }
     }
     public bool GetBoolFigureInCell(Position position)
     {

@@ -23,7 +23,6 @@ public class Server : MonoBehaviour
     private bool IsLoginIn = false;
 
     private const string baseIP = "192.168.1.100";
-    //private const string baseIP = "172.20.10.10";
 
     private const string GameServerHubUrl = "http://" + baseIP + ":11000/Game";
     private const string LoginInUrl = "http://" + baseIP + ":11000/login";
@@ -36,7 +35,6 @@ public class Server : MonoBehaviour
     //Публичный инерфейс класса_______________________________________
     public void ConnectToDefaultGame()
     {
-        Debug.Log("ConnectToDefaultGame");
         ConnectToGameServerHubAndFindTheRoom();
     }
     public void SendStep(Step clientStep)        
@@ -67,27 +65,16 @@ public class Server : MonoBehaviour
     //Методы вызываемы сервером во время игры________________________
     private void ServerSendStep(string opponentStep)
     {
-        Debug.Log("ServerSendStep:" + opponentStep);
         Step step = TestServerHelper.ConvertJSONtoSTEP(opponentStep);
-        UnityMainThreadDispatcher.Instance().Enqueue(() =>
-        {
-            gameController.ApplyStepView(step);
-        });
-        //ApplyPlayerStep(step);
+        UnityMainThreadDispatcher.Instance().Enqueue(() => { gameController.ApplyStepView(step); });
     }
     private void ServerStartGame(string gameState)
     {
-        Debug.Log("ServerStartGame");
         Map map = TestServerHelper.ConvertJSONtoMap(gameState);
-        UnityMainThreadDispatcher.Instance().Enqueue(() =>
-        {
-            gameController.StartGame(map);
-        });
-        //StartGame(map);
+        UnityMainThreadDispatcher.Instance().Enqueue(() => { gameController.StartGame(map); });
     }
     private void ServerEndGame()
     {
-        Debug.Log("ServerEndGame");
         gameController.EndGame();
         DisconectFromServer();
         connection = null;
@@ -134,19 +121,16 @@ public class Server : MonoBehaviour
     }
     private async Task LoginIn(string _name, string _password)
     {
-        Debug.Log("LoginIn");
         HttpClient client = new HttpClient();
         client.Timeout = TimeSpan.FromSeconds(5); // Устанавливаем таймаут в 5 секунд
 
         HttpContent content = new StringContent(_name + " " + _password);
         HttpResponseMessage response;
 
-        try
+        //try
         {
             response = await client.PostAsync(LoginInUrl, content);
             string result = response.StatusCode.ToString();
-
-            Debug.Log(response);
 
             if (result == "OK")
             {
@@ -159,12 +143,12 @@ public class Server : MonoBehaviour
                 IsLoginIn = false;
             }
         }
-        catch (TaskCanceledException)
-        {
-            // Обработка случая, когда запрос был отменен из-за истечения таймаута
-            Debug.Log("Сервер не отвечает");
-            IsLoginIn = false;
-        }
+        //catch (TaskCanceledException)
+        //{
+        //    // Обработка случая, когда запрос был отменен из-за истечения таймаута
+        //    Debug.Log("Сервер не отвечает");
+        //    IsLoginIn = false;
+        //}
     }
 
 
@@ -184,29 +168,5 @@ public class Server : MonoBehaviour
 
         return false;
     }
-
-    //Методы для вызова логики в игре________________________________
-    private async void StartGame(Map map)
-    {
-        Debug.Log("StartGame");
-        await Task.Run(() => { gameController.StartGame(map); });
-    }
-    private async void ApplyPlayerStep(Step step)
-    {
-        Debug.Log("ApplyPlayerStep");
-        await Task.Run(() => { gameController.ApplyStepView(step); }); 
-    }
-
-    private IEnumerator StartApplyPlayerStep(Step step)
-    {
-        gameController.ApplyStepView(step); // Запуск игры
-
-        yield return null; // Ожидание следующего кадра
-    }
-
-    private IEnumerator StartGameCoroutine(Map map)
-    {
-        StartGame(map); // Запуск игры
-        yield return null; // Ожидание следующего кадра
-    }
+ 
 }

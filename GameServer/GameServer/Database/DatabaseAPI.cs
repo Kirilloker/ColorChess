@@ -149,13 +149,13 @@ public static class DB
     /// <summary>
     /// Возврашает все статистики игры пользователя
     /// </summary>
-    static List<GameStatistic> GetGameStatisticUser(int userId)
+    static List<GameStatistic>? GetGameStatisticUser(int userId)
     {
         using (ColorChessContext db = new ColorChessContext())
         {
             try
             {
-                return db.GameStatistics.Where(b => (b.User2Id == userId || b.User1Id == userId)).ToList();
+                return db.GameStatistics.Where(b => b.UsersId.Contains(userId)).ToList();
             }
             catch (Exception e)
             {
@@ -183,7 +183,7 @@ public static class DB
         {
             try
             {
-                return db.Lobbies.Where(b => (b.UserId == userId)).ToList()[0];
+                return db.Lobbies.Where(b => (b.UsersId.Contains(userId))).ToList()[0];
             }
             catch (Exception e)
             {
@@ -212,7 +212,7 @@ public static class DB
         {
             try
             {
-                return db.Rooms.Where(b => (b.User2Id == userId || b.User1Id == userId)).ToList()[0];
+                return db.Rooms.Where(b => (b.UsersId.Contains(userId))).ToList()[0];
             }
             catch (Exception e)
             {
@@ -431,11 +431,11 @@ public static class DB
         {
             try
             {
-                List<Lobby> lobbies = db.Lobbies.Where(b => b.UserId == userId).ToList();
+                List<Lobby> lobbies = db.Lobbies.Where(b => b.UsersId.Contains(userId)).ToList();
 
                 if (lobbies.Count == 0) 
                 {
-                    Lobby lobby = new Lobby { UserId = userId, GameMode = gameMode };
+                    Lobby lobby = new Lobby { UsersId = new() { userId }, GameMode = gameMode };
 
                     db.Lobbies.Add(lobby);
                     db.SaveChanges();
@@ -460,15 +460,7 @@ public static class DB
     /// <summary>
     ///  Добавление информации за игру
     /// </summary>
-    public static void AddGameStatistic(int time, int user1Score, int user2Score, DateTime dateTime, GameMode gameMode, User user1, User user2)
-    {
-        AddGameStatistic(time, user1Score, user2Score, dateTime, gameMode, user1.Id, user2.Id);
-    }
-
-    /// <summary>
-    ///  Добавление информации за игру
-    /// </summary>
-    public static void AddGameStatistic(int time, int user1Score, int user2Score, DateTime dateTime, GameMode gameMode, int user1Id, int user2Id)
+    public static void AddGameStatistic(int time, List<int> usersScore, DateTime dateTime, GameMode gameMode, List<int> usersId)
     {
 
         using (ColorChessContext db = new ColorChessContext())
@@ -479,12 +471,10 @@ public static class DB
                 GameStatistic statistic = new GameStatistic
                 {
                     Time = time,
-                    Player1Score = user1Score,
-                    Player2Score = user2Score,
+                    PlayerScore = usersScore,
                     Date = dateTime,
                     GameMode = gameMode,
-                    User1Id = user1Id,
-                    User2Id = user2Id
+                    UsersId = usersId
                 };
 
                 db.GameStatistics.Add(statistic);
@@ -501,29 +491,29 @@ public static class DB
     /// <summary>
     /// Добавление комнаты
     /// </summary>
-    public static void AddRoom(int user1Id, int user2Id, string map, GameMode gameMode)
+    public static void AddRoom(List<int> usersId, string map, GameMode gameMode)
     {
         using (ColorChessContext db = new ColorChessContext())
         {
             try
             {
-                List<Room> rooms = db.Rooms.Where(b => 
-                b.User1Id == user1Id || 
-                b.User1Id == user2Id ||
-                b.User2Id == user1Id ||
-                b.User2Id == user2Id 
-                ).ToList();
+                //List<Room> rooms = db.Rooms.Where(b => 
+                //b.User1Id == user1Id || 
+                //b.User1Id == user2Id ||
+                //b.User2Id == user1Id ||
+                //b.User2Id == user2Id 
+                //).ToList();
 
-                if (rooms.Count == 0)
-                {
-                    Room room = new Room { User1Id = user1Id, User2Id = user2Id, Map = map, GameMode = gameMode };
+                //if (rooms.Count == 0)   
+                //{
+                    Room room = new Room { UsersId = usersId, Map = map, GameMode = gameMode };
                     db.Rooms.Add(room);
                     db.SaveChanges();
-                }
-                else
-                {
-                    Console.WriteLine("Error AddRoom: " + Error.RoomExist);
-                }
+                //}
+                //else
+                //{
+                //    Console.WriteLine("Error AddRoom: " + Error.RoomExist);
+                //}
 
             }
             catch (Exception e)
@@ -534,14 +524,6 @@ public static class DB
         }
     }
 
-
-    /// <summary>
-    /// Добавление комнаты
-    /// </summary>
-    public static void AddRoom(User user1, User user2, string map, GameMode gameMode) 
-    {
-        AddRoom(user1.Id, user2.Id, map, gameMode);
-    }
     #endregion
 
     #region Changes
@@ -578,7 +560,7 @@ public static class DB
             try
             {
                 List<Room> rooms = db.Rooms
-                    .Where(b => b.User1Id == userId || b.User2Id == userId)
+                    .Where(b => b.UsersId.Contains(userId))
                     .ToList();
 
                 if (rooms.Count == 1) 
@@ -698,7 +680,7 @@ public static class DB
         {
             try
             {
-                List<Lobby> lobbies = db.Lobbies.Where(b => b.UserId == userId).ToList();
+                List<Lobby> lobbies = db.Lobbies.Where(b => b.UsersId.Contains(userId)).ToList();
 
                 db.Lobbies.RemoveRange(lobbies);
                 db.SaveChanges();
@@ -729,7 +711,7 @@ public static class DB
         {
             try
             {
-                List<Room> rooms = db.Rooms.Where(b => b.User1Id == userId || b.User2Id == userId).ToList();
+                List<Room> rooms = db.Rooms.Where(b => b.UsersId.Contains(userId)).ToList();
 
                 db.Rooms.RemoveRange(rooms);
                 db.SaveChanges();
@@ -859,103 +841,5 @@ public static class DB
     }
     #endregion
 
-    #region Another Function
-    /// <summary>
-    /// Поиск противника для пользователя
-    /// </summary>
-    public static int SearchOpponent(int userId)
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                List<Lobby> lobbyUserlist = db.Lobbies.Where(b => b.UserId == userId).ToList();
-
-                if (
-                    (lobbyUserlist.Count == 1)
-                    &&
-                    (
-                    lobbyUserlist[0].GameMode == GameMode.Default
-                    ||
-                    lobbyUserlist[0].GameMode == GameMode.Rating
-                    )
-                   )
-                {
-                    Lobby userLobby = lobbyUserlist[0];
-
-                    List<Lobby> opponentLobbyList = db.Lobbies
-                        .Where(
-                            b => (
-                                (b.UserId != userId)
-                                &&
-                                (b.GameMode == userLobby.GameMode)
-                            )
-                            )
-                        .ToList();
-
-                    if (opponentLobbyList.Count != 0)
-                    {
-
-                        if (userLobby.GameMode == GameMode.Rating)
-                        {
-                            UserStatistic userStatistic = db.UserStatistics
-                                .Where(b => b.UserId == userLobby.UserId).ToList()[0];
-
-                            for (int i = 0; i < opponentLobbyList.Count; i++)
-                            {
-                                int opponentId = opponentLobbyList[i].Id;
-
-                                UserStatistic opponentStatistic = db.UserStatistics
-                                    .Where(b => b.UserId == opponentId).ToList()[0];
-
-                                if (Math.Abs(userStatistic.Rate - opponentStatistic.Rate) <= 10000)
-                                {
-                                    return opponentLobbyList[i].UserId;
-                                }
-                            }
-
-                            Console.WriteLine("Error SearchOpponent: " + Error.NotFoundOpponent);
-                            return -1;
-                        }
-                        else if (userLobby.GameMode == GameMode.Default)
-                        {
-                            return opponentLobbyList[0].UserId;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Error SearchOpponent: " + Error.NotFoundEnum);
-                            return -1;
-                        }
-
-                    }
-                    else
-                    {
-                        Console.WriteLine("Error SearchOpponent: " + Error.NotFoundOpponent);
-                        return -1;
-                    }
-                }
-                else if (lobbyUserlist.Count == 1 && lobbyUserlist[0].GameMode == GameMode.Custom)
-                {
-                    Console.WriteLine("Custom not working!!!");
-                    return -1;
-                }
-                else
-                {
-                    Console.WriteLine("Error SearchOpponent: " + Error.NotFound);
-                    return -1;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error SearchOpponent: " + Error.Unknown);
-                return -1;
-            }
-        }
-    }
-
-
-
-    #endregion
-
+    
 }

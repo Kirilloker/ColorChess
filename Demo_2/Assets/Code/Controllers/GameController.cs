@@ -49,6 +49,7 @@ public class GameController : MonoBehaviour
         cellController.CreateCells(CurrentGameState);
         figureController.CreateFigures(CurrentGameState);
         cameraController.SwitchCamera(CameraViewType.inGame1);
+        uiController.ViewUIGame(true);
 
         InitAI();
 
@@ -204,6 +205,11 @@ public class GameController : MonoBehaviour
 
     }
 
+    public void SelectCustomGameMode(int sizeMap, PlayerType[] typePlayer, CornerType[] cornerPlayer, ColorType[] colorPlayer) 
+    {
+        gameStateBuilder.SetCustomGameState(sizeMap, typePlayer, cornerPlayer, colorPlayer);
+    }
+
     public void StartNewStep()
     {
         // Новый ход
@@ -258,6 +264,17 @@ public class GameController : MonoBehaviour
         boardController.ShowBoardDecor();
     }
 
+    public void Surrender() 
+    {
+        if (IsServer == true)
+        {
+            
+        }
+
+        EndGame();
+    
+    }
+
     public void EndGame()
     {
         if (IsServer == true)
@@ -268,6 +285,7 @@ public class GameController : MonoBehaviour
 
         // Конец игры
         UnityEngine.Debug.Log("Конец игры");
+        uiController.ViewUIGame(false);
         cameraController.SetCameraSpeed(cameraSpeed);
         cameraController.SwitchCamera(CameraViewType.noteMenu);
 
