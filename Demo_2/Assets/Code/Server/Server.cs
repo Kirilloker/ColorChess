@@ -89,7 +89,7 @@ public class Server : MonoBehaviour
     {
         Debug.Log("ServerEndGame");
         gameController.EndGame();
-        connection.StopAsync();
+        DisconectFromServer();
         connection = null;
     }
    
