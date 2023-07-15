@@ -56,7 +56,7 @@ public class GameRoom
         {
             playersScores.Add(GameState.GetScorePlayer(i));
         }
-        DB.AddGameStatistic(0, playersScores, DateTime.Now, GameMode, PlayersIds);
+        DB.AddGameStatistic(playersScores, GameMode, PlayersIds);
 
 
         List<AttributeUS> GameResults = new List<AttributeUS>(MaxNumOfPlayers);

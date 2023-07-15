@@ -27,7 +27,7 @@ public class RatingGameRoom : GameRoom
         {
             playersScores.Add(base.GameState.GetScorePlayer(i));
         }
-        DB.AddGameStatistic(0, playersScores, DateTime.Now, GameMode, PlayersIds);
+        DB.AddGameStatistic(playersScores, GameMode, PlayersIds);
 
 
         List<AttributeUS> GameResults = new List<AttributeUS>(MaxNumOfPlayers);
@@ -87,8 +87,8 @@ public class RatingGameRoom : GameRoom
                     {
                         playersScores.Add(base.GameState.GetScorePlayer(j));
                     }
-                    DB.AddGameStatistic(10, playersScores, DateTime.Now, GameMode, PlayersIds);
-                    DB.AddGameStatistic(10, playersScores, DateTime.Now, GameMode, PlayersIds);
+                    DB.AddGameStatistic (playersScores,GameMode, PlayersIds);
+                    DB.AddGameStatistic(playersScores, GameMode, PlayersIds);
                 }
                 else
                 {
