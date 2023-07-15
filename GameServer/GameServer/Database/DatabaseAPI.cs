@@ -47,7 +47,7 @@ public static class DB
 
 
     /// <summary>
-    /// Возвращает пароль Пользователя
+    /// Возвращает имя пользователя
     /// </summary>>
     public static string GetNameUser(int userID)
     {
@@ -64,6 +64,34 @@ public static class DB
                 return Error.NotFound;
             }
         }
+    }
+
+    /// <summary>
+    /// Возвращает рейтинг пользователя
+    /// </summary>>
+    public static int GetRateUser(int userID)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                return db.UserStatistics.Where(b => b.Id == userID).ToList()[0].Rate;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetNameUser: " + Error.NotFound);
+                return -1;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Возвращает рейтинг пользователя
+    /// </summary>>
+    public static int GetRateUser(string userName)
+    {
+        return GetRateUser(GetUser(userName).Id);
     }
 
     /// <summary>
@@ -223,8 +251,66 @@ public static class DB
         }
     }
 
+    /// <summary>
+    /// Возвращает Список пары - имя игрока - количество очков. CountTop - колчество элементов в массиве
+    /// </summary>
+    public static List<Pair<string, int>> GetListTopRate(int countTop = 5) 
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                List<Pair<string, int>> top = new();
+                
+                List<UserStatistic> userStatistics = db.UserStatistics.OrderBy(u => u.Rate).Take(5).ToList();
 
+                foreach (UserStatistic userStat in userStatistics)
+                {
+                    string userName = GetNameUser(userStat.UserId);
+                    top.Add(new Pair<string, int>(userName, userStat.Rate));
+                }
 
+                return top;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetListTopRate");
+                return null; 
+            }
+        }
+    }
+
+    /// <summary>
+    /// Возвращает место игрока в топе по рейтенгу
+    /// </summary>
+    public static int GetNumberPlaceUserByRate(string userName)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                var userRank = db.UserStatistics.OrderBy(u => u.Rate)
+                    .Select((userStat, index) => new { UserName = GetNameUser(userStat.UserId), Rank = index + 1 })
+                    .FirstOrDefault(u => u.UserName == userName);
+
+                if (userRank != null)
+                {
+                    return userRank.Rank;
+                }
+
+                // Если имя пользователя не найдено в списке
+                return -1;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetUserRankByRate: " + Error.NotFound);
+                return -1;
+            }
+        }
+    }
 
 
     #endregion
@@ -843,3 +929,17 @@ public static class DB
 
     
 }
+
+
+public class Pair<T1, T2>
+{
+    public T1 First { get; set; }
+    public T2 Second { get; set; }
+
+    public Pair(T1 first, T2 second)
+    {
+        First = first;
+        Second = second;
+    }
+}
+

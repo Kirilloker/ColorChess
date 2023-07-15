@@ -58,6 +58,7 @@ public static class LoginAndRegistry
         {
             return Results.UnprocessableEntity();
         }
+
     }
 }
 
