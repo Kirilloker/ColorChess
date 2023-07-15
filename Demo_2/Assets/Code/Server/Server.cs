@@ -92,7 +92,26 @@ public class Server : MonoBehaviour
 
     public string GetNumberPlaceUserInTop(string nameUser) 
     {
-        return "12";
+        HttpClient client = new HttpClient();
+        UriBuilder uriBuilder = new UriBuilder(PlaceInTopUrl);
+
+        // Создание коллекции параметров query string
+        var queryParameters = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+        // Добавление параметров в коллекцию query string
+        queryParameters["name"] = nameUser;
+        // Присоединение параметров query string к URL-адресу
+        uriBuilder.Query = queryParameters.ToString();
+
+        // Получение полного URL-адреса с параметрами query string
+        string fullUrl = uriBuilder.ToString();
+        HttpResponseMessage response;
+        response = client.GetAsync(fullUrl).Result;
+        string result = response.Content.ReadAsStringAsync().Result;
+
+        Debug.Log(result);
+
+        return result;
     }
 
     //Методы вызываемы сервером во время игры________________________

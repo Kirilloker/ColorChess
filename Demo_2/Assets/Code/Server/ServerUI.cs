@@ -80,6 +80,8 @@ public class ServerUI : MonoBehaviour
         RefreshTopList(GetTopList());
 
         StartCoroutine(AnimationSearch());
+
+        server.ConnectToDefaultGame();
     }
 
     IEnumerator AnimationSearch() 
@@ -142,10 +144,11 @@ public class ServerUI : MonoBehaviour
             // Если человек не входит в топ 5
             if (i == 5)
             {
-                Text += "..." + "\n" +
-                    GetNumberPlaceUserInTop().ToString() + ". " +
-                    GetNameUser() + " - " +
-                    top[i].Second.ToString();
+                Text += "..." + "\n";
+                Text += GetNumberPlaceUserInTop().ToString() + ". ";
+                Text += GetNameUser() + " - ";
+                Text += top[i].Second.ToString();
+                break;
             }
 
             Text += (i+1).ToString() + ". " + top[i].First + " - " + top[i].Second.ToString() + "\n";
