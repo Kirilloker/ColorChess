@@ -6,8 +6,7 @@ using System.Security.Claims;
 
 Config.LoadConfig();
 
-DB.ClearLobby();
-DB.ClearRoom();
+var x = DB.GetListTopRate(2);
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();

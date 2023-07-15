@@ -203,55 +203,6 @@ public static class DB
     }
 
     /// <summary>
-    /// Возврашает строку Lobby
-    /// </summary>
-    static Lobby GetLobby(int userId)
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                return db.Lobbies.Where(b => (b.UsersId.Contains(userId))).ToList()[0];
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error GetLobby: " + Error.NotFound);
-                return null;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Возврашает строку Lobby
-    /// </summary>
-    static Lobby GetLobby(User user)
-    {
-        return GetLobby(user.Id);
-    }
-
-
-    /// <summary>
-    /// Возврашает комнату
-    /// </summary>
-    public static Room GetRoom(int userId)
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                return db.Rooms.Where(b => (b.UsersId.Contains(userId))).ToList()[0];
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error GetRoom: " + Error.NotFound);
-                return null;
-            }
-        }
-    }
-
-    /// <summary>
     /// Возвращает Список пары - имя игрока - количество очков. CountTop - колчество элементов в массиве
     /// </summary>
     public static List<Pair<string, int>> GetListTopRate(int countTop = 5) 
@@ -377,46 +328,6 @@ public static class DB
         }
     }
 
-    /// <summary>
-    /// Возврашает все Lobby
-    /// </summary>
-    public static List<Lobby> GetAllLobby()
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                return db.Lobbies.ToList();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error GetAllLobby: " + Error.Unknown);
-                return null;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Возврашает все комнаты
-    /// </summary>
-    public static List<Room> GetAllRoom()
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                return db.Rooms.ToList();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error GetAllRoom: " + Error.Unknown);
-                return null;
-            }
-        }
-    }
-
     #endregion
 
     #region Add
@@ -511,42 +422,13 @@ public static class DB
                          userStatistic.Rate, userStatistic.UserId);
     }
 
-    public static void AddUserInLobby(int userId, GameMode gameMode)
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                List<Lobby> lobbies = db.Lobbies.Where(b => b.UsersId.Contains(userId)).ToList();
-
-                if (lobbies.Count == 0) 
-                {
-                    Lobby lobby = new Lobby { UsersId = new() { userId }, GameMode = gameMode };
-
-                    db.Lobbies.Add(lobby);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    Console.WriteLine("Error AddUserInLobby: " + Error.UserInLobbyExist);
-                }
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error AddUserInLobby: " + Error.Unknown);
-            }
-
-        }
-    }
-
+   
 
 
     /// <summary>
     ///  Добавление информации за игру
     /// </summary>
-    public static void AddGameStatistic(int time, List<int> usersScore, DateTime dateTime, GameMode gameMode, List<int> usersId)
+    public static void AddGameStatistic(List<int> usersScore, GameMode gameMode, List<int> usersId)
     {
 
         using (ColorChessContext db = new ColorChessContext())
@@ -556,9 +438,7 @@ public static class DB
 
                 GameStatistic statistic = new GameStatistic
                 {
-                    Time = time,
                     PlayerScore = usersScore,
-                    Date = dateTime,
                     GameMode = gameMode,
                     UsersId = usersId
                 };
@@ -570,42 +450,6 @@ public static class DB
             {
                 Console.WriteLine(e);
                 Console.WriteLine("Error AddGameStatistic: " + Error.Unknown);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Добавление комнаты
-    /// </summary>
-    public static void AddRoom(List<int> usersId, string map, GameMode gameMode)
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                //List<Room> rooms = db.Rooms.Where(b => 
-                //b.User1Id == user1Id || 
-                //b.User1Id == user2Id ||
-                //b.User2Id == user1Id ||
-                //b.User2Id == user2Id 
-                //).ToList();
-
-                //if (rooms.Count == 0)   
-                //{
-                    Room room = new Room { UsersId = usersId, Map = map, GameMode = gameMode };
-                    db.Rooms.Add(room);
-                    db.SaveChanges();
-                //}
-                //else
-                //{
-                //    Console.WriteLine("Error AddRoom: " + Error.RoomExist);
-                //}
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error AddRoom: " + Error.Unknown);
             }
         }
     }
@@ -636,45 +480,7 @@ public static class DB
         }
     }
 
-    /// <summary>
-    /// Изменяет Map в Room
-    /// </summary>
-    public static void ChangeRoom(int userId, string map)
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                List<Room> rooms = db.Rooms
-                    .Where(b => b.UsersId.Contains(userId))
-                    .ToList();
-
-                if (rooms.Count == 1) 
-                {
-                    Room room = rooms[0];
-                    room.Map = map;
-                    db.SaveChanges();
-                }
-                else
-                {
-                    Console.WriteLine("Error ChangeRoom: " + Error.Unknown);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error ChangeRoom: " + Error.NotFound);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Изменяет Map в Room
-    /// </summary>
-    public static void ChangeRoom(User user, string map) 
-    {
-        ChangeRoom(user.Id, map);
-    }
+  
 
     /// <summary>
     /// Изменяет имя пользователя
@@ -757,59 +563,7 @@ public static class DB
 
     #region Delete
 
-    /// <summary>
-    /// Удаляет пользователя из лобби 
-    /// </summary>
-    public static void DeleteUserInLobby(int userId) 
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                List<Lobby> lobbies = db.Lobbies.Where(b => b.UsersId.Contains(userId)).ToList();
-
-                db.Lobbies.RemoveRange(lobbies);
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error DeleteUserInLobby: " + Error.NotFound);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Удаляет пользователя из лобби 
-    /// </summary>
-
-    public static void DeleteUserInLobby(User user)
-    {
-        DeleteUserInLobby(user.Id);
-    }
-
-    /// <summary>
-    /// Удаляет все комнаты связанные с пользователем
-    /// </summary>
-    public static void DeleteRoom(int userId)
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                List<Room> rooms = db.Rooms.Where(b => b.UsersId.Contains(userId)).ToList();
-
-                db.Rooms.RemoveRange(rooms);
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error DeleteRoom: " + Error.NotFound);
-            }
-        }
-    }
-
+    
 
 
 
@@ -817,27 +571,6 @@ public static class DB
 
     #region ClearDB
 
-    /// <summary>
-    /// Очишает таблицу Lobby
-    /// </summary>
-    public static void ClearLobby()
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                List<Lobby> lobbies = db.Lobbies.ToList();
-
-                db.Lobbies.RemoveRange(lobbies);
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error ClearLobby: " + Error.Unknown);
-            }
-        }
-    }
 
     /// <summary>
     /// Очишает таблицу Users
@@ -903,31 +636,7 @@ public static class DB
             }
         }
     }
-
-    /// <summary>
-    /// Очишает таблицу Room
-    /// </summary>
-    public static void ClearRoom()
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                List<Room> rooms = db.Rooms.ToList();
-
-                db.Rooms.RemoveRange(rooms);
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error ClearRoom: " + Error.Unknown);
-            }
-        }
-    }
     #endregion
-
-    
 }
 
 
