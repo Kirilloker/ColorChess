@@ -148,7 +148,7 @@ public class ServerUI : MonoBehaviour
                     top[i].Second.ToString();
             }
 
-            Text += i.ToString() + ". " + top[i].First + " - " + top[i].Second.ToString() + "\n";
+            Text += (i+1).ToString() + ". " + top[i].First + " - " + top[i].Second.ToString() + "\n";
         }
 
         topText.text = Text;

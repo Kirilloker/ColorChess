@@ -23,7 +23,7 @@ public class Server : MonoBehaviour
 
     private bool IsLoginIn = false;
 
-    private const string baseIP = "192.168.1.100";
+    private const string baseIP = "192.168.0.116";
 
     private const string GameServerHubUrl = "http://" + baseIP + ":11000/Game";
     private const string LoginInUrl = "http://" + baseIP + ":11000/login";
@@ -92,7 +92,7 @@ public class Server : MonoBehaviour
 
     public string GetNumberPlaceUserInTop(string nameUser) 
     {
-        return "";
+        return "12";
     }
 
     //Ìועמהû גûחûגאולû סונגונמל גמ גנולÿ טדנû________________________
@@ -146,7 +146,7 @@ public class Server : MonoBehaviour
         }
 
         this.connection = _connection;
-        await connection.InvokeAsync("FindRoom", "Default");
+        await connection.InvokeAsync("FindRoom", "Default", "2");
     }
     private async void SendStepToServer(string clientStep)
     {

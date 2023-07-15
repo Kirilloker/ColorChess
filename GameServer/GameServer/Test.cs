@@ -30,8 +30,9 @@ namespace GameServer
         static public async  Task<IResult> GetNumberPlaceTop(HttpContext context)
         {
             string nameUser = context.Request.Query["name"];
-
-            return Results.Content(DB.GetNumberPlaceUserByRate(nameUser).ToString());
+            var y = DB.GetNumberPlaceUserByRate(nameUser).ToString();
+            var x = Results.Content(y);
+            return x;
         }
 
     }

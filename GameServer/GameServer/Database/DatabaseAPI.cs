@@ -213,7 +213,7 @@ public static class DB
             {
                 List<Pair<string, int>> top = new();
                 
-                List<UserStatistic> userStatistics = db.UserStatistics.OrderBy(u => u.Rate).Take(5).ToList();
+                List<UserStatistic> userStatistics = db.UserStatistics.OrderByDescending(u => u.Rate).Take(5).ToList();
 
                 foreach (UserStatistic userStat in userStatistics)
                 {
@@ -242,9 +242,11 @@ public static class DB
         {
             try
             {
-                var userRank = db.UserStatistics.OrderBy(u => u.Rate)
-                    .Select((userStat, index) => new { UserName = GetNameUser(userStat.UserId), Rank = index + 1 })
-                    .FirstOrDefault(u => u.UserName == userName);
+                var userRank = db.UserStatistics.OrderByDescending(u => u.Rate)
+                .AsEnumerable()
+                .Select((userStat, index) => new { UserName = GetNameUser(userStat.UserId), Rank = index + 1 })
+                .FirstOrDefault(u => u.UserName == userName);
+
 
                 if (userRank != null)
                 {
