@@ -1,12 +1,8 @@
 ﻿using GameServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 Config.LoadConfig();
 
-var x = DB.GetListTopRate(2);
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();
