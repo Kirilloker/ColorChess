@@ -20,7 +20,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapHub<GameHub>("/Game");
+    endpoints.MapHub<GameServerHub>("/Game");
     endpoints.MapPost("/login", (HttpContext context) => {  LoginAndRegistry.Login(context).Result.ExecuteAsync(context);});
     endpoints.MapPost("/registry", (HttpContext context) => {  LoginAndRegistry.Registry(context).Result.ExecuteAsync(context);});
 });

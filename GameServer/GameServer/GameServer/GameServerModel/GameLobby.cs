@@ -72,9 +72,27 @@ public static class GameLobby
         return GameState;
     }
 
+    public static void PlayerLeftTheGame(int PlayerId)
+    {
+        GameRoom room;
+        if (!PlayersInRooms.TryGetValue(PlayerId, out room))
+            return;
+
+        lock (locker)
+        {
+            rooms[room.RoomGameMode][room.MaxPlayers].Remove(room);
+            foreach (var player in room.PlayersInRoom)
+                PlayersInRooms.Remove(player);
+        }
+    }
+
     public static List<int> GetAllPlayersInRoomWithPlayer(int playerId)
     {
-        return PlayersInRooms[playerId].PlayersInRoom;
+        GameRoom room;
+        if (PlayersInRooms.TryGetValue(playerId, out room))
+            return room.PlayersInRoom;
+        else
+            throw(new Exception("GetAllPlayersInRoomWithPlayer room not exist"));
     }
 
     private static GameRoom FindRatingRelevanceRoom(List<GameRoom> relevanceRoomList, int rate)
@@ -97,12 +115,11 @@ public static class GameLobby
 
     private static GameRoom FindDefaultRelevanceRoom(List<GameRoom> relevanceRoomList)
     {
-        foreach (DefaultGameRoom room in relevanceRoomList)
+        foreach (GameRoom room in relevanceRoomList)
         {
             if (!room.IsFull) return room;
         }
         throw (new Exception("FindDefaultRelevanceRoom() something wrong"));
     }
-
 
 }
