@@ -57,7 +57,9 @@ public class AutoSignIn : MonoBehaviour
         {
             // Если такой аккаунт существует
             if (await server.TryLoginIn(login, password) == true)
-            { 
+            {
+                PlayerPrefs.SetString("Login", login);
+
                 AccountText.text = "Account: " + login;
                 iconSetOnline(true);
                 AuthorizationMenu.SetActive(false);

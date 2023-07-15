@@ -7,6 +7,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading;
 using System.Collections;
+using System.IO;
 
 public enum GameMode
 {
@@ -26,18 +27,20 @@ public class Server : MonoBehaviour
 
     private const string GameServerHubUrl = "http://" + baseIP + ":11000/Game";
     private const string LoginInUrl = "http://" + baseIP + ":11000/login";
+    private const string TopUrl = "http://" + baseIP + ":11000/top"; 
+    private const string PlaceInTopUrl = "http://" + baseIP + ":11000/placeInTop";
     private const string RegistrationUrl = "http://" + baseIP + ":11000/registry";
 
     private string UserName = "";
     private string Password = "";
-    
+
 
     //Публичный инерфейс класса_______________________________________
     public void ConnectToDefaultGame()
     {
         ConnectToGameServerHubAndFindTheRoom();
     }
-    public void SendStep(Step clientStep)        
+    public void SendStep(Step clientStep)
     {
         SendStepToServer(TestServerHelper.ConvertToJSON(clientStep));
     }
@@ -57,11 +60,41 @@ public class Server : MonoBehaviour
         return await Regisry(name, password);
     }
 
-    public async void DisconectFromServer() 
+    public async void DisconectFromServer()
     {
         await connection.StopAsync();
     }
-    
+
+
+    public string GetTopList(string nameUser) 
+    {
+        HttpClient client = new HttpClient();
+        UriBuilder uriBuilder = new UriBuilder(TopUrl);
+
+        // Создание коллекции параметров query string
+        var queryParameters = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+        // Добавление параметров в коллекцию query string
+        queryParameters["name"] = nameUser;
+        // Присоединение параметров query string к URL-адресу
+        uriBuilder.Query = queryParameters.ToString();
+
+        // Получение полного URL-адреса с параметрами query string
+        string fullUrl = uriBuilder.ToString();
+        HttpResponseMessage response;
+        response =  client.GetAsync(fullUrl).Result;
+        string result = response.Content.ReadAsStringAsync().Result;
+
+        Debug.Log(result);
+
+        return result;
+    }
+
+    public string GetNumberPlaceUserInTop(string nameUser) 
+    {
+        return "";
+    }
+
     //Методы вызываемы сервером во время игры________________________
     private void ServerSendStep(string opponentStep)
     {
@@ -168,5 +201,5 @@ public class Server : MonoBehaviour
 
         return false;
     }
- 
+
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.Json;
 using TMPro;
 using UnityEngine;
 
@@ -27,6 +28,8 @@ public class ServerUI : MonoBehaviour
 
     [SerializeField]
     CameraController cameraController;
+    [SerializeField]
+    Server server;
     [SerializeField]
     GameObject startBut;
     [SerializeField]
@@ -97,7 +100,6 @@ public class ServerUI : MonoBehaviour
         startUI.SetActive(true);
     }
 
-
     public void StopSearch()
     {
         search = false;
@@ -107,19 +109,28 @@ public class ServerUI : MonoBehaviour
         cameraController.CameraToMenu();
     }
 
-    public int GetPlaceUserInTop()
+    public int GetNumberPlaceUserInTop()
     {
-        return new();
+        string jsonString = server.GetNumberPlaceUserInTop(GetNameUser());
+        return int.Parse(jsonString);
     }
 
     public string GetNameUser()
     {
-        return "new()";
+        string name = "???";
+        try
+        {
+            name = PlayerPrefs.GetString("Login");
+        }
+        catch {}
+        return name;
     }
 
     public List<Pair<string, int>> GetTopList()
     {
-        return new();
+        string jsonString = server.GetTopList(GetNameUser());
+        List<Pair<string, int>> deserializedPairList = JsonSerializer.Deserialize<List<Pair<string, int>>>(jsonString);
+        return deserializedPairList;
     }
 
     public void RefreshTopList(List<Pair<string, int>> top)
@@ -132,7 +143,7 @@ public class ServerUI : MonoBehaviour
             if (i == 5)
             {
                 Text += "..." + "\n" +
-                    GetPlaceUserInTop().ToString() + ". " +
+                    GetNumberPlaceUserInTop().ToString() + ". " +
                     GetNameUser() + " - " +
                     top[i].Second.ToString();
             }

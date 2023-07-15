@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using GameServer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -20,9 +21,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapHub<GameHub>("/Game");
+    //endpoints.MapHub<GameHub>("/Game");
     endpoints.MapPost("/login", (HttpContext context) => {  LoginAndRegistry.Login(context).Result.ExecuteAsync(context);});
     endpoints.MapPost("/registry", (HttpContext context) => {  LoginAndRegistry.Registry(context).Result.ExecuteAsync(context);});
+    endpoints.MapGet("/top", (HttpContext context) => { Test.GetNumberPlaceTop(context).Result.ExecuteAsync(context); });
+    endpoints.MapGet("/placeInTop", (HttpContext context) => { Test.GetNumberPlaceTop(context).Result.ExecuteAsync(context); });
 });
 
 

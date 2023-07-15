@@ -138,19 +138,14 @@ public class MonteCarloAI : IAI
     }
 }
 
-public class Pair<T, U>
+public class Pair<T1, T2>
 {
-    public Pair()
+    public T1 First { get; set; }
+    public T2 Second { get; set; }
+
+    public Pair(T1 first, T2 second)
     {
+        First = first;
+        Second = second;
     }
-
-    public Pair(T first, U second)
-    {
-        this.First = first;
-        this.Second = second;
-    }
-
-    public T First { get; set; }
-    public U Second { get; set; }
-};
-
+}

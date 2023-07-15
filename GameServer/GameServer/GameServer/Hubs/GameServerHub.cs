@@ -1,262 +1,262 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.Authorization;
-using ColorChessModel;
+﻿//using Microsoft.AspNetCore.SignalR;
+//using Microsoft.AspNetCore.Authorization;
+//using ColorChessModel;
 
 
-[Authorize]
-public class GameServerHub : Hub
-{
-    public async Task FindRoom(string _gameMode)
-    {
-        await Task.Run(async () =>
-        {
+//[Authorize]
+//public class GameServerHub : Hub
+//{
+//    public async Task FindRoom(string _gameMode)
+//    {
+//        await Task.Run(async () =>
+//        {
 
-        });
-    }
+//        });
+//    }
 
-    public async Task SendPlayerStep(string step)
-    {
-        await Task.Run(async () =>
-        {
-            Console.WriteLine($"Player({Context.UserIdentifier}) send step");
+//    public async Task SendPlayerStep(string step)
+//    {
+//        await Task.Run(async () =>
+//        {
+//            Console.WriteLine($"Player({Context.UserIdentifier}) send step");
 
-            int playerId = int.Parse(Context.UserIdentifier);
-            Room room = DB.GetRoom(playerId);
-            GameMode gameMode = room.GameMode;
-            Map map = JsonConverter.ConvertJSONtoMap(room.Map);
+//            int playerId = int.Parse(Context.UserIdentifier);
+//            Room room = DB.GetRoom(playerId);
+//            GameMode gameMode = room.GameMode;
+//            Map map = JsonConverter.ConvertJSONtoMap(room.Map);
 
-            switch (gameMode)
-            {
-                case GameMode.Default:
-                    {
-                        if (room.User1Id == playerId)
-                        {
-                            if (map.NumberPlayerStep == 0)
-                            {
-                                Map newMap = VerifyAndApplyStep(step, map);
-                                if ((Object)newMap != null)
-                                {
-                                    await Clients.User(room.User2Id.ToString()).SendAsync("ServerSendStep", step);
+//            switch (gameMode)
+//            {
+//                case GameMode.Default:
+//                    {
+//                        if (room.User1Id == playerId)
+//                        {
+//                            if (map.NumberPlayerStep == 0)
+//                            {
+//                                Map newMap = VerifyAndApplyStep(step, map);
+//                                if ((Object)newMap != null)
+//                                {
+//                                    await Clients.User(room.User2Id.ToString()).SendAsync("ServerSendStep", step);
 
-                                    DB.ChangeRoom(playerId, JsonConverter.ConvertToJSON(newMap));
-                                    if (newMap.EndGame)
-                                    {
-                                        int player1Score = newMap.GetScorePlayer(0);
-                                        int player2Score = newMap.GetScorePlayer(1);
-                                        //Удаляем комнату и добавляем статистику игры
-                                        DB.DeleteRoom(playerId);
-                                        DB.AddGameStatistic(10, player1Score, player2Score,
-                                            DateTime.Now, GameMode.Default, room.User1Id, room.User2Id);
+//                                    DB.ChangeRoom(playerId, JsonConverter.ConvertToJSON(newMap));
+//                                    if (newMap.EndGame)
+//                                    {
+//                                        int player1Score = newMap.GetScorePlayer(0);
+//                                        int player2Score = newMap.GetScorePlayer(1);
+//                                        //Удаляем комнату и добавляем статистику игры
+//                                        DB.DeleteRoom(playerId);
+//                                        DB.AddGameStatistic(10, player1Score, player2Score,
+//                                            DateTime.Now, GameMode.Default, room.User1Id, room.User2Id);
 
-                                        //Юзер статистика 
-                                        UserStatistic player1Stat = DB.GetUserStatistic(room.User1Id);
-                                        UserStatistic player2Stat = DB.GetUserStatistic(room.User2Id);
+//                                        //Юзер статистика 
+//                                        UserStatistic player1Stat = DB.GetUserStatistic(room.User1Id);
+//                                        UserStatistic player2Stat = DB.GetUserStatistic(room.User2Id);
 
-                                        //Меняем рекорд набранных очков
-                                        if (player1Stat.MaxScore < player1Score)
-                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.MaxScore, player1Score);
-                                        if (player2Stat.MaxScore < player2Score)
-                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.MaxScore, player2Score);
+//                                        //Меняем рекорд набранных очков
+//                                        if (player1Stat.MaxScore < player1Score)
+//                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.MaxScore, player1Score);
+//                                        if (player2Stat.MaxScore < player2Score)
+//                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.MaxScore, player2Score);
 
-                                        //Если ничья
-                                        if (player1Score == player2Score)
-                                        {
-                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Draw, 1);
-                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Draw, 1);
-                                        }
-                                        //Если выиграл 1 игрок
-                                        else if (player1Score > player2Score)
-                                        {
-                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Win, 1);
-                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Lose, 1);
-                                        }
-                                        //Если выиграл 2 игрок
-                                        else if (player1Score < player2Score)
-                                        {
-                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Lose, 1);
-                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Win, 1);
-                                        }
-                                        // вызвать метод конца игры на клиентах
-                                        await Clients.User(room.User1Id.ToString()).SendAsync("ServerEndGame");
-                                        await Clients.User(room.User2Id.ToString()).SendAsync("ServerEndGame");
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                //Тут логика, что игрок прислал ход не в свою очередь
-                                Console.WriteLine("Player send step ouy of order!");
-                            }
-                        }
-                        else
-                        {
-                            if (map.NumberPlayerStep == 1)
-                            {
-                                Map newMap = VerifyAndApplyStep(step, map);
-                                if ((Object)newMap != null)
-                                {
-                                    await Clients.User(room.User1Id.ToString()).SendAsync("ServerSendStep", step);
-                                    DB.ChangeRoom(playerId, JsonConverter.ConvertToJSON(newMap));
+//                                        //Если ничья
+//                                        if (player1Score == player2Score)
+//                                        {
+//                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Draw, 1);
+//                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Draw, 1);
+//                                        }
+//                                        //Если выиграл 1 игрок
+//                                        else if (player1Score > player2Score)
+//                                        {
+//                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Win, 1);
+//                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Lose, 1);
+//                                        }
+//                                        //Если выиграл 2 игрок
+//                                        else if (player1Score < player2Score)
+//                                        {
+//                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Lose, 1);
+//                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Win, 1);
+//                                        }
+//                                        // вызвать метод конца игры на клиентах
+//                                        await Clients.User(room.User1Id.ToString()).SendAsync("ServerEndGame");
+//                                        await Clients.User(room.User2Id.ToString()).SendAsync("ServerEndGame");
+//                                    }
+//                                }
+//                            }
+//                            else
+//                            {
+//                                //Тут логика, что игрок прислал ход не в свою очередь
+//                                Console.WriteLine("Player send step ouy of order!");
+//                            }
+//                        }
+//                        else
+//                        {
+//                            if (map.NumberPlayerStep == 1)
+//                            {
+//                                Map newMap = VerifyAndApplyStep(step, map);
+//                                if ((Object)newMap != null)
+//                                {
+//                                    await Clients.User(room.User1Id.ToString()).SendAsync("ServerSendStep", step);
+//                                    DB.ChangeRoom(playerId, JsonConverter.ConvertToJSON(newMap));
 
-                                    if (newMap.EndGame)
-                                    {
-                                        int player1Score = newMap.GetScorePlayer(0);
-                                        int player2Score = newMap.GetScorePlayer(1);
-                                        //Удаляем комнату и добавляем статистику игры
-                                        DB.DeleteRoom(playerId);
-                                        DB.AddGameStatistic(10, player1Score, player2Score,
-                                            DateTime.Now, GameMode.Default, room.User1Id, room.User2Id);
+//                                    if (newMap.EndGame)
+//                                    {
+//                                        int player1Score = newMap.GetScorePlayer(0);
+//                                        int player2Score = newMap.GetScorePlayer(1);
+//                                        //Удаляем комнату и добавляем статистику игры
+//                                        DB.DeleteRoom(playerId);
+//                                        DB.AddGameStatistic(10, player1Score, player2Score,
+//                                            DateTime.Now, GameMode.Default, room.User1Id, room.User2Id);
 
-                                        //Юзер статистика 
-                                        UserStatistic player1Stat = DB.GetUserStatistic(room.User1Id);
-                                        UserStatistic player2Stat = DB.GetUserStatistic(room.User2Id);
+//                                        //Юзер статистика 
+//                                        UserStatistic player1Stat = DB.GetUserStatistic(room.User1Id);
+//                                        UserStatistic player2Stat = DB.GetUserStatistic(room.User2Id);
 
-                                        //Меняем рекорд набранных очков
-                                        if (player1Stat.MaxScore < player1Score)
-                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.MaxScore, player1Score);
-                                        if (player2Stat.MaxScore < player2Score)
-                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.MaxScore, player2Score);
+//                                        //Меняем рекорд набранных очков
+//                                        if (player1Stat.MaxScore < player1Score)
+//                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.MaxScore, player1Score);
+//                                        if (player2Stat.MaxScore < player2Score)
+//                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.MaxScore, player2Score);
 
-                                        //Если ничья
-                                        if (player1Score == player2Score)
-                                        {
-                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Draw, 1);
-                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Draw, 1);
-                                        }
-                                        //Если выиграл 1 игрок
-                                        else if (player1Score > player2Score)
-                                        {
-                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Win, 1);
-                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Lose, 1);
-                                        }
-                                        //Если выиграл 2 игрок
-                                        else if (player1Score < player2Score)
-                                        {
-                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Lose, 1);
-                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Win, 1);
-                                        }
-                                        // вызвать метод конца игры на клиентах
-                                        await Clients.User(room.User1Id.ToString()).SendAsync("ServerEndGame");
-                                        await Clients.User(room.User2Id.ToString()).SendAsync("ServerEndGame");
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                //Тут логика, что игрок прислал ход не в свою очередь
-                                Console.WriteLine("Player send step ouy of order!");
-                            }
-                        }
-                    }
-                    break;
+//                                        //Если ничья
+//                                        if (player1Score == player2Score)
+//                                        {
+//                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Draw, 1);
+//                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Draw, 1);
+//                                        }
+//                                        //Если выиграл 1 игрок
+//                                        else if (player1Score > player2Score)
+//                                        {
+//                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Win, 1);
+//                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Lose, 1);
+//                                        }
+//                                        //Если выиграл 2 игрок
+//                                        else if (player1Score < player2Score)
+//                                        {
+//                                            DB.ChangeUserStatistic(room.User1Id, AttributeUS.Lose, 1);
+//                                            DB.ChangeUserStatistic(room.User2Id, AttributeUS.Win, 1);
+//                                        }
+//                                        // вызвать метод конца игры на клиентах
+//                                        await Clients.User(room.User1Id.ToString()).SendAsync("ServerEndGame");
+//                                        await Clients.User(room.User2Id.ToString()).SendAsync("ServerEndGame");
+//                                    }
+//                                }
+//                            }
+//                            else
+//                            {
+//                                //Тут логика, что игрок прислал ход не в свою очередь
+//                                Console.WriteLine("Player send step ouy of order!");
+//                            }
+//                        }
+//                    }
+//                    break;
 
-                default:
-                    break;
+//                default:
+//                    break;
 
-            }
-        });
-    }
+//            }
+//        });
+//    }
 
-    //Метод для валидации ходов
-    private Map VerifyAndApplyStep(string _step, Map _map)
-    {
-        Step step = JsonConverter.ConvertJSONtoSTEP(_step);
+//    //Метод для валидации ходов
+//    private Map VerifyAndApplyStep(string _step, Map _map)
+//    {
+//        Step step = JsonConverter.ConvertJSONtoSTEP(_step);
 
-        if (step.IsReal(_map) == false)
-        {
-            return null;
-        }
+//        if (step.IsReal(_map) == false)
+//        {
+//            return null;
+//        }
 
-        Map newMap = GameStateCalcSystem.ApplyStep(_map, step.Figure, step.Cell);
-        return newMap;
-    }
+//        Map newMap = GameStateCalcSystem.ApplyStep(_map, step.Figure, step.Cell);
+//        return newMap;
+//    }
 
-    public override async Task OnConnectedAsync()
-    {
-        await Task.Run(() =>
-        {
-            Console.WriteLine($"User ({Context.UserIdentifier}) connected to gameHub");
+//    public override async Task OnConnectedAsync()
+//    {
+//        await Task.Run(() =>
+//        {
+//            Console.WriteLine($"User ({Context.UserIdentifier}) connected to gameHub");
 
-        });
+//        });
 
-        await base.OnConnectedAsync();
-    }
+//        await base.OnConnectedAsync();
+//    }
 
-    public override async Task OnDisconnectedAsync(Exception? exception)
-    {
-        await Task.Run(async () =>
-        {
-            int leavedUser = int.Parse(Context.UserIdentifier);
-            DB.DeleteUserInLobby(leavedUser);
+//    public override async Task OnDisconnectedAsync(Exception? exception)
+//    {
+//        await Task.Run(async () =>
+//        {
+//            int leavedUser = int.Parse(Context.UserIdentifier);
+//            DB.DeleteUserInLobby(leavedUser);
 
-            Room room = DB.GetRoom(leavedUser);
+//            Room room = DB.GetRoom(leavedUser);
 
-            if (room != null && room.GameMode == GameMode.Default)
-            {
-                Map map = JsonConverter.ConvertJSONtoMap(room.Map);
-                int anotherUser;
-                int leavedUserScore;
-                int anotherUserScore;
+//            if (room != null && room.GameMode == GameMode.Default)
+//            {
+//                Map map = JsonConverter.ConvertJSONtoMap(room.Map);
+//                int anotherUser;
+//                int leavedUserScore;
+//                int anotherUserScore;
 
-                if (leavedUser == room.User1Id)
-                {
-                    anotherUser = room.User2Id;
+//                if (leavedUser == room.User1Id)
+//                {
+//                    anotherUser = room.User2Id;
 
-                    leavedUserScore = map.GetScorePlayer(0);
-                    anotherUserScore = map.GetScorePlayer(1);
+//                    leavedUserScore = map.GetScorePlayer(0);
+//                    anotherUserScore = map.GetScorePlayer(1);
 
-                    //Удаляем комнату и добавляем статистику игры
-                    DB.DeleteRoom(leavedUser);
-                    DB.AddGameStatistic(1, leavedUserScore, anotherUserScore,
-                        DateTime.Now, GameMode.Default, leavedUserScore, anotherUserScore);
+//                    //Удаляем комнату и добавляем статистику игры
+//                    DB.DeleteRoom(leavedUser);
+//                    DB.AddGameStatistic(1, leavedUserScore, anotherUserScore,
+//                        DateTime.Now, GameMode.Default, leavedUserScore, anotherUserScore);
 
-                    //Юзер статистика 
-                    UserStatistic leavedUserStat = DB.GetUserStatistic(leavedUser);
-                    UserStatistic anotherUserStat = DB.GetUserStatistic(anotherUser);
+//                    //Юзер статистика 
+//                    UserStatistic leavedUserStat = DB.GetUserStatistic(leavedUser);
+//                    UserStatistic anotherUserStat = DB.GetUserStatistic(anotherUser);
 
-                    //Меняем рекорд набранных очков
-                    if (leavedUserStat.MaxScore < leavedUserScore)
-                        DB.ChangeUserStatistic(leavedUser, AttributeUS.MaxScore, leavedUserScore);
-                    if (anotherUserStat.MaxScore < anotherUserScore)
-                        DB.ChangeUserStatistic(anotherUser, AttributeUS.MaxScore, anotherUserScore);
+//                    //Меняем рекорд набранных очков
+//                    if (leavedUserStat.MaxScore < leavedUserScore)
+//                        DB.ChangeUserStatistic(leavedUser, AttributeUS.MaxScore, leavedUserScore);
+//                    if (anotherUserStat.MaxScore < anotherUserScore)
+//                        DB.ChangeUserStatistic(anotherUser, AttributeUS.MaxScore, anotherUserScore);
 
-                    DB.ChangeUserStatistic(leavedUser, AttributeUS.Lose, 1);
-                    DB.ChangeUserStatistic(anotherUser, AttributeUS.Win, 1);
+//                    DB.ChangeUserStatistic(leavedUser, AttributeUS.Lose, 1);
+//                    DB.ChangeUserStatistic(anotherUser, AttributeUS.Win, 1);
 
-                    await Clients.User(anotherUser.ToString()).SendAsync("ServerEndGame");
-                }
-                else
-                {
-                    anotherUser = room.User1Id;
+//                    await Clients.User(anotherUser.ToString()).SendAsync("ServerEndGame");
+//                }
+//                else
+//                {
+//                    anotherUser = room.User1Id;
 
-                    leavedUserScore = map.GetScorePlayer(1);
-                    anotherUserScore = map.GetScorePlayer(0);
+//                    leavedUserScore = map.GetScorePlayer(1);
+//                    anotherUserScore = map.GetScorePlayer(0);
 
-                    //Удаляем комнату и добавляем статистику игры
-                    DB.DeleteRoom(leavedUser);
-                    DB.AddGameStatistic(1, anotherUserScore, leavedUserScore,
-                        DateTime.Now, GameMode.Default, anotherUserScore, leavedUserScore);
+//                    //Удаляем комнату и добавляем статистику игры
+//                    DB.DeleteRoom(leavedUser);
+//                    DB.AddGameStatistic(1, anotherUserScore, leavedUserScore,
+//                        DateTime.Now, GameMode.Default, anotherUserScore, leavedUserScore);
 
-                    //Юзер статистика 
-                    UserStatistic leavedUserStat = DB.GetUserStatistic(leavedUser);
-                    UserStatistic anotherUserStat = DB.GetUserStatistic(anotherUser);
+//                    //Юзер статистика 
+//                    UserStatistic leavedUserStat = DB.GetUserStatistic(leavedUser);
+//                    UserStatistic anotherUserStat = DB.GetUserStatistic(anotherUser);
 
-                    //Меняем рекорд набранных очков
-                    if (leavedUserStat.MaxScore < leavedUserScore)
-                        DB.ChangeUserStatistic(leavedUser, AttributeUS.MaxScore, leavedUserScore);
-                    if (anotherUserStat.MaxScore < anotherUserScore)
-                        DB.ChangeUserStatistic(anotherUser, AttributeUS.MaxScore, anotherUserScore);
+//                    //Меняем рекорд набранных очков
+//                    if (leavedUserStat.MaxScore < leavedUserScore)
+//                        DB.ChangeUserStatistic(leavedUser, AttributeUS.MaxScore, leavedUserScore);
+//                    if (anotherUserStat.MaxScore < anotherUserScore)
+//                        DB.ChangeUserStatistic(anotherUser, AttributeUS.MaxScore, anotherUserScore);
 
-                    DB.ChangeUserStatistic(leavedUser, AttributeUS.Lose, 1);
-                    DB.ChangeUserStatistic(anotherUser, AttributeUS.Win, 1);
+//                    DB.ChangeUserStatistic(leavedUser, AttributeUS.Lose, 1);
+//                    DB.ChangeUserStatistic(anotherUser, AttributeUS.Win, 1);
 
-                    await Clients.User(anotherUser.ToString()).SendAsync("ServerEndGame");
-                }
-            }
+//                    await Clients.User(anotherUser.ToString()).SendAsync("ServerEndGame");
+//                }
+//            }
 
-            if (exception == null) Console.WriteLine($"User ({Context.UserIdentifier}) disconnected from gameHub");
-            else Console.WriteLine(exception);
-        });
-        await base.OnDisconnectedAsync(exception);
-    }
-}
+//            if (exception == null) Console.WriteLine($"User ({Context.UserIdentifier}) disconnected from gameHub");
+//            else Console.WriteLine(exception);
+//        });
+//        await base.OnDisconnectedAsync(exception);
+//    }
+//}
