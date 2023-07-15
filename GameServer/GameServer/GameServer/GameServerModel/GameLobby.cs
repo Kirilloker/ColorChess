@@ -121,5 +121,4 @@ public static class GameLobby
         }
         throw (new Exception("FindDefaultRelevanceRoom() something wrong"));
     }
-
 }

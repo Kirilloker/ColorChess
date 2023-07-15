@@ -52,6 +52,7 @@ public class GameServerHub : Hub
                     if (players[i] != playerId)
                     {
                         await Clients.User(players[i].ToString()).SendAsync("ServerSendStep", step);
+                        await Clients.Users(players[i].ToString()).SendAsync("ServerEndGame");
                     }
                 }
             }
@@ -75,7 +76,16 @@ public class GameServerHub : Hub
         await Task.Run(async () =>
         {
             int leavedPlayer = int.Parse(Context.UserIdentifier);
+            List<int> ids = GameLobby.GetAllPlayersInRoomWithPlayer(leavedPlayer);
             GameLobby.PlayerLeftTheGame(leavedPlayer);
+            foreach(int id in ids)
+            {
+                if(id != leavedPlayer)
+                {
+                    await Clients.User(id.ToString()).SendAsync("ServerEndGame");
+                }
+            }
+           
         });
         await base.OnDisconnectedAsync(exception);
     }
