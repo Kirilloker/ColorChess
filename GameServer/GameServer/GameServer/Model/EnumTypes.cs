@@ -42,7 +42,8 @@
     {
         Human,
         AI,
-        Online
+        Online,
+        None
     }
 
     public enum ColorType

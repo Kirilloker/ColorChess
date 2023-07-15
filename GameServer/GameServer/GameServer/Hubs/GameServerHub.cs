@@ -23,6 +23,7 @@ public class GameServerHub : Hub
                     gameMode = GameMode.Default; break;
                     break;
             }
+            Console.WriteLine("Player" + playerId + "want play:" + gameMode + " " + _numOfPlayers);
             Map StartGameState = GameLobby.FindRoomForPlayerAndStartGame(playerId, gameMode, int.Parse(_numOfPlayers));
             
             if((Object)StartGameState != null)

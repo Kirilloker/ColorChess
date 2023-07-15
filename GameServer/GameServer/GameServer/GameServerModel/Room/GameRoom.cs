@@ -40,11 +40,20 @@ public class GameRoom
     {
         GameStateBuilder builder = new GameStateBuilder();
 
-        PlayersDiscription playersDiscription = new PlayersDiscription();
-        CellDiscription cellDiscription = new CellDiscription();
-        List<FigureSetDiscription> figureSetDiscriptions = new List<FigureSetDiscription>();
+        PlayerType[] playersTypes= new PlayerType[MaxNumOfPlayers];
+        for(int i = 1; i < PlayersIds.Count; i++)
+        {
+            playersTypes[i] = PlayerType.Human;
+        }
 
-        builder.SetCustomGameState(playersDiscription, cellDiscription, figureSetDiscriptions);
+        CornerType[] cornerTypes= new CornerType[4] 
+        {CornerType.DownLeft, CornerType.UpRight, CornerType.DownRight, CornerType.DownLeft };
+        
+
+        ColorType[] colorTypes = new ColorType[4] {ColorType.Red, ColorType.Blue, ColorType.Green, ColorType.Yellow};
+
+
+        builder.SetCustomGameState(9, playersTypes, cornerTypes, colorTypes);
 
         GameState = builder.CreateGameState();
         return GameState;

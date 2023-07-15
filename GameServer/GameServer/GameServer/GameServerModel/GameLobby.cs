@@ -31,6 +31,7 @@ public static class GameLobby
             //Create new room if we dont find relevance room
             if (relevanceRoomList.Count == 0)
             {
+                Console.WriteLine("Player " + PlayerId + " create new room");
                 GameRoom newRoom = new GameRoom(NumOfPlayers, new List<int>() { PlayerId }, gameMode);
                 rooms[gameMode][NumOfPlayers].Add(newRoom);
                 PlayersInRooms[PlayerId] = newRoom;

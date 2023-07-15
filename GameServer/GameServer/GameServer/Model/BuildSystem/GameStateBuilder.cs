@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ColorChessModel
 {
+
     public class GameStateBuilder
     {
         private Map gameState;
@@ -17,7 +14,7 @@ namespace ColorChessModel
 
         private PlayersDiscription playersDiscription;
         private CellDiscription board;
-        private List<FigureSetDiscription>? figureSets;
+        private List<FigureSetDiscription> figureSets;
 
         public GameStateBuilder()
         {
@@ -55,7 +52,7 @@ namespace ColorChessModel
 
             // Выделяем память под массив
             Cell[,] cells = new Cell[board.lenght, board.width];
-            
+
 
             //Создаем игровое поле
             for (int i = 0; i < board.lenght; i++)
@@ -78,18 +75,19 @@ namespace ColorChessModel
             return gameState;
         }
 
-        public void SetCustomGameState(PlayersDiscription _playersDiscription, CellDiscription _board, List<FigureSetDiscription>? _figureSets)
+        public void SetCustomGameState(PlayersDiscription _playersDiscription, CellDiscription _board, List<FigureSetDiscription> _figureSets)
         {
             playersDiscription = _playersDiscription;
             board = _board;
             figureSets = _figureSets;
         }
 
-        private void SetDefaultBoard()
+        private void SetDefaultBoard() { SetBoard(9, 9); }
+        private void SetBoard(int _lenght, int _width)
         {
             board = new CellDiscription();
-            board.lenght = 9;
-            board.width = 9;
+            board.lenght = _lenght;
+            board.width = _width;
             board.CellTypes = new CellType[board.lenght, board.width];
 
             for (int i = 0; i < board.lenght; i++)
@@ -165,7 +163,7 @@ namespace ColorChessModel
             playersDiscription = new PlayersDiscription();
 
             playersDiscription.PlayerNumbers.Add(0);
-            playersDiscription.PlayerTypes.Add(PlayerType.Human);
+            playersDiscription.PlayerTypes.Add(PlayerType.AI);
             playersDiscription.PlayerCorners.Add(CornerType.DownLeft);
             playersDiscription.PlayerColors.Add(ColorType.Blue);
 
@@ -173,6 +171,7 @@ namespace ColorChessModel
             playersDiscription.PlayerTypes.Add(PlayerType.AI);
             playersDiscription.PlayerCorners.Add(CornerType.UpRight);
             playersDiscription.PlayerColors.Add(ColorType.Red);
+
 
             SetDefaultBoard();
             SetDefaultFigureSets();
@@ -195,5 +194,23 @@ namespace ColorChessModel
             SetDefaultBoard();
             SetDefaultFigureSets();
         }
+
+        public void SetCustomGameState(int sizeMap, PlayerType[] typePlayer, CornerType[] cornerPlayer, ColorType[] colorPlayer)
+        {
+            playersDiscription = new PlayersDiscription();
+
+            for (int i = 0; i < typePlayer.Length; i++)
+            {
+                if (typePlayer[i] == PlayerType.None) continue;
+                playersDiscription.PlayerNumbers.Add(playersDiscription.PlayerNumbers.Count);
+                playersDiscription.PlayerTypes.Add(typePlayer[i]);
+                playersDiscription.PlayerCorners.Add(cornerPlayer[i]);
+                playersDiscription.PlayerColors.Add(colorPlayer[i]);
+            }
+
+            SetBoard(sizeMap, sizeMap);
+            SetDefaultFigureSets();
+        }
+
     };
 }
