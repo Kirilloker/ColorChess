@@ -47,7 +47,7 @@ public class Server : MonoBehaviour
     }
     public void CloseConnection()
     {
-        connection.StopAsync();
+        if (connection != null) connection.StopAsync();
     }
 
     public async Task<bool> TryLoginIn(string name, string password)
@@ -128,9 +128,8 @@ public class Server : MonoBehaviour
     }
     private void ServerEndGame()
     {
-        gameController.EndGame();
-        //DisconectFromServer();
         connection = null;
+        UnityMainThreadDispatcher.Instance().Enqueue(() => { gameController.EndGame(); });
     }
    
     //Методы для обращений к серверу__________________________________

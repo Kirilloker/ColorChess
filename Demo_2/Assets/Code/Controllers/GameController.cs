@@ -299,7 +299,7 @@ public class GameController : MonoBehaviour
         }
 
         // Конец игры
-        UnityEngine.Debug.Log("Конец игры");
+        Debug.Log("Конец игры");
         uiController.ViewUIGame(false);
         cameraController.SetCameraSpeed(cameraSpeed);
         cameraController.SwitchCamera(CameraViewType.noteMenu);
