@@ -47,7 +47,7 @@ public class GameRoom
         }
 
         CornerType[] cornerTypes= new CornerType[4] 
-        {CornerType.DownLeft, CornerType.UpRight, CornerType.DownRight, CornerType.DownLeft };
+        {CornerType.DownLeft, CornerType.UpRight, CornerType.DownRight, CornerType.UpLeft };
         
 
         ColorType[] colorTypes = new ColorType[4] {ColorType.Red, ColorType.Blue, ColorType.Green, ColorType.Yellow};
@@ -68,7 +68,7 @@ public class GameRoom
         DB.AddGameStatistic(playersScores, GameMode, PlayersIds);
 
 
-        List<AttributeUS> GameResults = Enumerable.Repeat(AttributeUS.Draw, 2).ToList();
+        List<AttributeUS> GameResults = Enumerable.Repeat(AttributeUS.Draw, MaxNumOfPlayers).ToList();
         int maxScore = int.MinValue;
         int maxIndex = 0;
 
