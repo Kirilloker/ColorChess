@@ -82,12 +82,6 @@ public class ServerUI : MonoBehaviour
 
         StartCoroutine(AnimationSearch());
 
-        Debug.Log("Количество игроков");
-        if (twoHuman == true) Debug.Log("Количество игроков 2");
-        if (fourHuman == true) Debug.Log("Количество игроков 4");
-        if (rateGame == true) Debug.Log("Это рейтинговая игра");
-        else Debug.Log("Это не рейтенговая игра");
-
         List<string> args = new();
         if (rateGame == true) args.Add("Rating");
         else args.Add("Default");
@@ -103,7 +97,7 @@ public class ServerUI : MonoBehaviour
     {
         while (search) 
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f * Time.deltaTime);
 
             if (searchText.text == "Search.") searchText.text = "Search..";
             else if (searchText.text == "Search..") searchText.text = "Search...";
@@ -123,6 +117,13 @@ public class ServerUI : MonoBehaviour
         OnlineMainNoteUI.SetActive(true);
         cameraController.CameraToMenu();
         server.CloseConnection();
+    }
+
+    public void StartGame()
+    {
+        searchUI.SetActive(false);
+        startUI.SetActive(true);
+        search = false;
     }
 
     public int GetNumberPlaceUserInTop()

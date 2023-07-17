@@ -29,7 +29,7 @@ public class RatingGameRoom : GameRoom
         DB.AddGameStatistic(playersScores, GameMode, PlayersIds);
 
 
-        List<AttributeUS> GameResults = new List<AttributeUS>(MaxNumOfPlayers);
+        List<AttributeUS> GameResults = Enumerable.Repeat(AttributeUS.Draw, MaxNumOfPlayers).ToList();
         int maxScore = int.MinValue;
         int maxIndex = 0;
 
@@ -41,7 +41,7 @@ public class RatingGameRoom : GameRoom
                 maxIndex = i;
             }
         }
-
+        GameResults[maxIndex] = AttributeUS.Win;
         for (int i = 0; i < playersScores.Count; i++)
         {
             if (playersScores[i] == maxScore && i != maxIndex)
@@ -81,12 +81,13 @@ public class RatingGameRoom : GameRoom
                 {
                     DB.ChangeUserStatistic(PlayersIds[i], AttributeUS.Win, 1);
                     DB.ChangeUserStatistic(PlayersIds[i], AttributeUS.Rate, RatingBet);
+
                     List<int> playersScores = new();
+                    
                     for (int j = 0; j < PlayersIds.Count; j++)
-                    {
                         playersScores.Add(base.GameState.GetScorePlayer(j));
-                    }
-                    DB.AddGameStatistic (playersScores,GameMode, PlayersIds);
+                    
+                    DB.AddGameStatistic(playersScores, GameMode, PlayersIds);
                     DB.AddGameStatistic(playersScores, GameMode, PlayersIds);
                 }
                 else

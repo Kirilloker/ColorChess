@@ -23,6 +23,8 @@ public class GameController : MonoBehaviour
     private AudioController audioController;
     [SerializeField]
     private Server server;
+    [SerializeField]
+    private ServerUI serverUI;
 
     private bool IsFirstGame = true;
 
@@ -50,6 +52,7 @@ public class GameController : MonoBehaviour
         figureController.CreateFigures(CurrentGameState);
         SwitchCameraStartGame();
         uiController.ViewUIGame(true);
+        serverUI.StartGame();
 
         InitAI();
 
