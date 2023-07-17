@@ -122,7 +122,7 @@ public class ServerUI : MonoBehaviour
         search = false;
         OnlineMainNoteUI.SetActive(true);
         cameraController.CameraToMenu();
-        server.DisconectFromServer();
+        server.CloseConnection();
     }
 
     public int GetNumberPlaceUserInTop()

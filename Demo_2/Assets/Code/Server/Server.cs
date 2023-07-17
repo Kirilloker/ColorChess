@@ -45,9 +45,20 @@ public class Server : MonoBehaviour
     {
         SendStepToServer(TestServerHelper.ConvertToJSON(clientStep));
     }
-    public async void CloseConnection()
+
+    public async void SendLastStep(Step clientStep) 
     {
-        if (connection != null) await connection.StopAsync();
+        await SendStepToServer(TestServerHelper.ConvertToJSON(clientStep));
+        await CloseConnection();
+    }
+
+    public async Task CloseConnection()
+    {     
+        if (connection != null)
+        {
+            await connection.StopAsync();
+            connection = null;
+        }
     }
 
     public async Task<bool> TryLoginIn(string name, string password)
@@ -59,11 +70,6 @@ public class Server : MonoBehaviour
     public async Task<bool> TryRegisry(string name, string password)
     {
         return await Regisry(name, password);
-    }
-
-    public async void DisconectFromServer()
-    {
-        await connection.StopAsync();
     }
 
 
@@ -128,7 +134,6 @@ public class Server : MonoBehaviour
     }
     private void ServerEndGame()
     {
-        connection = null;
         UnityMainThreadDispatcher.Instance().Enqueue(() => { gameController.EndGame(); });
     }
    
@@ -167,10 +172,11 @@ public class Server : MonoBehaviour
         this.connection = _connection;
         await connection.InvokeAsync("FindRoom", args[0], args[1]);
     }
-    private async void SendStepToServer(string clientStep)
+    private async Task SendStepToServer(string clientStep)
     {
         await connection.InvokeAsync("SendPlayerStep", clientStep);
     }
+
     private async Task LoginIn(string _name, string _password)
     {
         HttpClient client = new HttpClient();

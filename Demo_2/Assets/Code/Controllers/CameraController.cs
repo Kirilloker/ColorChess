@@ -45,7 +45,6 @@ public class CameraController : MonoBehaviour
 
     public void SwitchCamera(CameraViewType _viewCamera)
     {
-        Debug.Log("SWITCH");
         viewCamera = _viewCamera;
         Invoke("SwitchCamera", 1f);
     }

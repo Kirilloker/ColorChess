@@ -127,7 +127,14 @@ public class GameController : MonoBehaviour
         List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.pos, cell.pos, figure);
         
         if (IsServer && CurrentGameState.Players[CurrentGameState.NumberPlayerStep].type == PlayerType.Human) 
-            server.SendStep(step);
+        {
+            if (CurrentGameState.EndGame == true)
+                server.SendLastStep(step);
+            else
+                server.SendStep(step);
+
+        } 
+            
 
         Map map = GameStateCalcSystem.ApplyStep(CurrentGameState, figure, cell);
         gameStates.Add(map);
