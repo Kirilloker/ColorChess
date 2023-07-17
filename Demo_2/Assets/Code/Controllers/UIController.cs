@@ -17,8 +17,6 @@ public class UIController : MonoBehaviour
     [SerializeField]
     GameObject OnlineUI;
     [SerializeField]
-    GameObject SearchButton;
-    [SerializeField]
     GameObject BackToMenuInOnlineButton;
     [SerializeField]
     GameObject StopSearchButton; 
@@ -51,14 +49,12 @@ public class UIController : MonoBehaviour
         gameController.StartGame();
     }
 
-    public void OnlineGameExut()
+    public void OnlineGameExit()
     {
         PlayUI.SetActive(true);
         BackToMenuInOnlineButton.SetActive(true);
-        SearchButton.SetActive(true);
 
         OnlineUI.SetActive(false);
-        StopSearchButton.SetActive(false);
     }
 
 

@@ -48,12 +48,27 @@ public class GameController : MonoBehaviour
         boardController.CreateBoard(CurrentGameState);
         cellController.CreateCells(CurrentGameState);
         figureController.CreateFigures(CurrentGameState);
-        cameraController.SwitchCamera(CameraViewType.inGame1);
+        SwitchCameraStartGame();
         uiController.ViewUIGame(true);
 
         InitAI();
 
         StartNewStep();
+    }
+
+    void SwitchCameraStartGame() 
+    {
+        foreach (var player in CurrentGameState.Players)
+        {
+            if (player.type == PlayerType.Human)
+            {
+                if (player.corner == CornerType.DownLeft || player.corner == CornerType.DownRight) 
+                    cameraController.SwitchCamera(CameraViewType.inGame1);
+                else
+                    cameraController.SwitchCamera(CameraViewType.inGame2);
+                return;
+            }
+        }
     }
 
     void InitAI() 
@@ -279,7 +294,7 @@ public class GameController : MonoBehaviour
     {
         if (IsServer == true)
         {
-            uiController.OnlineGameExut();
+            //uiController.OnlineGameExit();
             server.CloseConnection();
         }
 

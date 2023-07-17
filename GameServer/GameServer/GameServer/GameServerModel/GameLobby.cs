@@ -48,7 +48,9 @@ public static class GameLobby
             else if (gameMode == GameMode.Default) findedRoom = FindDefaultRelevanceRoom(relevanceRoomList);
             else throw (new Exception("GameLobby.FindRoomForPlayerAndStartGame() - unknown game mode"));
 
-            //add player and start game if room is full
+            PlayersInRooms[PlayerId] = findedRoom;
+
+             //add player and start game if room is full
             findedRoom.AddPlayer(PlayerId);
             if (findedRoom.IsFull) return findedRoom.StartGame();
             else return null;

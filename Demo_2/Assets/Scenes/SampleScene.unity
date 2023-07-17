@@ -4502,7 +4502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &348263260
 Transform:
   m_ObjectHideFlags: 0
@@ -5952,6 +5952,7 @@ Transform:
   m_Children:
   - {fileID: 1631649717}
   - {fileID: 2105555278}
+  - {fileID: 1244479931}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8435,7 +8436,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 794728920}
-  m_LocalRotation: {x: 0.70088243, y: 0.006240675, z: -0.0061326954, w: 0.71322316}
+  m_LocalRotation: {x: 0.70088243, y: 0.0062396703, z: -0.006131707, w: 0.71322316}
   m_LocalPosition: {x: -1.2812362, y: 9.870743, z: -4.965822}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12773,17 +12774,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244479930}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.70402646, y: 0.065930255, z: -0.065930255, w: -0.70402646}
+  m_LocalPosition: {x: 0, y: 0, z: -0.6483245}
+  m_LocalScale: {x: 0.100000024, y: 0.1, z: 0.10000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2061567043}
-  m_RootOrder: 5
+  m_Father: {fileID: 514105169}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -14.13111, y: 0.22000003}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1244479932
@@ -12803,8 +12804,7 @@ MonoBehaviour:
   greenRate: {fileID: 803391835}
   cameraController: {fileID: 1437861948}
   server: {fileID: 1631649716}
-  startBut: {fileID: 558233384}
-  backBut: {fileID: 1984450239}
+  OnlineMainNoteUI: {fileID: 2061567042}
   topText: {fileID: 520220799}
   searchText: {fileID: 1480119226}
   searchUI: {fileID: 1023100979}
@@ -14253,7 +14253,6 @@ MonoBehaviour:
   cameraController: {fileID: 0}
   PlayUI: {fileID: 2119191621}
   OnlineUI: {fileID: 2061567042}
-  SearchButton: {fileID: 0}
   BackToMenuInOnlineButton: {fileID: 1984450239}
   StopSearchButton: {fileID: 1914443118}
   GameUI: {fileID: 969791066}
@@ -16351,7 +16350,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580770110}
-  m_LocalRotation: {x: 0.6114567, y: -0.06818069, z: 0.053002957, w: 0.78655124}
+  m_LocalRotation: {x: 0.61145675, y: -0.06818062, z: 0.05300291, w: 0.7865512}
   m_LocalPosition: {x: -19, y: 19, z: -8.576278}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -17718,7 +17717,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822036431}
-  m_LocalRotation: {x: 0.70088243, y: 0.006240675, z: -0.0061326954, w: 0.71322316}
+  m_LocalRotation: {x: 0.70088243, y: 0.0062396703, z: -0.006131707, w: 0.71322316}
   m_LocalPosition: {x: 0.11876345, y: 9.630743, z: -5.005822}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -21221,7 +21220,6 @@ RectTransform:
   - {fileID: 1832613104}
   - {fileID: 558233385}
   - {fileID: 1984450240}
-  - {fileID: 1244479931}
   m_Father: {fileID: 5363384845185844247}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -25316,7 +25314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5363384845923508521
 Transform:
   m_ObjectHideFlags: 0

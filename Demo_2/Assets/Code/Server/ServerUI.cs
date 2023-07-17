@@ -31,9 +31,7 @@ public class ServerUI : MonoBehaviour
     [SerializeField]
     Server server;
     [SerializeField]
-    GameObject startBut;
-    [SerializeField]
-    GameObject backBut;
+    GameObject OnlineMainNoteUI;
     [SerializeField]
     TextMeshProUGUI topText;
     [SerializeField]
@@ -48,6 +46,8 @@ public class ServerUI : MonoBehaviour
         if (search == true) return;
         twoHuman = !twoHuman;
         greenTwoHuman.SetActive(twoHuman);
+        fourHuman = !fourHuman;
+        greenFourHuman.SetActive(fourHuman);
     }
 
     public void ClickFourHuman()
@@ -55,6 +55,8 @@ public class ServerUI : MonoBehaviour
         if (search == true) return;
         fourHuman = !fourHuman;
         greenFourHuman.SetActive(fourHuman);
+        twoHuman = !twoHuman;
+        greenTwoHuman.SetActive(twoHuman);
     }
 
     public void ClickRate()
@@ -70,8 +72,7 @@ public class ServerUI : MonoBehaviour
         if (twoHuman == false && fourHuman == false) return;
         search = true;
 
-        startBut.SetActive(false);
-        backBut.SetActive(false);
+        OnlineMainNoteUI.SetActive(false);
 
         searchUI.SetActive(true);
         startUI.SetActive(false);
@@ -105,8 +106,7 @@ public class ServerUI : MonoBehaviour
     public void StopSearch()
     {
         search = false;
-        startBut.SetActive(true);
-        backBut.SetActive(true);
+        OnlineMainNoteUI.SetActive(true);
 
         cameraController.CameraToMenu();
     }
