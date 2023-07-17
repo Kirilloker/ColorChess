@@ -68,7 +68,7 @@ public class GameRoom
         DB.AddGameStatistic(playersScores, GameMode, PlayersIds);
 
 
-        List<AttributeUS> GameResults = new List<AttributeUS>(MaxNumOfPlayers);
+        List<AttributeUS> GameResults = Enumerable.Repeat(AttributeUS.Draw, 2).ToList();
         int maxScore = int.MinValue;
         int maxIndex = 0;
 
@@ -80,7 +80,7 @@ public class GameRoom
                 maxIndex = i;
             }
         }
-
+        GameResults[maxIndex] = AttributeUS.Win;
         for (int i = 0; i < playersScores.Count; i++)
         {
             if (playersScores[i] == maxScore && i != maxIndex)
