@@ -45,9 +45,9 @@ public class Server : MonoBehaviour
     {
         SendStepToServer(TestServerHelper.ConvertToJSON(clientStep));
     }
-    public void CloseConnection()
+    public async void CloseConnection()
     {
-        if (connection != null) connection.StopAsync();
+        if (connection != null) await connection.StopAsync();
     }
 
     public async Task<bool> TryLoginIn(string name, string password)

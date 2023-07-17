@@ -43,11 +43,11 @@ public class GameServerHub : Hub
         await Task.Run(async () =>
         {
             int playerId = int.Parse(Context.UserIdentifier);
+            List<int> players = GameLobby.GetAllPlayersInRoomWithPlayer(playerId);
             Map NextGameState = GameLobby.SendPlayerStepToRoomAndApplyIt(playerId, step);
 
             if ((Object)NextGameState != null)
-            {
-                List<int> players = GameLobby.GetAllPlayersInRoomWithPlayer(playerId);
+            {           
                 for (int i = 0; i < players.Count; i++)
                 {
                     if (players[i] != playerId)
