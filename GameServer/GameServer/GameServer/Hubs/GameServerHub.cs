@@ -77,6 +77,7 @@ public class GameServerHub : Hub
         await Task.Run(async () =>
         {
             int leavedPlayer = int.Parse(Context.UserIdentifier);
+            Console.WriteLine($"{leavedPlayer}"+ " leave the game");
             List<int> ids = GameLobby.GetAllPlayersInRoomWithPlayer(leavedPlayer);
             if((Object)ids != null)
             {

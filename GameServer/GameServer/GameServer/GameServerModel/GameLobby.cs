@@ -81,6 +81,7 @@ public static class GameLobby
         if (!PlayersInRooms.TryGetValue(PlayerId, out room))
             return;
 
+        Console.WriteLine($"PlayerLeftTheGame(): Delete room with player {PlayerId}");
         lock (locker)
         {
             rooms[room.RoomGameMode][room.MaxPlayers].Remove(room);
