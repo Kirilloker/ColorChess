@@ -15,6 +15,9 @@ public static class GameLobby
         {
             List<GameRoom> relevanceRoomList;
             Dictionary<int, List<GameRoom>> gameModeDict;
+            
+            GameRoom gameRoom;
+            if (PlayersInRooms.TryGetValue(PlayerId, out gameRoom)) return null;
 
             //relevanceRoomList = rooms[gameMode][NumOfPlayers]
             if (!rooms.TryGetValue(gameMode, out gameModeDict))
