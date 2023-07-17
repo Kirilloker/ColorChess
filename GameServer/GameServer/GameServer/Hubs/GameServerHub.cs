@@ -85,6 +85,7 @@ public class GameServerHub : Hub
                 {
                     if (id != leavedPlayer)
                     {
+                        Console.WriteLine($"{leavedPlayer} send {id} endgame");
                         await Clients.User(id.ToString()).SendAsync("ServerEndGame");
                     }
                 }

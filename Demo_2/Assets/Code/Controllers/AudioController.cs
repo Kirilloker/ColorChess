@@ -46,4 +46,14 @@ public class AudioController : MonoBehaviour
         sound.Play();
     }
 
+
+    public void SoundMute() 
+    {
+
+    }
+    public void MusicMute()
+    {
+
+    }
+
 }

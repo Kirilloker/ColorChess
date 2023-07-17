@@ -129,7 +129,7 @@ public class Server : MonoBehaviour
     private void ServerEndGame()
     {
         gameController.EndGame();
-        DisconectFromServer();
+        //DisconectFromServer();
         connection = null;
     }
    
