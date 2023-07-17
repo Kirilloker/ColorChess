@@ -53,7 +53,6 @@ public class GameServerHub : Hub
                     if (players[i] != playerId)
                     {
                         await Clients.User(players[i].ToString()).SendAsync("ServerSendStep", step);
-                        await Clients.Users(players[i].ToString()).SendAsync("ServerEndGame");
                     }
                 }
             }
