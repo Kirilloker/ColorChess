@@ -95,7 +95,8 @@ public static class GameLobby
         if (PlayersInRooms.TryGetValue(playerId, out room))
             return room.PlayersInRoom;
         else
-            throw(new Exception("GetAllPlayersInRoomWithPlayer room not exist"));
+            return null;
+            //throw(new Exception("GetAllPlayersInRoomWithPlayer room not exist"));
     }
 
     private static GameRoom FindRatingRelevanceRoom(List<GameRoom> relevanceRoomList, int rate)

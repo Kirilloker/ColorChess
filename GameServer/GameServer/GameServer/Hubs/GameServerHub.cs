@@ -78,15 +78,17 @@ public class GameServerHub : Hub
         {
             int leavedPlayer = int.Parse(Context.UserIdentifier);
             List<int> ids = GameLobby.GetAllPlayersInRoomWithPlayer(leavedPlayer);
-            GameLobby.PlayerLeftTheGame(leavedPlayer);
-            foreach(int id in ids)
+            if((Object)ids != null)
             {
-                if(id != leavedPlayer)
+                GameLobby.PlayerLeftTheGame(leavedPlayer);
+                foreach (int id in ids)
                 {
-                    await Clients.User(id.ToString()).SendAsync("ServerEndGame");
+                    if (id != leavedPlayer)
+                    {
+                        await Clients.User(id.ToString()).SendAsync("ServerEndGame");
+                    }
                 }
-            }
-           
+            }    
         });
         await base.OnDisconnectedAsync(exception);
     }
