@@ -3,7 +3,6 @@
 public class RatingGameRoom : GameRoom
 {
     private Dictionary<int,int> PlayersRate = new();
-    private int AverageRate = 0;
     private const int RatingBet = 25;
 
     public RatingGameRoom(int MaxNumOfPlayers, List<int> PlayersIds, GameMode GameMode) : base(MaxNumOfPlayers, PlayersIds, GameMode) { }

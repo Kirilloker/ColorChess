@@ -35,7 +35,16 @@ public static class GameLobby
             if (relevanceRoomList.Count == 0)
             {
                 Console.WriteLine("Player " + PlayerId + " create new room");
-                GameRoom newRoom = new GameRoom(NumOfPlayers, new List<int>() { PlayerId }, gameMode);
+                GameRoom newRoom;
+                if (gameMode == GameMode.Default)
+                {
+                    newRoom = new GameRoom(NumOfPlayers, new List<int>() { PlayerId }, gameMode);
+                }
+                else
+                {
+                    newRoom = new RatingGameRoom(NumOfPlayers, new List<int>() { PlayerId }, gameMode);
+                }
+
                 rooms[gameMode][NumOfPlayers].Add(newRoom);
                 PlayersInRooms[PlayerId] = newRoom;
                 return null;
