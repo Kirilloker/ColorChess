@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Threading;
 using System.Collections;
 using System.IO;
+using System.Collections.Generic;
 
 public enum GameMode
 {
@@ -36,9 +37,9 @@ public class Server : MonoBehaviour
 
 
     //Публичный инерфейс класса_______________________________________
-    public void ConnectToDefaultGame()
+    public void ConnectToDefaultGame(List<string> args)
     {
-        ConnectToGameServerHubAndFindTheRoom();
+        ConnectToGameServerHubAndFindTheRoom(args);
     }
     public void SendStep(Step clientStep)
     {
@@ -133,7 +134,7 @@ public class Server : MonoBehaviour
     }
    
     //Методы для обращений к серверу__________________________________
-    private async void ConnectToGameServerHubAndFindTheRoom()
+    private async void ConnectToGameServerHubAndFindTheRoom(List<string> args)
     {
         var _connection = new HubConnectionBuilder()
                .WithUrl(GameServerHubUrl, options =>
@@ -165,7 +166,7 @@ public class Server : MonoBehaviour
         }
 
         this.connection = _connection;
-        await connection.InvokeAsync("FindRoom", "Default", "2");
+        await connection.InvokeAsync("FindRoom", args[0], args[1]);
     }
     private async void SendStepToServer(string clientStep)
     {

@@ -82,7 +82,21 @@ public class ServerUI : MonoBehaviour
 
         StartCoroutine(AnimationSearch());
 
-        server.ConnectToDefaultGame();
+        Debug.Log("Количество игроков");
+        if (twoHuman == true) Debug.Log("Количество игроков 2");
+        if (fourHuman == true) Debug.Log("Количество игроков 4");
+        if (rateGame == true) Debug.Log("Это рейтинговая игра");
+        else Debug.Log("Это не рейтенговая игра");
+
+        List<string> args = new();
+        if (rateGame == true) args.Add("Rating");
+        else args.Add("Default");
+
+        if (twoHuman == true) args.Add("2");
+        else args.Add("4");
+        
+
+        server.ConnectToDefaultGame(args);
     }
 
     IEnumerator AnimationSearch() 
@@ -107,8 +121,8 @@ public class ServerUI : MonoBehaviour
     {
         search = false;
         OnlineMainNoteUI.SetActive(true);
-
         cameraController.CameraToMenu();
+        server.DisconectFromServer();
     }
 
     public int GetNumberPlaceUserInTop()
