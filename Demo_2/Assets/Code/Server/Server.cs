@@ -24,7 +24,7 @@ public class Server : MonoBehaviour
 
     private bool IsLoginIn = false;
 
-    private const string baseIP = "192.168.0.116";
+    private const string baseIP = "185.209.28.214";
 
     private const string GameServerHubUrl = "http://" + baseIP + ":11000/Game";
     private const string LoginInUrl = "http://" + baseIP + ":11000/login";
