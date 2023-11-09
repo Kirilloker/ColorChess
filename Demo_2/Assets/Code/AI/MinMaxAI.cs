@@ -31,7 +31,7 @@ public class MinMaxAI : IAI
     };
     
     //                                pawn      castle  bishop king     horse   queen 
-    float[] figurePercent = { 0, 0, 0, 0, 0, 0 };
+    float[] figurePercent =         { 0,        0,      0,      0,      0,      0 };
     float[] figurePercentStart =    { 0.8f,     0.5f,   0.1f,   0.3f,   0.4f,   0.8f };
     float[] figurePercentSpeed =    { 0.5f,     0.4f,   0.1f,   0.3f,   0.3f,   0.5f };
     float[] figurePercentMidle =    { 0.4f,     0.4f,   0.3f,   0.2f,   0.2f,   0.5f };
@@ -255,7 +255,6 @@ public class MinMaxAI : IAI
     private int EvaluationFunction(Map map)
     {
         // Оценочная функция
-        var score = map.Score;
         float evaluation = 0;
 
         // Если Рядом с Пешками Врага стоит фигура Бота начисляется штраф

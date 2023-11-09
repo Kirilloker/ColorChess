@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using static GameStatistic;
 
 namespace FirstEF6App
 {
@@ -27,6 +26,12 @@ namespace FirstEF6App
                 .Entity<GameStatistic>()
                 .Property(e => e.UsersId)
                 .HasConversion(new IntListToStringConverter());
+
+
+            modelBuilder
+                .Entity<LogEvent>()
+                .Property(e => e.UsersId)
+                .HasConversion(new IntListToStringConverter());
         }
 
 
@@ -38,5 +43,6 @@ namespace FirstEF6App
         public DbSet<User> Users { get; set; }
 		public DbSet<GameStatistic> GameStatistics { get; set; }
 		public DbSet<UserStatistic> UserStatistics { get; set; }
+		public DbSet<LogEvent> LogEvents { get; set; }
 	}
 }

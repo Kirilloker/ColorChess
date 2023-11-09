@@ -26,3 +26,12 @@ public enum GameMode
     Rating = 1,
     Custom = 2,
 }
+
+public enum TypeLogEvent
+{
+    Registration,
+    Autorization,
+    SearchGame,
+    StartGame,
+    EndGame,
+}
