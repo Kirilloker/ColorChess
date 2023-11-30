@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Security.Principal;
 
 namespace FirstEF6App
 {
@@ -38,6 +39,11 @@ namespace FirstEF6App
         public ColorChessContext()
         {
             Database.EnsureCreated();
+        }
+
+        public List<T> ExecuteSqlQuery<T>(string sqlQuery) where T : class
+        {
+            return Set<T>().FromSqlRaw(sqlQuery).ToList();
         }
 
         public DbSet<User> Users { get; set; }

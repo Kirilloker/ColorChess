@@ -30,6 +30,10 @@ public static class LoginAndRegistry
         {
             access_token = encodedJwt,
         };
+
+        DB.IDK_how_fix_this_bug(user.Id);
+        DB.AddLogEvent(TypeLogEvent.Authorization, user.Id, "Authorization user");
+
         return Results.Json(response);
     }
 
@@ -51,6 +55,8 @@ public static class LoginAndRegistry
 
             UserStatistic userStatistic = new UserStatistic { Win = 0, Lose = 0, Draw = 0, MaxScore = 0, Rate = 0, UserId = newUser.Id };
             DB.AddUserStatistic(userStatistic);
+
+            DB.AddLogEvent(TypeLogEvent.Registration, newUser.Id, "Regestration new user");
 
             return Results.Ok();
         }

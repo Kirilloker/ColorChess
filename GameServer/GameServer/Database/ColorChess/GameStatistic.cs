@@ -6,7 +6,6 @@ public class GameStatistic
     public List<int>? PlayerScore { get; set; }
     public GameMode GameMode { get; set; }
     public List<int>? UsersId { get; set; }
-
 }
 public class IntListToStringConverter : ValueConverter<List<int>, string>
     {

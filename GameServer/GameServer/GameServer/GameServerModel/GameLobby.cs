@@ -93,7 +93,8 @@ public static class GameLobby
         if (!PlayersInRooms.TryGetValue(PlayerId, out room))
             return;
 
-        Console.WriteLine($"PlayerLeftTheGame(): Delete room with player {PlayerId}");
+        //Console.WriteLine($"PlayerLeftTheGame(): Delete room with player {PlayerId}");
+        //DB.AddLogEvent(TypeLogEvent.SurrenderGame, PlayerId, "player left the game");
         lock (locker)
         {
             rooms[room.RoomGameMode][room.MaxPlayers].Remove(room);
@@ -138,4 +139,6 @@ public static class GameLobby
         }
         throw (new Exception("FindDefaultRelevanceRoom() something wrong"));
     }
+
+    public static int GetCountPlayersInGame() => PlayersInRooms.Count; 
 }

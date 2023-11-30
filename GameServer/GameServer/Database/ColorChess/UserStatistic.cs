@@ -6,7 +6,5 @@ public class UserStatistic
     public int MaxScore { get; set; }
     public int Draw { get; set; }
     public int Rate { get; set; }
-
     public int UserId { get; set; }
-
 }

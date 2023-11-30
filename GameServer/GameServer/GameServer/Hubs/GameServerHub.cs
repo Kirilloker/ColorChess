@@ -21,16 +21,21 @@ public class GameServerHub : Hub
                     gameMode = GameMode.Rating; break;
                 default:
                     gameMode = GameMode.Default; break;
-                    break;
             }
             Console.WriteLine("Player" + playerId + "want play:" + gameMode + " " + _numOfPlayers);
+            //
+            DB.IDK_how_fix_this_bug(playerId);
+            DB.AddLogEvent(TypeLogEvent.SearchGame, playerId, "want play:" + gameMode + " " + _numOfPlayers);
+
             Map StartGameState = GameLobby.FindRoomForPlayerAndStartGame(playerId, gameMode, int.Parse(_numOfPlayers));
             
             if((Object)StartGameState != null)
             {
                 List<int> players = GameLobby.GetAllPlayersInRoomWithPlayer(playerId);
-                for(int i = 0; i < players.Count; i++)
-                {
+                DB.AddLogEvent(TypeLogEvent.StartGame, players, "start game:" + gameMode + " " + _numOfPlayers);
+
+                for (int i = 0; i < players.Count; i++)
+                { 
                     await Clients.User(players[i].ToString()).
                     SendAsync("ServerStartGame", JsonConverter.ConvertToJSON(StartGameState.ConvertMapToPlayer(i)));
                 }
@@ -77,6 +82,8 @@ public class GameServerHub : Hub
         {
             int leavedPlayer = int.Parse(Context.UserIdentifier);
             Console.WriteLine($"{leavedPlayer}"+ " leave the game");
+            DB.AddLogEvent(TypeLogEvent.SurrenderGame, leavedPlayer, "player leave the game");
+
             List<int> ids = GameLobby.GetAllPlayersInRoomWithPlayer(leavedPlayer);
             if((Object)ids != null)
             {
@@ -93,4 +100,6 @@ public class GameServerHub : Hub
         });
         await base.OnDisconnectedAsync(exception);
     }
+    
+
 }

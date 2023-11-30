@@ -25,7 +25,12 @@ namespace GameServer
 
             return Results.Content(jsonString);
         }
-
+                
+        static public async Task<IResult> GetCountPlayersOnline(HttpContext context)
+        {
+            var x = Results.Content(GameLobby.GetCountPlayersInGame().ToString());
+            return x;
+        }
 
         static public async  Task<IResult> GetNumberPlaceTop(HttpContext context)
         {
@@ -33,6 +38,5 @@ namespace GameServer
             var x = Results.Content(DB.GetNumberPlaceUserByRate(nameUser).ToString());
             return x;
         }
-
     }
 }

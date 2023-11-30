@@ -30,8 +30,9 @@ public enum GameMode
 public enum TypeLogEvent
 {
     Registration,
-    Autorization,
+    Authorization,
     SearchGame,
     StartGame,
     EndGame,
+    SurrenderGame
 }

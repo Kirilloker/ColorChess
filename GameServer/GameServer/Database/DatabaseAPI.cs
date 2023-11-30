@@ -1,4 +1,5 @@
-﻿using FirstEF6App;
+﻿using ColorChessModel;
+using FirstEF6App;
 
 public static class DB 
 {
@@ -432,12 +433,10 @@ public static class DB
     /// </summary>
     public static void AddGameStatistic(List<int> usersScore, GameMode gameMode, List<int> usersId)
     {
-
         using (ColorChessContext db = new ColorChessContext())
         {
             try
             {
-
                 GameStatistic statistic = new GameStatistic
                 {
                     PlayerScore = usersScore,
@@ -454,6 +453,43 @@ public static class DB
                 Console.WriteLine("Error AddGameStatistic: " + Error.Unknown);
             }
         }
+    }
+
+    /// <summary>
+    ///  Добавление логирование 
+    /// </summary>
+    public static void AddLogEvent(TypeLogEvent _Type_Event, List<int> _usersId, string _Description)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                LogEvent logEvent= new LogEvent
+                {
+                    Date = DateTime.Now,
+                    Type_Event = _Type_Event,
+                    UsersId = _usersId,
+                    Description = _Description
+                };
+
+                db.LogEvents.Add(logEvent);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Error AddLogEvent: " + Error.Unknown);
+            }
+        }
+    }
+
+    /// <summary>
+    ///  Добавление логирование 
+    /// </summary>
+    public static void AddLogEvent(TypeLogEvent _Type_Event, int _userId, string _Description)
+    {
+        List<int> usersId = new List<int>() { _userId};
+        AddLogEvent(_Type_Event, usersId, _Description);
     }
 
     #endregion
@@ -639,6 +675,102 @@ public static class DB
         }
     }
     #endregion
+
+
+
+    // Report System
+
+    // Возвращает таблицу Event по определенный период  
+    public static List<LogEvent> GetEvents(DateTime start, DateTime end)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                var parameters = new { StartDate = start.ToString("yyyy-MM-dd HH:mm:ss"), EndDate = end.ToString("yyyy-MM-dd HH:mm:ss") };
+                string sqlQuery = $"SELECT * FROM logevents WHERE Date BETWEEN '{parameters.StartDate}' AND '{parameters.EndDate}';";
+                return db.ExecuteSqlQuery<LogEvent>(sqlQuery);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<LogEvent>();
+            }
+        }
+    }
+
+    public static List<LogEvent> GetEventsWithTypes(DateTime start, DateTime end, List<TypeLogEvent> typeEvents)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                var parameters = new { StartDate = start.ToString("yyyy-MM-dd HH:mm:ss"), EndDate = end.ToString("yyyy-MM-dd HH:mm:ss") };
+                string typeEventsString = string.Join(", ", typeEvents.Select(t => $"'{((int)t).ToString()}'"));
+                string sqlQuery = $"SELECT * FROM logevents WHERE Date BETWEEN '{parameters.StartDate}' AND '{parameters.EndDate}' AND Type_Event IN ({typeEventsString});";
+                
+                return db.ExecuteSqlQuery<LogEvent>(sqlQuery);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<LogEvent>();
+            }
+        }
+    }
+
+    // Возвращает всю таблицу Event 
+    public static List<LogEvent> GetAllEvents()
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                string sqlQuery = $"SELECT * FROM logevents;";
+                return db.ExecuteSqlQuery<LogEvent>(sqlQuery);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<LogEvent>();
+            }
+        }
+    }
+
+
+
+
+    public static void IDK_how_fix_this_bug(int userId)
+    {
+        // Когда пользователь начинает поиск, в БД появляются 2 записи о том 
+        // Что он авторизовался
+
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                DateTime threeSecondsAgo = DateTime.Now.AddSeconds(-3);
+
+                var logsToDelete = db.LogEvents
+                    .Where(log => log.Date >= threeSecondsAgo &&
+                                  log.Type_Event == TypeLogEvent.Authorization)
+                    .ToList();
+
+
+                if (logsToDelete.Any())
+                {
+                    db.LogEvents.RemoveRange(logsToDelete);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+
+    }
 }
 
 
