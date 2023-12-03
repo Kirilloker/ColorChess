@@ -1,6 +1,6 @@
 ﻿using GameServer.Database.DTO;
 
-public static class Converter
+public static class Mapper
 {
     public static LogEventDTO EntityToDTO(LogEvent resource)
     {
@@ -12,6 +12,16 @@ public static class Converter
             Description = resource.Description
         };
     }
+
+    public static User DTOToEntity(UserDTO userDTO) 
+    {
+        return new User
+        {
+            Name = userDTO.Name,
+            Password = userDTO.Password
+        };
+    }
+
     public static UserInfoHashDTO UserInfoHashToDTO(User user, UserStatistic userStatistic)
     {
         return new UserInfoHashDTO

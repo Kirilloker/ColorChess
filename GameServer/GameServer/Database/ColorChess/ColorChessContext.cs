@@ -46,6 +46,12 @@ namespace FirstEF6App
             return Set<T>().FromSqlRaw(sqlQuery).ToList();
         }
 
+        public void ExecuteSqlQuery2(string sqlQuery)
+        {
+            var result = Database.ExecuteSqlRaw(sqlQuery);
+        }
+
+
         public DbSet<User> Users { get; set; }
 		public DbSet<GameStatistic> GameStatistics { get; set; }
 		public DbSet<UserStatistic> UserStatistics { get; set; }

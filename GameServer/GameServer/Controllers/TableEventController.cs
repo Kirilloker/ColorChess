@@ -25,7 +25,7 @@ public class TableEventController : ControllerBase
         if (start >= end)
             return new ObjectResult("Начальная период не может быть позже конечного") { StatusCode = 401 };
 
-        List<LogEventDTO> events = Converter.List_EntityToDTO(DB.GetEvents(start, end), Converter.EntityToDTO);
+        List<LogEventDTO> events = Mapper.List_EntityToDTO(DB.GetEvents(start, end), Mapper.EntityToDTO);
 
         if (events == null || events.Count == 0)
             return new ObjectResult("Не удалось найти данные в данном промежутке") { StatusCode = 402 };
@@ -65,7 +65,7 @@ public class TableEventController : ControllerBase
         if (logEvents == null || logEvents.Count == 0)
             return new ObjectResult("Не верные параметры") { StatusCode = 400 };
 
-        List<LogEventDTO> events = Converter.List_EntityToDTO(DB.GetEventsWithTypes(start, end, logEvents), Converter.EntityToDTO);
+        List<LogEventDTO> events = Mapper.List_EntityToDTO(DB.GetEventsWithTypes(start, end, logEvents), Mapper.EntityToDTO);
 
         if (events == null || events.Count == 0)
             return new ObjectResult("Не удалось найти данные в данном промежутке") { StatusCode = 402 };
@@ -80,7 +80,7 @@ public class TableEventController : ControllerBase
     [SwaggerResponse(402, "Не нашлись данные")]
     public IActionResult GetEventsAll()
     {
-        List<LogEventDTO> events = Converter.List_EntityToDTO(DB.GetAllEvents(), Converter.EntityToDTO);
+        List<LogEventDTO> events = Mapper.List_EntityToDTO(DB.GetAll<LogEvent>(), Mapper.EntityToDTO);
 
         if (events == null || events.Count == 0)
             return new ObjectResult("Не удалось найти данные в данном промежутке") { StatusCode = 402 };

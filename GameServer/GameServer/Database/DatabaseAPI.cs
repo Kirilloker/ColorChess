@@ -1,5 +1,6 @@
 ﻿using ColorChessModel;
 using FirstEF6App;
+using GameServer.Database.DTO;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
@@ -7,13 +8,18 @@ public static class DB
 {
     #region Get
 
+
+
+
     public static T Get<T>(int id) where T : class, IId
     {
         using (ColorChessContext db = new ColorChessContext())
         {
             try
             {
-                return db.Set<T>().Find(id);
+                string tableName = typeof(T).Name + "s"; 
+                string sqlQuery = $"SELECT * FROM {tableName} WHERE Id = {id};";
+                return db.ExecuteSqlQuery<T>(sqlQuery).FirstOrDefault();
             }
             catch (Exception)
             {
@@ -22,12 +28,6 @@ public static class DB
         }
     }
 
-    //public static T Get<T>(string id) where T : class, IId 
-    //{
-    //    if (int.TryParse(id, out var t) == false)
-    //        return null;
-    //    return Get<T>(t);
-    //}
 
 
     /// <summary>
@@ -49,7 +49,6 @@ public static class DB
             }
         }
     }
-
 
     /// <summary>
     /// Возвращает имя пользователя
@@ -167,8 +166,6 @@ public static class DB
         }
     }
 
-
-
     /// <summary>
     /// Возврашает статистику пользователя
     /// </summary>
@@ -176,8 +173,6 @@ public static class DB
     {
         return GetUserStatistic(user.Id);
     }
-
-
 
     /// <summary>
     /// Возврашает все статистики игры пользователя
@@ -275,13 +270,13 @@ public static class DB
 
     #region Get All DB
 
-    public static List<T> GetAllEntities<T>(string nameTable) where T : class, new()
+    public static List<T> GetAll<T>() where T : class, new()
     {
         using (ColorChessContext db = new ColorChessContext())
         {
             try
             {
-                string sqlQuery = $"SELECT * FROM {nameTable};";
+                string sqlQuery = $"SELECT * FROM {typeof(T).Name}s;";
                 return db.ExecuteSqlQuery<T>(sqlQuery);
             }
             catch (Exception e)
@@ -291,53 +286,113 @@ public static class DB
             }
         }
     }
-    public static List<User> GetAllUser() => GetAllEntities<User>("users");
-    public static List<LogEvent> GetAllEvents() => GetAllEntities<LogEvent>("logevents");
-    public static List<UserStatistic> GetAllUserStatistic() => GetAllEntities<UserStatistic>("userstatistics");
-    public static List<GameStatistic> GetAllGameStatistic() => GetAllEntities<GameStatistic>("gamestatistics");
 
     #endregion
 
     #region Add
-    /// <summary>
-    /// Добавление нового пользователя
-    /// </summary>
-    public static void AddUser(string username, string password)
+
+    public static bool AddUser(User user)
     {
         using (ColorChessContext db = new ColorChessContext())
         {
             try
             {
-                List<User> users =  db.Users.Where(b => b.Name == username).ToList();
-
-                if (users.Count == 0) 
-                {
-                    User user = new User { Name = username, Password = password };
-
-                    db.Users.Add(user);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    Console.WriteLine("Error AddUser: " + Error.UserExist);
-                }
-
+                string sqlQuery = $"INSERT INTO users (Name, Password) VALUES ('{user.Name}', '{user.Password}');";
+                db.ExecuteSqlQuery<User>(sqlQuery);
+                return true;
             }
-            catch (Exception e)
+            catch (Exception e) 
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error AddUser: " + Error.Unknown);
+                return false;
             }
         }
     }
 
+
+    public static bool AddUserStatistic(UserStatistic userStatistic)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                string sqlQuery = $"INSERT INTO UserStatistics (Win, Lose, MaxScore, Draw, Rate, UserId) VALUES " +
+                              $"({userStatistic.Win}, {userStatistic.Lose}, {userStatistic.MaxScore}, " +
+                              $"{userStatistic.Draw}, {userStatistic.Rate}, {userStatistic.UserId});";
+
+                db.ExecuteSqlQuery<User>(sqlQuery);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+    }
+
+
+
+    public static bool AddEntity<T>(T entity) where T : class
+        {
+            using (ColorChessContext db = new ColorChessContext())
+            {
+                try
+                {
+                    db.Set<T>().Add(entity);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Добавление нового пользователя
+        /// </summary>
+        public static bool AddUser(string username, string password)
+        {
+            using (ColorChessContext db = new ColorChessContext())
+            {
+                try
+                {
+                    List<User> users =  db.Users.Where(b => b.Name == username).ToList();
+
+                    if (users.Count == 0) 
+                    {
+                        User user = new User { Name = username, Password = password };
+
+                        db.Users.Add(user);
+                        db.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error AddUser: " + Error.UserExist);
+                        return false;
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Console.WriteLine("Error AddUser: " + Error.Unknown);
+                    return false;
+                }
+            }
+        }
+
     /// <summary>
     /// Добавление нового пользователя
     /// </summary>
-    public static void AddUser(User user)
-    {
-        AddUser(user.Name, user.Password);
-    }
+    //public static void AddUser(User user)
+    //{
+    //    AddUser(user.Name, user.Password);
+    //}
 
     /// <summary>
     /// Добавление игровой статистики пользователя
@@ -383,12 +438,12 @@ public static class DB
     /// <summary>
     /// Добавление игровой статистики пользователя
     /// </summary>
-    public static void AddUserStatistic(UserStatistic userStatistic)
-    {
-        AddUserStatistic(userStatistic.Win, userStatistic.Lose,
-                         userStatistic.Draw, userStatistic.MaxScore,
-                         userStatistic.Rate, userStatistic.UserId);
-    }
+    //public static void AddUserStatistic(UserStatistic userStatistic)
+    //{
+    //    AddUserStatistic(userStatistic.Win, userStatistic.Lose,
+    //                     userStatistic.Draw, userStatistic.MaxScore,
+    //                     userStatistic.Rate, userStatistic.UserId);
+    //}
 
    
 
@@ -461,6 +516,34 @@ public static class DB
 
     #region Changes
 
+
+    public static bool Update<T>(T entity) where T : class, IId
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                string updateQuery = $"UPDATE {typeof(T).Name}s SET ";
+                var properties = typeof(T).GetProperties();
+
+                foreach (var prop in properties)
+                {
+                    if (prop.Name == "Id")
+                        continue;
+
+                    updateQuery += $"{prop.Name} = '{prop.GetValue(entity)}', ";
+                }
+
+                updateQuery = updateQuery.TrimEnd(',', ' ') + $" WHERE Id = {entity.Id};";
+                db.ExecuteSqlQuery<T>(updateQuery);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+    }
 
     /// <summary>
     /// Изменяет имя пользователя
@@ -566,8 +649,24 @@ public static class DB
 
     #region Delete
 
-    
+    public static bool Delete<T>(int id) where T : class
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                string sqlQuery = $"DELETE FROM {typeof(T).Name.ToLower()}s WHERE Id = {id};";
+                Console.WriteLine(sqlQuery);
+                db.ExecuteSqlQuery2(sqlQuery);
 
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+    }
 
 
     #endregion
