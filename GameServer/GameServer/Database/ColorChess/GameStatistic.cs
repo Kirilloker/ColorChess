@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-public class GameStatistic
+public class GameStatistic : IId
 {
     public int Id { get; set; }
     public List<int>? PlayerScore { get; set; }

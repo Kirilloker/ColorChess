@@ -36,3 +36,8 @@ public enum TypeLogEvent
     EndGame,
     SurrenderGame
 }
+
+public interface IId
+{
+    int Id { get; set; }
+}

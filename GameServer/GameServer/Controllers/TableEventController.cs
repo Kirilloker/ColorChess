@@ -25,7 +25,7 @@ public class TableEventController : ControllerBase
         if (start >= end)
             return new ObjectResult("Начальная период не может быть позже конечного") { StatusCode = 401 };
 
-        List<LogEventDTO> events = Converter.List_EntityToDTO(DB.GetEvents(start, end));
+        List<LogEventDTO> events = Converter.List_EntityToDTO(DB.GetEvents(start, end), Converter.EntityToDTO);
 
         if (events == null || events.Count == 0)
             return new ObjectResult("Не удалось найти данные в данном промежутке") { StatusCode = 402 };
@@ -65,7 +65,7 @@ public class TableEventController : ControllerBase
         if (logEvents == null || logEvents.Count == 0)
             return new ObjectResult("Не верные параметры") { StatusCode = 400 };
 
-        List<LogEventDTO> events = Converter.List_EntityToDTO(DB.GetEventsWithTypes(start, end, logEvents));
+        List<LogEventDTO> events = Converter.List_EntityToDTO(DB.GetEventsWithTypes(start, end, logEvents), Converter.EntityToDTO);
 
         if (events == null || events.Count == 0)
             return new ObjectResult("Не удалось найти данные в данном промежутке") { StatusCode = 402 };
@@ -75,18 +75,19 @@ public class TableEventController : ControllerBase
 
 
     [HttpGet("all")]
-    [SwaggerOperation(Summary = "Получение списка событий", Description = "Возвращает всю таблицу Event")]
+    [SwaggerOperation(Summary = "Получение всего списка событий", Description = "Возвращает всю таблицу Event")]
     [SwaggerResponse(200, "Успешный запрос")]
     [SwaggerResponse(402, "Не нашлись данные")]
     public IActionResult GetEventsAll()
     {
-        List<LogEventDTO> events = Converter.List_EntityToDTO(DB.GetAllEvents());
+        List<LogEventDTO> events = Converter.List_EntityToDTO(DB.GetAllEvents(), Converter.EntityToDTO);
 
         if (events == null || events.Count == 0)
             return new ObjectResult("Не удалось найти данные в данном промежутке") { StatusCode = 402 };
 
         return new JsonResult(events);
     }
+
     public static List<TypeLogEvent> ParseLogEvents(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
@@ -101,9 +102,3 @@ public class TableEventController : ControllerBase
         return logEvents;
     }
 }
-
-
-
-
-
-

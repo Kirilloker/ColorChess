@@ -1,4 +1,4 @@
-public class UserStatistic
+public class UserStatistic : IId
 {
     public int Id { get; set; }
     public int Win { get; set; }

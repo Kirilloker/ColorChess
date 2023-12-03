@@ -1,29 +1,33 @@
 ﻿using ColorChessModel;
 using FirstEF6App;
-
+using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
 public static class DB 
 {
     #region Get
 
-    /// <summary>
-    /// Возврашает пользователя
-    /// </summary>
-    public static User GetUser(int userID)
+    public static T Get<T>(int id) where T : class, IId
     {
         using (ColorChessContext db = new ColorChessContext())
         {
             try
             {
-                return db.Users.Where(b => b.Id == userID).ToList()[0];
+                return db.Set<T>().Find(id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
-                Console.WriteLine("Error GetUser: " + Error.NotFound);
                 return null;
             }
         }
     }
+
+    //public static T Get<T>(string id) where T : class, IId 
+    //{
+    //    if (int.TryParse(id, out var t) == false)
+    //        return null;
+    //    return Get<T>(t);
+    //}
 
 
     /// <summary>
@@ -271,65 +275,26 @@ public static class DB
 
     #region Get All DB
 
-    /// <summary>
-    /// Возврашает всех пользователей
-    /// </summary>
-    public static List<User> GetAllUser()
+    public static List<T> GetAllEntities<T>(string nameTable) where T : class, new()
     {
         using (ColorChessContext db = new ColorChessContext())
         {
             try
             {
-                return db.Users.ToList();
+                string sqlQuery = $"SELECT * FROM {nameTable};";
+                return db.ExecuteSqlQuery<T>(sqlQuery);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error GetAllUser: " + Error.Unknown);
-                return null;
+                return new List<T>();
             }
         }
     }
-
-    /// <summary>
-    /// Возврашает статистики всех пользователей
-    /// </summary>
-    public static List<UserStatistic> GetAllUserStatistic()
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                return db.UserStatistics.ToList();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error GetAllUserStatistic: " + Error.Unknown);
-                return null;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Возврашает игровые статистики всех пользователей
-    /// </summary>
-    public static List<GameStatistic> GetAllGameStatistic()
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                return db.GameStatistics.ToList();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error GetAllGameStatistic: " + Error.Unknown);
-                return null;
-            }
-        }
-    }
+    public static List<User> GetAllUser() => GetAllEntities<User>("users");
+    public static List<LogEvent> GetAllEvents() => GetAllEntities<LogEvent>("logevents");
+    public static List<UserStatistic> GetAllUserStatistic() => GetAllEntities<UserStatistic>("userstatistics");
+    public static List<GameStatistic> GetAllGameStatistic() => GetAllEntities<GameStatistic>("gamestatistics");
 
     #endregion
 
@@ -718,26 +683,6 @@ public static class DB
             }
         }
     }
-
-    // Возвращает всю таблицу Event 
-    public static List<LogEvent> GetAllEvents()
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                string sqlQuery = $"SELECT * FROM logevents;";
-                return db.ExecuteSqlQuery<LogEvent>(sqlQuery);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return new List<LogEvent>();
-            }
-        }
-    }
-
-
 
 
     public static void IDK_how_fix_this_bug(int userId)
