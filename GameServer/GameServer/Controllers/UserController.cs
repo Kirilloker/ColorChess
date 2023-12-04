@@ -91,6 +91,33 @@ public class UserInfoController : ControllerBase
         return new JsonResult(users);
     }
 
+    [HttpGet("byName")]
+    [SwaggerOperation(Summary = "Получение информации о пользователе", Description = "Возвращает информацию о пользователе + его статистика")]
+    [SwaggerResponse(200, "Успешный запрос")]
+    [SwaggerResponse(400, "Не корректные данные")]
+    [SwaggerResponse(402, "Не нашлись данные")]
+    public IActionResult GetUserInfoWithoutHashByName(
+        [FromQuery][SwaggerParameter("Имя пользователя")] string userName)
+    {
+
+        if (userName == "")
+            return new ObjectResult("В параметре должна быть строка") { StatusCode = 400 };
+
+        //!
+        User user = DB.GetUser(userName);
+
+        if (user == null)
+            return new ObjectResult("Не удалось найти данные") { StatusCode = 402 };
+
+        UserInfoDTO userInfo = Mapper.UserInfoToDTO(user, DB.GetUserStatistic(user.Id));
+
+        if (userInfo == null)
+            return new ObjectResult("Не удалось найти данные") { StatusCode = 402 };
+
+        return new JsonResult(userInfo);
+    }
+
+
 
     [HttpDelete]
     [SwaggerOperation(Summary = "Удалить пользователя", Description = "Удаляет пользователя из таблиц Пользователя и Пользовательская статистика, и возвращает его копию")]
@@ -112,6 +139,7 @@ public class UserInfoController : ControllerBase
 
         UserInfoDTO userinfo = Mapper.UserInfoToDTO(user, userStatistic);
 
+        //!
         if (DB.Delete<User>(id) && DB.Delete<UserStatistic>((DB.GetUserStatistic(id)).Id))
             return new JsonResult(userinfo);
         else

@@ -1,10 +1,7 @@
 ﻿using FirstEF6App;
 using GameServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-
-
 
 Config.LoadConfig();
     
@@ -50,12 +47,8 @@ app.UseEndpoints(endpoints =>
     endpoints.MapGet("/getOnline", (HttpContext context) => { Test.GetCountPlayersOnline (context).Result.ExecuteAsync(context); });
 });
 
-
 app.Run("http://" + Config.IpServer + ":11000");
 // http://192.168.0.35:11000/swagger/index.html
-
-
-
 
 
 
