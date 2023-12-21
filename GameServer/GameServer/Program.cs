@@ -49,6 +49,3 @@ app.UseEndpoints(endpoints =>
 
 app.Run("http://" + Config.IpServer + ":11000");
 // http://192.168.0.35:11000/swagger/index.html
-
-
-

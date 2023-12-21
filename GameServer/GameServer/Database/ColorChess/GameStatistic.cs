@@ -7,6 +7,22 @@ public class GameStatistic : IId
     public GameMode GameMode { get; set; }
     public List<int>? UsersId { get; set; }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 public class IntListToStringConverter : ValueConverter<List<int>, string>
     {
         public IntListToStringConverter(ConverterMappingHints mappingHints = null)

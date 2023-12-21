@@ -9,6 +9,7 @@ public static class TelegramBot
     private static ITelegramBotClient botClient_;
     private static Update update_;
     private static CancellationToken cancellationToken_;
+    private static string lastUserMes = "";
 
     public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
@@ -37,15 +38,16 @@ public static class TelegramBot
         {
             ReplyKeyboardMarkup replyKeyboardMarkup = new(new[]
             {
-                new KeyboardButton[] { "Получить информацию о пользователе" },
-                new KeyboardButton[] { "Получить информацию о пользователе. TXT" },
+                new KeyboardButton[] { KeyBoardMessage.InfoForUser },
+                new KeyboardButton[] { KeyBoardMessage.CountRegistrationAll },
+                new KeyboardButton[] { KeyBoardMessage.CountRegistrationInRange },
             })
             {
                 ResizeKeyboard = true
             };
 
-            string replyMessage = MessageCreator.GetReply(messageText);
-
+            string replyMessage = MessageCreator.GetReply(messageText, lastUserMes);
+            lastUserMes = messageText;
 
             Message sentMessage = await botClient.SendTextMessageAsync(
                 chatId: chatId,
@@ -54,6 +56,7 @@ public static class TelegramBot
                 cancellationToken: cancellationToken);
         }
     }
+
 
     static public Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
     {

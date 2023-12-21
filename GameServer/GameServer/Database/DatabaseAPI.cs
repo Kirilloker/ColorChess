@@ -788,7 +788,6 @@ public static class DB
     {
         // Когда пользователь начинает поиск, в БД появляются 2 записи о том 
         // Что он авторизовался
-
         using (ColorChessContext db = new ColorChessContext())
         {
             try
@@ -812,8 +811,6 @@ public static class DB
                 Console.WriteLine(e);
             }
         }
-
-
     }
 }
 

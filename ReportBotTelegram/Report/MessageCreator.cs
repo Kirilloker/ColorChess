@@ -1,33 +1,29 @@
 ﻿
 public static class MessageCreator
 {
-    static string lastBotMes = "";
-    static string lastUserMes = "";
-    public static string GetReply(string userMessage) 
+    public static string GetReply(string userMessage, string lastUserMes) 
     {
-        if (lastUserMes == "Получить информацию о пользователе") 
+        switch (lastUserMes)
         {
-            lastBotMes = ReportCreator.UserInfo(DataDeliver.GetUserInfo(userMessage));
-            return lastBotMes;
+            case KeyBoardMessage.InfoForUser:
+                return ReportCreator.UserInfo(userMessage);
+            case KeyBoardMessage.CountRegistrationInRange:
+                return ReportCreator.CountRegistrationUsersInRange(userMessage);
         }
-
-        if (lastUserMes == "Получить информацию о пользователе. TXT")
-        {
-            lastBotMes = ReportCreator.UserInfo(DataDeliver.GetUserInfo(userMessage));
-            return "Высылаю документ.";
-        }
-
-        lastUserMes = userMessage;
 
         if (userMessage == null)
-            return "Что-то не понятное";
+            return "Пришло пустое сообщение";
 
-        if (userMessage == "Получить информацию о пользователе") 
-            return "Введите имя пользователя";
+        switch (userMessage)
+        {
+            case KeyBoardMessage.InfoForUser:
+                return "Введите имя пользователя";
+            case KeyBoardMessage.CountRegistrationAll:
+                return ReportCreator.CountRegistrationUsersAll();
+            case KeyBoardMessage.CountRegistrationInRange:
+                return "Введите дату";
+        }
 
-        if (userMessage == "Получить информацию о пользователе. TXT")
-            return "Введите имя пользователя";
-
-        return "Даже не знаю что и ответить";
+        return "Что-то не понятное";
     }
 }

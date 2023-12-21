@@ -1,17 +1,34 @@
-﻿public static class DataDeliver
+﻿using Newtonsoft.Json;
+using System.Net;
+using System.Text.Json;
+
+public static class DataDeliver
 {
-    public static string test() 
+    public static ResponseContentStatus test() 
     {
         return GetReply($"{Config.ServerURL}/api/UserInfo/all_with_hash").Result;
     }
 
-    public static string GetUserInfo(string userName) 
+    public static ResponseContentStatus GetUserInfo(string userName) 
     {
         return GetReply($"{Config.ServerURL}/api/UserInfo/byName?userName={userName}").Result;
     }
 
+    public static ResponseContentStatus GetCountRegistration(DateTime startPeriod, DateTime endPeriod, string listTypeEvent)
+    {
+        string formattedStartPeriod = startPeriod.ToString("yyyy-MM-dd HH:mm:ss");
+        string formattedEndPeriod = endPeriod.ToString("yyyy-MM-dd HH:mm:ss");
+        string formattedListTypeEvent = Uri.EscapeDataString(listTypeEvent);
 
-    public static async Task<string> GetReply(string URL)
+        string url = $"{Config.ServerURL}/api/TableEvent/period_types?startPeriod={formattedStartPeriod}&endPeriod={formattedEndPeriod}&listTypeEvent={formattedListTypeEvent}";
+
+        return GetReply(url).Result;
+    }
+
+
+
+
+    public static async Task<ResponseContentStatus> GetReply(string URL)
     {
         using (HttpClient client = new HttpClient())
         {
@@ -19,23 +36,23 @@
             {
                 HttpResponseMessage response = await client.GetAsync(URL);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    return responseBody;
-                }
-                else
-                {
-                    Console.WriteLine($"Ошибка: {response.StatusCode} - {response.ReasonPhrase}");
-                    return "error";
-                }
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                //if ((int)response.StatusCode == (int)ServerStatus.Success)
+                return new ResponseContentStatus((ServerStatus)response.StatusCode, responseBody);
+
+                //string decodedResponseBody = JsonDocument.Parse($"{responseBody}").RootElement.GetString();
+                //return new ResponseContentStatus((ServerStatus)response.StatusCode, decodedResponseBody);
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Произошла ошибка: {ex.Message}");
-                return "error";
+                return new ResponseContentStatus(ServerStatus.NotFound, "Ошибка");
             }
         }
     }
+
+
 }
 
