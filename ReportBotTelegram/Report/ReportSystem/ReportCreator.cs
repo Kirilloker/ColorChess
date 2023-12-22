@@ -1,9 +1,49 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Numerics;
+using System.Security;
 
 public static class ReportCreator
 {
+    public static string GeneralReportAll() 
+    {
+        return GeneralReport();
+    }
+
+    public static string GeneralReportInRange(string userMessage)
+    {
+        return GeneralReport(userMessage);
+    }
+
+    public static string GeneralReport(string date = "")
+    {
+        string report = "";
+
+        if (date == "") 
+            report += "Общий отчет\n\n";
+        else 
+        {
+            var dateTimes = HelpTools.GetDateTime(date);
+            if (dateTimes.Count == 0)
+                return "Что-то не так с вводом даты";
+            
+            report += "Отчет за период с " + dateTimes[0].ToString() + " по " + dateTimes[1].ToString() + "\n\n";
+        }
+
+        report += CountRegistrationUsers(date) + "\n\n";
+        report += CountEndGame(date) + "\n\n";
+        report += CountGameNotFinish(date) + "\n\n";
+        report += TimeGameWithType(date) + "\n";
+        report += CountSearchGameWithType(date) + "\n";
+
+        if (date != "") 
+            report += "\n" + CountUniqueUsersAuthorizationInRange(date);
+
+        return report;
+    }
+
+
     public static string UserInfo(string userMessage) 
     {
         var data = DataDeliver.GetUserInfo(userMessage);
@@ -30,18 +70,34 @@ public static class ReportCreator
 
     public static string CountRegistrationUsersAll() 
     {
-        return GetCountRows("Registration", "Количество всего зарегистрированных пользователей: ");
+        return CountRegistrationUsers();
+    }
+
+    public static string CountRegistrationUsersInRange(string userMessage)
+    {
+        return CountRegistrationUsers(userMessage);
+    }
+
+    public static string CountRegistrationUsers(string date = "") 
+    {
+        return GetCountRows("Registration", "Количество зарегистрированных пользователей: ", date);
     }
 
     public static string CountEndGameAll() 
     {
-        return GetCountRows("EndGame", "Количество всего завершенных игр: ");
+        return CountEndGame();
     }
 
-    public static string CountGameNotFinishAll()
+    public static string CountEndGameInRange(string userMessage)
     {
-        return CountGameNotFinish();
+        return CountEndGame(userMessage);
     }
+
+    public static string CountEndGame(string date = "")
+    {
+        return GetCountRows("EndGame", "Количество завершенных игр: ", date);
+    }
+
 
     public static string TimeGameWithTypeInRange(string userMessage)
     {
@@ -69,7 +125,7 @@ public static class ReportCreator
         if (errorAnswer != "")
             return errorAnswer;
 
-        return Utill.CalculateGameTimes(listStartGame, listEndGame); 
+        return HelpTools.CalculateGameTimes(listStartGame, listEndGame); 
     }
 
     public static string CountSearchGameWithTypeAll() 
@@ -116,6 +172,14 @@ public static class ReportCreator
         return "Количество уникальных пользователей зашедших в игру: " + uniqueCount;
     }
 
+    public static string CountGameNotFinishAll()
+    {
+        return CountGameNotFinish();
+    }
+    public static string CountGameNotFinishInRange(string userMessage)
+    {
+        return CountGameNotFinish(userMessage);
+    }
 
     public static string CountGameNotFinish(string date = "") 
     {
@@ -139,19 +203,6 @@ public static class ReportCreator
     }
 
 
-    public static string CountGameNotFinishInRange(string userMessage)
-    {
-        return CountGameNotFinish(userMessage);
-    }
-    public static string CountRegistrationUsersInRange(string userMessage)
-    {
-        return GetCountRows("Registration", "Количество зарегистрированных пользователей: ", userMessage);
-    }
-
-    public static string CountEndGameInRange(string userMessage)
-    {
-        return GetCountRows("EndGame", "Количество завершенных игр: ", userMessage);
-    }
 
 
 
@@ -177,7 +228,7 @@ public static class ReportCreator
         }
         else 
         {
-            dateTimes = Utill.GetDateTime(date);
+            dateTimes = HelpTools.GetDateTime(date);
                
             if (dateTimes.Count == 0) 
             {

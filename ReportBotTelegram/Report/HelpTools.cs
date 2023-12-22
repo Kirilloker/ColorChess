@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
 
-public static class Utill 
+public static class HelpTools 
 {
     public static List<DateTime> GetDateTime(string date)
     {
@@ -72,7 +72,7 @@ public static class Utill
             }
         }
 
-        string answer = "";
+        string answer = "Продолжительность игр в различных режимах: \n";
 
         if (gameDurationsByMode.Any())
         {
@@ -87,8 +87,9 @@ public static class Utill
                 answer += $"Режим: {mode}\n";
                 answer += $"Максимальное время в игре: {maxDuration.TotalMinutes:F0} минут {maxDuration.Seconds} секунд\n";
                 answer += $"Минимальное время в игре: {minDuration.TotalMinutes:F0} минут {minDuration.Seconds} секунд\n";
-                answer += $"Среднее время в игре: {avgDuration.TotalMinutes:F0} минут {avgDuration.Seconds} секунд\n\n";
+                answer += $"Среднее время в игре: {avgDuration.TotalMinutes:F0} минут {avgDuration.Seconds} секунд\n";
             }
+
         }
         else
             return "Не нашлись данные!";

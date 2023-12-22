@@ -19,6 +19,8 @@ public static class MessageCreator
                 return ReportCreator.CountSearchGameWithTypeInRange(userMessage);
             case KeyBoardMessage.TimeGameWithTypeInRange:
                 return ReportCreator.TimeGameWithTypeInRange(userMessage);
+            case KeyBoardMessage.GeneralReportInRange:
+                return ReportCreator.GeneralReportInRange(userMessage);
         }
 
         if (userMessage == null)
@@ -38,8 +40,12 @@ public static class MessageCreator
                 return "Введите дату";
             case KeyBoardMessage.TimeGameWithTypeInRange:
                 return "Введите дату";
+            case KeyBoardMessage.GeneralReportInRange:
+                return "Введите дату";
 
 
+            case KeyBoardMessage.GeneralReportAll:
+                return ReportCreator.GeneralReportAll();
             case KeyBoardMessage.CountRegistrationAll:
                 return ReportCreator.CountRegistrationUsersAll();
             case KeyBoardMessage.CountEndGameAll:
@@ -50,6 +56,14 @@ public static class MessageCreator
                 return ReportCreator.CountSearchGameWithTypeAll();
             case KeyBoardMessage.TimeGameWithTypeAll:
                 return ReportCreator.TimeGameWithTypeAll();
+
+
+            case KeyBoardMessage.HowToWriteDate:
+                return "Чтобы ввести промежуток нужно указать начальный и конечный период.\n" +
+                    "Если ввести одну дату (то есть начальную), в конечный период будет подставлен нынешний момент \n" +
+                    "Например: \"12.10\", \"10.09.2021\", \"20.10.2023 12:30\"\n" +
+                    "Для того чтобы ввести конечный период, его нужно написать на следующей строке\n" +
+                    "Например: \n\"12.10\n13.10\"";
         }
 
         return "Что-то не понятное";

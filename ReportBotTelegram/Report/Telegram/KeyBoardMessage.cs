@@ -1,5 +1,8 @@
 ﻿public static class KeyBoardMessage
 {
+    public const string GeneralReportAll = "Составить общий отчет (За всё время)";
+    public const string GeneralReportInRange= "Составить общий отчет (За промежуток)";
+    public const string HowToWriteDate= "Как вводить дату?";
     public const string InfoForUser = "Информация о пользователе";
     public const string CountRegistrationAll = "Количество зарегистрированных пользователей (Всего)";
     public const string CountRegistrationInRange = "Количество зарегистрированных пользователей (В промежутке)";

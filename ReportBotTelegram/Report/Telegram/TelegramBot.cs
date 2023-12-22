@@ -38,6 +38,9 @@ public static class TelegramBot
         {
             ReplyKeyboardMarkup replyKeyboardMarkup = new(new[]
             {
+                new KeyboardButton[] { KeyBoardMessage.GeneralReportAll },
+                new KeyboardButton[] { KeyBoardMessage.GeneralReportInRange},
+                new KeyboardButton[] { KeyBoardMessage.HowToWriteDate },
                 new KeyboardButton[] { KeyBoardMessage.InfoForUser },
                 new KeyboardButton[] { KeyBoardMessage.CountRegistrationAll },
                 new KeyboardButton[] { KeyBoardMessage.CountRegistrationInRange },
