@@ -13,6 +13,12 @@ public static class MessageCreator
                 return ReportCreator.CountGameNotFinishInRange(userMessage);
             case KeyBoardMessage.CountGameNotFinishInRange:
                 return ReportCreator.CountGameNotFinishInRange(userMessage);
+            case KeyBoardMessage.CountUniqueUsersAuthorization:
+                return ReportCreator.CountUniqueUsersAuthorizationInRange(userMessage);
+            case KeyBoardMessage.CountSearchGameWithTypeInRange:
+                return ReportCreator.CountSearchGameWithTypeInRange(userMessage);
+            case KeyBoardMessage.TimeGameWithTypeInRange:
+                return ReportCreator.TimeGameWithTypeInRange(userMessage);
         }
 
         if (userMessage == null)
@@ -26,6 +32,12 @@ public static class MessageCreator
                 return "Введите дату";
             case KeyBoardMessage.CountGameNotFinishInRange:
                 return "Введите дату";
+            case KeyBoardMessage.CountUniqueUsersAuthorization:
+                return "Введите дату";
+            case KeyBoardMessage.CountSearchGameWithTypeInRange:
+                return "Введите дату";
+            case KeyBoardMessage.TimeGameWithTypeInRange:
+                return "Введите дату";
 
 
             case KeyBoardMessage.CountRegistrationAll:
@@ -34,6 +46,10 @@ public static class MessageCreator
                 return ReportCreator.CountEndGameAll();
             case KeyBoardMessage.CountGameNotFinishAll:
                 return ReportCreator.CountGameNotFinishAll();
+            case KeyBoardMessage.CountSearchGameWithTypeAll:
+                return ReportCreator.CountSearchGameWithTypeAll();
+            case KeyBoardMessage.TimeGameWithTypeAll:
+                return ReportCreator.TimeGameWithTypeAll();
         }
 
         return "Что-то не понятное";
