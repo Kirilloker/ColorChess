@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
+using System.Numerics;
 
 public static class ReportCreator
 {
@@ -29,30 +30,106 @@ public static class ReportCreator
 
     public static string CountRegistrationUsersAll() 
     {
-        var data = DataDeliver.GetCountRegistration(DateTime.MinValue, DateTime.MaxValue, "Registration");
-
-        if (data.statusCode != ServerStatus.Success)
-            return "Код результата: " + data.statusCode + "\n" + "Ответ сервера: " + data.content;
-
-
-        List<LogEventDTO> logEvents = JsonConvert.DeserializeObject<List<LogEventDTO>>(data.content);
-
-        return "Всего зарегистрированных пользователей: " + logEvents.Count;
+        return GetCountRows("Registration", "Количество всего зарегистрированных пользователей: ");
     }
 
-    public static string CountRegistrationUsersInRange(string userMessage) 
+    public static string CountEndGameAll() 
     {
-        List<DateTime> dateTimes = Utill.GetDateTime(userMessage);
+        return GetCountRows("EndGame", "Количество всего завершенных игр: ");
+    }
 
-        if (dateTimes.Count == 0) return "Что-то не так с вводом даты";
-       
-        ResponseContentStatus data = DataDeliver.GetCountRegistration(dateTimes[0], dateTimes[1], "Registration");
+    public static string CountGameNotFinishAll()
+    {
+        return CountGameNotFinish();
+    }
+
+    public static string CountGameNotFinishInRange(string userMessage)
+    {
+        return CountGameNotFinish(userMessage);
+    }
+
+    public static string CountGameNotFinish(string date = "") 
+    {
+        WrapGetEvent listStartGame = GetEventInfo("StartGame", date);
+        WrapGetEvent listEndGame = GetEventInfo("EndGame", date);
+
+        string errorAnswer = "";
+
+        if (listStartGame.errorMessage != "")
+            errorAnswer = listStartGame.errorMessage + "\n";
+
+        if (listEndGame.errorMessage != "")
+            errorAnswer = listEndGame.errorMessage + "\n";
+
+        if (errorAnswer != "")
+            return errorAnswer;
+
+        int subtraction = (listStartGame.logEventDTOs.Count - listEndGame.logEventDTOs.Count);
+
+        return "Количество не завершенных игр: " + subtraction + " \n Это " + (subtraction / listEndGame.logEventDTOs.Count) * 100 + "% от завершенных";
+    }
+
+
+
+    public static string CountRegistrationUsersInRange(string userMessage)
+    {
+        return GetCountRows("Registration", "Количество зарегистрированных пользователей в этом промежутке: ", userMessage);
+    }
+
+    public static string CountEndGameInRange(string userMessage)
+    {
+        return GetCountRows("EndGame", "Количество завершенных игр в этом промежутке: ", userMessage);
+    }
+
+
+
+    private static string GetCountRows(string types, string blank, string date = "") 
+    {
+        WrapGetEvent reply = GetEventInfo(types);
+
+        if (reply.errorMessage == null || reply.errorMessage == "")
+            return blank + reply.logEventDTOs.Count;
+        else
+            return reply.errorMessage;
+    }
+
+
+    private static WrapGetEvent GetEventInfo(string types, string date = "") 
+    {
+        List<DateTime> dateTimes = new List<DateTime>();
+
+        if (date == "") 
+        {
+            dateTimes.Add(DateTime.MinValue);
+            dateTimes.Add(DateTime.MaxValue);
+        }
+        else 
+        {
+            dateTimes = Utill.GetDateTime(date);
+               
+            if (dateTimes.Count == 0) 
+            {
+                return new WrapGetEvent(new(), "Что-то не так с вводом даты");
+            }
+        }
+
+        ResponseContentStatus data = DataDeliver.GetEventTable(dateTimes[0], dateTimes[1], types);
 
         if (data.statusCode != ServerStatus.Success)
-            return "Код результата: " + data.statusCode + "\n" + "Ответ сервера: " + data.content;
+            return new WrapGetEvent(new(), "Код результата: " + data.statusCode + "\n" + "Ответ сервера: " + data.content);
 
-        List<LogEventDTO> logEvents = JsonConvert.DeserializeObject<List<LogEventDTO>>(data.content);
+        return new WrapGetEvent(JsonConvert.DeserializeObject<List<LogEventDTO>>(data.content));
+    }
+}
 
-        return "Зарегистрированных пользователей с " + dateTimes[0].ToString() + " по " + dateTimes[1].ToString() + ": " + logEvents.Count; 
+public struct WrapGetEvent 
+{
+    public List<LogEventDTO> logEventDTOs = new();
+    public string errorMessage = "";
+
+    public WrapGetEvent(List<LogEventDTO> logEvents, string errorMes = "") 
+    {
+        this.logEventDTOs = logEvents;
+        this.errorMessage = errorMes;
     }
 }

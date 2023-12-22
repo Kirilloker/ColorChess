@@ -14,7 +14,7 @@ public static class DataDeliver
         return GetReply($"{Config.ServerURL}/api/UserInfo/byName?userName={userName}").Result;
     }
 
-    public static ResponseContentStatus GetCountRegistration(DateTime startPeriod, DateTime endPeriod, string listTypeEvent)
+    public static ResponseContentStatus GetEventTable(DateTime startPeriod, DateTime endPeriod, string listTypeEvent)
     {
         string formattedStartPeriod = startPeriod.ToString("yyyy-MM-dd HH:mm:ss");
         string formattedEndPeriod = endPeriod.ToString("yyyy-MM-dd HH:mm:ss");
@@ -35,14 +35,9 @@ public static class DataDeliver
             try
             {
                 HttpResponseMessage response = await client.GetAsync(URL);
-
                 string responseBody = await response.Content.ReadAsStringAsync();
 
-                //if ((int)response.StatusCode == (int)ServerStatus.Success)
                 return new ResponseContentStatus((ServerStatus)response.StatusCode, responseBody);
-
-                //string decodedResponseBody = JsonDocument.Parse($"{responseBody}").RootElement.GetString();
-                //return new ResponseContentStatus((ServerStatus)response.StatusCode, decodedResponseBody);
 
             }
             catch (Exception ex)

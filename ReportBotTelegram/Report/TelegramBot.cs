@@ -41,6 +41,10 @@ public static class TelegramBot
                 new KeyboardButton[] { KeyBoardMessage.InfoForUser },
                 new KeyboardButton[] { KeyBoardMessage.CountRegistrationAll },
                 new KeyboardButton[] { KeyBoardMessage.CountRegistrationInRange },
+                new KeyboardButton[] { KeyBoardMessage.CountEndGameAll },
+                new KeyboardButton[] { KeyBoardMessage.CountEndGameInRange},
+                new KeyboardButton[] { KeyBoardMessage.CountGameNotFinishAll},
+                new KeyboardButton[] { KeyBoardMessage.CountGameNotFinishInRange},
             })
             {
                 ResizeKeyboard = true

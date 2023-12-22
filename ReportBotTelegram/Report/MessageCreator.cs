@@ -9,6 +9,10 @@ public static class MessageCreator
                 return ReportCreator.UserInfo(userMessage);
             case KeyBoardMessage.CountRegistrationInRange:
                 return ReportCreator.CountRegistrationUsersInRange(userMessage);
+            case KeyBoardMessage.CountEndGameInRange:
+                return ReportCreator.CountGameNotFinishInRange(userMessage);
+            case KeyBoardMessage.CountGameNotFinishInRange:
+                return ReportCreator.CountGameNotFinishInRange(userMessage);
         }
 
         if (userMessage == null)
@@ -18,10 +22,18 @@ public static class MessageCreator
         {
             case KeyBoardMessage.InfoForUser:
                 return "Введите имя пользователя";
-            case KeyBoardMessage.CountRegistrationAll:
-                return ReportCreator.CountRegistrationUsersAll();
             case KeyBoardMessage.CountRegistrationInRange:
                 return "Введите дату";
+            case KeyBoardMessage.CountGameNotFinishInRange:
+                return "Введите дату";
+
+
+            case KeyBoardMessage.CountRegistrationAll:
+                return ReportCreator.CountRegistrationUsersAll();
+            case KeyBoardMessage.CountEndGameAll:
+                return ReportCreator.CountEndGameAll();
+            case KeyBoardMessage.CountGameNotFinishAll:
+                return ReportCreator.CountGameNotFinishAll();
         }
 
         return "Что-то не понятное";
