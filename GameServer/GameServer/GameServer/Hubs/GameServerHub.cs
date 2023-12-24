@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using ColorChessModel;
+using Org.BouncyCastle.Crypto;
 
 
 [Authorize]
@@ -54,12 +55,11 @@ public class GameServerHub : Hub
             if ((Object)NextGameState != null)
             {           
                 for (int i = 0; i < players.Count; i++)
-                {
                     if (players[i] != playerId)
-                    {
                         await Clients.User(players[i].ToString()).SendAsync("ServerSendStep", step);
-                    }
-                }
+
+                if (NextGameState.EndGame == true)
+                    DB.AddLogEvent(TypeLogEvent.EndGame, players, "end game");
             }
         });
     }
@@ -85,7 +85,8 @@ public class GameServerHub : Hub
             DB.AddLogEvent(TypeLogEvent.SurrenderGame, leavedPlayer, "player leave the game");
 
             List<int> ids = GameLobby.GetAllPlayersInRoomWithPlayer(leavedPlayer);
-            if((Object)ids != null)
+
+            if ((Object)ids != null)
             {
                 GameLobby.PlayerLeftTheGame(leavedPlayer);
                 foreach (int id in ids)
