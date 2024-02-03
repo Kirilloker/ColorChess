@@ -59,24 +59,16 @@
     <Compile Include="Assets\Code\Server\ServerUI.cs" />
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\Rotate.cs" />
     <Compile Include="Assets\Code\Controllers\GameController.cs" />
-    <Compile Include="Assets\Code\Model\GameStateCalcSystem\GameStateCalcSystem.cs" />
-    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\HorseBuilder.cs" />
-    <Compile Include="Assets\Code\Model\GameState\Map.cs" />
     <Compile Include="Assets\Code\Authorization UI\BinarySerializer.cs" />
     <Compile Include="Assets\Code\Test\TestHash.cs" />
     <Compile Include="Assets\Code\Test\TestWatch.cs" />
     <Compile Include="Assets\Code\View\FigureView.cs" />
-    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\QueenBuilder.cs" />
     <Compile Include="Assets\Code\Authorization UI\SignOut.cs" />
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Reporter.cs" />
-    <Compile Include="Assets\Code\Model\Interfaces\IAI.cs" />
     <Compile Include="Assets\Code\Test\TestSerialization.cs" />
     <Compile Include="Assets\Code\Another\TypeToString.cs" />
-    <Compile Include="Assets\Code\Model\GameState\Player.cs" />
-    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\BishopBuilder.cs" />
     <Compile Include="Assets\Code\Controllers\CameraController.cs" />
     <Compile Include="Assets\Scenes\Preload.cs" />
-    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\QueenAlgorithm.cs" />
     <Compile Include="Assets\Code\Authorization UI\SignIn.cs" />
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\TestReporter.cs" />
     <Compile Include="Assets\Test Server\SignalRClient.cs" />
@@ -84,52 +76,60 @@
     <Compile Include="Assets\Code\Authorization UI\AutoSignIn.cs" />
     <Compile Include="Assets\Code\AI\MonteCarloAI.cs" />
     <Compile Include="Assets\Code\Test\TestTrash.cs" />
-    <Compile Include="Assets\Code\Model\EnumTypes.cs" />
-    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\PawnAlgorithm.cs" />
-    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\PawnBuilder.cs" />
-    <Compile Include="Assets\Code\Model\BuildSystem\Structs.cs" />
     <Compile Include="Assets\Old Code\Tutorial.cs" />
     <Compile Include="Assets\AccessToken.cs" />
-    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\BishopAlgorithm.cs" />
-    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\CastleBuilder.cs" />
     <Compile Include="Assets\Code\Controllers\AudioController.cs" />
     <Compile Include="Assets\Code\Another\SettingsGraphics.cs" />
-    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\CastleAlgorithm.cs" />
     <Compile Include="Assets\Code\Authorization UI\Registration.cs" />
     <Compile Include="Assets\Code\Controllers\FigureController.cs" />
     <Compile Include="Assets\Code\Server\TestServerHelper.cs" />
     <Compile Include="Assets\Code\Server\Server.cs" />
-    <Compile Include="Assets\Code\Model\BuildSystem\Builders\CellBuilder.cs" />
-    <Compile Include="Assets\Code\Model\GameStateCalcSystem\GameStateToIntArray.cs" />
-    <Compile Include="Assets\Code\Model\Step.cs" />
     <Compile Include="Assets\Code\Controllers\UIController.cs" />
     <Compile Include="Assets\Code\Test\UnityMainThreadDispatcher.cs" />
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterGUI.cs" />
     <Compile Include="Assets\Old Code\UI.cs" />
     <Compile Include="Assets\MainThreadDispatcher.cs" />
-    <Compile Include="Assets\Code\Model\WayCalcSystem\WayCalcSystem.cs" />
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\MultiKeyDictionary.cs" />
-    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilderDirector.cs" />
     <Compile Include="Assets\Code\Controllers\BoardController.cs" />
-    <Compile Include="Assets\Code\Model\Interfaces\WayCalcStrategy.cs" />
     <Compile Include="Assets\Code\Controllers\CellController.cs" />
     <Compile Include="Assets\Code\View\CellView.cs" />
     <Compile Include="Assets\Test Server\ButtonTest.cs" />
-    <Compile Include="Assets\Code\Model\BuildSystem\GameStateBuilder.cs" />
-    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\KingBuilder.cs" />
-    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\FigureBuilder.cs" />
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterMessageReceiver.cs" />
-    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\KingAlgorithm.cs" />
-    <Compile Include="Assets\Code\Model\GameState\Position.cs" />
-    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\HorseAlgorithm.cs" />
     <Compile Include="Assets\Code\Controllers\TestControllerBoardUI.cs" />
-    <Compile Include="Assets\Code\Model\GameState\Figure.cs" />
     <Compile Include="Assets\Code\Another\DebugConsole.cs" />
     <Compile Include="Assets\Code\AI\MinMaxAI.cs" />
-    <Compile Include="Assets\Code\Model\GameState\Cell.cs" />
-    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\Check.cs" />
-    <Compile Include="Assets\Code\Model\BuildSystem\Builders\PlayerBuilder.cs" />
     <Compile Include="Assets\Code\Another\Prefabs.cs" />
+    <Compile Include="Assets\Code\Model\GameState\Position.cs" />
+    <Compile Include="Assets\Code\Model\GameStateCalcSystem\GameStateToIntArray.cs" />
+    <Compile Include="Assets\Code\Model\Interfaces\WayCalcStrategy.cs" />
+    <Compile Include="Assets\Code\Model\GameState\Player.cs" />
+    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\HorseAlgorithm.cs" />
+    <Compile Include="Assets\Code\Model\GameState\Map.cs" />
+    <Compile Include="Assets\Code\Model\Step.cs" />
+    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\BishopBuilder.cs" />
+    <Compile Include="Assets\Code\Model\GameStateCalcSystem\GameStateCalcSystem.cs" />
+    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\KingBuilder.cs" />
+    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\FigureBuilder.cs" />
+    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\QueenBuilder.cs" />
+    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\QueenAlgorithm.cs" />
+    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\CastleBuilder.cs" />
+    <Compile Include="Assets\Code\Model\GameState\Cell.cs" />
+    <Compile Include="Assets\Code\Model\WayCalcSystem\WayCalcSystem.cs" />
+    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilderDirector.cs" />
+    <Compile Include="Assets\Code\Model\EnumTypes.cs" />
+    <Compile Include="Assets\Code\Model\Interfaces\IAI.cs" />
+    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\Check.cs" />
+    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\HorseBuilder.cs" />
+    <Compile Include="Assets\Code\Model\BuildSystem\Builders\PlayerBuilder.cs" />
+    <Compile Include="Assets\Code\Model\BuildSystem\Builders\CellBuilder.cs" />
+    <Compile Include="Assets\Code\Model\GameState\Figure.cs" />
+    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\BishopAlgorithm.cs" />
+    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\PawnAlgorithm.cs" />
+    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\KingAlgorithm.cs" />
+    <Compile Include="Assets\Code\Model\WayCalcSystem\Algorithms\CastleAlgorithm.cs" />
+    <Compile Include="Assets\Code\Model\BuildSystem\GameStateBuilder.cs" />
+    <Compile Include="Assets\Code\Model\BuildSystem\Structs.cs" />
+    <Compile Include="Assets\Code\Model\BuildSystem\Builders\FigureBuilders\PawnBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -398,23 +398,11 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>H:\GameDev\Unity\2021.3.5f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection">
-      <HintPath>Assets\Plugins\Microsoft.Extensions.DependencyInjection.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe">
-      <HintPath>Assets\Plugins\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNetCore.SignalR.Protocols.Json">
-      <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Protocols.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNetCore.SignalR.Common">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Primitives">
       <HintPath>Assets\Plugins\Microsoft.Extensions.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Diagnostics.DiagnosticSource">
-      <HintPath>Assets\Plugins\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Http.Connections.Client">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.Http.Connections.Client.dll</HintPath>
@@ -422,23 +410,11 @@
     <Reference Include="Microsoft.Extensions.Logging">
       <HintPath>Assets\Plugins\Microsoft.Extensions.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
-      <HintPath>Assets\Plugins\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Json">
-      <HintPath>Assets\Plugins\System.Text.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Options">
-      <HintPath>Assets\Plugins\Microsoft.Extensions.Options.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Channels">
-      <HintPath>Assets\Plugins\System.Threading.Channels.dll</HintPath>
-    </Reference>
     <Reference Include="System.Text.Encodings.Web">
       <HintPath>Assets\Plugins\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.SignalR.Client.Core">
-      <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Client.Core.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Options">
+      <HintPath>Assets\Plugins\Microsoft.Extensions.Options.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.SignalR.Client">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Client.dll</HintPath>
@@ -446,26 +422,50 @@
     <Reference Include="clipper_library">
       <HintPath>Library\PackageCache\com.unity.cinemachine@2.8.6\Runtime\ThirdParty\clipper_library.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Http.Connections.Common">
-      <HintPath>Assets\Plugins\Microsoft.AspNetCore.Http.Connections.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
-      <HintPath>Assets\Plugins\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Connections.Abstractions">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.Connections.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Pipelines">
-      <HintPath>Assets\Plugins\System.IO.Pipelines.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
       <HintPath>Assets\Plugins\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Features">
       <HintPath>Assets\Plugins\Microsoft.Extensions.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection">
+      <HintPath>Assets\Plugins\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Protocols.Json">
+      <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Protocols.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Assets\Plugins\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource">
+      <HintPath>Assets\Plugins\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+      <HintPath>Assets\Plugins\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json">
+      <HintPath>Assets\Plugins\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Channels">
+      <HintPath>Assets\Plugins\System.Threading.Channels.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Client.Core">
+      <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Client.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Connections.Common">
+      <HintPath>Assets\Plugins\Microsoft.AspNetCore.Http.Connections.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
+      <HintPath>Assets\Plugins\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Pipelines">
+      <HintPath>Assets\Plugins\System.IO.Pipelines.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
       <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
