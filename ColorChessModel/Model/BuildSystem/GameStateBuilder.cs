@@ -12,9 +12,9 @@ namespace ColorChessModel
         private CellBuilder cellBuilder;
 
 
-        private PlayersDiscription playersDiscription;
-        private CellDiscription board;
-        private List<FigureSetDiscription> figureSets;
+        private PlayersDescription playersDiscription;
+        private CellDescription board;
+        private List<FigureSetDescription> figureSets;
 
         public GameStateBuilder()
         {
@@ -75,7 +75,7 @@ namespace ColorChessModel
             return gameState;
         }
 
-        public void SetCustomGameState(PlayersDiscription _playersDiscription, CellDiscription _board, List<FigureSetDiscription> _figureSets)
+        public void SetCustomGameState(PlayersDescription _playersDiscription, CellDescription _board, List<FigureSetDescription> _figureSets)
         {
             playersDiscription = _playersDiscription;
             board = _board;
@@ -85,7 +85,7 @@ namespace ColorChessModel
         private void SetDefaultBoard() { SetBoard(9, 9); }
         private void SetBoard(int _lenght, int _width)
         {
-            board = new CellDiscription();
+            board = new CellDescription();
             board.lenght = _lenght;
             board.width = _width;
             board.CellTypes = new CellType[board.lenght, board.width];
@@ -99,7 +99,7 @@ namespace ColorChessModel
             }
         }
 
-        private FigureSetDiscription ConvertFigurePosToCorner(FigureSetDiscription figureSet, CornerType corner)
+        private FigureSetDescription ConvertFigurePosToCorner(FigureSetDescription figureSet, CornerType corner)
         {
             for (int i = 0; i < figureSet.positions.Count; i++)
             {
@@ -128,21 +128,21 @@ namespace ColorChessModel
 
         private void SetDefaultFigureSets()
         {
-            figureSets = new List<FigureSetDiscription>();
+            figureSets = new List<FigureSetDescription>();
 
             for (int i = 0; i < playersDiscription.PlayerNumbers.Count; i++)
             {
                 DefaultFigureSet defaultFigSet = new DefaultFigureSet();
                 figureSets.Add(
                     ConvertFigurePosToCorner(
-                        new FigureSetDiscription(defaultFigSet.positions, defaultFigSet.figureTypes),
+                        new FigureSetDescription(defaultFigSet.positions, defaultFigSet.figureTypes),
                         playersDiscription.PlayerCorners[i]));
             }
         }
 
         public void SetDefaultHotSeatGameState()
         {
-            playersDiscription = new PlayersDiscription();
+            playersDiscription = new PlayersDescription();
 
             playersDiscription.PlayerNumbers.Add(0);
             playersDiscription.PlayerTypes.Add(PlayerType.Human);
@@ -160,7 +160,7 @@ namespace ColorChessModel
 
         public void SetDefaultAIGameState()
         {
-            playersDiscription = new PlayersDiscription();
+            playersDiscription = new PlayersDescription();
 
             playersDiscription.PlayerNumbers.Add(0);
             playersDiscription.PlayerTypes.Add(PlayerType.AI);
@@ -179,7 +179,7 @@ namespace ColorChessModel
 
         public void SetDefaultOnlineGameState()
         {
-            playersDiscription = new PlayersDiscription();
+            playersDiscription = new PlayersDescription();
 
             playersDiscription.PlayerNumbers.Add(0);
             playersDiscription.PlayerTypes.Add(PlayerType.Human);
@@ -197,7 +197,7 @@ namespace ColorChessModel
 
         public void SetCustomGameState(int sizeMap, PlayerType[] typePlayer, CornerType[] cornerPlayer, ColorType[] colorPlayer) 
         {
-            playersDiscription = new PlayersDiscription();
+            playersDiscription = new PlayersDescription();
 
             for (int i = 0; i < typePlayer.Length; i++)
             {

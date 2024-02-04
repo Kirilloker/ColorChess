@@ -56,7 +56,7 @@ namespace ColorChessModel
             {
                 way.Clear();
 
-                for (float j = 0; j < map.Width; j++)
+                for (int j = 0; j < map.Width; j++)
                 {
                     Position posCell = new Position((startPos.X + j * (i % 2)), (startPos.Y + j * (i % 2) * (Math.Abs(i) - 2)));
 

@@ -1,2 +1,1 @@
-﻿using ColorChessModel;
-
+﻿Console.WriteLine("Hello, World!");

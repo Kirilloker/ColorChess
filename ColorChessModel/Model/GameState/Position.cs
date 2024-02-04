@@ -3,31 +3,22 @@ namespace ColorChessModel
 {
     public class Position
     {
-        public int X;
-        public int Y;
+        private int x;
+        private int y;
 
-        public Position()
+        public Position(int _x, int _y)
         {
-            X = -10;
-            Y = -10;
-        }
+            if (_x < 0 || _y < 0)
+                throw new ArgumentException("Coordinates cannot be negative.");
 
-        public Position(int _X, int _Y)
-        {
-            X = _X;
-            Y = _Y;
-        }
-
-        public Position(float _X, float _Y)
-        {
-            X = (int)_X;
-            Y = (int)_Y;
+            x = _x;
+            y = _y;
         }
 
         public Position(Position anotherPosition)
         {
-            this.X = anotherPosition.X;
-            this.Y = anotherPosition.Y;
+            this.x = anotherPosition.x;
+            this.y = anotherPosition.y;
         }
 
         public static bool operator !=(Position pos1, Position pos2)
@@ -37,43 +28,24 @@ namespace ColorChessModel
 
         public static bool operator ==(Position pos1, Position pos2)
         {
-            return pos1.X == pos2.X && pos1.Y == pos2.Y;
+            return pos1.x == pos2.x && pos1.y == pos2.y;
         }
 
         public override string ToString()
         {
-            return "(X:" + X + ";   Y:" + Y + ")";
+            return "(X:" + x + ";   Y:" + y + ")";
         }
 
-        public override int GetHashCode()
-        {
-            return this.X.GetHashCode() * this.Y.GetHashCode();
-        }
-
-        public int _X 
+        public int X 
         { 
-            get { return X; } 
-            set { X = value; } 
+            get { return x; } 
+            set { x = value; } 
         }
 
-        public int _Y
+        public int Y
         {
-            get { return Y; }
-            set { Y = value; }
-        }
-
-        public string GetStringForHash()
-        {
-            return X.ToString() + Y.ToString();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Position position &&
-                   X == position.X &&
-                   Y == position.Y &&
-                   _X == position._X &&
-                   _Y == position._Y;
+            get { return y; }
+            set { y = value; }
         }
     }
 }

@@ -10,7 +10,6 @@ namespace ColorChessModel
 
         public List<Figure> figures = new List<Figure>();
 
-
         public Player() { }
 
         public Player(Player anotherPlayer)
@@ -26,18 +25,6 @@ namespace ColorChessModel
             {
                 this.figures.Add(new Figure(anotherPlayer.figures[i], this));
             }
-        }
-
-        public string GetStringForHash()
-        {
-            string stringForHash = number.ToString();
-
-            for (int i = 0; i < this.figures.Count; i++)
-            {
-                stringForHash += figures[i].GetStringForHash();
-            }
-
-            return stringForHash; 
         }
     };
 }

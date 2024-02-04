@@ -2,13 +2,13 @@
 namespace ColorChessModel
 {
     //Описывает всех игроков для создания
-    public class PlayersDiscription
+    public class PlayersDescription
     {
         public List<CornerType> PlayerCorners;
         public List<PlayerType> PlayerTypes;
         public List<ColorType> PlayerColors;
         public List<int> PlayerNumbers;
-        public PlayersDiscription()
+        public PlayersDescription()
         {
             PlayerCorners = new List<CornerType>();
             PlayerTypes = new List<PlayerType>();
@@ -18,7 +18,7 @@ namespace ColorChessModel
     }
 
     //Описывает игровую доску для создания
-    public struct CellDiscription
+    public struct CellDescription
     {
         public int width;
         public int lenght;
@@ -26,18 +26,18 @@ namespace ColorChessModel
     }
 
     //Описывает набор фигур ОДНОГО игрока
-    public class FigureSetDiscription
+    public class FigureSetDescription
     {
         public List<Position> positions;
         public List<FigureType> figureTypes;
 
-        public FigureSetDiscription()
+        public FigureSetDescription()
         {
             positions = new List<Position>();
             figureTypes = new List<FigureType>();
         }
 
-        public FigureSetDiscription(List<Position> _positions, List<FigureType> _figureTypes)
+        public FigureSetDescription(List<Position> _positions, List<FigureType> _figureTypes)
         {
             positions = _positions;
             figureTypes = _figureTypes;

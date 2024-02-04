@@ -8,4 +8,13 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="4.0.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ColorChessModel\ColorChessModel.csproj" />
+  </ItemGroup>
+
 </Project>

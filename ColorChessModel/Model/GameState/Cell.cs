@@ -73,10 +73,6 @@ namespace ColorChessModel
             }
         }
 
-        public string GetStringForHash()
-        {
-            return pos.GetStringForHash() + numberPlayer.ToString();
-        }
 
         public override bool Equals(object obj)
         {

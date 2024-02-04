@@ -29,17 +29,5 @@ namespace ColorChessModel
             return this.pos == anotherFigure.pos && this.type == anotherFigure.type && this.Number == anotherFigure.Number;
         }
 
-        public override int GetHashCode()
-        {
-            return
-                this.pos.GetHashCode() *
-                this.type.GetHashCode();
-        }
-
-
-        public string GetStringForHash()
-        {
-            return pos.GetStringForHash() + Number.ToString();
-        }
     };
 }

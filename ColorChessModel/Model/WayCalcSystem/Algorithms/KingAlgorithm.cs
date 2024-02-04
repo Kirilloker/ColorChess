@@ -13,9 +13,9 @@ namespace ColorChessModel
            // List<Cell> avaibleCell = new List<Cell>(100);
             Position posFigure = figure.pos;
 
-            for (float i = 0; i < map.Width; i++)
+            for (int i = 0; i < map.Width; i++)
             {
-                for (float j = 0; j < map.Length; j++)
+                for (int j = 0; j < map.Length; j++)
                 {
                     Position posCell = new Position(i, j);
 
@@ -32,7 +32,6 @@ namespace ColorChessModel
                     test += (Check.SelfCellDark(cell, figure.Number)) ? -3 : 0;
 
                     dict.Add(cell, test);
-                    //avaibleCell.Add(cell);
                 }
             }
 
