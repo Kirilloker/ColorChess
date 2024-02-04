@@ -30,7 +30,6 @@ public class GameController : MonoBehaviour
 
     private float cameraSpeed;
 
-    // Список игроков с AI
     private IAI[] ai;
 
     public void StartGame()
@@ -40,13 +39,10 @@ public class GameController : MonoBehaviour
     public void StartGame(Map map)
     {
         // Начало игры 
-        // Создаем Доску Клетки и Игроков
-
-        // Проверяем не было ли игры до этого - если да - удаляем старую доску
-        TestCheckNewGame();
-
         gameStates.Add(map);
 
+        // Проверяем не было ли игры до этого - если да - удаляем старую доску
+        CheckNewGame();
         boardController.CreateBoard(CurrentGameState);
         cellController.CreateCells(CurrentGameState);
         figureController.CreateFigures(CurrentGameState);
@@ -55,17 +51,16 @@ public class GameController : MonoBehaviour
         serverUI.StartGame();
 
         InitAI();
-
         StartNewStep();
     }
 
-    void SwitchCameraStartGame() 
+    void SwitchCameraStartGame()
     {
         foreach (var player in CurrentGameState.Players)
         {
             if (player.Type == PlayerType.Human)
             {
-                if (player.Corner == CornerType.DownLeft || player.Corner == CornerType.DownRight) 
+                if (player.Corner == CornerType.DownLeft || player.Corner == CornerType.DownRight)
                     cameraController.SwitchCamera(CameraViewType.inGame1);
                 else
                     cameraController.SwitchCamera(CameraViewType.inGame2);
@@ -74,13 +69,13 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void InitAI() 
+    void InitAI()
     {
         ai = new IAI[CurrentGameState.PlayersCount];
 
         for (int i = 0; i < CurrentGameState.PlayersCount; i++)
         {
-            if (CurrentGameState.GetPlayerType(i) == PlayerType.AI) 
+            if (CurrentGameState.GetPlayerType(i) == PlayerType.AI)
                 ai[i] = new MinMaxAI();
             else if (CurrentGameState.GetPlayerType(i) == PlayerType.AI2)
                 ai[i] = new MonteCarloAI();
@@ -101,7 +96,7 @@ public class GameController : MonoBehaviour
     public void FigureOnClicked(FigureView figureView)
     {
         // Получаем фигуру по которой нажали, считаем для неё все возможные пути
-        // И включаем подсказки (А так же BoxColiders у клеток, на которых включились подсказки)
+        // И включаем подсказки (А так же BoxColliders у клеток, на которых включились подсказки)
 
         Figure selectFigure = CurrentGameState.GetCell(figureView.Pos).Figure;
 
@@ -109,7 +104,7 @@ public class GameController : MonoBehaviour
         {
             List<Cell> allSteps = WayCalcSystem.CalcAllSteps(CurrentGameState, selectFigure);
             cellController.ShowAllSteps(allSteps);
-            cellController.OnBoxColidersForList(allSteps);
+            cellController.OnBoxCollidersForList(allSteps);
         }
         else
         {
@@ -128,20 +123,17 @@ public class GameController : MonoBehaviour
         Cell cell = step.Cell;
 
         List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.Pos, cell.Pos, figure);
-        
-        if (IsServer && CurrentGameState.Players[CurrentGameState.NumberPlayerStep].Type == PlayerType.Human) 
+
+        if (IsServer && CurrentGameState.Players[CurrentGameState.NumberPlayerStep].Type == PlayerType.Human)
         {
             if (CurrentGameState.EndGame == true)
                 server.SendLastStep(step);
             else
                 server.SendStep(step);
-
-        } 
-            
+        }
 
         Map map = GameStateCalcSystem.ApplyStep(CurrentGameState, figure, cell);
         gameStates.Add(map);
-
 
         List<Vector3> wayVectors = new List<Vector3>();
 
@@ -156,7 +148,6 @@ public class GameController : MonoBehaviour
         cellController.HideAllPrompts();
 
         DrawNewGameState();
-
         StartNewStep();
     }
 
@@ -164,7 +155,7 @@ public class GameController : MonoBehaviour
     {
         // Это нужно чтобы нормально работало Шаг-Назад
         DrawNewGameState(PreviousvGameState);
-    }   
+    }
 
     public void DrawNewGameState(Map CompareMap)
     {
@@ -230,7 +221,7 @@ public class GameController : MonoBehaviour
 
     }
 
-    public void SelectCustomGameMode(int sizeMap, PlayerType[] typePlayer, CornerType[] cornerPlayer, ColorType[] colorPlayer) 
+    public void SelectCustomGameMode(int sizeMap, PlayerType[] typePlayer, CornerType[] cornerPlayer, ColorType[] colorPlayer)
     {
         gameStateBuilder.SetCustomGameState(sizeMap, typePlayer, cornerPlayer, colorPlayer);
     }
@@ -238,14 +229,13 @@ public class GameController : MonoBehaviour
     public void StartNewStep()
     {
         // Новый ход
-        ChangeSpeedCameraConroller();
-
         if (CurrentGameState.EndGame == true)
         {
             EndGame();
             return;
         }
 
+        ChangeSpeedCameraConroller();
         SetFigViewForNewStep();
         SetCellViewForNewStep();
 
@@ -256,7 +246,7 @@ public class GameController : MonoBehaviour
             case PlayerType.Human:
                 // Смена камеры
                 CornerType cornerPlayer = CurrentGameState.GetPlayerCorner(CurrentGameState.NumberPlayerStep);
-                
+
                 if (cornerPlayer == CornerType.DownLeft || cornerPlayer == CornerType.DownRight)
                     cameraController.SwitchCamera(CameraViewType.inGame1);
                 else
@@ -264,22 +254,22 @@ public class GameController : MonoBehaviour
                 break;
             case PlayerType.AI:
                 AIStep(playerType);
-                break;             
+                break;
             case PlayerType.AI2:
                 AIStep(playerType);
-                break;             
+                break;
             case PlayerType.Online:
                 //
                 break;
         }
     }
-    
-    private void TestCheckNewGame()
+
+    private void CheckNewGame()
     {
         if (IsFirstGame == false)
             DestroyAll();
     }
-   
+
     public void DestroyAll()
     {
         figureController.DestroyAll();
@@ -289,15 +279,15 @@ public class GameController : MonoBehaviour
         boardController.ShowBoardDecor();
     }
 
-    public void Surrender() 
+    public void Surrender()
     {
         if (IsServer == true)
         {
-            
+
         }
 
         EndGame();
-    
+
     }
 
     public void EndGame()
@@ -308,55 +298,19 @@ public class GameController : MonoBehaviour
             server.CloseConnection();
         }
 
-        // Конец игры
         Print.Log("Конец игры");
         uiController.ViewUIGame(false);
         cameraController.SetCameraSpeed(cameraSpeed);
         cameraController.SwitchCamera(CameraViewType.noteMenu);
-
-        // ИСПРАВИТЬ - я бы куда-то это перенес 
-
         figureController.UpedFigure = null;
-        figureController.OFFAllBoxColiders();
-        cellController.OFFALLBoxColiders();
-
+        figureController.OFFAllBoxColliders();
+        cellController.OFFALLBoxColliders();
         IsFirstGame = false;
+
         gameStateBuilder = new GameStateBuilder();
         gameStates = new List<Map>();
     }
 
-    public void BackStep()
-    {
-        // Отматывает ход назад на 1
-        if (gameStates.Count <= 2) return;
-
-        Map map = CurrentGameState;
-
-        gameStates.RemoveAt(gameStates.Count - 1);
-
-        figureController.DestroyAll();
-        figureController.CreateFigures(CurrentGameState);
-
-        DrawNewGameState(map);
-
-        StartNewStep();
-    }
-
-    private void LoadMap(Map map)
-    {
-        gameStates.Add(map);
-        DrawNewMap(map);
-    }
-   
-    private void DrawNewMap(Map map)
-    {
-        figureController.DestroyAll();
-        figureController.CreateFigures(map);
-
-        DrawNewGameState();
-
-        StartNewStep();
-    }
     private async void AIStep(PlayerType AIType)
     {
         Step step = new();
@@ -378,16 +332,16 @@ public class GameController : MonoBehaviour
         // Включаем у игрока который сейчас ходит (если это человек) BoxColiders у его фигур
 
         figureController.UpedFigure = null;
-        figureController.OFFAllBoxColiders();
+        figureController.OFFAllBoxColliders();
 
-        if (CurrentGameState.GetPlayerType(CurrentGameState.NumberPlayerStep)  == PlayerType.Human)
-            figureController.OnBoxColiders(CurrentGameState.NumberPlayerStep);
+        if (CurrentGameState.GetPlayerType(CurrentGameState.NumberPlayerStep) == PlayerType.Human)
+            figureController.OnBoxColliders(CurrentGameState.NumberPlayerStep);
     }
 
     private void SetCellViewForNewStep()
     {
-        // Настраиваем CellConroller на новый ход
-        cellController.OFFALLBoxColiders();
+        // Настраиваем CellController на новый ход
+        cellController.OFFALLBoxColliders();
         cellController.HideAllPrompts();
     }
 
@@ -408,13 +362,15 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private bool IsServer { get 
+    private bool IsServer
+    {
+        get
         {
             foreach (var player in CurrentGameState.Players)
                 if (player.Type == PlayerType.Online) return true;
-            
+
             return false;
-        } 
+        }
     }
 
 }

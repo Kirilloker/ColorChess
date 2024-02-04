@@ -1,5 +1,4 @@
 using ColorChessModel;
-using UnityEngine;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
@@ -16,7 +15,7 @@ public enum GameMode
 
 public class Server
 {
-    public GameController gameController;
+    public MainController mainController;
     private HubConnection connection;
 
     private bool IsLoginIn = false;
@@ -33,7 +32,7 @@ public class Server
     private string Password = "";
 
 
-    //Публичный инерфейс класса_______________________________________
+    //Публичный интерфейс класса_______________________________________
     public void ConnectToDefaultGame(List<string> args)
     {
         ConnectToGameServerHubAndFindTheRoom(args);
@@ -64,9 +63,9 @@ public class Server
         return IsLoginIn;
     }
 
-    public async Task<bool> TryRegisry(string name, string password)
+    public async Task<bool> TryRegistry(string name, string password)
     {
-        return await Regisry(name, password);
+        return await Registry(name, password);
     }
 
 
@@ -122,16 +121,16 @@ public class Server
     private void ServerSendStep(string opponentStep)
     {
         Step step = TestServerHelper.ConvertJSONtoSTEP(opponentStep);
-        UnityMainThreadDispatcher.Instance().Enqueue(() => { gameController.ApplyStepView(step); });
+        UnityMainThreadDispatcher.Instance().Enqueue(() => { mainController.ApplyStepView(step); });
     }
     private void ServerStartGame(string gameState)
     {
         Map map = TestServerHelper.ConvertJSONtoMap(gameState);
-        UnityMainThreadDispatcher.Instance().Enqueue(() => { gameController.StartGame(map); });
+        UnityMainThreadDispatcher.Instance().Enqueue(() => { mainController.StartGame(map); });
     }
     private void ServerEndGame()
     {
-        UnityMainThreadDispatcher.Instance().Enqueue(() => { gameController.EndGame(); });
+        UnityMainThreadDispatcher.Instance().Enqueue(() => { mainController.EndGame(); });
     }
    
     //Методы для обращений к серверу__________________________________
@@ -182,7 +181,6 @@ public class Server
         HttpContent content = new StringContent(_name + " " + _password);
         HttpResponseMessage response;
 
-        //try
         {
             response = await client.PostAsync(LoginInUrl, content);
             string result = response.StatusCode.ToString();
@@ -198,16 +196,11 @@ public class Server
                 IsLoginIn = false;
             }
         }
-        //catch (TaskCanceledException)
-        //{
-        //    // Обработка случая, когда запрос был отменен из-за истечения таймаута
-        //    Print.Log("Сервер не отвечает");
-        //    IsLoginIn = false;
-        //}
+
     }
 
 
-    private async Task<bool> Regisry(string _name, string _password)
+    private async Task<bool> Registry(string _name, string _password)
     {
         HttpClient client = new HttpClient();
         HttpContent content = new StringContent(_name + " " + _password);

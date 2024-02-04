@@ -1,4 +1,6 @@
 ﻿using ColorChessModel;
+using System;
+using System.Collections.Generic;
 
 public class MonteCarloAI : IAI
 {

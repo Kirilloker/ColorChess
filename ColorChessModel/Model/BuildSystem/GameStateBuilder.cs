@@ -142,6 +142,7 @@ namespace ColorChessModel
 
         public void SetDefaultHotSeatGameState()
         {
+            Print.Log("SetDefaultHotSeatGameState");
             playersDiscription = new PlayersDescription();
 
             playersDiscription.PlayerNumbers.Add(0);
@@ -160,6 +161,7 @@ namespace ColorChessModel
 
         public void SetDefaultAIGameState()
         {
+            Print.Log("SetDefaultAIGameState");
             playersDiscription = new PlayersDescription();
 
             playersDiscription.PlayerNumbers.Add(0);
@@ -179,6 +181,7 @@ namespace ColorChessModel
 
         public void SetDefaultOnlineGameState()
         {
+            Print.Log("SetDefaultOnlineGameState");
             playersDiscription = new PlayersDescription();
 
             playersDiscription.PlayerNumbers.Add(0);

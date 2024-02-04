@@ -8,7 +8,7 @@
 #else
         public static PrintFunc printer;
 #endif
-        //public static void Log(string message) => printer(message);
-        public static void Log(string message) { return; }
+        public static void Log(string message) => printer(message);
+        //public static void Log(string message) { return; }
     }
 }

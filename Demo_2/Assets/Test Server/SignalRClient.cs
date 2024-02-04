@@ -26,7 +26,7 @@ public class SignalRClient : MonoBehaviour
 
     public static string playerName;
 
-    
+    static MainController mainController;
 
 
     public void Connect()
@@ -63,6 +63,8 @@ public class SignalRClient : MonoBehaviour
 
 	void Start () 
     {
+        mainController = MainController.Instance;
+
         DontDestroyOnLoad(this);
 	}
 	
@@ -118,9 +120,8 @@ public class SignalRClient : MonoBehaviour
                 playerName = "Player" + playerId;
                 Print.Log("Ура победа вы нашли друга");
 
-                GameController gameController = GameObject.Find("GameController").GetComponent<GameController>();
-                gameController.SelectGameMode(ColorChessModel.GameModeType.Network);
-                gameController.StartGame();
+                mainController.SelectGameMode(ColorChessModel.GameModeType.Network);
+                mainController.StartGame();
             }
         }
 
@@ -136,8 +137,7 @@ public class SignalRClient : MonoBehaviour
             string message = msg.Arguments[0].ToString();
 
             Print.Log(message);
-            GameController gameController = GameObject.Find("GameController").GetComponent<GameController>();
-            gameController.ApplyStepView(TestServerHelper.ConvertJSONtoSTEP(message));
+            mainController.ApplyStepView(TestServerHelper.ConvertJSONtoSTEP(message));
             Print.Log("Message");
         }
     }

@@ -28,7 +28,7 @@ public class Registration : MonoBehaviour
             ) 
             return;
 
-        if (await server.TryRegisry(loginInp.text, passwordInp.text) == true)
+        if (await server.TryRegistry(loginInp.text, passwordInp.text) == true)
         {
             ImageWarning.SetActive(false);
 

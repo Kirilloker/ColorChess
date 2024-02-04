@@ -6,8 +6,7 @@ using UnityEngine.UIElements;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField]
-    GameController gameController;
+    MainController mainController;
     [SerializeField]
     CameraController cameraController;
 
@@ -28,25 +27,29 @@ public class UIController : MonoBehaviour
     [SerializeField]
     GameObject CustomUI;
 
-    public void SelectStandartHotSeat()
+    private void Start()
     {
-        gameController.SelectGameMode(GameModeType.HumanTwo);
+        mainController = MainController.Instance;
+    }
+    public void SelectStandardHotSeat()
+    {
+        mainController.SelectGameMode(GameModeType.HumanTwo);
     }
 
-    public void SelectStandartAI()
+    public void SelectStandardAI()
     {
-        gameController.SelectGameMode(GameModeType.AI);
+        mainController.SelectGameMode(GameModeType.AI);
     }
 
-    public void SelectStandartNetwork()
+    public void SelectStandardNetwork()
     {
-        gameController.SelectGameMode(GameModeType.Network);
+        mainController.SelectGameMode(GameModeType.Network);
     }
 
 
     public void StartGame()
     {
-        gameController.StartGame();
+        mainController.StartGame();
     }
 
     public void OnlineGameExit()
@@ -84,9 +87,9 @@ public class UIController : MonoBehaviour
     public void SetNoneState(int num) { ChangeStatePlayer(PlayerType.None, num); }
     public void SetOnlineState(int num) { ChangeStatePlayer(PlayerType.Online, num); }
 
-    void ChangeStatePlayer(PlayerType type, int numerPlayer) 
+    void ChangeStatePlayer(PlayerType type, int numberPlayer) 
     {
-        typePlayer[--numerPlayer] = type;
+        typePlayer[--numberPlayer] = type;
     }
 
     bool CheckCountPlayer() 
@@ -105,9 +108,9 @@ public class UIController : MonoBehaviour
 
     public void StartCustomGame()
     {
-        if (CheckCountPlayer() == false) return; 
+        if (CheckCountPlayer() == false) return;
 
-        gameController.SelectCustomGameMode(sizeMap, typePlayer, cornerPlayer, colorPlayer);
+        mainController.SelectCustomGameMode(sizeMap, typePlayer, cornerPlayer, colorPlayer);
         CustomUI.SetActive(false);
         StartGame();
     }

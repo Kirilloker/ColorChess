@@ -86,10 +86,12 @@
     <Compile Include="Assets\Code\Controllers\BoardController.cs" />
     <Compile Include="Assets\Code\Controllers\CellController.cs" />
     <Compile Include="Assets\Code\View\CellView.cs" />
-    <Compile Include="Assets\Test Server\ButtonTest.cs" />
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterMessageReceiver.cs" />
     <Compile Include="Assets\Code\Controllers\TestControllerBoardUI.cs" />
     <Compile Include="Assets\Code\Another\Prefabs.cs" />
+    <Compile Include="Assets\Code\Controllers\TestGameController.cs" />
+    <Compile Include="Assets\Code\AI\MonteCarloAI.cs" />
+    <Compile Include="Assets\Code\AI\MinMaxAI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

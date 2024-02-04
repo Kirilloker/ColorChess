@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class FigureController : MonoBehaviour
 {
-    [SerializeField]
-    private GameController gameController;
+    private MainController mainController;
     [SerializeField]
     private AudioController audioController;
 
@@ -22,6 +21,7 @@ public class FigureController : MonoBehaviour
     {
         prefabs = GameObject.FindWithTag("Prefabs").GetComponent<Prefabs>();
         transformFigure = GameObject.FindWithTag("Figure").transform;
+        mainController = MainController.Instance;
     }
 
     public void AnimateMoveFigure(FigureView figure, List<Vector3> vectorWay)
@@ -102,20 +102,15 @@ public class FigureController : MonoBehaviour
         figureView.Up();
         upedFigure = figureView;
 
-        gameController.FigureOnClicked(figureView);
+        mainController.FigureSelected(figureView.Pos);
     }
 
     public FigureView FindFigureView(Figure figureModel, Map gameState)
     {
         foreach (List<FigureView> player in figures)
-        {
             foreach (FigureView figure in player)
-            {
                 if (figure.Pos == figureModel.Pos)
                     return figure;
-            }
-        }
-
 
         return new FigureView();
     }
@@ -130,22 +125,22 @@ public class FigureController : MonoBehaviour
         Destroy(figureView.gameObject);
     }
 
-    public void OnBoxColiders(int numberPlayer)
+    public void OnBoxColliders(int numberPlayer)
     {
         foreach (FigureView figure in figures[numberPlayer])
             figure.StateBoxColodier(true);
     }
 
-    public void OffBoxColidersPlayers(int numberPlayer)
+    public void OffBoxCollidersPlayers(int numberPlayer)
     {
         foreach (FigureView figure in figures[numberPlayer])
             figure.StateBoxColodier(false);
     }
 
-    public void OFFAllBoxColiders()
+    public void OFFAllBoxColliders()
     {
         for (int i = 0; i < figures.Count; i++)
-            OffBoxColidersPlayers(i);
+            OffBoxCollidersPlayers(i);
     }
 
     public FigureView UpedFigure { get { return upedFigure; } set { upedFigure = value; } }

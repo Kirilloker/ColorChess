@@ -1,3 +1,4 @@
+using ColorChessModel;
 using System.Collections;
 using System.IO;
 using System.Runtime.Serialization;
@@ -6,7 +7,8 @@ using UnityEngine;
 
 public class BinarySerializer
 {
-    private const string path = "/GameData.dat";
+    //string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "/GameData.dat");
+    string filePath = Application.persistentDataPath + "/GameData.dat";
 
     private Hashtable data;
 
@@ -14,12 +16,12 @@ public class BinarySerializer
     {
         if (data == null)
         {
-            Debug.Log("Data is null, load data before saving");
+            Print.Log("Data is null, load data before saving");
             return;
         }
 
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + path);
+        FileStream file = File.Create(filePath);
 
         try
         {
@@ -27,7 +29,7 @@ public class BinarySerializer
         }
         catch (SerializationException e)
         {
-            Debug.Log("Failed to serialize. Reason: " + e.Message);
+            Print.Log("Failed to serialize. Reason: " + e.Message);
         }
         finally
         {
@@ -37,17 +39,17 @@ public class BinarySerializer
 
     public void LoadData()
     {
-        if (File.Exists(Application.persistentDataPath + path))
+        if (File.Exists(filePath))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + path, FileMode.Open);
+            FileStream file = File.Open(filePath, FileMode.Open);
             try
             {
                 data = (Hashtable)bf.Deserialize(file);
             }
             catch (SerializationException e)
             {
-                Debug.Log("Failed to deserialize. Reason: " + e.Message);
+                Print.Log("Failed to deserialize. Reason: " + e.Message);
             }
             finally
             {
@@ -56,7 +58,7 @@ public class BinarySerializer
         }
         else
         {
-            Debug.Log("Not found file. Create New.");
+            Print.Log("Not found file. Create New.");
             SetDefaultData();
             SaveData();
         }
@@ -65,15 +67,15 @@ public class BinarySerializer
 
     public void ResetData()
     {
-        if (File.Exists(Application.persistentDataPath + path))
+        if (File.Exists(filePath))
         {
             try
             {
-                File.Delete(Application.persistentDataPath + path);
+                File.Delete(filePath);
             }
             catch
             {
-                Debug.Log("C удалением файла что то пошло не так");
+                Print.Log("C удалением файла что то пошло не так");
             }
             SetDefaultData();
             SaveData();

@@ -29,7 +29,7 @@ public class TestControllerBoardUI : MonoBehaviour
 
         SetEmptyCell(gameState.Length * gameState.Width - countAllFigure);
 
-        // ≈сли на карте страндартное расположение (2 игрока)
+        // ≈сли на карте стандартное расположение (2 игрока)
         if (gameState.PlayersCount == 2 && gameState.GetPlayerCorner(0) == CornerType.DownLeft && gameState.GetPlayerCorner(1) == CornerType.UpRight)
         {
             SetScoreInCorner(CornerType.DownRight, gameState.GetPlayerFiguresCount(1));
@@ -58,7 +58,7 @@ public class TestControllerBoardUI : MonoBehaviour
             SetScoreInCorner(gameState.GetPlayerCorner(i), gameState.GetScorePlayer(i));
 
 
-        // ≈сли на карте страндартное расположение (2 игрока)
+        // ≈сли на карте стандартное расположение (2 игрока)
         if (gameState.PlayersCount == 2 && gameState.GetPlayerCorner(0) == CornerType.DownLeft && gameState.GetPlayerCorner(1) == CornerType.UpRight)
         {
             SetScoreInCorner(CornerType.DownRight, gameState.GetScorePlayer(1));

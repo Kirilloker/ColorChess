@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class CellController : MonoBehaviour
 {
-    [SerializeField]
-    private GameController gameController;
+    private MainController mainController;
 
     private Prefabs prefabs;
     public CellView[,] cells;
@@ -14,6 +13,7 @@ public class CellController : MonoBehaviour
     private void Start()
     {
         prefabs = GameObject.FindWithTag("Prefabs").GetComponent<Prefabs>();
+        mainController = MainController.Instance;
     }
 
     public void CreateCells(Map gameState)
@@ -53,7 +53,7 @@ public class CellController : MonoBehaviour
 
     public void OnClicked(CellView cellView)
     {
-        gameController.CellOnClicked(cellView);
+        mainController.CellSelected(cellView.Pos);
     }
 
     public void DestroyAll()
@@ -64,7 +64,7 @@ public class CellController : MonoBehaviour
             Destroy(child.gameObject);
     }
 
-    public void ShowAllSteps(List<ColorChessModel.Cell> way)
+    public void ShowAllSteps(List<Cell> way)
     {
         HideAllPrompts();
 
@@ -79,21 +79,21 @@ public class CellController : MonoBehaviour
                 cells[i, j].HidePrompt();
     }
 
-    public void OFFALLBoxColiders()
+    public void OFFALLBoxColliders()
     {
         foreach (CellView cell in cells)
             cell.OFFBoxColider();
     }
 
-    public void OnBoxColidersForList(List<Cell> way)
+    public void OnBoxCollidersForList(List<Cell> way)
     {
-        OFFALLBoxColiders();
+        OFFALLBoxColliders();
 
         for (int i = 0; i < way.Count; i++)
             cells[way[i].Pos.X, way[i].Pos.Y].ONBoxColider();
     }
     public bool GetBoolFigureInCell(Position position)
     {
-        return gameController.GetBoolFigureInCell(position);
+        return mainController.GetBoolFigureInCell(position);
     }
 }

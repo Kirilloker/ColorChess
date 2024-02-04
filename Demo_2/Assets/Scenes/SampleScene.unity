@@ -1882,7 +1882,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1370483316}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: Surrender
         m_Mode: 1
@@ -6284,7 +6284,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7776203, y: 1}
+    m_SensorSize: {x: 1.7766991, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -7251,7 +7251,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7776203, y: 1}
+    m_SensorSize: {x: 1.7766991, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -7267,7 +7267,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 606196812}
-  m_LocalRotation: {x: 0.18531275, y: 0.0729409, z: -0.013794541, w: 0.9798717}
+  m_LocalRotation: {x: 0.18531273, y: 0.07294087, z: -0.013794533, w: 0.9798717}
   m_LocalPosition: {x: -17.0628, y: 22.263765, z: -32.748226}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7320,7 +7320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba9bfe31f2fda9a4eb332957ec050c2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 1370483316}
   audioController: {fileID: 9392454}
   LowGraphics: 0
 --- !u!1 &615498500
@@ -7367,7 +7366,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0df128f7d01c7d245aef64108ada1f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 1370483316}
 --- !u!1 &624536300
 GameObject:
   m_ObjectHideFlags: 0
@@ -8518,7 +8516,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7776203, y: 1}
+    m_SensorSize: {x: 1.7766991, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -9909,6 +9907,7 @@ Transform:
   - {fileID: 1346440607}
   - {fileID: 2102268951}
   - {fileID: 9392453}
+  - {fileID: 1660465997}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10524,7 +10523,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.18531275, y: 0.0729409, z: -0.013794541, w: 0.9798717}
+  m_LocalRotation: {x: 0.18531273, y: 0.07294087, z: -0.013794533, w: 0.9798717}
   m_LocalPosition: {x: -15.6628, y: 22.023766, z: -32.788227}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11607,7 +11606,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1370483316}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: BackStep
         m_Mode: 1
@@ -14291,7 +14290,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6d22162b4ef4d74b8106d74a43846a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 1370483316}
   cameraController: {fileID: 0}
   PlayUI: {fileID: 2119191621}
   OnlineUI: {fileID: 2061567042}
@@ -14310,7 +14308,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1370483317}
-  - component: {fileID: 1370483316}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -14318,25 +14315,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1370483316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1370483315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8befc6d293cae4aa8caa59c35bea91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiController: {fileID: 1346440608}
-  figureController: {fileID: 613001241}
-  cellController: {fileID: 615498502}
-  cameraController: {fileID: 1437861948}
-  boardController: {fileID: 2102268947}
-  audioController: {fileID: 9392454}
-  serverUI: {fileID: 1244479932}
 --- !u!4 &1370483317
 Transform:
   m_ObjectHideFlags: 0
@@ -16392,7 +16370,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580770110}
-  m_LocalRotation: {x: 0.61145675, y: -0.06818062, z: 0.05300291, w: 0.7865512}
+  m_LocalRotation: {x: 0.6114567, y: -0.06818069, z: 0.053002957, w: 0.78655124}
   m_LocalPosition: {x: -19, y: 19, z: -8.576278}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -16430,7 +16408,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7776203, y: 1}
+    m_SensorSize: {x: 1.7766991, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -16544,7 +16522,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c8c511f3b49094ab5ea85fae0ba68b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 1370483316}
 --- !u!4 &1631649717
 Transform:
   m_ObjectHideFlags: 0
@@ -16591,6 +16568,57 @@ Transform:
   m_Father: {fileID: 1401187834}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1660465996
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1660465997}
+  - component: {fileID: 1660465998}
+  m_Layer: 0
+  m_Name: TestGameContoller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1660465997
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660465996}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 897547515}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1660465998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660465996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 980a48f27a375c3428045c41c7dda025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiController: {fileID: 1346440608}
+  figureController: {fileID: 613001241}
+  cellController: {fileID: 615498502}
+  cameraController: {fileID: 1437861948}
+  boardController: {fileID: 2102268947}
+  audioController: {fileID: 9392454}
+  serverUI: {fileID: 1244479932}
 --- !u!1 &1679519776
 GameObject:
   m_ObjectHideFlags: 0
@@ -16895,7 +16923,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7776203, y: 1}
+    m_SensorSize: {x: 1.7766991, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -17759,7 +17787,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822036431}
-  m_LocalRotation: {x: 0.70088243, y: 0.006240675, z: -0.0061326954, w: 0.71322316}
+  m_LocalRotation: {x: 0.70088243, y: 0.0062396703, z: -0.006131707, w: 0.71322316}
   m_LocalPosition: {x: 0.11876345, y: 9.630743, z: -5.005822}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -17797,7 +17825,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7776203, y: 1}
+    m_SensorSize: {x: 1.7766991, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -25709,7 +25737,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1346440608}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: SelectStandartHotSeat
+        m_MethodName: SelectStandardHotSeat
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

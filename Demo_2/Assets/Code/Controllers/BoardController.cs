@@ -72,7 +72,7 @@ public class BoardController : MonoBehaviour
 
     public void Destroy()
     {
-        GameObject.Destroy(board);
+        Destroy(board);
     }
 
 
@@ -85,5 +85,4 @@ public class BoardController : MonoBehaviour
     {
         boardDecor.SetActive(true);
     }
-
 }

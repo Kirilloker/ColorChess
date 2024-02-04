@@ -8,8 +8,8 @@ namespace ColorChessModel
 
         public Position(int _x, int _y)
         {
-            if (_x < 0 || _y < 0)
-                throw new ArgumentException("Coordinates cannot be negative.");
+            //if (_x < 0 || _y < 0)
+            //    throw new ArgumentException("Coordinates cannot be negative: " + _x + "  " + _y);
 
             x = _x;
             y = _y;
@@ -17,8 +17,8 @@ namespace ColorChessModel
 
         public Position(float _x, float _y)
         {
-            if (_x < 0 || _y < 0)
-                throw new ArgumentException("Coordinates cannot be negative.");
+            //if (_x < 0 || _y < 0)
+            //    throw new ArgumentException("Coordinates cannot be negative: " + _x + "  " + _y);
 
             x = (int)_x;
             y = (int)_y;

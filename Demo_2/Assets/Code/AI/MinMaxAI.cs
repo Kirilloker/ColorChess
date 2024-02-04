@@ -1,4 +1,6 @@
 ﻿using ColorChessModel;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 public class MinMaxAI : IAI
@@ -301,8 +303,8 @@ public class MinMaxAI : IAI
         TIMER = 8f + (playerCount - 2) * 3f;
 
         for (int i = 0; i < playerCount; i++)
-            if (i != myNumber) AnotherPlayer.Add(i);      
-        
+            if (i != myNumber) AnotherPlayer.Add(i);
+
         timer.Start();
 
         AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
