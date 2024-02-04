@@ -4,35 +4,11 @@ namespace ColorChessModel
 {
     public class MainController
     {
-        private static MainController instance;
-        private static readonly object lockObject = new object();
-
-        private MainController()
-        {
-        }
-
-        public static MainController Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (lockObject)
-                    {
-                        if (instance == null)
-                            instance = new MainController();
-                    }
-                }
-                return instance;
-            }
-        }
-
-
-
         private List<Map> gameStates = new List<Map>();
         private GameStateBuilder gameStateBuilder = new GameStateBuilder();
         private IAI[] ai;
         private IGameController gameController;
+        private Server server;
 
         public void SetGameController(IGameController gameController) 
         {
@@ -46,6 +22,7 @@ namespace ColorChessModel
 
         public void StartGame(Map map) 
         {
+            server = Server.Instance;
             gameStates.Add(map);
 
             gameController.PreparingForStartGame(CurrentGameState);
@@ -118,7 +95,7 @@ namespace ColorChessModel
 
             if (gameStates.Count == 0) return;
 
-            //figureController.UpedFigure = figureController.FindFigureView(step.Figure, CurrentGameState);
+            gameController.AICalcComplete(step.Figure, CurrentGameState);
             ApplyStepView(step);
         }
 
@@ -129,13 +106,13 @@ namespace ColorChessModel
 
             List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.Pos, cell.Pos, figure);
 
-            //if (IsServer && CurrentGameState.Players[CurrentGameState.NumberPlayerStep].Type == PlayerType.Human)
-            //{
-            //    if (CurrentGameState.EndGame == true)
-            //        server.SendLastStep(step);
-            //    else
-            //        server.SendStep(step);
-            //}
+            if (IsServer && CurrentGameState.Players[CurrentGameState.NumberPlayerStep].Type == PlayerType.Human)
+            {
+                if (CurrentGameState.EndGame == true)
+                    server.SendLastStep(step);
+                else
+                    server.SendStep(step);
+            }
 
             Map map = GameStateCalcSystem.ApplyStep(CurrentGameState, figure, cell);
             gameStates.Add(map);
@@ -178,17 +155,16 @@ namespace ColorChessModel
 
         public void EndGame() 
         {
-            //if (IsServer == true)
-            //{
-            //    //uiController.OnlineGameExit();
-            //    server.CloseConnection();
-            //}
+            if (IsServer == true)
+            {
+                //uiController.OnlineGameExit();
+                server.CloseConnection();
+            }
 
 
             Print.Log("Конец игры");
 
             gameController.EndGame();
-
 
             gameStateBuilder = new GameStateBuilder();
             gameStates = new List<Map>();
@@ -196,15 +172,15 @@ namespace ColorChessModel
 
         void InitAI()
         {
-            //ai = new IAI[CurrentGameState.PlayersCount];
+            ai = new IAI[CurrentGameState.PlayersCount];
 
-            //for (int i = 0; i < CurrentGameState.PlayersCount; i++)
-            //{
-            //    if (CurrentGameState.GetPlayerType(i) == PlayerType.AI)
-            //        ai[i] = new MinMaxAI();
-            //    else if (CurrentGameState.GetPlayerType(i) == PlayerType.AI2)
-            //        ai[i] = new MonteCarloAI();
-            //}
+            for (int i = 0; i < CurrentGameState.PlayersCount; i++)
+            {
+                if (CurrentGameState.GetPlayerType(i) == PlayerType.AI)
+                    ai[i] = new MinMaxAI();
+                else if (CurrentGameState.GetPlayerType(i) == PlayerType.AI2)
+                    ai[i] = new MonteCarloAI();
+            }
         }
 
 
@@ -223,6 +199,29 @@ namespace ColorChessModel
                     if (player.Type == PlayerType.Online) return true;
 
                 return false;
+            }
+        }
+
+        private static MainController instance;
+        private static readonly object lockObject = new object();
+
+        private MainController()
+        {
+        }
+
+        public static MainController Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (lockObject)
+                    {
+                        if (instance == null)
+                            instance = new MainController();
+                    }
+                }
+                return instance;
             }
         }
     }

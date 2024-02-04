@@ -1,10 +1,7 @@
 using ColorChessModel;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
-using System;
-using System.Net.Http;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+using System.Collections.Specialized;
 
 public enum GameMode
 {
@@ -32,6 +29,16 @@ public class Server
     private string Password = "";
 
 
+    private IServerSender serverSender;
+
+    public void SetServerSender(IServerSender serverSender)
+    {
+        Print.Log("SetServerSender");
+        this.serverSender = serverSender;
+    }
+
+
+
     //Публичный интерфейс класса_______________________________________
     public void ConnectToDefaultGame(List<string> args)
     {
@@ -39,12 +46,12 @@ public class Server
     }
     public void SendStep(Step clientStep)
     {
-        SendStepToServer(TestServerHelper.ConvertToJSON(clientStep));
+        SendStepToServer(ServerHelper.ConvertToJSON(clientStep));
     }
 
     public async void SendLastStep(Step clientStep) 
     {
-        await SendStepToServer(TestServerHelper.ConvertToJSON(clientStep));
+        await SendStepToServer(ServerHelper.ConvertToJSON(clientStep));
         await CloseConnection();
     }
 
@@ -69,23 +76,26 @@ public class Server
     }
 
 
-    public string GetTopList(string nameUser) 
+    public string GetTopList(string nameUser)
     {
         HttpClient client = new HttpClient();
         UriBuilder uriBuilder = new UriBuilder(TopUrl);
 
         // Создание коллекции параметров query string
-        var queryParameters = System.Web.HttpUtility.ParseQueryString(string.Empty);
+        var queryParameters = new NameValueCollection();
 
         // Добавление параметров в коллекцию query string
         queryParameters["name"] = nameUser;
+
+        // Преобразование коллекции параметров в строку query string
+        string queryString = string.Join("&", Array.ConvertAll(queryParameters.AllKeys, key => $"{Uri.EscapeDataString(key)}={Uri.EscapeDataString(queryParameters[key])}"));
+
         // Присоединение параметров query string к URL-адресу
-        uriBuilder.Query = queryParameters.ToString();
+        uriBuilder.Query = queryString;
 
         // Получение полного URL-адреса с параметрами query string
         string fullUrl = uriBuilder.ToString();
-        HttpResponseMessage response;
-        response =  client.GetAsync(fullUrl).Result;
+        HttpResponseMessage response = client.GetAsync(fullUrl).Result;
         string result = response.Content.ReadAsStringAsync().Result;
 
         Print.Log(result);
@@ -93,23 +103,26 @@ public class Server
         return result;
     }
 
-    public string GetNumberPlaceUserInTop(string nameUser) 
+    public string GetNumberPlaceUserInTop(string nameUser)
     {
         HttpClient client = new HttpClient();
         UriBuilder uriBuilder = new UriBuilder(PlaceInTopUrl);
 
         // Создание коллекции параметров query string
-        var queryParameters = System.Web.HttpUtility.ParseQueryString(string.Empty);
+        var queryParameters = new NameValueCollection();
 
         // Добавление параметров в коллекцию query string
         queryParameters["name"] = nameUser;
+
+        // Преобразование коллекции параметров в строку query string
+        string queryString = string.Join("&", Array.ConvertAll(queryParameters.AllKeys, key => $"{Uri.EscapeDataString(key)}={Uri.EscapeDataString(queryParameters[key])}"));
+
         // Присоединение параметров query string к URL-адресу
-        uriBuilder.Query = queryParameters.ToString();
+        uriBuilder.Query = queryString;
 
         // Получение полного URL-адреса с параметрами query string
         string fullUrl = uriBuilder.ToString();
-        HttpResponseMessage response;
-        response = client.GetAsync(fullUrl).Result;
+        HttpResponseMessage response = client.GetAsync(fullUrl).Result;
         string result = response.Content.ReadAsStringAsync().Result;
 
         Print.Log(result);
@@ -120,17 +133,22 @@ public class Server
     //Методы вызываемы сервером во время игры________________________
     private void ServerSendStep(string opponentStep)
     {
-        Step step = TestServerHelper.ConvertJSONtoSTEP(opponentStep);
-        UnityMainThreadDispatcher.Instance().Enqueue(() => { mainController.ApplyStepView(step); });
+        Print.Log("ServerSendStep");
+        Step step = ServerHelper.ConvertJSONtoSTEP(opponentStep);
+        serverSender.SendStep(step);
     }
     private void ServerStartGame(string gameState)
     {
-        Map map = TestServerHelper.ConvertJSONtoMap(gameState);
-        UnityMainThreadDispatcher.Instance().Enqueue(() => { mainController.StartGame(map); });
+        Print.Log("ServerStartGame1");
+        Print.Log(gameState);
+        Map map = ServerHelper.ConvertJSONtoMap(gameState);
+        Print.Log("Create Map");
+        serverSender.StartGame(map);
     }
     private void ServerEndGame()
     {
-        UnityMainThreadDispatcher.Instance().Enqueue(() => { mainController.EndGame(); });
+        Print.Log("ServerEndGame");
+        serverSender.EndGame();
     }
    
     //Методы для обращений к серверу__________________________________
@@ -196,7 +214,6 @@ public class Server
                 IsLoginIn = false;
             }
         }
-
     }
 
 
@@ -217,4 +234,32 @@ public class Server
         return false;
     }
 
+
+
+
+
+
+
+    private static Server instance;
+    private static readonly object lockObject = new object();
+
+    private Server()
+    {
+    }
+
+    public static Server Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                lock (lockObject)
+                {
+                    if (instance == null)
+                        instance = new Server();
+                }
+            }
+            return instance;
+        }
+    }
 }

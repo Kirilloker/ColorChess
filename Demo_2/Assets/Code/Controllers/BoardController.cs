@@ -13,7 +13,7 @@ public class BoardController : MonoBehaviour
 
     private Prefabs prefabs;
 
-    private TestControllerBoardUI boardUI;
+    private BoardUIController boardUI;
 
     private void Awake()
     {
@@ -39,7 +39,7 @@ public class BoardController : MonoBehaviour
         board.tag = "Board";
         board.name = "Board";
 
-        boardUI = board.GetComponentInChildren<TestControllerBoardUI>();
+        boardUI = board.GetComponentInChildren<BoardUIController>();
         boardUI.FirstSet(gameState);
 
         ChangeColor(gameState);

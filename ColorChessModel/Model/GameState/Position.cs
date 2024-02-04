@@ -6,6 +6,11 @@ namespace ColorChessModel
         private int x;
         private int y;
 
+        public Position() 
+        {
+            x = -10;
+            y = -10;
+        }
         public Position(int _x, int _y)
         {
             //if (_x < 0 || _y < 0)

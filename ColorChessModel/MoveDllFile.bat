@@ -1,7 +1,5 @@
 @echo off
 
-mkdir Test
-
 set "source=bin\Debug\net471\ColorChessModel.dll"
 
 set "destination=..\Demo_2\Assets\Plugins"

@@ -16,8 +16,13 @@ public class Registration : MonoBehaviour
     GameObject ImageWarning;
     [SerializeReference]
     AutoSignIn AutoSignIn;
-    [SerializeField]
+
     Server server;
+
+    public void Start()
+    {
+        server = Server.Instance;
+    }
 
     public async void StartRegistration()
     {

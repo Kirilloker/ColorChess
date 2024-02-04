@@ -18,9 +18,15 @@ public class SignIn : MonoBehaviour
     [SerializeReference]
     AutoSignIn AutoSignIn;
     [SerializeField]
-    Server server;
-    [SerializeField]
     GameObject StartMenuDesktop;
+
+
+    Server server;
+
+    public void Start()
+    {
+        server = Server.Instance;
+    }
 
     public async void StartSigIn()
     {

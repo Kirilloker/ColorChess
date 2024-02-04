@@ -2,7 +2,7 @@ using ColorChessModel;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TestControllerBoardUI : MonoBehaviour
+public class BoardUIController : MonoBehaviour
 {
     // Количество пустых клеток
     [SerializeField]

@@ -1,7 +1,7 @@
 ﻿using ColorChessModel;
 using Newtonsoft.Json;
 
-public class TestServerHelper
+public class ServerHelper
 {
     /*
     Игрок1 делает ход - отправляет класс Step(figure, cell) и свою Map (после сделанного хода)
@@ -15,11 +15,22 @@ public class TestServerHelper
 
     public static Map ConvertJSONtoMap(string JSON)
     {
-        Map gameState = JsonConvert.DeserializeObject<Map>(JSON,
-        new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
+        try
+        {
+            Print.Log("Test1");
+            Map gameState = JsonConvert.DeserializeObject<Map>(JSON,
+                new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
+            Print.Log("Test2");
 
-        return gameState;
+            return gameState;
+        }
+        catch (Exception ex)
+        {
+            Print.Log($"Exception during JSON deserialization: {ex}");
+            throw; // Проброс исключения для дальнейшего анализа
+        }
     }
+
 
     public static Step ConvertJSONtoSTEP(string JSON)
     {

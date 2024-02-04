@@ -15,19 +15,19 @@ public class AutoSignIn : MonoBehaviour
     [SerializeField]
     GameObject StartMenuDesktop;
     [SerializeField]
-    Server server;
-    [SerializeField]
     GameObject icon_online_game;
     [SerializeField]
     GameObject icon_unable_online_game;
     [SerializeField]
     CameraController cameraController;
  
-
     private Hashtable gameData;
+
+    Server server;
 
     public void Start()
     {
+        server = Server.Instance;
         Authorization();
     }
 
@@ -38,7 +38,7 @@ public class AutoSignIn : MonoBehaviour
         if (Application.internetReachability == NetworkReachability.NotReachable) 
         {
             // нет интернета 
-            AccountText.text = "Intertnet not working!";
+            AccountText.text = "Internet not working!";
             AuthorizationMenu.SetActive(false);
             MainMenu.SetActive(true);
             return;

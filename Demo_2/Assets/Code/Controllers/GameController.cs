@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ColorChessModel;
 
-public class TestGameController : MonoBehaviour, IGameController
+public class GameController : MonoBehaviour, IGameController
 {
     private bool IsFirstGame = true;
     [SerializeField]
@@ -189,5 +189,10 @@ public class TestGameController : MonoBehaviour, IGameController
     public Position GetPositionSelectedFigure()
     {
         return figureController.UpedFigure.Pos;
+    }
+
+    public void AICalcComplete(Figure figure, Map map)
+    {
+        figureController.UpedFigure = figureController.FindFigureView(figure, map);
     }
 }

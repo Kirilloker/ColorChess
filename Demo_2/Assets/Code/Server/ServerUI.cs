@@ -30,8 +30,6 @@ public class ServerUI : MonoBehaviour
     [SerializeField]
     CameraController cameraController;
     [SerializeField]
-    Server server;
-    [SerializeField]
     GameObject OnlineMainNoteUI;
     [SerializeField]
     TextMeshProUGUI topText;
@@ -41,6 +39,14 @@ public class ServerUI : MonoBehaviour
     GameObject searchUI;
     [SerializeField]
     GameObject startUI;
+
+
+    Server server;
+
+    public void Start()
+    {
+        server = Server.Instance;
+    }
 
     public void ClickTwoHuman()
     {

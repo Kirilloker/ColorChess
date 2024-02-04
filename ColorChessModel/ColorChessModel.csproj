@@ -12,6 +12,9 @@
 	</Target>
 
 	<ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.1" />
+	  <PackageReference Include="Mono.HttpUtility" Version="1.0.0.1" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	  <PackageReference Include="System.Net.Http" Version="4.3.4" />
 	</ItemGroup>
 
