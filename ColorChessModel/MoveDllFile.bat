@@ -2,7 +2,7 @@
 
 mkdir Test
 
-set "source=bin\Debug\net6.0\ColorChessModel.dll"
+set "source=bin\Debug\net471\ColorChessModel.dll"
 
 set "destination=..\Demo_2\Assets\Plugins"
 

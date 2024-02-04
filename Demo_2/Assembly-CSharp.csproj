@@ -58,7 +58,6 @@
   <ItemGroup>
     <Compile Include="Assets\Code\Server\ServerUI.cs" />
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\Rotate.cs" />
-    <Compile Include="Assets\Code\Controllers\GameController.cs" />
     <Compile Include="Assets\Code\Authorization UI\BinarySerializer.cs" />
     <Compile Include="Assets\Code\View\FigureView.cs" />
     <Compile Include="Assets\Code\Authorization UI\SignOut.cs" />
