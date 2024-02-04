@@ -818,9 +818,9 @@
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\tls\TlsSrpLoginParameters.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\agreement\ECDHCBasicAgreement.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\ocsp\SingleResp.cs" />
+    <Compile Include="Assets\Best HTTP\Source\Core\HostDefinition.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\engines\DesEdeEngine.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\math\field\IPolynomialExtensionField.cs" />
-    <Compile Include="Assets\Best HTTP\Source\Core\HostDefinition.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crmf\PkiArchiveControlBuilder.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\math\ec\custom\sec\SecT239FieldElement.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\cms\SignerInformationStore.cs" />
@@ -873,15 +873,15 @@
     <Compile Include="Assets\Best HTTP\Source\Caching\HTTPCacheMaintananceParams.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\BERGenerator.cs" />
     <Compile Include="Assets\Best HTTP\Examples\SignalRCore\TestHubSample.cs" />
+    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\pkcs\CertBag.cs" />
     <Compile Include="Assets\Best HTTP\Source\Extensions\HeaderValue.cs" />
     <Compile Include="Assets\Best HTTP\Examples\SignalRCore\HubWithAuthorizationSample.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\ocsp\RespID.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\signers\GOST3410Signer.cs" />
-    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\pkcs\CertBag.cs" />
+    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\tls\DtlsRecordLayer.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\esf\CommitmentTypeIndication.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\x509\qualified\TypeOfBiometricData.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\x509\qualified\RFC3739QCObjectIdentifiers.cs" />
-    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\tls\DtlsRecordLayer.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\math\ec\ECLookupTable.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\math\ec\custom\sec\SecT233R1Point.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\cms\RecipientIdentifier.cs" />
@@ -1651,10 +1651,10 @@
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\tls\CertificateStatusType.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\math\ec\custom\sec\SecT131R1Curve.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\ess\SigningCertificate.cs" />
+    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\math\ec\endo\GlvTypeAEndomorphism.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\math\ec\multiplier\ZSignedDigitL2RMultiplier.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\x509\X509AttrCertParser.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\engines\ChaChaEngine.cs" />
-    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\math\ec\endo\GlvTypeAEndomorphism.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\smime\SMIMECapability.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\tls\Ssl3Mac.cs" />
     <Compile Include="Assets\Best HTTP\Source\Connections\HTTP2\HeaderTable.cs" />
@@ -1994,26 +1994,14 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>H:\GameDev\Unity\2021.3.5f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection">
-      <HintPath>Assets\Plugins\Microsoft.Extensions.DependencyInjection.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Plastic.Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe">
-      <HintPath>Assets\Plugins\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNetCore.SignalR.Protocols.Json">
-      <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Protocols.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNetCore.SignalR.Common">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Common.dll</HintPath>
     </Reference>
+    <Reference Include="ColorChessModel">
+      <HintPath>Assets\Plugins\ColorChessModel.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Primitives">
       <HintPath>Assets\Plugins\Microsoft.Extensions.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Diagnostics.DiagnosticSource">
-      <HintPath>Assets\Plugins\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Http.Connections.Client">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.Http.Connections.Client.dll</HintPath>
@@ -2021,32 +2009,14 @@
     <Reference Include="Microsoft.Extensions.Logging">
       <HintPath>Assets\Plugins\Microsoft.Extensions.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Plastic.Antlr3.Runtime">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
-      <HintPath>Assets\Plugins\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="unityplastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Json">
-      <HintPath>Assets\Plugins\System.Text.Json.dll</HintPath>
+    <Reference Include="System.Text.Encodings.Web">
+      <HintPath>Assets\Plugins\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Options">
       <HintPath>Assets\Plugins\Microsoft.Extensions.Options.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading.Channels">
-      <HintPath>Assets\Plugins\System.Threading.Channels.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Encodings.Web">
-      <HintPath>Assets\Plugins\System.Text.Encodings.Web.dll</HintPath>
-    </Reference>
     <Reference Include="log4netPlastic">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNetCore.SignalR.Client.Core">
-      <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Client.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.SignalR.Client">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Client.dll</HintPath>
@@ -2054,20 +2024,11 @@
     <Reference Include="clipper_library">
       <HintPath>Library\PackageCache\com.unity.cinemachine@2.8.6\Runtime\ThirdParty\clipper_library.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Http.Connections.Common">
-      <HintPath>Assets\Plugins\Microsoft.AspNetCore.Http.Connections.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
-      <HintPath>Assets\Plugins\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Connections.Abstractions">
       <HintPath>Assets\Plugins\Microsoft.AspNetCore.Connections.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Pipelines">
-      <HintPath>Assets\Plugins\System.IO.Pipelines.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
       <HintPath>Assets\Plugins\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
@@ -2075,14 +2036,53 @@
     <Reference Include="Microsoft.Extensions.Features">
       <HintPath>Assets\Plugins\Microsoft.Extensions.Features.dll</HintPath>
     </Reference>
-    <Reference Include="websocket-sharp">
-      <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.DependencyInjection">
+      <HintPath>Assets\Plugins\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Protocols.Json">
+      <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Protocols.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Plastic.Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Assets\Plugins\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource">
+      <HintPath>Assets\Plugins\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Plastic.Antlr3.Runtime">
+      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="unityplastic">
+      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+      <HintPath>Assets\Plugins\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json">
+      <HintPath>Assets\Plugins\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Channels">
+      <HintPath>Assets\Plugins\System.Threading.Channels.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Client.Core">
+      <HintPath>Assets\Plugins\Microsoft.AspNetCore.SignalR.Client.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Connections.Common">
+      <HintPath>Assets\Plugins\Microsoft.AspNetCore.Http.Connections.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
+      <HintPath>Assets\Plugins\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Pipelines">
+      <HintPath>Assets\Plugins\System.IO.Pipelines.dll</HintPath>
     </Reference>
     <Reference Include="UnitTest">
       <HintPath>Assets\Plugins\UnitTest.dll</HintPath>
     </Reference>
-    <Reference Include="ColorChessModel">
-      <HintPath>Assets\Plugins\ColorChessModel.dll</HintPath>
+    <Reference Include="websocket-sharp">
+      <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Android.Types">
       <HintPath>H:\GameDev\Unity\2021.3.5f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>

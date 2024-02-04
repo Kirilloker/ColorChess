@@ -12,10 +12,10 @@ namespace ColorChessModel
 
         public Player MakePlayer(CornerType corner, ColorType color, PlayerType type, int number)
         {
-            player.number = number;
-            player.corner = corner;
-            player.color = color;
-            player.type = type;
+            player.Number = number;
+            player.Corner = corner;
+            player.Color = color;
+            player.Type = type;
 
             return new Player(player);
         }

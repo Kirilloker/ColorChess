@@ -1,6 +1,4 @@
 using ColorChessModel;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Prefabs : MonoBehaviour 
@@ -9,7 +7,6 @@ public class Prefabs : MonoBehaviour
     private GameObject Cell;
     [SerializeField]
     private GameObject Board;
-
 
 
     [SerializeField]
@@ -73,7 +70,7 @@ public class Prefabs : MonoBehaviour
             case FigureType.Queen:
                 return Queen;
             default:
-                Debug.Log("Нет такого типа фигуры");
+                Print.Log("Нет такого типа фигуры");
                 return Pawn;
         }
     }
@@ -93,7 +90,7 @@ public class Prefabs : MonoBehaviour
             case ColorType.Purple:
                 return purple;
             default:
-                Debug.Log("Ошибка: неизвестный цвет");
+                Print.Log("Ошибка: неизвестный цвет");
                 return defaultColor;
         }
     }
@@ -119,7 +116,7 @@ public class Prefabs : MonoBehaviour
                 case ColorType.Purple:
                     return purple;
                 default:
-                    Debug.Log("Ошибка: неизвестный цвет");
+                    Print.Log("Ошибка: неизвестный цвет");
                     return defaultColor;
             }
         }
@@ -138,7 +135,7 @@ public class Prefabs : MonoBehaviour
                 case ColorType.Purple:
                     return purpleDark;
                 default:
-                    Debug.Log("Ошибка: неизвестный цвет");
+                    Print.Log("Ошибка: неизвестный цвет");
                     return defaultColorDark;
             }
         }

@@ -52,8 +52,8 @@ public class FigureController : MonoBehaviour
         {
             List<FigureView> figuresViewList = new List<FigureView>();
 
-            foreach (Figure figure in player.figures)
-                figuresViewList.Add(CreateFigure(figure, player.color, player.corner));
+            foreach (Figure figure in player.Figures)
+                figuresViewList.Add(CreateFigure(figure, player.Color, player.Corner));
 
             figures.Add(figuresViewList);
         }
@@ -61,7 +61,7 @@ public class FigureController : MonoBehaviour
 
     public FigureView CreateFigure(Figure figure, ColorType color, CornerType corner)
     {
-        GameObject prefabsFigure = prefabs.GetFigure(figure.type);
+        GameObject prefabsFigure = prefabs.GetFigure(figure.Type);
 
         GameObject figureGameObject = Instantiate(prefabsFigure, transformFigure.transform.localPosition, Quaternion.AngleAxis(270, Vector3.up), transformFigure);
 
@@ -72,11 +72,11 @@ public class FigureController : MonoBehaviour
         FigureView figureView = figureGameObject.GetComponent<FigureView>();
         figureView.FindComponents();
         figureView.SetNumberPlayer(figure.Number);
-        figureView.Pos = figure.pos;
-        figureView.SetType(figure.type);
+        figureView.Pos = figure.Pos;
+        figureView.SetType(figure.Type);
         figureView.SetFigureController(this);
 
-        if (figure.type == FigureType.Horse)
+        if (figure.Type == FigureType.Horse)
         {
             if (corner == CornerType.UpLeft || corner == CornerType.UpRight)
                 figureView.SetRotation(180);
@@ -84,7 +84,7 @@ public class FigureController : MonoBehaviour
                 figureView.SetRotation(0);
         }
 
-        figureGameObject.name = TypeToString.ToString(figure.type) + figure.Number;
+        figureGameObject.name = TypeToString.ToString(figure.Type) + figure.Number;
 
         return figureView;
     }
@@ -111,7 +111,7 @@ public class FigureController : MonoBehaviour
         {
             foreach (FigureView figure in player)
             {
-                if (figure.Pos == figureModel.pos)
+                if (figure.Pos == figureModel.Pos)
                     return figure;
             }
         }

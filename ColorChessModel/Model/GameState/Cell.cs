@@ -1,30 +1,20 @@
-﻿using System.Collections.Generic;
-namespace ColorChessModel
+﻿namespace ColorChessModel
 {
     public class Cell
     {
-        public Position pos;
-        public CellType type;
-        public Figure figure;
-        public int numberPlayer;
-        public Cell() { }
+        private Position pos;
+        private CellType type;
+        private Figure figure;
+        private int numberPLayer;
 
-#if DEBUG
-        public Cell(Position pos)
-        {
-            this.pos = pos;
-            this.type = CellType.Empty;
-            this.figure = null;
-            numberPlayer = -1;
-        }
-#endif
+        public Cell() { }
 
         public Cell(Cell anotherCell)
         {
             this.pos = new Position(anotherCell.pos);
             this.type = anotherCell.type;
             this.figure = null;
-            this.numberPlayer = anotherCell.numberPlayer;
+            this.numberPLayer = anotherCell.numberPLayer;
         }
 
 
@@ -32,55 +22,31 @@ namespace ColorChessModel
         {
             get
             {
-                if (this.figure == null) return FigureType.Empty;
-                return figure.type;
+                if (this.Figure == null) return FigureType.Empty;
+                return Figure.Type;
             }
         }
 
-        public static bool operator !=(Cell cell1, Cell cell2)
-        {
-            return !(cell1 == cell2);
-        }
-
-        public static bool operator ==(Cell cell1, Cell cell2)
-        {
-            return cell1.type == cell2.type && cell1.numberPlayer == cell2.numberPlayer && cell1.FigureType == cell2.FigureType;
-        }
-
-        //public override int GetHashCode()
-        //{
-        //    return 
-        //        this.numberPlayer.GetHashCode() * 
-        //        this.pos.GetHashCode() * 
-        //        this.figure.GetHashCode() -
-        //        this.type.GetHashCode();
-        //}
-
-
-        public bool Avaible(Dictionary<CellType, bool>[] require, int numberPlayerFigure)
+        public bool Available(Dictionary<CellType, bool>[] require, int numberPlayerFigure)
         {
             // Может ли фигура наступить на такой тип клетки
-
-            if (numberPlayerFigure == numberPlayer)
+            if (numberPlayerFigure == numberPLayer)
             {
-                if (require[0].ContainsKey(type) == true) return require[0][type];
+                if (require[0].ContainsKey(Type) == true) return require[0][Type];
                 else return false;
             }
             else
             {
-                if (require[1].ContainsKey(type) == true) return require[1][type]; 
+                if (require[1].ContainsKey(Type) == true) return require[1][Type]; 
                 else return false; 
             }
         }
 
 
-        public override bool Equals(object obj)
-        {
-            return obj is Cell cell &&
-                   EqualityComparer<Position>.Default.Equals(pos, cell.pos) &&
-                   type == cell.type &&
-                   numberPlayer == cell.numberPlayer &&
-                   FigureType == cell.FigureType;
-        }
+
+        public Position Pos { get => pos; set => pos = value; }
+        public CellType Type { get => type; set => type = value; }
+        public Figure Figure { get => figure; set => figure = value; }
+        public int NumberPlayer { get => numberPLayer; set => numberPLayer = value; }
     }
 }

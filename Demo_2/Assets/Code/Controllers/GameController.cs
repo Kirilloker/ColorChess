@@ -63,9 +63,9 @@ public class GameController : MonoBehaviour
     {
         foreach (var player in CurrentGameState.Players)
         {
-            if (player.type == PlayerType.Human)
+            if (player.Type == PlayerType.Human)
             {
-                if (player.corner == CornerType.DownLeft || player.corner == CornerType.DownRight) 
+                if (player.Corner == CornerType.DownLeft || player.Corner == CornerType.DownRight) 
                     cameraController.SwitchCamera(CameraViewType.inGame1);
                 else
                     cameraController.SwitchCamera(CameraViewType.inGame2);
@@ -92,7 +92,7 @@ public class GameController : MonoBehaviour
     {
         // Нажать на клетку можно только в том случае - если на ней включены подсказки
         Cell cell = CurrentGameState.GetCell(cellView.Pos);
-        Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).figure;
+        Figure figure = CurrentGameState.GetCell(figureController.UpedFigure.Pos).Figure;
         Step step = new Step(figure, cell);
 
         ApplyStepView(step);
@@ -103,7 +103,7 @@ public class GameController : MonoBehaviour
         // Получаем фигуру по которой нажали, считаем для неё все возможные пути
         // И включаем подсказки (А так же BoxColiders у клеток, на которых включились подсказки)
 
-        Figure selectFigure = CurrentGameState.GetCell(figureView.Pos).figure;
+        Figure selectFigure = CurrentGameState.GetCell(figureView.Pos).Figure;
 
         if (selectFigure != null)
         {
@@ -113,23 +113,23 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Такой фигуры не нашлось");
+            Print.Log("Такой фигуры не нашлось");
         }
     }
 
     public void ApplyStepView(Step step)
     {
         // Применяем ход - отображаем всё в Unity
-        // Получаем массив пути - запускаем анимацию фигуры по этому пути и перекрашиваем клеткти
+        // Получаем массив пути - запускаем анимацию фигуры по этому пути и перекрашиваем клетки
         // Также меняем всё в Model 
         // И в конце запускаем новый шаг
 
         Figure figure = step.Figure;
         Cell cell = step.Cell;
 
-        List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.pos, cell.pos, figure);
+        List<Cell> way = WayCalcSystem.CalcWay(CurrentGameState, figure.Pos, cell.Pos, figure);
         
-        if (IsServer && CurrentGameState.Players[CurrentGameState.NumberPlayerStep].type == PlayerType.Human) 
+        if (IsServer && CurrentGameState.Players[CurrentGameState.NumberPlayerStep].Type == PlayerType.Human) 
         {
             if (CurrentGameState.EndGame == true)
                 server.SendLastStep(step);
@@ -146,11 +146,11 @@ public class GameController : MonoBehaviour
         List<Vector3> wayVectors = new List<Vector3>();
 
         for (int i = 0; i < way.Count; i++)
-            wayVectors.Add(new Vector3(way[i].pos.X, 0f, way[i].pos.Y));
+            wayVectors.Add(new Vector3(way[i].Pos.X, 0f, way[i].Pos.Y));
 
         // В клетке стоит фигура -> её хотят съесть
-        if (cell.figure != null)
-            figureController.EatFigureView(cell.figure, CurrentGameState);
+        if (cell.Figure != null)
+            figureController.EatFigureView(cell.Figure, CurrentGameState);
 
         figureController.AnimateMoveFigure(figureController.FindFigureView(figure, CurrentGameState), wayVectors);
         cellController.HideAllPrompts();
@@ -184,15 +184,15 @@ public class GameController : MonoBehaviour
                     cellController.ChangeMaterialCell(i, j, CurrentGameState);
 
                     // Если клетка перекрасилась в Dark
-                    if (PreviousvGameState.GetCell(i, j).type != CellType.Dark &&
-                        CurrentGameState.GetCell(i, j).type == CellType.Dark)
+                    if (PreviousvGameState.GetCell(i, j).Type != CellType.Dark &&
+                        CurrentGameState.GetCell(i, j).Type == CellType.Dark)
                     {
                         SoundCell = 1;
                     }
 
                     // Если клетка перекрасилась из Dark 
-                    if (PreviousvGameState.GetCell(i, j).type == CellType.Dark &&
-                        CurrentGameState.GetCell(i, j).type != CellType.Dark)
+                    if (PreviousvGameState.GetCell(i, j).Type == CellType.Dark &&
+                        CurrentGameState.GetCell(i, j).Type != CellType.Dark)
                     {
                         SoundCell = 2;
                     }
@@ -309,7 +309,7 @@ public class GameController : MonoBehaviour
         }
 
         // Конец игры
-        Debug.Log("Конец игры");
+        Print.Log("Конец игры");
         uiController.ViewUIGame(false);
         cameraController.SetCameraSpeed(cameraSpeed);
         cameraController.SwitchCamera(CameraViewType.noteMenu);
@@ -393,7 +393,7 @@ public class GameController : MonoBehaviour
 
     public bool GetBoolFigureInCell(Position position)
     {
-        return CurrentGameState.GetCell(position).figure != null;
+        return CurrentGameState.GetCell(position).Figure != null;
     }
     public Map CurrentGameState { get { return gameStates[gameStates.Count - 1]; } }
     public Map PreviousvGameState { get { return gameStates[gameStates.Count - 2]; } }
@@ -411,7 +411,7 @@ public class GameController : MonoBehaviour
     private bool IsServer { get 
         {
             foreach (var player in CurrentGameState.Players)
-                if (player.type == PlayerType.Online) return true;
+                if (player.Type == PlayerType.Online) return true;
             
             return false;
         } 

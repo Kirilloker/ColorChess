@@ -1,7 +1,6 @@
+using ColorChessModel;
 using System;
 using System.Collections;
-using System.Net.Http;
-using System.Net.Sockets;
 using TMPro;
 using UnityEngine;
 
@@ -76,15 +75,13 @@ public class AutoSignIn : MonoBehaviour
         // Если произошла ошибка с сервером
         catch (Exception ex)
         {
-            Debug.Log("Сервер не работает");
+            Print.Log("Сервер не работает");
             AccountText.text = "Server not responding";
             iconSetOnline(false);
             AuthorizationMenu.SetActive(false);
             MainMenu.SetActive(true);
             return;
         }
-
-
     }
 
 
@@ -101,11 +98,11 @@ public class AutoSignIn : MonoBehaviour
             if (GameData.ContainsKey(key) == true)
                 return (string)gameData[key];
             else
-                Debug.Log("Не удалось достать значение по ключу:" + key);
+                Print.Log("Не удалось достать значение по ключу:" + key);
         }
         catch
         {
-            Debug.Log("ОШИБКА не удалось достать значение по ключу:" + key);
+            Print.Log("ОШИБКА не удалось достать значение по ключу:" + key);
         }
 
         return "";

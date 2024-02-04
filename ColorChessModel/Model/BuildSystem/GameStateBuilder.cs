@@ -42,7 +42,7 @@ namespace ColorChessModel
             {
                 for (int j = 0; j < figureSets[i].positions.Count; j++)
                 {
-                    gameState.Players[i].figures.Add(
+                    gameState.Players[i].Figures.Add(
                         figureBuilder.MakeFigure(
                             figureSets[i].positions[j],
                             gameState.Players[i],

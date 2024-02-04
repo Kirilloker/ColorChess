@@ -3,7 +3,6 @@ namespace ColorChessModel
 {
     public static class TypeToString
     {
-        // На вход поступает Енуменатор - возвращает строку 
         public static string ToString(PlayerType playerType)
         {
             switch (playerType)
@@ -35,7 +34,6 @@ namespace ColorChessModel
                     return "WARNING!";
             }
         }
-
 
         public static string ToString(FigureType figureType)
         {
@@ -96,7 +94,6 @@ namespace ColorChessModel
             }
         }
 
-        // На вход получает строку - возращает Енуменатор
         public static CellType ToType(string strCellType)
         {
             switch (strCellType)
@@ -113,10 +110,5 @@ namespace ColorChessModel
                     return CellType.Empty;
             }
         }
-
-
     }
-
-
-
 }

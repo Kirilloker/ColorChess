@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ColorChessModel;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
 using TMPro;
@@ -68,7 +69,7 @@ public class ServerUI : MonoBehaviour
 
     public void StartSearch()
     {
-        Debug.Log("Поиск игры");
+        Print.Log("Поиск игры");
         if (twoHuman == false && fourHuman == false) return;
         search = true;
 

@@ -5,9 +5,6 @@ using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Net.Http;
 using Newtonsoft.Json;
-using System.Threading;
-using System.Collections;
-using System.IO;
 using System.Collections.Generic;
 
 public enum GameMode
@@ -17,7 +14,7 @@ public enum GameMode
     Custom = 2,
 }
 
-public class Server : MonoBehaviour
+public class Server
 {
     public GameController gameController;
     private HubConnection connection;
@@ -92,7 +89,7 @@ public class Server : MonoBehaviour
         response =  client.GetAsync(fullUrl).Result;
         string result = response.Content.ReadAsStringAsync().Result;
 
-        Debug.Log(result);
+        Print.Log(result);
 
         return result;
     }
@@ -116,7 +113,7 @@ public class Server : MonoBehaviour
         response = client.GetAsync(fullUrl).Result;
         string result = response.Content.ReadAsStringAsync().Result;
 
-        Debug.Log(result);
+        Print.Log(result);
 
         return result;
     }
@@ -166,7 +163,7 @@ public class Server : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.Log(ex.Message);
+            Print.Log(ex.Message);
         }
 
         this.connection = _connection;
@@ -204,7 +201,7 @@ public class Server : MonoBehaviour
         //catch (TaskCanceledException)
         //{
         //    // Обработка случая, когда запрос был отменен из-за истечения таймаута
-        //    Debug.Log("Сервер не отвечает");
+        //    Print.Log("Сервер не отвечает");
         //    IsLoginIn = false;
         //}
     }
@@ -217,7 +214,7 @@ public class Server : MonoBehaviour
         HttpResponseMessage response = await client.PostAsync(RegistrationUrl, content);
         string result = response.StatusCode.ToString();
         
-        Debug.Log(result);
+        Print.Log(result);
         
         if (result == "OK")
             return true;

@@ -8,7 +8,7 @@ namespace ColorChessModel
     {
         public List<Cell> AllSteps(Map map, Figure figure)
         {
-            Position posFigure = figure.pos;
+            Position posFigure = figure.Pos;
 
             Dictionary<Cell, int> dict = new Dictionary<Cell, int>(30);
 
@@ -28,7 +28,7 @@ namespace ColorChessModel
                         Check.Avaible(posCell, figure, map) == false) { break; }
 
                     // Добавляем клетку и расстояние от фигуры до клетки 
-                    dict.Add(cell, Math.Abs(figure.pos.X - cell.pos.X) + Math.Abs(figure.pos.Y - cell.pos.Y));
+                    dict.Add(cell, Math.Abs(figure.Pos.X - cell.Pos.X) + Math.Abs(figure.Pos.Y - cell.Pos.Y));
                 }
 
             }

@@ -1,8 +1,5 @@
 ﻿using ColorChessModel;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using UnityEngine;
 
 public class MinMaxAI : IAI
 {
@@ -51,21 +48,23 @@ public class MinMaxAI : IAI
     // Вспомогательная переменная, которая останавливает расчет в случае долгого выполнения
     bool stop = false;
 
-    public float GenerateRandomValue(float a, float range = 2f)
+    private static readonly Random random = new Random();
+    public static float GenerateRandomValue(float a, float range = 2f)
     {
         // Определяем границы для нормального распределения
         float min = a / range;
         float max = a * range;
 
         // Генерируем случайное значение по нормальному распределению
-        float randomValue = UnityEngine.Random.Range(min, max);
+        float randomValue = (float)(random.NextDouble() * (max - min) + min);
 
         // Вычисляем вес для приближения к заданному значению A
-        float weight = Mathf.Clamp01(Mathf.Abs(randomValue - a) / (max - min));
+        float weight = Math.Clamp(Math.Abs(randomValue - a) / (max - min), 0f, 1f);
 
         // Возвращаем случайное значение с учетом веса
-        return Mathf.Lerp(a, randomValue, weight);
+        return a + (randomValue - a) * weight;
     }
+
     public MinMaxAI() 
     {
         pricePaint = GenerateRandomValue(pricePaint);
@@ -109,7 +108,7 @@ public class MinMaxAI : IAI
         if (priceGrawe < 0.9f) priceGrawe = 0.9f;
     }
 
-    private List<List<Cell>> GetAvaibleForPlayer(Map map, int numberPlayer)
+    private List<List<Cell>> GetAvailableForPlayer(Map map, int numberPlayer)
     {
         // Возвращает двумерный массив: первый индекс - i-ая фигура игрока; 
         // второй индекс - j-ая клетка на которую может сходить фигура
@@ -118,7 +117,7 @@ public class MinMaxAI : IAI
 
         Player player = map.Players[numberPlayer];
 
-        foreach (Figure figure in player.figures)
+        foreach (Figure figure in player.Figures)
             avaiblePlayer.Add(WayCalcSystem.CalcAllSteps(map, figure));
 
         return avaiblePlayer;
@@ -177,13 +176,13 @@ public class MinMaxAI : IAI
         if (level % 2 == 0)
         {
             // Получаем список всех ходов 
-            avaible = GetAvaibleForPlayer(map, myNumber);
+            avaible = GetAvailableForPlayer(map, myNumber);
             MaxMinEvaluation = int.MinValue;
 
             for (int i = 0; i < avaible.Count; i++)
             {
                 // Сколько процентов ходов обработать у фигуры
-                float percentStep = figurePercent[(int)(map.Players[myNumber].figures[i].type) - 1];
+                float percentStep = figurePercent[(int)(map.Players[myNumber].Figures[i].Type) - 1];
 
                 // Количество ходов которое будет обработано у фигуры
                 int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
@@ -199,7 +198,7 @@ public class MinMaxAI : IAI
                     if (MaxMinEvaluation > beta) break;
                     if (beta < alpha) break;
 
-                    Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[myNumber].figures[i], avaible[i][j]);
+                    Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[myNumber].Figures[i], avaible[i][j]);
 
                     int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
 
@@ -207,7 +206,7 @@ public class MinMaxAI : IAI
                     if ((level == 0) && (MinMax > MaxMinEvaluation))
                     {
                         bestCell = avaible[i][j];
-                        bestFigure = map.Players[myNumber].figures[i];
+                        bestFigure = map.Players[myNumber].Figures[i];
                     }
 
                     MaxMinEvaluation = Math.Max(MaxMinEvaluation, MinMax);
@@ -220,12 +219,12 @@ public class MinMaxAI : IAI
         {
             foreach (var player in AnotherPlayer)
             {
-                avaible = GetAvaibleForPlayer(map, player);
+                avaible = GetAvailableForPlayer(map, player);
                 MaxMinEvaluation = int.MaxValue;
 
                 for (int i = 0; i < avaible.Count; i++)
                 {
-                    float percentStep = figurePercent[(int)(map.Players[player].figures[i].type) - 1];
+                    float percentStep = figurePercent[(int)(map.Players[player].Figures[i].Type) - 1];
                     int stepCalculate = (int)MathF.Round(avaible[i].Count * percentStep);
 
                     if ((stepCalculate < 1) && (avaible[i].Count >= 1)) stepCalculate = 1;
@@ -237,7 +236,7 @@ public class MinMaxAI : IAI
                         if (MaxMinEvaluation < alpha) break;
                         if (beta < alpha) break;
 
-                        Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[player].figures[i], avaible[i][j]);
+                        Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[player].Figures[i], avaible[i][j]);
 
                         int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
 
@@ -259,8 +258,8 @@ public class MinMaxAI : IAI
 
         // Если Рядом с Пешками Врага стоит фигура Бота начисляется штраф
         foreach (var player in AnotherPlayer)
-            foreach (var figure in map.Players[player].figures) 
-                if ((figure.type == FigureType.Pawn) && (Check.BesideEnemy(figure.pos, map, myNumber)))
+            foreach (var figure in map.Players[player].Figures) 
+                if ((figure.Type == FigureType.Pawn) && (Check.BesideEnemy(figure.Pos, map, myNumber)))
                         evaluation -= priceAroundEnemyPawn;
 
         for (int i = 0; i < map.Length; i++)
@@ -268,7 +267,7 @@ public class MinMaxAI : IAI
             for (int j = 0; j < map.Width; j++)
             {
                 Cell cell = map.Cells[i, j];
-                if (cell.numberPlayer == -1) continue;
+                if (cell.NumberPlayer == -1) continue;
 
                 float _pricePos = pricePos[(i % 9) / 3, (j % 9) / 3];
                 float priceCell = 0;
@@ -277,11 +276,11 @@ public class MinMaxAI : IAI
                 if (cell.FigureType != FigureType.Empty)
                     priceCell += (priceFigure[(int)cell.FigureType - 1] * _pricePos);
 
-                if (cell.type == CellType.Paint) priceCell += (pricePaint * _pricePos);
-                else if (cell.type == CellType.Dark) priceCell += (priceDark * _pricePos);
+                if (cell.Type == CellType.Paint) priceCell += (pricePaint * _pricePos);
+                else if (cell.Type == CellType.Dark) priceCell += (priceDark * _pricePos);
 
                 
-                if (cell.numberPlayer == myNumber) 
+                if (cell.NumberPlayer == myNumber) 
                     evaluation += priceCell;
                 else
                     evaluation -= priceCell;

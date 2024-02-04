@@ -10,7 +10,7 @@ namespace ColorChessModel
             //List<Cell> avaibleCell = new List<Cell>(8);
             Dictionary<Cell, int> dict = new Dictionary<Cell, int>(10);
 
-            Position posFigure = figure.pos;
+            Position posFigure = figure.Pos;
 
             for (int i = posFigure.X - 1; i <= posFigure.X + 1; i++)
             {
@@ -25,7 +25,7 @@ namespace ColorChessModel
 
 
                     // Чтобы не съесть свою фигуру
-                    if (cell.numberPlayer == figure.Number &&
+                    if (cell.NumberPlayer == figure.Number &&
                         cell.FigureType != FigureType.Empty) { continue; }
 
                     if (Check.Avaible(posCell, figure, map) == false) { continue; }

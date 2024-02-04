@@ -17,24 +17,24 @@ namespace ColorChessModel
             Map gameState = new Map(_gameState);
 
             // Получаем ссылку на новую фигуру, которая делает ход (потому что создалась копия карты)
-            Figure newFigure = gameState.GetCell(figure.pos).figure;
+            Figure newFigure = gameState.GetCell(figure.Pos).Figure;
             
             // Если в клетке в которую хотят сходить стоит фигура -> её хотят съесть
-            if (endCell.figure != null)
-                gameState.KillFigure(endCell.figure);
+            if (endCell.Figure != null)
+                gameState.KillFigure(endCell.Figure);
 
             // Тут ошибка бывает
-            List<Cell> Way = WayCalcSystem.CalcWay(gameState, newFigure.pos, endCell.pos, newFigure);
+            List<Cell> Way = WayCalcSystem.CalcWay(gameState, newFigure.Pos, endCell.Pos, newFigure);
 
             for (int i = 0; i < Way.Count; i++)
             {
-                Way[i].numberPlayer = newFigure.Number;
-                Way[i].type = CellType.Paint;
+                Way[i].NumberPlayer = newFigure.Number;
+                Way[i].Type = CellType.Paint;
             }
 
-            Way[0].figure = null;
-            Way[Way.Count - 1].figure = newFigure;
-            newFigure.pos = new Position(endCell.pos);
+            Way[0].Figure = null;
+            Way[Way.Count - 1].Figure = newFigure;
+            newFigure.Pos = new Position(endCell.Pos);
 
 
             UpdateGameState(gameState);
@@ -48,14 +48,14 @@ namespace ColorChessModel
         {
             foreach (Player player in gameState.Players)
             {
-                foreach (Figure figure in player.figures)
+                foreach (Figure figure in player.Figures)
                 {
-                    Cell cell = gameState.GetCell(figure.pos);
+                    Cell cell = gameState.GetCell(figure.Pos);
 
-                    cell.figure = figure;
-                    cell.numberPlayer = figure.Number;
+                    cell.Figure = figure;
+                    cell.NumberPlayer = figure.Number;
 
-                    cell.type = CellType.Paint;
+                    cell.Type = CellType.Paint;
                 }
             }
 
@@ -72,33 +72,33 @@ namespace ColorChessModel
                 for (int j = 0; j < map.Length; j++)
                 {
 
-                    if ((map.GetCell(i, j).type != CellType.Empty) &&
-                        (map.GetCell(i, j).numberPlayer != -1))
+                    if ((map.GetCell(i, j).Type != CellType.Empty) &&
+                        (map.GetCell(i, j).NumberPlayer != -1))
                     { MakeCapture(map, map.GetCell(i, j)); }
                 }
             }
         }
         private static void MakeCapture(Map map, Cell cell)
         {
-            for (int i = cell.pos.X - 1; i <= cell.pos.X + 1; i++)
+            for (int i = cell.Pos.X - 1; i <= cell.Pos.X + 1; i++)
             {
-                for (int j = cell.pos.Y - 1; j <= cell.pos.Y + 1; j++)
+                for (int j = cell.Pos.Y - 1; j <= cell.Pos.Y + 1; j++)
                 {
                     Position newPos = new Position(i, j);
 
                     if (Check.OutOfRange(newPos, map) == true ||
-                        map.GetCell(i, j).numberPlayer != cell.numberPlayer)
-                    { return; }
+                        map.GetCell(i, j).NumberPlayer != cell.NumberPlayer)
+                    return;
                 }
             }
 
             // Если код дошел до этого момента, значит главная клетка это центр 3х3 клеток с одинаковым номером игрока
 
-            for (int i = cell.pos.X - 1; i <= cell.pos.X + 1; i++)
+            for (int i = cell.Pos.X - 1; i <= cell.Pos.X + 1; i++)
             {
-                for (int j = cell.pos.Y - 1; j <= cell.pos.Y + 1; j++)
+                for (int j = cell.Pos.Y - 1; j <= cell.Pos.Y + 1; j++)
                 {
-                    map.GetCell(i, j).type = CellType.Dark;
+                    map.GetCell(i, j).Type = CellType.Dark;
                 }
             }
         }
@@ -113,7 +113,7 @@ namespace ColorChessModel
                 {
                     Cell cell = map.GetCell(i, j);
 
-                    score[cell.numberPlayer][cell.type] += 1;
+                    score[cell.NumberPlayer][cell.Type] += 1;
                 }
             }
 

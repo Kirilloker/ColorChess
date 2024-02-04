@@ -11,7 +11,7 @@ namespace ColorChessModel
             Dictionary<Cell, int> dict = new Dictionary<Cell, int>(100);
 
            // List<Cell> avaibleCell = new List<Cell>(100);
-            Position posFigure = figure.pos;
+            Position posFigure = figure.Pos;
 
             for (int i = 0; i < map.Width; i++)
             {

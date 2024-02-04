@@ -17,13 +17,13 @@ namespace ColorChessModel
 
         public void SetPosition(Position _position)
         {
-            figure.pos = _position;
+            figure.Pos = _position;
         }
 
 
         public void SetPlayer(Player _player)
         {
-            figure.player = _player;
+            figure.Player = _player;
         }
 
         public virtual void SetFigRequire()

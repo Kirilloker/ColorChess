@@ -51,15 +51,13 @@ public class SignIn : MonoBehaviour
             }
             else 
             {
-                Debug.Log("не получилось авторизироваться грусть печаль");
+                Print.Log("не получилось авторизироваться грусть печаль");
                 ImageWarning.SetActive(true);
             }
         }
         catch (Exception ex) 
         {
-            Debug.Log(ex);
+            Print.Log(ex.Message);
         }
-
-
     }
 }

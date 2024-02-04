@@ -23,13 +23,13 @@ namespace ColorChessModel
 
         public static bool SelfCellDark(Cell cell, int numberPlayer)
         {
-            if ((cell.numberPlayer == numberPlayer) && (cell.type == CellType.Dark)) { return true; }
+            if ((cell.NumberPlayer == numberPlayer) && (cell.Type == CellType.Dark)) { return true; }
             return false;
         }
 
         public static bool Avaible(Position posCell, Figure figure, Map map)
         {
-            return map.GetCell(posCell).Avaible(figure.require, figure.Number);
+            return map.GetCell(posCell).Available(figure.Require, figure.Number);
         }
 
 
@@ -41,7 +41,7 @@ namespace ColorChessModel
 
         public static bool BesideEnemy(Position posCell, Map map, int numberPlayer)
         {
-            if (map.GetCell(posCell).type == CellType.Dark) return false;
+            if (map.GetCell(posCell).Type == CellType.Dark) return false;
 
             for (int i = posCell.X - 1; i <= posCell.X + 1; i++)
             {
@@ -52,7 +52,7 @@ namespace ColorChessModel
 
                     Cell cell = map.GetCell(posCellCheck);
 
-                    if ((cell.figure != null) && (cell.numberPlayer == numberPlayer))
+                    if ((cell.Figure != null) && (cell.NumberPlayer == numberPlayer))
                         return true;
                 }
             }

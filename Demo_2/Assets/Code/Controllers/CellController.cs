@@ -35,7 +35,7 @@ public class CellController : MonoBehaviour
                 cells[i, j].FindComponents();
                 cells[i, j].SetCellController(this);
 
-                if (gameState.GetCell(i, j).type != CellType.Empty)
+                if (gameState.GetCell(i, j).Type != CellType.Empty)
                 {
                     cells[i, j].GetComponent<MeshRenderer>().material = prefabs.GetColorCell(
                         gameState.GetColorTypeCell(i,j), gameState.GetCellType(i, j));
@@ -69,7 +69,7 @@ public class CellController : MonoBehaviour
         HideAllPrompts();
 
         for (int i = 0; i < way.Count; i++)
-            cells[way[i].pos.X, way[i].pos.Y].ShowPrompt();
+            cells[way[i].Pos.X, way[i].Pos.Y].ShowPrompt();
     }
 
     public void HideAllPrompts()
@@ -90,7 +90,7 @@ public class CellController : MonoBehaviour
         OFFALLBoxColiders();
 
         for (int i = 0; i < way.Count; i++)
-            cells[way[i].pos.X, way[i].pos.Y].ONBoxColider();
+            cells[way[i].Pos.X, way[i].Pos.Y].ONBoxColider();
     }
     public bool GetBoolFigureInCell(Position position)
     {

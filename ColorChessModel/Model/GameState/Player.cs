@@ -3,12 +3,11 @@ namespace ColorChessModel
 {
     public class Player
     {
-        public int number;
-        public CornerType corner;
-        public ColorType color;
-        public PlayerType type;
-
-        public List<Figure> figures = new List<Figure>();
+        private int number;
+        private CornerType corner;
+        private ColorType color;
+        private PlayerType type;
+        private List<Figure> figures = new List<Figure>();
 
         public Player() { }
 
@@ -22,9 +21,14 @@ namespace ColorChessModel
             this.figures = new List<Figure>();
 
             for (int i = 0; i < anotherPlayer.figures.Count; i++)
-            {
                 this.figures.Add(new Figure(anotherPlayer.figures[i], this));
-            }
         }
+
+        public int Number { get => number; set => number = value; }
+        public CornerType Corner { get => corner; set => corner = value; }
+        public ColorType Color { get => color; set => color = value; }
+        public PlayerType Type { get => type; set => type = value; }
+        public List<Figure> Figures { get => figures; set => figures = value; }
+
     };
 }

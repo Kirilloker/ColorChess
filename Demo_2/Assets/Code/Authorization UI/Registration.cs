@@ -28,10 +28,7 @@ public class Registration : MonoBehaviour
             ) 
             return;
 
-        //if (AddUser(loginInp.text, passwordInp.text) == true) 
         if (await server.TryRegisry(loginInp.text, passwordInp.text) == true)
-        //bool x = true;
-        //if (x)
         {
             ImageWarning.SetActive(false);
 
@@ -49,11 +46,9 @@ public class Registration : MonoBehaviour
         }
         else 
         {
-            Debug.Log("не получилось зарегистрироваться грусть печаль");
+            Print.Log("не получилось зарегистрироваться грусть печаль");
             ImageWarning.SetActive(true);
         }
-
-
     }
 }
 

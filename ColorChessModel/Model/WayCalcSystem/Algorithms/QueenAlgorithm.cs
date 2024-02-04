@@ -11,7 +11,7 @@ namespace ColorChessModel
         {
             Dictionary<Cell, int> dict = new Dictionary<Cell, int>(40);
 
-            Position posFigure = figure.pos;
+            Position posFigure = figure.Pos;
 
             for (int i = -3; i <= 3; i += 2)
             {
@@ -33,7 +33,7 @@ namespace ColorChessModel
 
 
                         int test = 0;
-                        test += Math.Abs(figure.pos.X - cell.pos.X) + Math.Abs(figure.pos.Y - cell.pos.Y);
+                        test += Math.Abs(figure.Pos.X - cell.Pos.X) + Math.Abs(figure.Pos.Y - cell.Pos.Y);
                         test += (Check.SelfCellDark(cell, figure.Number)) ? -3 : 0;
 
                         dict.Add(cell, test);
@@ -54,7 +54,7 @@ namespace ColorChessModel
                             Check.Avaible(posCell, figure, map) == false) { break; }
 
                         int test = 0;
-                        test += Math.Abs(figure.pos.X - cell.pos.X) + Math.Abs(figure.pos.Y - cell.pos.Y);
+                        test += Math.Abs(figure.Pos.X - cell.Pos.X) + Math.Abs(figure.Pos.Y - cell.Pos.Y);
                         test += (Check.SelfCellDark(cell, figure.Number)) ? -3 : 0;
 
                         dict.Add(cell, test);
@@ -77,7 +77,7 @@ namespace ColorChessModel
                             Check.Avaible(posCell, figure, map) == false) { break; }
 
                         int test = 0;
-                        test += Math.Abs(figure.pos.X - cell.pos.X) + Math.Abs(figure.pos.Y - cell.pos.Y);
+                        test += Math.Abs(figure.Pos.X - cell.Pos.X) + Math.Abs(figure.Pos.Y - cell.Pos.Y);
                         test += (Check.SelfCellDark(cell, figure.Number)) ? -3 : 0;
 
                         dict.Add(cell, test);
@@ -98,7 +98,7 @@ namespace ColorChessModel
                             Check.Avaible(posCell, figure, map) == false) { break; }
 
                         int test = 0;
-                        test += Math.Abs(figure.pos.X - cell.pos.X) + Math.Abs(figure.pos.Y - cell.pos.Y);
+                        test += Math.Abs(figure.Pos.X - cell.Pos.X) + Math.Abs(figure.Pos.Y - cell.Pos.Y);
                         test += (Check.SelfCellDark(cell, figure.Number)) ? -3 : 0;
 
                         dict.Add(cell, test);

@@ -11,10 +11,10 @@ namespace ColorChessModel
 
         public Cell MakeCell(Position pos, CellType cellType)
         {
-            cell.pos = pos;
-            cell.type = cellType;
-            cell.figure = null;
-            cell.numberPlayer = -1;
+            cell.Pos = pos;
+            cell.Type = cellType;
+            cell.Figure = null;
+            cell.NumberPlayer = -1;
             return new Cell(cell);
         }
     }

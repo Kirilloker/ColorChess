@@ -42,7 +42,7 @@ public static class GameStateToIntArray
             {
                 curCellValue = 0;
                 Cell curCell = gameState.GetCell(i, j);
-                switch (curCell.type)
+                switch (curCell.Type)
                 {
                     case CellType.Empty:
                         curCellValue = FreeCellStateMask;
@@ -85,8 +85,8 @@ public static class GameStateToIntArray
                         throw (new Exception("Unknown figure type on ConvertMapToByteArray"));
                 }
 
-                if(curCell.numberPlayer == -1) { curCellValue = curCellValue | NoOnePlayerInCellMask; }
-                else { curCellValue = curCellValue | curCell.numberPlayer; }
+                if(curCell.NumberPlayer == -1) { curCellValue = curCellValue | NoOnePlayerInCellMask; }
+                else { curCellValue = curCellValue | curCell.NumberPlayer; }
 
                 result[curIntNumber] = result[curIntNumber] | (curCellValue << (8 * curByteNumberInInt));
 

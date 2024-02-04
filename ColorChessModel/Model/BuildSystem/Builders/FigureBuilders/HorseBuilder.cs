@@ -19,12 +19,12 @@ namespace ColorChessModel
             }
             };
 
-            figure.require = figRequire;
+            figure.Require = figRequire;
         }
 
         public override void SetFigType()
         {
-            figure.type = FigureType.Horse;
+            figure.Type = FigureType.Horse;
         }
     }
 }

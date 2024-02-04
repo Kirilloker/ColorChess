@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-namespace ColorChessModel
+﻿namespace ColorChessModel
 {
     public class Figure
     {
-        public Position pos;
-        public FigureType type;
-        public Player player;
-        public Dictionary<CellType, bool>[] require;
-
+        private Position pos;
+        private FigureType type;
+        private Player player;
+        private Dictionary<CellType, bool>[] require;
 
         public Figure() { }
 
@@ -19,15 +17,18 @@ namespace ColorChessModel
             this.require = anotherFigure.require;
         }
 
-        public int Number
-        {
-            get { return player.number; }
-        }
-
         public bool Equals(Figure anotherFigure)
         {
-            return this.pos == anotherFigure.pos && this.type == anotherFigure.type && this.Number == anotherFigure.Number;
+            return this.Pos == anotherFigure.Pos && this.Type == anotherFigure.Type && this.Number == anotherFigure.Number;
         }
 
+        public int Number
+        {
+            get { return Player.Number; }
+        }
+        public Position Pos { get => pos; set => pos = value; }
+        public FigureType Type { get => type; set => type = value; }
+        public Player Player { get => player; set => player = value; }
+        public Dictionary<CellType, bool>[] Require { get => require; set => require = value; }
     };
 }

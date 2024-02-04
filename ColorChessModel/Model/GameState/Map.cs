@@ -49,9 +49,9 @@ namespace ColorChessModel
 
             foreach (Player player in this.players)
             {
-                foreach (Figure figure in player.figures)
+                foreach (Figure figure in player.Figures)
                 {
-                    this.cells[figure.pos.X, figure.pos.Y].figure = figure;
+                    this.cells[figure.Pos.X, figure.Pos.Y].Figure = figure;
                 }
             }
 
@@ -60,11 +60,11 @@ namespace ColorChessModel
 
         public void KillFigure(Figure deadFigure)
         {
-            foreach (Figure figure in players[deadFigure.Number].figures)
+            foreach (Figure figure in players[deadFigure.Number].Figures)
             {
                 if (deadFigure.Equals(figure) == true)
                 {
-                    players[deadFigure.Number].figures.Remove(figure);
+                    players[deadFigure.Number].Figures.Remove(figure);
                     break;
                 }
             }
@@ -98,30 +98,30 @@ namespace ColorChessModel
         {
             if (numberPlayer < 0 || numberPlayer >= PlayersCount)
                 return ColorType.Default;
-            return players[numberPlayer].color;
+            return players[numberPlayer].Color;
         }
 
         public ColorType GetColorTypeCell(int x, int y)
         {
-            return GetColorType(cells[x, y].numberPlayer);
+            return GetColorType(cells[x, y].NumberPlayer);
         }
 
         public CellType GetCellType(int x, int y)
         {
-            return cells[x, y].type;
+            return cells[x, y].Type;
         }
 
         public PlayerType GetPlayerType(int numberPlayer)
         {
-            return players[numberPlayer].type;
+            return players[numberPlayer].Type;
         }
         public CornerType GetPlayerCorner(int numberPlayer)
         {
-            return players[numberPlayer].corner;
+            return players[numberPlayer].Corner;
         }
         public int GetPlayerFiguresCount(int numberPlayer)
         {
-            return players[numberPlayer].figures.Count;
+            return players[numberPlayer].Figures.Count;
         }
 
         public int Width { get { return cells.GetLength(0); } }
@@ -169,75 +169,8 @@ namespace ColorChessModel
             return Logs;
         }
 
-        public static bool operator !=(Map map1, Map map2)
-        {
-            return !(map1 == map2);
-        }
-
-        public static bool operator ==(Map map1, Map map2)
-        {
-            if (map1.CountStep != map2.CountStep)
-                return false;
-            // Не полностью готовый оператор 
-            if (map1.CountEmptyCell != map2.CountEmptyCell)
-                return false;
-
-            if (map1.PlayersCount != map2.PlayersCount)
-                return false;
-
-            for (int i = 0; i < map1.PlayersCount; i++)
-            {
-                if (map1.players[i].figures.Count != map2.players[i].figures.Count)
-                    return false;
-            }
-
-
-            for (int i = 0; i < map1.players.Count; i++)
-            {
-                for (int j = 0;  j < map1.players[i].figures.Count;  j++)
-                {
-                    if (map1.players[i].figures[j].Equals(map2.players[i].figures[j]) == false)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            for (int i = 0; i < map1.Length; i++)
-            {
-                for (int j = 0; j < map1.Width; j++)
-                {
-                    if (map1.cells[i, j] != map2.cells[i, j])
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-    
-        public override bool Equals(object obj)
-        {
-            return obj is Map map &&
-                   EqualityComparer<Cell[,]>.Default.Equals(cells, map.cells) &&
-                   EqualityComparer<List<Player>>.Default.Equals(players, map.players) &&
-                   countStep == map.countStep &&
-                   OneScorePaint == map.OneScorePaint &&
-                   OneScoreDark == map.OneScoreDark &&
-                   EqualityComparer<Dictionary<int, Dictionary<CellType, int>>>.Default.Equals(score, map.score) &&
-                   Width == map.Width &&
-                   Length == map.Length &&
-                   PlayersCount == map.PlayersCount &&
-                   CountEmptyCell == map.CountEmptyCell &&
-                   EqualityComparer<Dictionary<int, Dictionary<CellType, int>>>.Default.Equals(Score, map.Score) &&
-                   EqualityComparer<List<Player>>.Default.Equals(Players, map.Players) &&
-                   EqualityComparer<Cell[,]>.Default.Equals(Cells, map.Cells) &&
-                   CountStep == map.CountStep;
-        }
 
         // Свойства для сериализицаии
-
         public List<Player> Players
         {
             get { return players; }
@@ -246,10 +179,7 @@ namespace ColorChessModel
                 this.players = new List<Player>(value.Count);
 
                 foreach (var player in value)
-                {
                     this.players.Add(new Player(player));
-                }
-
             }
         }
 
@@ -261,21 +191,12 @@ namespace ColorChessModel
                 cells = new Cell[value.GetLength(0), value.GetLength(1)];
 
                 for (int i = 0; i < value.GetLength(0); i++)
-                {
                     for (int j = 0; j < value.GetLength(1); j++)
-                    {
                         cells[i, j] = new Cell(value[i, j]);
-                    }
-                }
 
                 foreach (Player player in this.players)
-                {
-                    foreach (Figure figure in player.figures)
-                    {
-                        this.cells[figure.pos.X, figure.pos.Y].figure = figure;
-                    }
-                }
-
+                    foreach (Figure figure in player.Figures)
+                        this.cells[figure.Pos.X, figure.Pos.Y].Figure = figure;
             }
         }
 

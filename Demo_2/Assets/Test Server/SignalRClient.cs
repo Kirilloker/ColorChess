@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using BestHTTP.SignalR;
 using BestHTTP.SignalR.Hubs;
 using BestHTTP.SignalR.Messages;
+using ColorChessModel;
 
 public class SignalRClient : MonoBehaviour 
 {
@@ -39,11 +40,11 @@ public class SignalRClient : MonoBehaviour
         
         signalRConnection.OnConnected += (conn) => 
         {
-            Debug.Log("Connect Successfully!");
+            Print.Log("Connect Successfully!");
         };
         signalRConnection.OnError += (conn, err) =>
         {
-            Debug.Log(err);
+            Print.Log(err);
         };
     }
 
@@ -71,7 +72,7 @@ public class SignalRClient : MonoBehaviour
         if (searchTimeOut != -1 && Time.time > searchTimeOut)
         {
             signalRConnection.Close();
-            Debug.Log("No oppenend found");
+            Print.Log("No oppenend found");
 
             // Set searchTimeOut to -1
             searchTimeOut = -1;
@@ -100,13 +101,13 @@ public class SignalRClient : MonoBehaviour
 
         private void Joined(Hub hub, MethodCallMessage msg)
         {
-            Debug.Log("Joined");
-            Debug.Log(msg.Arguments[0].ToString());
+            Print.Log("Joined");
+            Print.Log(msg.Arguments[0].ToString());
             int playerId = int.Parse(msg.Arguments[0].ToString());
 
             if (playerId == -1)
             {
-                Debug.Log("Waiting opponent");
+                Print.Log("Waiting opponent");
             }
             else
             {
@@ -115,7 +116,7 @@ public class SignalRClient : MonoBehaviour
 
                 // Set your GameObject name and start the game 
                 playerName = "Player" + playerId;
-                Debug.Log("Ура победа вы нашли друга");
+                Print.Log("Ура победа вы нашли друга");
 
                 GameController gameController = GameObject.Find("GameController").GetComponent<GameController>();
                 gameController.SelectGameMode(ColorChessModel.GameModeType.Network);
@@ -126,7 +127,7 @@ public class SignalRClient : MonoBehaviour
 
         private void Left(Hub hub, MethodCallMessage msg)
         {
-            Debug.Log("Player Disconnected!");
+            Print.Log("Player Disconnected!");
         }
 
 
@@ -134,10 +135,10 @@ public class SignalRClient : MonoBehaviour
         {
             string message = msg.Arguments[0].ToString();
 
-            Debug.Log(message);
+            Print.Log(message);
             GameController gameController = GameObject.Find("GameController").GetComponent<GameController>();
             gameController.ApplyStepView(TestServerHelper.ConvertJSONtoSTEP(message));
-            Debug.Log("Message");
+            Print.Log("Message");
         }
     }
 }

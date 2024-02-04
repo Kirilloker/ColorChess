@@ -1,6 +1,4 @@
 ﻿using ColorChessModel;
-using System;
-using System.Collections.Generic;
 
 public class MonteCarloAI : IAI
 {
@@ -35,7 +33,7 @@ public class MonteCarloAI : IAI
                 cellNum = rnd.Next(avaibleFirstSteps[figureNum].Count);
             }
 
-            Figure figureForStep = startGameStateCopy.Players[startGameStateCopy.NumberPlayerStep].figures[figureNum];
+            Figure figureForStep = startGameStateCopy.Players[startGameStateCopy.NumberPlayerStep].Figures[figureNum];
             Cell cellForStep = avaibleFirstSteps[figureNum][cellNum];
             startGameStateCopy = GameStateCalcSystem.ApplyStep(startGameStateCopy, figureForStep, cellForStep);
             Map randomGameResult = MakeNRandomSteps(randomGameDepth - 1, startGameState);
@@ -61,8 +59,7 @@ public class MonteCarloAI : IAI
             }
         }
 
-        UnityEngine.Debug.Log(maxAverage);
-        return new Step(startGameState.Players[startGameState.NumberPlayerStep].figures[fig], avaibleFirstSteps[fig][cell]);
+        return new Step(startGameState.Players[startGameState.NumberPlayerStep].Figures[fig], avaibleFirstSteps[fig][cell]);
     }
 
     private static Map MakeNRandomSteps(int numOfSteps, Map startGameState)
@@ -84,7 +81,7 @@ public class MonteCarloAI : IAI
                 cellNum = rnd.Next(avaibleSteps[figureNum].Count);
             }
 
-            Figure figureForStep = gameState.Players[gameState.NumberPlayerStep].figures[figureNum];
+            Figure figureForStep = gameState.Players[gameState.NumberPlayerStep].Figures[figureNum];
             Cell cellForStep = avaibleSteps[figureNum][cellNum];
             gameState = GameStateCalcSystem.ApplyStep(gameState, figureForStep, cellForStep);
         }
@@ -99,7 +96,7 @@ public class MonteCarloAI : IAI
        
         List<List<Cell>> avaibleSteps = new();
         int curPlayerNumber = gameState.NumberPlayerStep;
-        List<Figure> figures = gameState.Players[curPlayerNumber].figures;
+        List<Figure> figures = gameState.Players[curPlayerNumber].Figures;
 
         foreach (Figure figure in figures)
             avaibleSteps.Add(WayCalcSystem.CalcAllSteps(gameState, figure));
@@ -130,9 +127,9 @@ public class MonteCarloAI : IAI
         evaluation += (map.GetPlayerFiguresCount(1) - map.GetPlayerFiguresCount(0)) * priceKill;
 
         // Если Рядом с Пешками Врага стоит фигура Бота начисляется штраф
-        foreach (var figure in map.Players[0].figures)
-            if (figure.type == FigureType.Pawn)
-                evaluation -= (Check.BesideEnemy(figure.pos, map, figure.Number)) ? priceAroundEnemyPawn : 0;
+        foreach (var figure in map.Players[0].Figures)
+            if (figure.Type == FigureType.Pawn)
+                evaluation -= (Check.BesideEnemy(figure.Pos, map, figure.Number)) ? priceAroundEnemyPawn : 0;
 
         return evaluation;
     }

@@ -15,6 +15,15 @@ namespace ColorChessModel
             y = _y;
         }
 
+        public Position(float _x, float _y)
+        {
+            if (_x < 0 || _y < 0)
+                throw new ArgumentException("Coordinates cannot be negative.");
+
+            x = (int)_x;
+            y = (int)_y;
+        }
+
         public Position(Position anotherPosition)
         {
             this.x = anotherPosition.x;
@@ -36,16 +45,7 @@ namespace ColorChessModel
             return "(X:" + x + ";   Y:" + y + ")";
         }
 
-        public int X 
-        { 
-            get { return x; } 
-            set { x = value; } 
-        }
-
-        public int Y
-        {
-            get { return y; }
-            set { y = value; }
-        }
+        public int X { get => x; set => x = value; }
+        public int Y { get => y; set => y = value; }
     }
 }

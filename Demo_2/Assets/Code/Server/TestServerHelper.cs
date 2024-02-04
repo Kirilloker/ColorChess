@@ -82,10 +82,6 @@ public class TestServerHelper
                 //SendStepPlayer(i, step);
             }
         }
-        else
-        {
-            DebugConsole.Print("Карта не совпала с сервером!");
-        }
     }
 
 }
