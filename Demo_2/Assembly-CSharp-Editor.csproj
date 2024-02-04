@@ -398,6 +398,12 @@
     <Reference Include="websocket-sharp">
       <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="UnitTest">
+      <HintPath>Assets\Plugins\UnitTest.dll</HintPath>
+    </Reference>
+    <Reference Include="ColorChessModel">
+      <HintPath>Assets\Plugins\ColorChessModel.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
     </Reference>

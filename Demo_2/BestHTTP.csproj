@@ -2078,6 +2078,12 @@
     <Reference Include="websocket-sharp">
       <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="UnitTest">
+      <HintPath>Assets\Plugins\UnitTest.dll</HintPath>
+    </Reference>
+    <Reference Include="ColorChessModel">
+      <HintPath>Assets\Plugins\ColorChessModel.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Android.Types">
       <HintPath>H:\GameDev\Unity\2021.3.5f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
     </Reference>
