@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+
+
 namespace ColorChessModel
 {
     public static class Check

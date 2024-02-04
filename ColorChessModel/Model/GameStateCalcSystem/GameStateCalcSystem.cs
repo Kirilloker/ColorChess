@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+
+
 namespace ColorChessModel
 {
     public class GameStateCalcSystem

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using ColorChessModel;
 
 namespace ColorChessModel
 {
@@ -68,6 +68,18 @@ namespace ColorChessModel
                     break;
                 }
             }
+        }
+
+
+        public Map ConvertMapToPlayer(int playerNum)
+        {
+            Map map = new Map(this);
+            for (int i = 0; i < map.players.Count; i++)
+            {
+                if (i == playerNum) continue;
+                map.players[i].Type = PlayerType.Online;
+            }
+            return map;
         }
 
         public int GetScorePlayer(int numberPlayer)

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+
+
 namespace ColorChessModel
 {
     //Описывает всех игроков для создания

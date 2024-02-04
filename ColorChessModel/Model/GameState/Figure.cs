@@ -1,4 +1,6 @@
-﻿namespace ColorChessModel
+﻿
+
+namespace ColorChessModel
 {
     public class Figure
     {

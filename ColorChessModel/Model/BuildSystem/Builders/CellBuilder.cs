@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+
+
 namespace ColorChessModel
 {
     class CellBuilder

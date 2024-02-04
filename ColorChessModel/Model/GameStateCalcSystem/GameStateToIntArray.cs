@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ColorChessModel;
 
+
 public static class GameStateToIntArray
 {
     static private byte FreeCellStateMask =         0b_00_000_000;

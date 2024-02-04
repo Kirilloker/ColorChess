@@ -1,4 +1,5 @@
 ﻿using ColorChessModel;
+using ColorChessModel.Tools;
 
 public class GameRoom
 {
