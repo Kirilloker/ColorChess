@@ -51,14 +51,9 @@ public class UserInfoController : ControllerBase
     [SwaggerOperation(Summary = "Получение всего списка пользователей", Description = "Возвращает всю таблицу Пользователей + Пользовательская статистика")]
     [SwaggerResponse((int)ServerStatus.Success, "Успешный запрос")]
     [SwaggerResponse((int)ServerStatus.NotFound, "Не нашлись данные")]
-    //[SwaggerResponse(406, "Не верный пароль")]
     public IActionResult GetUserInfoAllWithoutHash(
-        //[FromQuery][SwaggerParameter("Пароль-доступа")] string password
         )
     {
-        //if (password != password_db)
-        //    return new ObjectResult("Не верный пароль") { StatusCode = 406 };
-
         List<UserInfoDTO> users = Mapper.List_UserInfoToDTO(DB.GetAll<User>(), DB.GetAll<UserStatistic>());
 
         if (users == null || users.Count == 0)
@@ -73,14 +68,9 @@ public class UserInfoController : ControllerBase
     [SwaggerResponse((int)ServerStatus.Success, "Успешный запрос")]
     [SwaggerResponse((int)ServerStatus.NotCorrect, "Не корректные данные")]
     [SwaggerResponse((int)ServerStatus.NotFound, "Не нашлись данные")]
-    //[SwaggerResponse(406, "Не верный пароль")]
     public IActionResult GetUserInfoWithoutHash(
-        //[FromQuery][SwaggerParameter("Пароль-доступа")] string password,
         [FromQuery][SwaggerParameter("ID пользователя")] string userId)
     {
-        //if (password != password_db)
-        //    return new ObjectResult("Не верный пароль") { StatusCode = 406 };
-
         if (int.TryParse(userId, out int id) == false)
             return new ObjectResult("В параметре должно быть число") { StatusCode = (int)ServerStatus.NotCorrect };
 
@@ -138,11 +128,11 @@ public class UserInfoController : ControllerBase
         if (user == null || userStatistic == null)
             return new ObjectResult("Не удалось найти данные") { StatusCode = (int)ServerStatus.NotFound };
 
-        UserInfoDTO userinfo = Mapper.UserInfoToDTO(user, userStatistic);
+        UserInfoDTO userInfo = Mapper.UserInfoToDTO(user, userStatistic);
 
         //!
         if (DB.Delete<User>(id) && DB.Delete<UserStatistic>((DB.GetUserStatistic(id)).Id))
-            return new JsonResult(userinfo);
+            return new JsonResult(userInfo);
         else
             return new ObjectResult("Произошла ошибка") { StatusCode = (int)ServerStatus.UnKnown };
     }

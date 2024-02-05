@@ -3,21 +3,15 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
 using System.Collections.Specialized;
 
-public enum GameMode
-{
-    Default = 0,
-    Rating = 1,
-    Custom = 2,
-}
 
 public class Server
 {
     public MainController mainController;
     private HubConnection connection;
 
-    private bool IsLoginIn = false;
+    private bool isLoginIn = false;
 
-    private const string baseIP = "192.168.0.35";
+    private const string baseIP = "192.168.0.116";
 
     private const string GameServerHubUrl = "http://" + baseIP + ":11000/Game";
     private const string LoginInUrl = "http://" + baseIP + ":11000/login";
@@ -25,8 +19,8 @@ public class Server
     private const string PlaceInTopUrl = "http://" + baseIP + ":11000/placeInTop";
     private const string RegistrationUrl = "http://" + baseIP + ":11000/registry";
 
-    private string UserName = "";
-    private string Password = "";
+    private string userName;
+    private string password;
 
 
     private IServerSender serverSender;
@@ -66,7 +60,7 @@ public class Server
     public async Task<bool> TryLoginIn(string name, string password)
     {
         await LoginIn(name, password);
-        return IsLoginIn;
+        return isLoginIn;
     }
 
     public async Task<bool> TryRegistry(string name, string password)
@@ -151,7 +145,7 @@ public class Server
                    options.AccessTokenProvider = async () =>
                    {
                        HttpClient client = new HttpClient();
-                       HttpContent content = new StringContent(UserName + " " + Password);
+                       HttpContent content = new StringContent(userName + " " + password);
                        HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
                        string contentText = await response.Content.ReadAsStringAsync();
                        string token = JsonConvert.DeserializeObject<AccessToken>(contentText).access_token;
@@ -184,7 +178,7 @@ public class Server
 
     private async Task LoginIn(string _name, string _password)
     {
-        HttpClient client = new HttpClient();
+        IHttpClientForServer client = httpClient;
         client.Timeout = TimeSpan.FromSeconds(5); // Устанавливаем таймаут в 5 секунд
 
         HttpContent content = new StringContent(_name + " " + _password);
@@ -196,13 +190,13 @@ public class Server
 
             if (result == "OK")
             {
-                UserName = _name;
-                Password = _password;
-                IsLoginIn = true;
+                userName = _name;
+                password = _password;
+                isLoginIn = true;
             }
             else if (result == "Unauthorized")
             {
-                IsLoginIn = false;
+                isLoginIn = false;
             }
         }
     }
@@ -226,9 +220,18 @@ public class Server
     }
 
 
+    public string UserName { get => userName; }
+    public string Password { get => password; }
+    public bool IsLoginIn { get => isLoginIn; }
 
 
 
+    private IHttpClientForServer httpClient;
+
+    public void SetHttpClient(IHttpClientForServer httpClient)
+    {
+        this.httpClient = httpClient;
+    }
 
 
     private static Server instance;
@@ -236,6 +239,7 @@ public class Server
 
     private Server()
     {
+        SetHttpClient(new StandardHttpClient());
     }
 
     public static Server Instance
@@ -251,6 +255,42 @@ public class Server
                 }
             }
             return instance;
+        }
+    }
+}
+
+public interface IHttpClientForServer
+{
+    Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content);
+    Task<HttpResponseMessage> GetAsync(string requestUri);
+    public TimeSpan Timeout { get; set; }
+}
+
+public class StandardHttpClient : IHttpClientForServer
+{
+    private readonly HttpClient httpClient;
+
+    public StandardHttpClient()
+    {
+        this.httpClient = new HttpClient();
+    }
+
+    public async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content)
+    {
+        return await httpClient.PostAsync(requestUri, content);
+    }
+
+    public async Task<HttpResponseMessage> GetAsync(string requestUri)
+    {
+        return await httpClient.GetAsync(requestUri);
+    }
+
+    public TimeSpan Timeout
+    {
+        get => httpClient.Timeout;
+        set
+        {
+            httpClient.Timeout = TimeSpan.FromSeconds(value.TotalSeconds);
         }
     }
 }

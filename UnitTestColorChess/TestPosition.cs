@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using ColorChessModel;
+﻿using ColorChessModel;
 
 namespace UnitTest
 {

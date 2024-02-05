@@ -26,6 +26,25 @@ namespace ColorChessModel
                 this.figures.Add(new Figure(anotherPlayer.figures[i], this));
         }
 
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj)) return true;
+
+            Player other = obj as Player;
+            if (other == null) return false;
+
+            if (figures.Count != other.figures.Count) return false;
+
+            for (int i = 0; i < figures.Count; i++)
+                if (figures[i].Equals(other.figures[i]) == false) return false;
+
+
+            return number == other.number &&
+                   color == other.color &&
+                   corner == other.corner &&
+                   type == other.type;
+        }
+
         public int Number { get => number; set => number = value; }
         public CornerType Corner { get => corner; set => corner = value; }
         public ColorType Color { get => color; set => color = value; }

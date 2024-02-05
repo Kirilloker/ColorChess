@@ -117,17 +117,17 @@ public class MinMaxAI : IAI
         // Возвращает двумерный массив: первый индекс - i-ая фигура игрока; 
         // второй индекс - j-ая клетка на которую может сходить фигура
 
-        List<List<Cell>> avaiblePlayer = new();
+        List<List<Cell>> availablePlayer = new();
 
         Player player = map.Players[numberPlayer];
 
         foreach (Figure figure in player.Figures)
-            avaiblePlayer.Add(WayCalcSystem.CalcAllSteps(map, figure));
+            availablePlayer.Add(WayCalcSystem.CalcAllSteps(map, figure));
 
-        return avaiblePlayer;
+        return availablePlayer;
     }
 
-    private void SwitchGameSutuation(float percentEmptyCell)
+    private void SwitchGameSituation(float percentEmptyCell)
     {
         // Меняет стадию игры Начало-Разгон-Середина-Замедление-Конец
         if (percentEmptyCell < 0.25)
@@ -145,7 +145,7 @@ public class MinMaxAI : IAI
     private int AlphaBeta(Map map, int level, int alpha, int beta)
     {
         // Список всех возможных ходов для определенного игрока
-        List<List<Cell>> avaible = new();
+        List<List<Cell>> available = new();
 
         // Конец игры
         if (map.EndGame == true)
@@ -167,7 +167,7 @@ public class MinMaxAI : IAI
         if (level == 0)
         {
             float percentCell = (float)(map.Length * map.Width - map.CountEmptyCell) / (float)(map.Length * map.Width);
-            SwitchGameSutuation(percentCell);
+            SwitchGameSituation(percentCell);
         }
 
         // Достигли максимальную глубину дерева
@@ -180,19 +180,19 @@ public class MinMaxAI : IAI
         if (level % 2 == 0)
         {
             // Получаем список всех ходов 
-            avaible = GetAvailableForPlayer(map, myNumber);
+            available = GetAvailableForPlayer(map, myNumber);
             MaxMinEvaluation = int.MinValue;
 
-            for (int i = 0; i < avaible.Count; i++)
+            for (int i = 0; i < available.Count; i++)
             {
                 // Сколько процентов ходов обработать у фигуры
                 float percentStep = figurePercent[(int)(map.Players[myNumber].Figures[i].Type) - 1];
 
                 // Количество ходов которое будет обработано у фигуры
-                int stepCalculate = (int)Math.Round(avaible[i].Count * percentStep);
+                int stepCalculate = (int)Math.Round(available[i].Count * percentStep);
 
                 // Если получилось что 0 шагов обработаются, то обработать хотя бы 1 шаг
-                if ((stepCalculate < 1) && (avaible[i].Count >= 1))
+                if ((stepCalculate < 1) && (available[i].Count >= 1))
                     stepCalculate = 1;
 
                 for (int j = 0; j < stepCalculate; j++)
@@ -202,14 +202,14 @@ public class MinMaxAI : IAI
                     if (MaxMinEvaluation > beta) break;
                     if (beta < alpha) break;
 
-                    Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[myNumber].Figures[i], avaible[i][j]);
+                    Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[myNumber].Figures[i], available[i][j]);
 
                     int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
 
                     // Запоминаем наилучший ход
                     if ((level == 0) && (MinMax > MaxMinEvaluation))
                     {
-                        bestCell = avaible[i][j];
+                        bestCell = available[i][j];
                         bestFigure = map.Players[myNumber].Figures[i];
                     }
 
@@ -223,15 +223,15 @@ public class MinMaxAI : IAI
         {
             foreach (var player in AnotherPlayer)
             {
-                avaible = GetAvailableForPlayer(map, player);
+                available = GetAvailableForPlayer(map, player);
                 MaxMinEvaluation = int.MaxValue;
 
-                for (int i = 0; i < avaible.Count; i++)
+                for (int i = 0; i < available.Count; i++)
                 {
                     float percentStep = figurePercent[(int)(map.Players[player].Figures[i].Type) - 1];
-                    int stepCalculate = (int)Math.Round(avaible[i].Count * percentStep);
+                    int stepCalculate = (int)Math.Round(available[i].Count * percentStep);
 
-                    if ((stepCalculate < 1) && (avaible[i].Count >= 1)) stepCalculate = 1;
+                    if ((stepCalculate < 1) && (available[i].Count >= 1)) stepCalculate = 1;
 
                     for (int j = 0; j < stepCalculate; j++)
                     {
@@ -240,7 +240,7 @@ public class MinMaxAI : IAI
                         if (MaxMinEvaluation < alpha) break;
                         if (beta < alpha) break;
 
-                        Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[player].Figures[i], avaible[i][j]);
+                        Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[player].Figures[i], available[i][j]);
 
                         int MinMax = AlphaBeta(copyMap, level + 1, alpha, beta);
 

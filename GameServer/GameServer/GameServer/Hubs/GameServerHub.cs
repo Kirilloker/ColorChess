@@ -70,7 +70,6 @@ public class GameServerHub : Hub
         await Task.Run(() =>
         {
             Console.WriteLine($"User ({Context.UserIdentifier}) connected to gameHub");
-
         });
 
         await base.OnConnectedAsync();
@@ -101,5 +100,4 @@ public class GameServerHub : Hub
         });
         await base.OnDisconnectedAsync(exception);
     }
-    
 }

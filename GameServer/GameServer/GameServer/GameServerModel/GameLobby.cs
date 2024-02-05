@@ -8,7 +8,7 @@ public static class GameLobby
     private static Dictionary<int, GameRoom> PlayersInRooms = new();
     private static object locker = new();
 
-    //Retun Map if room is full and game is started. Else return null.
+    //Return Map if room is full and game is started. Else return null.
     public static Map FindRoomForPlayerAndStartGame(int PlayerId, GameMode gameMode, int NumOfPlayers)
     {
         lock (locker)
@@ -31,7 +31,7 @@ public static class GameLobby
                 relevanceRoomList = rooms[gameMode][NumOfPlayers];
             }
 
-            //Create new room if we dont find relevance room
+            //Create new room if we don't find relevance room
             if (relevanceRoomList.Count == 0)
             {
                 Console.WriteLine("Player " + PlayerId + " create new room");
@@ -93,8 +93,6 @@ public static class GameLobby
         if (!PlayersInRooms.TryGetValue(PlayerId, out room))
             return;
 
-        //Console.WriteLine($"PlayerLeftTheGame(): Delete room with player {PlayerId}");
-        //DB.AddLogEvent(TypeLogEvent.SurrenderGame, PlayerId, "player left the game");
         lock (locker)
         {
             rooms[room.RoomGameMode][room.MaxPlayers].Remove(room);
@@ -110,7 +108,6 @@ public static class GameLobby
             return room.PlayersInRoom;
         else
             return null;
-            //throw(new Exception("GetAllPlayersInRoomWithPlayer room not exist"));
     }
 
     private static GameRoom FindRatingRelevanceRoom(List<GameRoom> relevanceRoomList, int rate)

@@ -1,5 +1,12 @@
 ﻿namespace ColorChessModel
 {
+    public enum GameMode
+    {
+        Default = 0,
+        Rating = 1,
+        Custom = 2,
+    }
+
     public enum EnumTypes
     {
         GameManager,
