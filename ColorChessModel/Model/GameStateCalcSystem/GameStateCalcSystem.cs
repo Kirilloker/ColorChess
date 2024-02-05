@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-
-namespace ColorChessModel
+﻿namespace ColorChessModel
 {
     public class GameStateCalcSystem
     {
@@ -38,8 +34,7 @@ namespace ColorChessModel
             Way[Way.Count - 1].Figure = newFigure;
             newFigure.Pos = new Position(endCell.Pos);
 
-
-            UpdateGameState(gameState);
+            gameState = UpdateGameState(gameState);
 
             gameState.CountStep++;
 

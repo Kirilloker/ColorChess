@@ -13,50 +13,13 @@ public class ServerHelper
     Игроки принимают этот ход и применяют его у себя (и возможно отправляют свою Map на проверку)
     */
 
-    public static Map ConvertJSONtoMap(string JSON)
-    {
-        try
-        {
-            Map gameState = JsonConvert.DeserializeObject<Map>(JSON,
-                new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
-
-            return gameState;
-        }
-        catch (Exception ex)
-        {
-            Print.Log($"Exception during JSON deserialization: {ex}");
-            throw; 
-        }
-    }
-
-
-    public static Step ConvertJSONtoSTEP(string JSON)
-    {
-        Step step = JsonConvert.DeserializeObject<Step>(JSON,
-        new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
-
-        return step;
-    }
-
-    public static string ConvertToJSON(Map map)
-    {
-        return JsonConvert.SerializeObject(map, Formatting.Indented,
-        new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
-    }
-
-    public static string ConvertToJSON(Step step)
-    {
-        return JsonConvert.SerializeObject(step, Formatting.Indented,
-        new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
-    }
-
 
     static Map myMap;
     static Map newMap;
     public static bool NormalStep(string _step, string _map)
     {
-        Step step = ConvertJSONtoSTEP(_step);
-        Map map = ConvertJSONtoMap(_map);
+        Step step = JSONConverter.ConvertJSONtoSTEP(_step);
+        Map map = JSONConverter.ConvertJSONtoMap(_map);
 
         if (step.IsReal(myMap) == false)
             return false;

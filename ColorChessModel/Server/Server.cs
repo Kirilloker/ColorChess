@@ -45,12 +45,12 @@ public class Server
     }
     public void SendStep(Step clientStep)
     {
-        SendStepToServer(ServerHelper.ConvertToJSON(clientStep));
+        SendStepToServer(JSONConverter.ConvertToJSON(clientStep));
     }
 
     public async void SendLastStep(Step clientStep) 
     {
-        await SendStepToServer(ServerHelper.ConvertToJSON(clientStep));
+        await SendStepToServer(JSONConverter.ConvertToJSON(clientStep));
         await CloseConnection();
     }
 
@@ -128,13 +128,13 @@ public class Server
     //Ìועמהû גûחûגאולû סונגונמל גמ גנולÿ טדנû________________________
     private void ServerSendStep(string opponentStep)
     {
-        Step step = ServerHelper.ConvertJSONtoSTEP(opponentStep);
+        Step step = JSONConverter.ConvertJSONtoSTEP(opponentStep);
         serverSender.SendStep(step);
     }
     private void ServerStartGame(string gameState)
     {
         Print.Log(gameState);
-        Map map = ServerHelper.ConvertJSONtoMap(gameState);
+        Map map = JSONConverter.ConvertJSONtoMap(gameState);
         serverSender.StartGame(map);
     }
     private void ServerEndGame()

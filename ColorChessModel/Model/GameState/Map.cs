@@ -99,6 +99,27 @@ namespace ColorChessModel
             return players[numberPlayer].Color;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj)) return true;
+
+            Map another = obj as Map;
+            if (another == null) return false;
+
+            if (another.Length != Length || another.Width != Width) return false;
+            if (CountStep != another.CountStep) return false;
+            if (PlayersCount != another.PlayersCount) return false;
+
+            for (int i = 0; i < Width; i++)
+                for (int j = 0; j < Length; j++)
+                    if (cells[i, j].Equals(another.cells[i, j]) == false) return false;
+
+            for (int i = 0; i < players.Count; i++)
+                if (players[i].Equals(another.players[i]) == false) return false;
+
+            return true;
+        }
+
 
 
 

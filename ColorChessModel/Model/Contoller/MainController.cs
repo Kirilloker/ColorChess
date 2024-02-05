@@ -75,13 +75,9 @@ namespace ColorChessModel
             Figure selectFigure = CurrentGameState.GetCell(pos).Figure;
 
             if (selectFigure != null)
-            {
                 gameController.FigureSelected(CurrentGameState, selectFigure);
-            }
             else
-            {
                 Print.Log("Такой фигуры не нашлось");
-            }
         }
 
 
@@ -161,7 +157,6 @@ namespace ColorChessModel
                 //uiController.OnlineGameExit();
                 server.CloseConnection();
             }
-
 
             Print.Log("Конец игры");
 

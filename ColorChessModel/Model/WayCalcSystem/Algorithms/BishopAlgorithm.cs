@@ -35,7 +35,7 @@ namespace ColorChessModel
 
             List<Cell> avaibleCell = new List<Cell>(dict.Count);
 
-            // Сортируем словарь и добовляем всё в массив
+            // Сортируем словарь и добавляем всё в массив
             dict = dict.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
 
             foreach (Cell cell in dict.Keys)

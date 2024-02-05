@@ -35,6 +35,21 @@ namespace ColorChessModel
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj)) return true; 
+
+            Cell other = obj as Cell;
+            if (other == null) return false;
+            
+            if (figure != null && (figure.Equals(other.figure) == false)) return false;
+
+            return pos == other.pos &&
+                   type == other.type &&
+                   numberPLayer == other.numberPLayer;
+        }
+
+
 
         public FigureType FigureType { get => Figure != null ? Figure.Type : FigureType.Empty; }
 
