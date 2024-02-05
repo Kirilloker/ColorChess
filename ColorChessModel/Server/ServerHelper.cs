@@ -11,24 +11,21 @@ public class ServerHelper
     Если не одинаковые - ...
     Далее сервер отправляет остальным игрокам (всем кроме Игрок1) Step
     Игроки принимают этот ход и применяют его у себя (и возможно отправляют свою Map на проверку)
-
     */
 
     public static Map ConvertJSONtoMap(string JSON)
     {
         try
         {
-            Print.Log("Test1");
             Map gameState = JsonConvert.DeserializeObject<Map>(JSON,
                 new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
-            Print.Log("Test2");
 
             return gameState;
         }
         catch (Exception ex)
         {
             Print.Log($"Exception during JSON deserialization: {ex}");
-            throw; // Проброс исключения для дальнейшего анализа
+            throw; 
         }
     }
 

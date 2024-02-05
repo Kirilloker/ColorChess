@@ -20,15 +20,6 @@ namespace ColorChessModel
         }
 
 
-        public FigureType FigureType
-        {
-            get
-            {
-                if (this.Figure == null) return FigureType.Empty;
-                return Figure.Type;
-            }
-        }
-
         public bool Available(Dictionary<CellType, bool>[] require, int numberPlayerFigure)
         {
             // Может ли фигура наступить на такой тип клетки
@@ -45,6 +36,7 @@ namespace ColorChessModel
         }
 
 
+        public FigureType FigureType { get => Figure != null ? Figure.Type : FigureType.Empty; }
 
         public Position Pos { get => pos; set => pos = value; }
         public CellType Type { get => type; set => type = value; }

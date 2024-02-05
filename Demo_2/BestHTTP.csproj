@@ -381,8 +381,8 @@
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\x509\DisplayText.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\util\encoders\HexTranslator.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\IKeyUnwrapper.cs" />
-    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\tls\AbstractTlsEncryptionCredentials.cs" />
     <Compile Include="Assets\Best HTTP\Examples\Plugin\AsyncExtensions.cs" />
+    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\tls\AbstractTlsEncryptionCredentials.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\cmp\KeyRecRepContent.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\parameters\ParametersWithRandom.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\asn1\teletrust\TeleTrusTNamedCurves.cs" />
@@ -1094,8 +1094,8 @@
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\agreement\srp\SRP6Client.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\digests\TigerDigest.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\tls\TlsUtilities.cs" />
-    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\parameters\KDFFeedbackParameters.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\agreement\jpake\JPakePrimeOrderGroups.cs" />
+    <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\parameters\KDFFeedbackParameters.cs" />
     <Compile Include="Assets\Best HTTP\Examples\SignalR\Authentication Providers\SampleHeaderAuthentication.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\crypto\signers\Ed448Signer.cs" />
     <Compile Include="Assets\Best HTTP\Source\SecureProtocol\math\ec\multiplier\FixedPointPreCompInfo.cs" />

@@ -29,7 +29,7 @@ namespace ColorChessModel
 
                         if (Check.BusyCell(cell) == true
                             ||
-                            Check.Avaible(posCell, figure, map) == false) { break; }
+                            Check.Available(posCell, figure, map) == false) { break; }
 
 
                         int test = 0;
@@ -51,7 +51,7 @@ namespace ColorChessModel
 
                         if (Check.BusyCell(cell) == true
                             ||
-                            Check.Avaible(posCell, figure, map) == false) { break; }
+                            Check.Available(posCell, figure, map) == false) { break; }
 
                         int test = 0;
                         test += Math.Abs(figure.Pos.X - cell.Pos.X) + Math.Abs(figure.Pos.Y - cell.Pos.Y);
@@ -74,7 +74,7 @@ namespace ColorChessModel
 
                         if (Check.BusyCell(cell) == true
                             ||
-                            Check.Avaible(posCell, figure, map) == false) { break; }
+                            Check.Available(posCell, figure, map) == false) { break; }
 
                         int test = 0;
                         test += Math.Abs(figure.Pos.X - cell.Pos.X) + Math.Abs(figure.Pos.Y - cell.Pos.Y);
@@ -95,7 +95,7 @@ namespace ColorChessModel
 
                         if (Check.BusyCell(cell) == true
                             ||
-                            Check.Avaible(posCell, figure, map) == false) { break; }
+                            Check.Available(posCell, figure, map) == false) { break; }
 
                         int test = 0;
                         test += Math.Abs(figure.Pos.X - cell.Pos.X) + Math.Abs(figure.Pos.Y - cell.Pos.Y);

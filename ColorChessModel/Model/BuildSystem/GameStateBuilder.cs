@@ -13,7 +13,7 @@ namespace ColorChessModel
         private CellBuilder cellBuilder;
 
 
-        private PlayersDescription playersDiscription;
+        private PlayersDescription playersDescription;
         private CellDescription board;
         private List<FigureSetDescription> figureSets;
 
@@ -28,14 +28,16 @@ namespace ColorChessModel
 
         public Map CreateGameState()
         {
+            gameState = new Map();
+
             //Создаем игроков
-            for (int i = 0; i < playersDiscription.PlayerNumbers.Count; i++)
+            for (int i = 0; i < playersDescription.PlayerNumbers.Count; i++)
             {
                 gameState.Players.Add(playerBuilder.MakePlayer(
-                    playersDiscription.PlayerCorners[i],
-                    playersDiscription.PlayerColors[i],
-                    playersDiscription.PlayerTypes[i],
-                    playersDiscription.PlayerNumbers[i]));
+                    playersDescription.PlayerCorners[i],
+                    playersDescription.PlayerColors[i],
+                    playersDescription.PlayerTypes[i],
+                    playersDescription.PlayerNumbers[i]));
             }
 
             //Создаем фигуры и передаем ссылку на них игрокам
@@ -52,11 +54,11 @@ namespace ColorChessModel
             }
 
             // Выделяем память под массив
-            Cell[,] cells = new Cell[board.lenght, board.width];
+            Cell[,] cells = new Cell[board.length, board.width];
             
 
             //Создаем игровое поле
-            for (int i = 0; i < board.lenght; i++)
+            for (int i = 0; i < board.length; i++)
             {
                 for (int j = 0; j < board.width; j++)
                 {
@@ -76,28 +78,24 @@ namespace ColorChessModel
             return gameState;
         }
 
-        public void SetCustomGameState(PlayersDescription _playersDiscription, CellDescription _board, List<FigureSetDescription> _figureSets)
+        public void SetCustomGameState(PlayersDescription _playersDescription, CellDescription _board, List<FigureSetDescription> _figureSets)
         {
-            playersDiscription = _playersDiscription;
+            playersDescription = _playersDescription;
             board = _board;
             figureSets = _figureSets;
         }
 
         private void SetDefaultBoard() { SetBoard(9, 9); }
-        private void SetBoard(int _lenght, int _width)
+        private void SetBoard(int _length, int _width)
         {
             board = new CellDescription();
-            board.lenght = _lenght;
+            board.length = _length;
             board.width = _width;
-            board.CellTypes = new CellType[board.lenght, board.width];
+            board.CellTypes = new CellType[board.length, board.width];
 
-            for (int i = 0; i < board.lenght; i++)
-            {
+            for (int i = 0; i < board.length; i++)
                 for (int j = 0; j < board.width; j++)
-                {
                     board.CellTypes[i, j] = CellType.Empty;
-                }
-            }
         }
 
         private FigureSetDescription ConvertFigurePosToCorner(FigureSetDescription figureSet, CornerType corner)
@@ -107,17 +105,17 @@ namespace ColorChessModel
                 switch (corner)
                 {
                     case CornerType.UpLeft:
-                        figureSet.positions[i].Y = board.lenght - 1 - figureSet.positions[i].Y;
+                        figureSet.positions[i].Y = board.length - 1 - figureSet.positions[i].Y;
                         break;
                     case CornerType.UpRight:
-                        figureSet.positions[i].X = board.lenght - 1 - figureSet.positions[i].X;
-                        figureSet.positions[i].Y = board.lenght - 1 - figureSet.positions[i].Y;
+                        figureSet.positions[i].X = board.length - 1 - figureSet.positions[i].X;
+                        figureSet.positions[i].Y = board.length - 1 - figureSet.positions[i].Y;
                         break;
                     case CornerType.DownLeft:
-                        //Считаем стандратным, зеркалим относително него
+                        //Считаем стандартным, зеркалим относительно него
                         break;
                     case CornerType.DownRight:
-                        figureSet.positions[i].X = board.lenght - 1 - figureSet.positions[i].X;
+                        figureSet.positions[i].X = board.length - 1 - figureSet.positions[i].X;
                         break;
                     default:
                         break;
@@ -131,29 +129,29 @@ namespace ColorChessModel
         {
             figureSets = new List<FigureSetDescription>();
 
-            for (int i = 0; i < playersDiscription.PlayerNumbers.Count; i++)
+            for (int i = 0; i < playersDescription.PlayerNumbers.Count; i++)
             {
                 DefaultFigureSet defaultFigSet = new DefaultFigureSet();
                 figureSets.Add(
                     ConvertFigurePosToCorner(
                         new FigureSetDescription(defaultFigSet.positions, defaultFigSet.figureTypes),
-                        playersDiscription.PlayerCorners[i]));
+                        playersDescription.PlayerCorners[i]));
             }
         }
 
         public void SetDefaultHotSeatGameState()
         {
-            playersDiscription = new PlayersDescription();
+            playersDescription = new PlayersDescription();
 
-            playersDiscription.PlayerNumbers.Add(0);
-            playersDiscription.PlayerTypes.Add(PlayerType.Human);
-            playersDiscription.PlayerCorners.Add(CornerType.DownLeft);
-            playersDiscription.PlayerColors.Add(ColorType.Blue);
+            playersDescription.PlayerNumbers.Add(0);
+            playersDescription.PlayerTypes.Add(PlayerType.Human);
+            playersDescription.PlayerCorners.Add(CornerType.DownLeft);
+            playersDescription.PlayerColors.Add(ColorType.Blue);
 
-            playersDiscription.PlayerNumbers.Add(1);
-            playersDiscription.PlayerTypes.Add(PlayerType.Human);
-            playersDiscription.PlayerCorners.Add(CornerType.UpRight);
-            playersDiscription.PlayerColors.Add(ColorType.Red);
+            playersDescription.PlayerNumbers.Add(1);
+            playersDescription.PlayerTypes.Add(PlayerType.Human);
+            playersDescription.PlayerCorners.Add(CornerType.UpRight);
+            playersDescription.PlayerColors.Add(ColorType.Red);
 
             SetDefaultBoard();
             SetDefaultFigureSets();
@@ -161,17 +159,17 @@ namespace ColorChessModel
 
         public void SetDefaultAIGameState()
         {
-            playersDiscription = new PlayersDescription();
+            playersDescription = new PlayersDescription();
 
-            playersDiscription.PlayerNumbers.Add(0);
-            playersDiscription.PlayerTypes.Add(PlayerType.Human);
-            playersDiscription.PlayerCorners.Add(CornerType.DownLeft);
-            playersDiscription.PlayerColors.Add(ColorType.Blue);
+            playersDescription.PlayerNumbers.Add(0);
+            playersDescription.PlayerTypes.Add(PlayerType.Human);
+            playersDescription.PlayerCorners.Add(CornerType.DownLeft);
+            playersDescription.PlayerColors.Add(ColorType.Blue);
 
-            playersDiscription.PlayerNumbers.Add(1);
-            playersDiscription.PlayerTypes.Add(PlayerType.AI);
-            playersDiscription.PlayerCorners.Add(CornerType.UpRight);
-            playersDiscription.PlayerColors.Add(ColorType.Red);
+            playersDescription.PlayerNumbers.Add(1);
+            playersDescription.PlayerTypes.Add(PlayerType.AI);
+            playersDescription.PlayerCorners.Add(CornerType.UpRight);
+            playersDescription.PlayerColors.Add(ColorType.Red);
 
 
             SetDefaultBoard();
@@ -180,17 +178,17 @@ namespace ColorChessModel
 
         public void SetDefaultOnlineGameState()
         {
-            playersDiscription = new PlayersDescription();
+            playersDescription = new PlayersDescription();
 
-            playersDiscription.PlayerNumbers.Add(0);
-            playersDiscription.PlayerTypes.Add(PlayerType.Human);
-            playersDiscription.PlayerCorners.Add(CornerType.DownLeft);
-            playersDiscription.PlayerColors.Add(ColorType.Blue);
+            playersDescription.PlayerNumbers.Add(0);
+            playersDescription.PlayerTypes.Add(PlayerType.Human);
+            playersDescription.PlayerCorners.Add(CornerType.DownLeft);
+            playersDescription.PlayerColors.Add(ColorType.Blue);
 
-            playersDiscription.PlayerNumbers.Add(1);
-            playersDiscription.PlayerTypes.Add(PlayerType.Online);
-            playersDiscription.PlayerCorners.Add(CornerType.UpRight);
-            playersDiscription.PlayerColors.Add(ColorType.Red);
+            playersDescription.PlayerNumbers.Add(1);
+            playersDescription.PlayerTypes.Add(PlayerType.Online);
+            playersDescription.PlayerCorners.Add(CornerType.UpRight);
+            playersDescription.PlayerColors.Add(ColorType.Red);
 
             SetDefaultBoard();
             SetDefaultFigureSets();
@@ -198,19 +196,24 @@ namespace ColorChessModel
 
         public void SetCustomGameState(int sizeMap, PlayerType[] typePlayer, CornerType[] cornerPlayer, ColorType[] colorPlayer) 
         {
-            playersDiscription = new PlayersDescription();
+            playersDescription = new PlayersDescription();
 
             for (int i = 0; i < typePlayer.Length; i++)
             {
                 if (typePlayer[i] == PlayerType.None) continue;
-                playersDiscription.PlayerNumbers.Add(playersDiscription.PlayerNumbers.Count);
-                playersDiscription.PlayerTypes.Add(typePlayer[i]);
-                playersDiscription.PlayerCorners.Add(cornerPlayer[i]);
-                playersDiscription.PlayerColors.Add(colorPlayer[i]);
+                playersDescription.PlayerNumbers.Add(playersDescription.PlayerNumbers.Count);
+                playersDescription.PlayerTypes.Add(typePlayer[i]);
+                playersDescription.PlayerCorners.Add(cornerPlayer[i]);
+                playersDescription.PlayerColors.Add(colorPlayer[i]);
             }
 
             SetBoard(sizeMap, sizeMap);
             SetDefaultFigureSets();
+        }
+
+        public void ClearData() 
+        {
+            playersDescription = new PlayersDescription();
         }
 
     };

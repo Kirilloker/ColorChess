@@ -1,4 +1,4 @@
-using ColorChessModel;
+ using ColorChessModel;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +31,23 @@ public class UIController : MonoBehaviour
     {
         mainController = MainController.Instance;
     }
+
+    public void SelectFourHumanHotSeat() 
+    {
+        for (int i = 1; i <= 4; i++)
+            SetHumanState(i);
+        SizeMap = 10;
+        StartCustomGame();
+    }
+
+    public void SelectOneHumanThreeAI()
+    {
+        for (int i = 2; i <= 4; i++)
+            SetAIState(i);
+        SizeMap = 10;
+        StartCustomGame();
+    }
+
     public void SelectStandardHotSeat()
     {
         mainController.SelectGameMode(GameModeType.HumanTwo);

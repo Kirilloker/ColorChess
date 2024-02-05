@@ -9,7 +9,7 @@ namespace ColorChessModel
         public static Map UpdateGameState(Map gameState)
         {
             CheckCapture(gameState);
-            gameState.score = CalculateScore(gameState);
+            gameState.Score = CalculateScore(gameState);
 
             return gameState;
         }
@@ -61,6 +61,8 @@ namespace ColorChessModel
                 }
             }
 
+            gameState = UpdateGameState(gameState);
+
             return gameState;
         }
 
@@ -97,12 +99,8 @@ namespace ColorChessModel
             // Если код дошел до этого момента, значит главная клетка это центр 3х3 клеток с одинаковым номером игрока
 
             for (int i = cell.Pos.X - 1; i <= cell.Pos.X + 1; i++)
-            {
                 for (int j = cell.Pos.Y - 1; j <= cell.Pos.Y + 1; j++)
-                {
                     map.GetCell(i, j).Type = CellType.Dark;
-                }
-            }
         }
         private static Dictionary<int, Dictionary<CellType, int>> CalculateScore(Map map)
         {
@@ -133,9 +131,7 @@ namespace ColorChessModel
                 dict[i] = new Dictionary<CellType, int>();
 
                 foreach (CellType cellType in Enum.GetValues(typeof(CellType)))
-                {
                     dict[i].Add(cellType, 0);
-                }
             }
 
             return dict;

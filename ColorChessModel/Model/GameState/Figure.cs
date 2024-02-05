@@ -21,13 +21,12 @@ namespace ColorChessModel
 
         public bool Equals(Figure anotherFigure)
         {
-            return this.Pos == anotherFigure.Pos && this.Type == anotherFigure.Type && this.Number == anotherFigure.Number;
+            return  this.Pos == anotherFigure.Pos && 
+                    this.Type == anotherFigure.Type && 
+                    this.Number == anotherFigure.Number;
         }
 
-        public int Number
-        {
-            get { return Player.Number; }
-        }
+        public int Number { get => Player.Number; }
         public Position Pos { get => pos; set => pos = value; }
         public FigureType Type { get => type; set => type = value; }
         public Player Player { get => player; set => player = value; }

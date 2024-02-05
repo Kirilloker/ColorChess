@@ -23,7 +23,7 @@ namespace ColorChessModel
 
                     if (Check.SelfPoint(posCell, posFigure) == true ||
                         Check.BusyCell(cell) == true ||
-                       (Check.Avaible(posCell, figure, map) == false))
+                       (Check.Available(posCell, figure, map) == false))
                     { continue; }
 
 

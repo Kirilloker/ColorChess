@@ -30,7 +30,7 @@ namespace ColorChessModel
 
                         if (Check.BusyCell(cell) == true
                             ||
-                            Check.Avaible(posCell, figure, map) == false) { continue; }
+                            Check.Available(posCell, figure, map) == false) { continue; }
 
                         int test = 0;
                         //test += (Check.BusyCell(cell)) ? 1 : 0;
@@ -98,7 +98,7 @@ namespace ColorChessModel
 
             if (Check.BusyCell(cell) == true
                 ||
-                Check.Avaible(posCell, figure, map) == false) { return false; }
+                Check.Available(posCell, figure, map) == false) { return false; }
 
             return true;
         }

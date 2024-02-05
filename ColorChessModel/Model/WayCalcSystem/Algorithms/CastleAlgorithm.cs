@@ -31,7 +31,7 @@ namespace ColorChessModel
 
                     if (Check.BusyCell(cell) == true
                         ||
-                        Check.Avaible(posCell, figure, map) == false) { break; }
+                        Check.Available(posCell, figure, map) == false) { break; }
 
                     // Добавляем клетку и расстояние от фигуры до клетки 
                     int test = 0;

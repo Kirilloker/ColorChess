@@ -9,7 +9,7 @@ namespace ColorChessModel
         private CornerType corner;
         private ColorType color;
         private PlayerType type;
-        private List<Figure> figures = new List<Figure>();
+        private List<Figure> figures = new();
 
         public Player() { }
 

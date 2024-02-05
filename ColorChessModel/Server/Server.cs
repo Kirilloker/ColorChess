@@ -33,7 +33,6 @@ public class Server
 
     public void SetServerSender(IServerSender serverSender)
     {
-        Print.Log("SetServerSender");
         this.serverSender = serverSender;
     }
 
@@ -98,8 +97,6 @@ public class Server
         HttpResponseMessage response = client.GetAsync(fullUrl).Result;
         string result = response.Content.ReadAsStringAsync().Result;
 
-        Print.Log(result);
-
         return result;
     }
 
@@ -125,29 +122,23 @@ public class Server
         HttpResponseMessage response = client.GetAsync(fullUrl).Result;
         string result = response.Content.ReadAsStringAsync().Result;
 
-        Print.Log(result);
-
         return result;
     }
 
     //Ìועמהû גûחûגאולû סונגונמל גמ גנולÿ טדנû________________________
     private void ServerSendStep(string opponentStep)
     {
-        Print.Log("ServerSendStep");
         Step step = ServerHelper.ConvertJSONtoSTEP(opponentStep);
         serverSender.SendStep(step);
     }
     private void ServerStartGame(string gameState)
     {
-        Print.Log("ServerStartGame1");
         Print.Log(gameState);
         Map map = ServerHelper.ConvertJSONtoMap(gameState);
-        Print.Log("Create Map");
         serverSender.StartGame(map);
     }
     private void ServerEndGame()
     {
-        Print.Log("ServerEndGame");
         serverSender.EndGame();
     }
    

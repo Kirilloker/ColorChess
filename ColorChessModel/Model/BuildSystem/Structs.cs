@@ -23,7 +23,7 @@ namespace ColorChessModel
     public struct CellDescription
     {
         public int width;
-        public int lenght;
+        public int length;
         public CellType[,] CellTypes;
     }
 
@@ -56,15 +56,15 @@ namespace ColorChessModel
         {
             positions = new List<Position>()
             {
-                new Position(0,2),//Ладья
-                new Position(1,1),//Конь
-                new Position(0,1),//Королева
-                new Position(2,0),//Слон
-                new Position(0,3),//Пешка
-                new Position(1,2),//Пешка
-                new Position(2,1),//Пешка
-                new Position(3,0),//Пешка
-                new Position(1,0),//Король
+                new Position(0,2), //Ладья
+                new Position(1,1), //Конь
+                new Position(0,1), //Королева
+                new Position(2,0), //Слон
+                new Position(0,3), //Пешка
+                new Position(1,2), //Пешка
+                new Position(2,1), //Пешка
+                new Position(3,0), //Пешка
+                new Position(1,0), //Король
             };
 
             figureTypes = new List<FigureType>()
@@ -81,27 +81,4 @@ namespace ColorChessModel
             };
         }
     }
-
-    public class GameDefaultSetDescription 
-    {
-        int sizeMap;
-        PlayerType[] typePlayer = new PlayerType[4];
-        CornerType[] cornerPlayer = new CornerType[4];
-        ColorType[] colorPlayer = new ColorType[4];
-
-        public GameDefaultSetDescription() 
-        {
-            sizeMap = 9;
-            typePlayer = new PlayerType[4]
-                { PlayerType.None, PlayerType.None, PlayerType.None, PlayerType.None};
-
-            cornerPlayer = new CornerType[4]
-                { CornerType.DownLeft, CornerType.UpRight, CornerType.DownRight, CornerType.UpLeft};
-
-            colorPlayer = new ColorType[4]
-                { ColorType.Red, ColorType.Blue, ColorType.Green, ColorType.Yellow};
-        }
-    }
-
-
 }

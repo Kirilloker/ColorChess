@@ -18,9 +18,7 @@ namespace ColorChessModel
 
         public static bool SelfPoint(Position posCell, Position posFigure)
         {
-            if (posCell == posFigure) { return true; }
-
-            return false;
+            return posCell == posFigure;
         }
 
         public static bool SelfCellDark(Cell cell, int numberPlayer)
@@ -29,7 +27,7 @@ namespace ColorChessModel
             return false;
         }
 
-        public static bool Avaible(Position posCell, Figure figure, Map map)
+        public static bool Available(Position posCell, Figure figure, Map map)
         {
             return map.GetCell(posCell).Available(figure.Require, figure.Number);
         }

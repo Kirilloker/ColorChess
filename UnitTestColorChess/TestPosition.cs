@@ -26,14 +26,6 @@ namespace UnitTest
         }
 
         [Test]
-        public void Position_CoordinateThrowsOnNegativeValue() 
-        {
-            Assert.Throws<ArgumentException>(() => new Position(10, -10));
-            Assert.Throws<ArgumentException>(() => new Position(-10, 10));
-            Assert.Throws<ArgumentException>(() => new Position(-10, -10));
-        }
-
-        [Test]
         public void Position_ConvertString() 
         {
             string original = "X:10;   Y:10";

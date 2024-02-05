@@ -25,7 +25,7 @@ namespace ColorChessModel
 
                     if (Check.BusyCell(cell) == true
                         ||
-                        Check.Avaible(posCell, figure, map) == false) { break; }
+                        Check.Available(posCell, figure, map) == false) { break; }
 
                     // Добавляем клетку и расстояние от фигуры до клетки 
                     dict.Add(cell, Math.Abs(figure.Pos.X - cell.Pos.X) + Math.Abs(figure.Pos.Y - cell.Pos.Y));

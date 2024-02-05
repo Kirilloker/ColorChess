@@ -29,7 +29,7 @@ namespace ColorChessModel
                     if (cell.NumberPlayer == figure.Number &&
                         cell.FigureType != FigureType.Empty) { continue; }
 
-                    if (Check.Avaible(posCell, figure, map) == false) { continue; }
+                    if (Check.Available(posCell, figure, map) == false) { continue; }
 
                     int test = 0;
                     test += (Check.BusyCell(cell)) ? 1 : 0;
