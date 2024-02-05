@@ -23,7 +23,6 @@ namespace UnitTest
             // Количество Свободных клеток изначальна равна общей площади - количество фигур
             int free_cell = map.Width * map.Length - map.Players.Select(x => x.Figures.Count).Sum();
 
-
             Assert.IsNotNull(map);
             Assert.IsNotNull(map.Players);
 

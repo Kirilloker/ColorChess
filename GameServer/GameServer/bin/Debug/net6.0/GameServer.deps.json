@@ -497,6 +497,7 @@
           }
         }
       },
+      "OpenCover/4.7.1221": {},
       "Pomelo.EntityFrameworkCore.MySql/6.0.2": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Relational": "6.0.20",
@@ -1113,6 +1114,7 @@
           "Microsoft.AspNetCore.SignalR.Client": "8.0.1",
           "Mono.HttpUtility": "1.0.0.1",
           "Newtonsoft.Json": "13.0.2",
+          "OpenCover": "4.7.1221",
           "System.Net.Http": "4.3.4"
         },
         "runtime": {
@@ -1455,6 +1457,13 @@
       "sha512": "sha512-R2pZ3B0UjeyHShm9vG+Tu0EBb2lC8b0dFzV9gVn50ofHXh9Smjk6kTn7A/FdAsC8B5cKib1OnGYOXxRBz5XQDg==",
       "path": "newtonsoft.json/13.0.2",
       "hashPath": "newtonsoft.json.13.0.2.nupkg.sha512"
+    },
+    "OpenCover/4.7.1221": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XZsMfTpbGnqLWCQjOeLlbDUU0lazJHbyEX52d7oRSuQX7Ve+23nfk4TF/F61hS382IEHB8WvUwkPB2IIA9WqEQ==",
+      "path": "opencover/4.7.1221",
+      "hashPath": "opencover.4.7.1221.nupkg.sha512"
     },
     "Pomelo.EntityFrameworkCore.MySql/6.0.2": {
       "type": "package",
