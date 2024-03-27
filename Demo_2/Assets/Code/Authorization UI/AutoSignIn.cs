@@ -64,11 +64,12 @@ public class AutoSignIn : MonoBehaviour
                 AuthorizationMenu.SetActive(false);
                 MainMenu.SetActive(true);
             }    
-            // Есл логин\пароль не правильный
+            // Есл логин \ пароль не правильный
             else
             {
                 AccountText.text = "Not found Account!";
                 iconSetOnline(false);
+                AuthorizationMenu.SetActive(true);
                 return;
             }
         }

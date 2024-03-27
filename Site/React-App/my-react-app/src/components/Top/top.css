@@ -1,0 +1,77 @@
+.top-players h1 {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 32px;
+}
+
+.player-stats-input {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.player-stats-input input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.player-stats-input button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.player-stats-result {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.players-list {
+  color: #fff;
+  font-size: 30px;
+  overflow-x: auto;
+}
+
+.players-list table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.players-list th,
+.players-list td {
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.players-list th {
+  background-color: #2f2f2f;
+  color: #a3d2ff;
+}
+
+.players-list tbody tr {
+  background-color: #474747;
+}
+
+.players-list tr:hover {
+  background-color: #666;
+}
+
+.error-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffcccc;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}

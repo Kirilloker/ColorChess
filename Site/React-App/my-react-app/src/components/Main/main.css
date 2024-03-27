@@ -1,0 +1,58 @@
+.full-width-image-section {
+  display: flex;
+}
+
+.full-width-image {
+  width: 100%;
+  display: block;
+}
+
+.content-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.half-width-image,
+.text-content {
+  flex: 1;
+  margin: 10px;
+  font-size: 1.25rem;
+  width: 50%;
+}
+
+.half-width-image {
+  display: block;
+  max-width: 30%;
+  height: auto;
+}
+.half-width-image2 {
+  display: block;
+  max-width: 45%;
+  height: auto;
+}
+
+.text-content {
+  padding: 0 20px;
+  font-size: 4rem;
+}
+
+.content-section:nth-child(odd) .half-width-image {
+  order: 1;
+}
+
+.content-section:nth-child(even) .text-content {
+  order: 1;
+}
+
+.content-section::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

@@ -1,0 +1,19 @@
+.version-section h2 {
+  font-size: 4rem;
+  text-align: center;
+}
+
+.platform-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.platform-icons a {
+  margin: 0 10px;
+}
+
+.platform-icons img {
+  height: 100px;
+}

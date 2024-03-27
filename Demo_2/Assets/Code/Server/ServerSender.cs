@@ -9,7 +9,6 @@ public class ServerSender : MonoBehaviour, IServerSender
 
     private void Awake()
     {
-        Print.Log("Awake Server Sender");
         mainController = MainController.Instance;
         Server.Instance.SetServerSender(this);
     }
@@ -26,9 +25,7 @@ public class ServerSender : MonoBehaviour, IServerSender
 
     public void StartGame(Map map)
     {
-        Print.Log("Start Game Online");
         UnityMainThreadDispatcher.Instance().Enqueue(() => { mainController.StartGame(map); });
     }
-
 
 }
