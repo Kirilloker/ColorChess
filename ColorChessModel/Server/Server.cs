@@ -12,7 +12,7 @@ public class Server
 
     private bool isLoginIn = false;
 
-    private const string baseIP = "192.168.0.116";
+    private const string baseIP = "192.168.0.18";
 
     private const string GameServerHubUrl = "http://" + baseIP + ":11000/Game";
     private const string LoginInUrl = "http://" + baseIP + ":11000/login";
