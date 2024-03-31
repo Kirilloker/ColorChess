@@ -39,7 +39,15 @@ public static class DB
         {
             try
             {
-                return db.Users.Where(b => b.Name == userName).ToList()[0];
+                var user = db.Users.Where(b => b.Name == userName).ToList();
+
+                if (user.Count == 0)
+                {
+                    Console.WriteLine("Error GetUser: " + Error.NotFound);
+                    return null;
+                }
+
+                return user[0];
             }
             catch (Exception e)
             {

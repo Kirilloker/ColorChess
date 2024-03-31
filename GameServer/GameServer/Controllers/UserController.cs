@@ -153,7 +153,7 @@ public class UserInfoController : ControllerBase
         if (old_user != null)
             return new ObjectResult("Пользователь с таким логином уже существует") { StatusCode = (int)ServerStatus.AlreadyExist };
 
-        if (DB.AddUser(user) == false)
+        if (DB.AddEntity(user) == false)
             return new ObjectResult("Произошла ошибка при создании пользователя") { StatusCode = (int)ServerStatus.UnKnown };
 
         User new_user = DB.GetUser(user.Name);
@@ -171,7 +171,7 @@ public class UserInfoController : ControllerBase
             Rate = 30
         };
 
-        if (DB.AddUserStatistic(userStatistic) == false)
+        if (DB.AddEntity(userStatistic) == false)
             return new ObjectResult("Произошла ошибка при создании статистики пользователя") { StatusCode = (int)ServerStatus.UnKnown };
 
         UserInfoDTO userInfoDTO = Mapper.UserInfoToDTO(DB.Get<User>(new_user.Id), DB.GetUserStatistic(new_user.Id));

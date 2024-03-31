@@ -49,12 +49,12 @@ public static class LoginAndRegistry
         if (user == null)
         {
             User newUser = new User { Name = name, Password = password };
-            DB.AddUser(newUser);
+            DB.AddEntity(newUser);
 
             newUser = DB.GetUser(newUser.Name);
 
             UserStatistic userStatistic = new UserStatistic { Win = 0, Lose = 0, Draw = 0, MaxScore = 0, Rate = 0, UserId = newUser.Id };
-            DB.AddUserStatistic(userStatistic);
+            DB.AddEntity(userStatistic);
 
             DB.AddLogEvent(TypeLogEvent.Registration, newUser.Id, "Regestration new user");
 
