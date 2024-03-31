@@ -2,6 +2,7 @@ using ColorChessModel;
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
 using System.Collections.Specialized;
+using System.Net.Http;
 
 
 public class Server
@@ -11,7 +12,7 @@ public class Server
 
     private bool isLoginIn = false;
 
-    private const string baseIP = "192.168.0.35";
+    private const string baseIP = "192.168.0.18";
 
     private const string GameServerHubUrl = "http://" + baseIP + ":11000/Game";
     private const string LoginInUrl = "http://" + baseIP + ":11000/login";
