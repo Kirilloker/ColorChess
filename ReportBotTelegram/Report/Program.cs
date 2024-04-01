@@ -21,6 +21,9 @@ botClient.StartReceiving(
 var me = await botClient.GetMeAsync();
 
 Console.WriteLine($"Bot start");
-Console.ReadLine();
+while (true) {
+    await Task.Delay(1000); 
+}
+
 
 cts.Cancel();
