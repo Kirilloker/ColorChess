@@ -1,6 +1,6 @@
 const express = require('express');
 const mysql = require('mysql2');
-const morgan = require('morgan'); // Модуль для логирования HTTP запросов
+const morgan = require('morgan'); 
 const app = express();
 const port = 20203;
 
@@ -63,6 +63,6 @@ app.get('/player/:nickname', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+app.listen(port, 'localhost', () => { 
   console.log(`Сервер запущен на http://localhost:${port}`);
 });
