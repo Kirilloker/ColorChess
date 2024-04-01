@@ -8,14 +8,14 @@ function Top() {
   const [errorMessage, setErrorMessage] = useState(''); // Добавляем состояние для сообщения об ошибке
 
   useEffect(() => {
-    fetch('http://localhost:3000/top')
+    fetch('http://localhost:20203/top')
       .then(response => response.json())
       .then(data => setPlayers(data))
       .catch(error => console.error('Ошибка загрузки топ игроков:', error));
   }, []);
 
   const handleSearch = () => {
-    fetch(`http://localhost:3000/player/${nickname}`)
+    fetch(`http://localhost:20203/player/${nickname}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Игрок не найден'); // Если ответ сервера не ок, выбрасываем ошибку

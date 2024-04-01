@@ -1,8 +1,8 @@
 const express = require('express');
 const mysql = require('mysql2');
-
+const morgan = require('morgan'); // Модуль для логирования HTTP запросов
 const app = express();
-const port = 3000;
+const port = 20203;
 
 // Подключение к MySQL
 const pool = mysql.createPool({
@@ -15,6 +15,15 @@ const cors = require('cors');
 app.use(cors());
 
 app.use(express.json());
+
+// Middleware для логирования HTTP запросов
+app.use(morgan('dev'));
+
+// Middleware для логирования ошибок
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Что-то пошло не так!');
+});
 
 // Получение топ-5 игроков
 app.get('/top', async (req, res) => {
