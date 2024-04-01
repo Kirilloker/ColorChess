@@ -6,10 +6,11 @@
 		<LangVersion>10.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
-
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(OS)' != 'Unix'">
 		<Exec Command="call MoveDllFile.bat" />
 	</Target>
+
 
 	<ItemGroup>
 	  <None Remove="config.json" />
