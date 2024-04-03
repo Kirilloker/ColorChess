@@ -12,13 +12,14 @@ public class Server
 
     private bool isLoginIn = false;
 
-    private const string baseIP = "192.168.0.18";
+    private const string baseIP = "192.168.0.19";
+    private const string basePort = "11000";
 
-    private const string GameServerHubUrl = "http://" + baseIP + ":11000/Game";
-    private const string LoginInUrl = "http://" + baseIP + ":11000/login";
-    private const string TopUrl = "http://" + baseIP + ":11000/top"; 
-    private const string PlaceInTopUrl = "http://" + baseIP + ":11000/placeInTop";
-    private const string RegistrationUrl = "http://" + baseIP + ":11000/registry";
+    private const string GameServerHubUrl = "http://" + baseIP + ":" + basePort + "/Game";
+    private const string LoginInUrl = "http://" + baseIP + ":" + basePort + "/login";
+    private const string TopUrl = "http://" + baseIP + ":" + basePort + "/top"; 
+    private const string PlaceInTopUrl = "http://" + baseIP + ":" + basePort + "/placeInTop";
+    private const string RegistrationUrl = "http://" + baseIP + ":" + basePort + "/registry";
 
     private string userName;
     private string password;

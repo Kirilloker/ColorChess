@@ -2,12 +2,18 @@ const express = require("express");
 const mysql = require("mysql2");
 const morgan = require("morgan");
 const cors = require("cors");
-const appConfig = require("../Config/appConfig.json");
 
 const app = express();
-const port = appConfig.server.port;
+const port = process.env.SERVER_PORT;
 
-const pool = mysql.createPool(appConfig.database).promise();
+const pool = mysql
+  .createPool({
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    database: process.env.DATABASE_NAME,
+    password: process.env.DATABASE_PASSWORD,
+  })
+  .promise();
 
 app.use(cors());
 app.use(express.json());
@@ -57,6 +63,6 @@ app.get("/player/:nickname", async (req, res) => {
   }
 });
 
-app.listen(port, appConfig.server.ip, () => {
-  console.log(`Сервер запущен на http://${appConfig.server.ip}:${port}`);
+app.listen(port, process.env.SERVER_IP, () => {
+  console.log(`Сервер запущен на http://${process.env.SERVER_IP}:${port}`);
 });
