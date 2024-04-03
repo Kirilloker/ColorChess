@@ -1,39 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import './top.css'; // Убедитесь, что путь к CSS файлу корректный
+import React, { useState, useEffect } from "react";
+import "./top.css";
 
 function Top() {
   const [players, setPlayers] = useState([]);
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState("");
   const [playerInfo, setPlayerInfo] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(''); // Добавляем состояние для сообщения об ошибке
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const serverIP = process.env.REACT_APP_SERVER_IP;
+  const serverPort = process.env.REACT_APP_SERVER_PORT;
 
   useEffect(() => {
-    fetch('http://localhost:20203/top')
-      .then(response => response.json())
-      .then(data => setPlayers(data))
-      .catch(error => console.error('Ошибка загрузки топ игроков:', error));
-  }, []);
+    fetch(`http://${serverIP}:${serverPort}/top`)
+      .then((response) => response.json())
+      .then((data) => setPlayers(data))
+      .catch((error) => console.error("Ошибка загрузки топ игроков:", error));
+  }, [serverIP, serverPort]);
 
   const handleSearch = () => {
-    fetch(`http://localhost:20203/player/${nickname}`)
-      .then(response => {
+    fetch(`http://${serverIP}:${serverPort}/player/${nickname}`)
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Игрок не найден'); // Если ответ сервера не ок, выбрасываем ошибку
+          throw new Error("Игрок не найден");
         }
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         setPlayerInfo(data);
-        setErrorMessage(''); // Очищаем сообщение об ошибке, если запрос успешен
+        setErrorMessage("");
       })
-      .catch(error => {
-        console.error('Ошибка поиска игрока:', error);
-        setPlayerInfo(null); // Очищаем информацию о игроке
-        setErrorMessage('Игрок не найден'); // Устанавливаем сообщение об ошибке
+      .catch((error) => {
+        console.error("Ошибка поиска игрока:", error);
+        setPlayerInfo(null);
+        setErrorMessage("Игрок не найден");
 
-        // Задержка в 3 секунды перед удалением сообщения об ошибке
         setTimeout(() => {
-          setErrorMessage('');
+          setErrorMessage("");
         }, 2000);
       });
   };
@@ -63,15 +65,15 @@ function Top() {
               </tbody>
             </table>
           </div>
-		  <br />
-		  <br />
-		  <br />
+          <br />
+          <br />
+          <br />
           <div className="player-stats-input">
             <input
               type="text"
               placeholder="Enter a nickname"
               value={nickname}
-              onChange={e => setNickname(e.target.value)}
+              onChange={(e) => setNickname(e.target.value)}
             />
             <button onClick={handleSearch}>Find out a player's stats</button>
           </div>

@@ -1,0 +1,16 @@
+{
+  "database": {
+    "host": "localhost",
+    "user": "kirillok",
+    "database": "colorchessdb",
+    "password": "loki5566"
+  },
+  "server": {
+    "port": 20203,
+    "ip": "localhost"
+  },
+  "site": {
+    "port": 3000,
+    "ip": "localhost"
+  }
+}
