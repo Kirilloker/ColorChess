@@ -1,15 +1,11 @@
 ﻿using GameServer.Database.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Net;
-using System.Reflection.PortableExecutable;
 
 [ApiController]
 [Route("api/[controller]")]
 public class UserInfoController : ControllerBase
 {
-    string password_db = "qwerty";
-
 
     [HttpGet("all_with_hash")]
     [SwaggerOperation(Summary = "Получение всего списка пользователей", Description = "Возвращает всю таблицу Пользователей (пароль зашифрован) + Пользовательская статистика")]

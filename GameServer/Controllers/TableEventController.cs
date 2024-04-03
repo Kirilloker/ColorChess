@@ -1,5 +1,4 @@
 ﻿using GameServer.Database.DTO;
-using GameServer.Migrations;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
