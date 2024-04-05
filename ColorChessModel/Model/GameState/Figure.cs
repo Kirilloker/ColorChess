@@ -26,6 +26,20 @@ namespace ColorChessModel
                     this.Number == anotherFigure.Number;
         }
 
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            var other = (Figure)obj;
+
+            return Pos.Equals(other.Pos) &&
+                   Type == other.Type &&
+                   Player.Number == other.Player.Number; 
+        }
+
+
         public int Number { get => Player.Number; }
         public Position Pos { get => pos; set => pos = value; }
         public FigureType Type { get => type; set => type = value; }

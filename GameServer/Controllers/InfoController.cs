@@ -8,7 +8,7 @@ namespace GameServer.Controllers
     [Route("api/[controller]")]
     public class InfoController : ControllerBase
     {
-        [HttpGet("GetTop")]
+        [HttpGet("get_top")]
         [SwaggerOperation(Summary = "Получение топ пользователей", Description = "Возвращает список топ пользователей с их рейтингом. Если указанный пользователь не в топе, добавляет его в конец списка")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Успешный запрос")]
         public async Task<IActionResult> GetTop([FromQuery][SwaggerParameter("Имя пользователя")] string nameUser)
@@ -26,7 +26,7 @@ namespace GameServer.Controllers
             return new JsonResult(result);
         }
 
-        [HttpGet("GetCountPlayersOnline")]
+        [HttpGet("get_count_players_online")]
         [SwaggerOperation(Summary = "Получение количества онлайн игроков", Description = "Возвращает текущее количество игроков онлайн")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Успешный запрос")]
         public async Task<IActionResult> GetCountPlayersOnline()
@@ -35,7 +35,7 @@ namespace GameServer.Controllers
             return new JsonResult(countPlayersOnline);
         }
 
-        [HttpGet("GetNumberPlaceTop")]
+        [HttpGet("get_number_place_top")]
         [SwaggerOperation(Summary = "Получение места пользователя в топе", Description = "Возвращает место указанного пользователя в топе по рейтингу")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Успешный запрос")]
         public async Task<IActionResult> GetNumberPlaceTop([FromQuery][SwaggerParameter("Имя пользователя")] string nameUser)
@@ -44,7 +44,7 @@ namespace GameServer.Controllers
             return new JsonResult(numberPlace);
         }
 
-        [HttpGet("GetInfoUsers")]
+        [HttpGet("get_info_users")]
         public async Task<IActionResult> GetInfoUsers([FromQuery] string nameUser)
         {
             var user = DB.GetUser(nameUser);

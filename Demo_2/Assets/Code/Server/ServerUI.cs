@@ -1,4 +1,6 @@
-﻿using ColorChessModel;
+﻿using BestHTTP.JSON;
+using ColorChessModel;
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -96,7 +98,6 @@ public class ServerUI : MonoBehaviour
         if (twoHuman == true) args.Add("2");
         else args.Add("4");
         
-
         server.ConnectToDefaultGame(args);
     }
 
@@ -136,6 +137,7 @@ public class ServerUI : MonoBehaviour
     public int GetNumberPlaceUserInTop()
     {
         string jsonString = server.GetNumberPlaceUserInTop(GetNameUser());
+        Print.Log(jsonString);
         return int.Parse(jsonString);
     }
 
@@ -153,8 +155,15 @@ public class ServerUI : MonoBehaviour
     public List<Pair<string, int>> GetTopList()
     {
         string jsonString = server.GetTopList(GetNameUser());
-        List<Pair<string, int>> deserializedPairList = JsonSerializer.Deserialize<List<Pair<string, int>>>(jsonString);
-        return deserializedPairList;
+
+        List<UserScore> userScores = JsonConvert.DeserializeObject<List<UserScore>>(jsonString);
+
+        List<Pair<string, int>> pairs = new List<Pair<string, int>>();
+
+        foreach (var userScore in userScores)
+            pairs.Add(new Pair<string, int>(userScore.first, userScore.second));
+
+        return pairs;
     }
 
     public void RefreshTopList(List<Pair<string, int>> top)
@@ -180,3 +189,9 @@ public class ServerUI : MonoBehaviour
     }
 }
 
+
+public class UserScore
+{
+    public string first { get; set; }
+    public int second { get; set; }
+}

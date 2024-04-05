@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Net;
-using System.Text.Json;
-
-public static class DataDeliver
+﻿public static class DataDeliver
 {
     public static ResponseContentStatus test() 
     {
@@ -34,11 +30,8 @@ public static class DataDeliver
         {
             try
             {
-                Console.WriteLine("Test1");
                 HttpResponseMessage response = await client.GetAsync(URL);
-                Console.WriteLine("Test2");
                 string responseBody = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("Test3");
                 return new ResponseContentStatus((ServerStatus)response.StatusCode, responseBody);
 
             }

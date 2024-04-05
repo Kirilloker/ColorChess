@@ -87,7 +87,15 @@ public static class DB
         {
             try
             {
-                return db.userstatistics.Where(b => b.Id == userID).ToList()[0].Rate;
+                var user = db.userstatistics.Where(b => b.UserId == userID).ToList();
+
+                if (user.Count == 0)
+                {
+                    Console.WriteLine("Error GetNameUser: " + Error.NotFound);
+                    return -1;
+                }
+
+                return user[0].Rate;
             }
             catch (Exception e)
             {

@@ -12,15 +12,6 @@ public class Server
 
     private bool isLoginIn = false;
 
-    private const string baseIP = "192.168.0.19";
-    private const string basePort = "11000";
-
-    private const string GameServerHubUrl = "http://" + baseIP + ":" + basePort + "/Game";
-    private const string LoginInUrl = "http://" + baseIP + ":" + basePort + "/login";
-    private const string TopUrl = "http://" + baseIP + ":" + basePort + "/top"; 
-    private const string PlaceInTopUrl = "http://" + baseIP + ":" + basePort + "/placeInTop";
-    private const string RegistrationUrl = "http://" + baseIP + ":" + basePort + "/registry";
-
     private string userName;
     private string password;
 
@@ -31,7 +22,6 @@ public class Server
     {
         this.serverSender = serverSender;
     }
-
 
 
     //Публичный интерфейс класса_______________________________________
@@ -74,21 +64,16 @@ public class Server
     public string GetTopList(string nameUser)
     {
         HttpClient client = new HttpClient();
-        UriBuilder uriBuilder = new UriBuilder(TopUrl);
+        UriBuilder uriBuilder = new UriBuilder(ConfServ.TopUrl);
 
-        // Создание коллекции параметров query string
         var queryParameters = new NameValueCollection();
 
-        // Добавление параметров в коллекцию query string
-        queryParameters["name"] = nameUser;
+        queryParameters["nameUser"] = nameUser;
 
-        // Преобразование коллекции параметров в строку query string
         string queryString = string.Join("&", Array.ConvertAll(queryParameters.AllKeys, key => $"{Uri.EscapeDataString(key)}={Uri.EscapeDataString(queryParameters[key])}"));
 
-        // Присоединение параметров query string к URL-адресу
         uriBuilder.Query = queryString;
 
-        // Получение полного URL-адреса с параметрами query string
         string fullUrl = uriBuilder.ToString();
         HttpResponseMessage response = client.GetAsync(fullUrl).Result;
         string result = response.Content.ReadAsStringAsync().Result;
@@ -99,21 +84,16 @@ public class Server
     public string GetNumberPlaceUserInTop(string nameUser)
     {
         HttpClient client = new HttpClient();
-        UriBuilder uriBuilder = new UriBuilder(PlaceInTopUrl);
+        UriBuilder uriBuilder = new UriBuilder(ConfServ.PlaceInTopUrl);
 
-        // Создание коллекции параметров query string
         var queryParameters = new NameValueCollection();
 
-        // Добавление параметров в коллекцию query string
-        queryParameters["name"] = nameUser;
+        queryParameters["nameUser"] = nameUser;
 
-        // Преобразование коллекции параметров в строку query string
         string queryString = string.Join("&", Array.ConvertAll(queryParameters.AllKeys, key => $"{Uri.EscapeDataString(key)}={Uri.EscapeDataString(queryParameters[key])}"));
 
-        // Присоединение параметров query string к URL-адресу
         uriBuilder.Query = queryString;
 
-        // Получение полного URL-адреса с параметрами query string
         string fullUrl = uriBuilder.ToString();
         HttpResponseMessage response = client.GetAsync(fullUrl).Result;
         string result = response.Content.ReadAsStringAsync().Result;
@@ -142,13 +122,13 @@ public class Server
     private async void ConnectToGameServerHubAndFindTheRoom(List<string> args)
     {
         var _connection = new HubConnectionBuilder()
-               .WithUrl(GameServerHubUrl, options =>
+               .WithUrl(ConfServ.GameServerHubUrl, options =>
                {
                    options.AccessTokenProvider = async () =>
                    {
                        HttpClient client = new HttpClient();
                        HttpContent content = new StringContent(userName + " " + password);
-                       HttpResponseMessage response = await client.PostAsync(LoginInUrl, content);
+                       HttpResponseMessage response = await client.PostAsync(ConfServ.LoginInUrl, content);
                        string contentText = await response.Content.ReadAsStringAsync();
                        string token = JsonConvert.DeserializeObject<AccessToken>(contentText).access_token;
                        return token;
@@ -187,7 +167,7 @@ public class Server
         HttpResponseMessage response;
 
         {
-            response = await client.PostAsync(LoginInUrl, content);
+            response = await client.PostAsync(ConfServ.LoginInUrl, content);
             string result = response.StatusCode.ToString();
 
             if (result == "OK")
@@ -208,7 +188,7 @@ public class Server
     {
         HttpClient client = new HttpClient();
         HttpContent content = new StringContent(_name + " " + _password);
-        HttpResponseMessage response = await client.PostAsync(RegistrationUrl, content);
+        HttpResponseMessage response = await client.PostAsync(ConfServ.RegistrationUrl, content);
         string result = response.StatusCode.ToString();
         
         Print.Log(result);

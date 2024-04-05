@@ -40,7 +40,7 @@ namespace ColorChessModel
             if (ReferenceEquals(this, obj)) return true; 
 
             Cell other = obj as Cell;
-            if (other == null) return false;
+            if (ReferenceEquals(other, null)) return false;
             
             if (figure != null && (figure.Equals(other.figure) == false)) return false;
 
@@ -49,7 +49,19 @@ namespace ColorChessModel
                    numberPLayer == other.numberPLayer;
         }
 
+        public static bool operator !=(Cell cell1, Cell cell2)
+        {
+            return !(cell1 == cell2);
+        }
 
+        public static bool operator ==(Cell cell1, Cell cell2)
+        {
+            if (ReferenceEquals(cell1, cell2)) return true;
+            if (ReferenceEquals(cell1, null)) return false;
+            if (ReferenceEquals(cell2, null)) return false;
+
+            return cell1.Equals(cell2); 
+        }
 
         public FigureType FigureType { get => Figure != null ? Figure.Type : FigureType.Empty; }
 
@@ -57,5 +69,18 @@ namespace ColorChessModel
         public CellType Type { get => type; set => type = value; }
         public Figure Figure { get => figure; set => figure = value; }
         public int NumberPlayer { get => numberPLayer; set => numberPLayer = value; }
+
+        public override int GetHashCode()
+        {
+            unchecked 
+            {
+                int hash = 17;
+                hash = hash * 23 + pos.GetHashCode();
+                hash = hash * 23 + type.GetHashCode();
+                hash = hash * 23 + (figure?.GetHashCode() ?? 0);
+                hash = hash * 23 + numberPLayer.GetHashCode();
+                return hash;
+            }
+        }
     }
 }

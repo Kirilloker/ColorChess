@@ -21,7 +21,7 @@ app.use((err, req, res, next) => {
 
 app.get("/top", async (req, res) => {
   try {  
-    const response = await axios.get(`http://${urlAPI}/api/Info/GetTop`, {
+    const response = await axios.get(`http://${urlAPI}/api/Info/get_top`, {
       params: { nameUser: "." } 
     });
     res.json(response.data);
@@ -33,7 +33,7 @@ app.get("/top", async (req, res) => {
 
 app.get("/player/:nickname", async (req, res) => {
   try {
-    const response = await axios.get(`http://${urlAPI}/api/Info/GetInfoUsers`, {
+    const response = await axios.get(`http://${urlAPI}/api/Info/get_info_users`, {
       params: { nameUser: req.params.nickname }
     });
 
@@ -48,6 +48,13 @@ app.get("/player/:nickname", async (req, res) => {
   }
 });
 
-app.listen(portServer, ipServer, () => {
-  console.log(`Сервер запущен на http://${ipServer}:${portServer}`);
+app.use(express.static('build/folder'));
+
+app.get('*', (req, res) => {
+    res.sendFile('build/folder/index.html');
 });
+
+app.listen(portServer, ipServer, () => {
+    console.log(`Сервер запущен на http://${ipServer}:${portServer}`);
+});
+
