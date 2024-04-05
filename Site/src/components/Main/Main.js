@@ -1,5 +1,5 @@
 import React from 'react';
-import './main.css'; // Убедитесь, что путь к CSS файлу корректный
+import './main.css';  
 
 function Main() {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import './rules.css'; // Убедитесь, что путь к CSS файлу корректный
+import './rules.css'; 
 
 function Rules() {
   return (
@@ -31,13 +31,10 @@ function Rules() {
           </p>
         </section>
         <div className="main-grid">
-          {/* Дальнейшие секции с правилами */}
-          {/* Пример одной секции */}
           <section className="rule-section rule-grid-item">
             <p>The pawn is the only one combat piece. It can eat pieces within one square of it. Can capture enemy squares.</p>
             <img src="./images/rules_pawn.png" alt="Pawn" />
           </section>
-          {/* Добавьте остальные секции с правилами по аналогии */}
 		  
 		<section class="rule-section rule-grid-item">
           <p>

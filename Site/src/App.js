@@ -4,13 +4,13 @@ import Main from './components/Main/Main';
 import Rules from './components/Rules/Rules';
 import Top from './components/Top/Top';
 import Download from './components/Download/Download';
-import Footer from './components/Footer/Footer'; // Не забудьте импортировать Footer
+import Footer from './components/Footer/Footer'; 
 import './App.css';
 
 function App() {
   return (
     <Router>
-      <div className="app-container"> {/* Убедитесь, что у вас есть этот контейнер и соответствующие стили */}
+      <div className="app-container"> 
         <header>
           <nav>
             <ul>

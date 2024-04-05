@@ -48,10 +48,10 @@ app.get("/player/:nickname", async (req, res) => {
   }
 });
 
-app.use(express.static('build/folder'));
+app.use(express.static('build'));
 
 app.get('*', (req, res) => {
-    res.sendFile('build/folder/index.html');
+    res.sendFile('build');
 });
 
 app.listen(portServer, ipServer, () => {
