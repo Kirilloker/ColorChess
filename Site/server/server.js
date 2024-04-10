@@ -1,9 +1,9 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const axios = require("axios"); 
+const axios = require("axios");
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 const portServer = process.env.SERVER_PORT;
@@ -20,9 +20,9 @@ app.use((err, req, res, next) => {
 });
 
 app.get("/top", async (req, res) => {
-  try {  
+  try {
     const response = await axios.get(`http://${urlAPI}/api/Info/get_top`, {
-      params: { nameUser: "." } 
+      params: { nameUser: "." },
     });
     res.json(response.data);
   } catch (err) {
@@ -33,9 +33,12 @@ app.get("/top", async (req, res) => {
 
 app.get("/player/:nickname", async (req, res) => {
   try {
-    const response = await axios.get(`http://${urlAPI}/api/Info/get_info_users`, {
-      params: { nameUser: req.params.nickname }
-    });
+    const response = await axios.get(
+      `http://${urlAPI}/api/Info/get_info_users`,
+      {
+        params: { nameUser: req.params.nickname },
+      }
+    );
 
     if (response.data) {
       res.json(response.data);
@@ -48,13 +51,12 @@ app.get("/player/:nickname", async (req, res) => {
   }
 });
 
-app.use(express.static('build'));
+app.use(express.static("build"));
 
-app.get('*', (req, res) => {
-    res.sendFile('build');
+app.get("*", (req, res) => {
+  res.sendFile("build");
 });
 
 app.listen(portServer, ipServer, () => {
-    console.log(`Сервер запущен на http://${ipServer}:${portServer}`);
+  console.log(`Сервер запущен на http://${ipServer}:${portServer}`);
 });
-

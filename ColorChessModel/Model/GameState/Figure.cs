@@ -21,16 +21,23 @@ namespace ColorChessModel
 
         public bool Equals(Figure anotherFigure)
         {
-            return  this.Pos == anotherFigure.Pos && 
-                    this.Type == anotherFigure.Type && 
-                    this.Number == anotherFigure.Number;
+            if (ReferenceEquals(this, anotherFigure)) return true;
+            if (anotherFigure == null || GetType() != anotherFigure.GetType()) return false;
+
+            return Pos.Equals(anotherFigure.Pos) &&
+                   Type == anotherFigure.Type &&
+                   Player.Number == anotherFigure.Player.Number;
+
+            //return  this.Pos == anotherFigure.Pos && 
+            //        this.Type == anotherFigure.Type && 
+            //        this.Number == anotherFigure.Number;
         }
 
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(this, obj)) return true;
-            if (obj == null || GetType() != obj.GetType()) return false;
+            if (this == null || obj == null || GetType() != obj.GetType()) return false;
 
             var other = (Figure)obj;
 
