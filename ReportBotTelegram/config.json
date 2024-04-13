@@ -1,6 +1,6 @@
 {
   "token": "6824010959:AAGqVlq1Z_vbhxWbUSlb8zg6cchefFmIA7c",
-  "serverURL": "192.168.0.35:11000",
+  "serverURL": "0.0.0.0:11000",
   "idAdmins": [
     "478608249"
   ]
