@@ -1,5 +1,4 @@
-﻿using ConfigServer;
-using FirstEF6App;
+﻿using FirstEF6App;
 using GameServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;

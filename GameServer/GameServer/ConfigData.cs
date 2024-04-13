@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
 
-namespace ConfigServer
+namespace GameServer
 {
     internal class ConfigData
     {
@@ -33,7 +33,7 @@ namespace ConfigServer
                 throw new Exception("Not found config file");
 
             var json = File.ReadAllText(ConfigFilePath);
-            var conf =  JsonConvert.DeserializeObject<ConfigData>(json);
+            var conf = JsonConvert.DeserializeObject<ConfigData>(json);
 
             IpServer = conf.IpServer;
             PortServer = conf.PortServer;

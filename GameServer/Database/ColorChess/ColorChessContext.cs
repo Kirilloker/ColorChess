@@ -1,4 +1,4 @@
-using ConfigServer;
+using GameServer;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Principal;
 
