@@ -19,7 +19,7 @@ app.use((err, req, res, next) => {
   res.status(500).send("Что-то пошло не так!");
 });
 
-app.get("/top", async (req, res) => {
+app.get("/list_top", async (req, res) => {
   try {
     const response = await axios.get(`http://${urlAPI}/api/Info/get_top`, {
       params: { nameUser: "." },

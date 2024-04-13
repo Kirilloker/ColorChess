@@ -11,7 +11,7 @@ function Top() {
     const serverPort = process.env.REACT_APP_SERVER_PORT;
 
     useEffect(() => {
-        fetch(`http://${serverIP}:${serverPort}/top`)
+        fetch(`http://${serverIP}:${serverPort}/list_top`)
             .then((response) => response.json())
             .then((data) => setPlayers(data))
             .catch((error) => console.error("Ошибка загрузки топ игроков:", error));
