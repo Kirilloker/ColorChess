@@ -1,9 +1,12 @@
 import React from 'react';
 import './main.css';  
+import { useTranslation } from 'react-i18next';
 
 function Main() {
+  const { t } = useTranslation();
+
   return (
-    <main>
+      <main>
       <section className="full-width-image-section">
         <img src="./images/chess-desk-setup.png" alt="Desktop Setup" className="full-width-image" />
       </section>
@@ -11,17 +14,15 @@ function Main() {
         <section className="content-section">
           <img src="./images/chess-piece.png" alt="Chess Piece" className="half-width-image" />
           <div className="text-content" style={{ fontSize: "35px" }}>
-            <p>
-              Color Chess is a multiplayer game where the goal is to capture and paint as many cells as possible with
-              your unique moving pieces.
-            </p>
+        <p>
+            {t('MultiplayerGame')}
+        </p>
           </div>
         </section>
         <section className="content-section">
           <div className="text-content" style={{ fontSize: "35px" }}>
             <p>
-              Color Chess is a strategic game that enhances decision-making and allows players to develop their own
-              unique playing style.
+                {t('StrategyGame')}
             </p>
           </div>
           <img src="./images/chess-board.png" alt="Chess Board" className="half-width-image2" />

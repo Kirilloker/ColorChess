@@ -24,6 +24,22 @@ main {
   flex: 1;
 }
 
+header nav ul li.lang-switch {
+    margin-left: auto; 
+}
+
+header nav ul li.lang-switch span {
+    cursor: pointer;
+    padding: 5px;
+    transition: background-color 0.3s ease; 
+}
+
+header nav ul li.lang-switch span:hover {
+    background-color: #f0f0f0; 
+    color: #333; 
+}
+
+
 header {
   background: #000000;
   color: #ffffff;

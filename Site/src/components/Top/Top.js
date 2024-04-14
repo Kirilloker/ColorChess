@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import "./top.css";
 
 function Top() {
+    const { t } = useTranslation();
+
     const [players, setPlayers] = useState([]);
     const [nickname, setNickname] = useState("");
     const [playerInfo, setPlayerInfo] = useState(null);
@@ -44,13 +47,13 @@ function Top() {
         <main>
             <div className="container">
                 <section className="top-players">
-                    <h1>Table of the Best Players</h1>
+                    <h1>{t('TopPlayers')}</h1>
                     <div className="players-list">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Nickname</th>
-                                    <th>Rating</th>
+                                    <th>{t('Nickname')}</th>
+                                    <th>{t('Rating')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,16 +73,16 @@ function Top() {
                     <div className="player-stats-input">
                         <input
                             type="text"
-                            placeholder="Enter a nickname"
+                            placeholder={t('EnterNick')}
                             value={nickname}
                             onChange={(e) => setNickname(e.target.value)}
                         />
-                        <button onClick={handleSearch}>Find out a player's stats</button>
+                        <button onClick={handleSearch}>{t('PlayerStats')}</button>
                     </div>
                     {errorMessage && <div className="error-message">{errorMessage}</div>}
                     {playerInfo && (
                         <div className="player-stats-result">
-                            Number of victories: {playerInfo.wins} - Rating: {playerInfo.rate} - Place in Top: {playerInfo.numberPlace}
+                            {t('NumVictories')} {playerInfo.wins} {t('VictoryDetails1')} {playerInfo.rate} {t('VictoryDetails2')} {playerInfo.numberPlace}
                         </div>
                     )}
                 </section>
