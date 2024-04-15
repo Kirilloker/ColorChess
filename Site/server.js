@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const axios = require("axios");
+const path = require("path");
 
 require("dotenv").config();
 
@@ -13,12 +14,9 @@ const urlAPI = process.env.URL_API;
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(express.static(path.resolve(__dirname, "build")));  // Serve static files from build directory
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Что-то пошло не так!");
-});
-
+// API routes
 app.get("/list_top", async (req, res) => {
   try {
     const response = await axios.get(`http://${urlAPI}/api/Info/get_top`, {
@@ -51,10 +49,15 @@ app.get("/player/:nickname", async (req, res) => {
   }
 });
 
-app.use(express.static("build"));
-
+// Handler for all other requests, should return index.html
 app.get("*", (req, res) => {
-  res.sendFile("build");
+  res.sendFile(path.resolve(__dirname, "build", "index.html"));
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Что-то пошло не так!");
 });
 
 app.listen(portServer, ipServer, () => {

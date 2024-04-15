@@ -10,18 +10,16 @@ function Top() {
     const [playerInfo, setPlayerInfo] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const serverIP = process.env.REACT_APP_SERVER_IP;
-    const serverPort = process.env.REACT_APP_SERVER_PORT;
-
     useEffect(() => {
-        fetch(`http://${serverIP}:${serverPort}/list_top`)
+        fetch('/list_top')
             .then((response) => response.json())
             .then((data) => setPlayers(data))
             .catch((error) => console.error("Ошибка загрузки топ игроков:", error));
-    }, [serverIP, serverPort]);
+    }, []);
 
+    // Функция для поиска информации о конкретном игроке
     const handleSearch = () => {
-        fetch(`http://${serverIP}:${serverPort}/player/${nickname}`)
+        fetch(`/player/${nickname}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Игрок не найден");

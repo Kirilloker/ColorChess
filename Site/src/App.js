@@ -34,7 +34,7 @@ function App() {
                             <li><Link to="/top">{t('Top')}</Link></li>
                             <li><Link to="/download">{t('Download')}</Link></li>
                             <li className="lang-switch">
-                                <span onClick={() => changeLanguage('ru')}>RU</span> | 
+                                <span onClick={() => changeLanguage('ru')}>RU</span>| 
                                 <span onClick={() => changeLanguage('en')}>EN</span>
                             </li>
                         </ul>

@@ -1,0 +1,23 @@
+# Определение базового образа
+FROM node:14
+
+# Установка рабочей директории в контейнере
+WORKDIR /app
+
+# Копирование файлов `package.json` и `package-lock.json` (если есть)
+COPY package*.json ./
+
+# Установка зависимостей
+RUN npm install
+
+# Копирование остальных файлов проекта
+COPY . .
+
+# Сборка React приложения
+RUN npm run build
+
+# Открытие нужных портов
+EXPOSE 3000 80
+
+# Запуск сервера Node.js при старте контейнера
+CMD ["node", "server/server.js"]
