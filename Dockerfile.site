@@ -1,17 +1,17 @@
-# Определение базового образа
 FROM node:14
-
-# Установка рабочей директории в контейнере
 WORKDIR /app
 
+# Перемещаемся в поддиректорию Site
+WORKDIR /app/Site
+
 # Копирование файлов `package.json` и `package-lock.json` (если есть)
-COPY package*.json ./
+COPY ./Site/package*.json ./
 
 # Установка зависимостей
 RUN npm install
 
 # Копирование остальных файлов проекта
-COPY . .
+COPY ./Site/ ./
 
 # Сборка React приложения
 RUN npm run build

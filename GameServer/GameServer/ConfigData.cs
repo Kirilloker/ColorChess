@@ -35,12 +35,12 @@ namespace GameServer
             var json = File.ReadAllText(ConfigFilePath);
             var conf = JsonConvert.DeserializeObject<ConfigData>(json);
 
-            IpServer = conf.IpServer;
-            PortServer = conf.PortServer;
-            IpDB = conf.IpDB;
-            UserDB = conf.UserDB;
-            PasswordDB = conf.PasswordDB;
-            NameDB = conf.NameDB;
+            IpServer = Environment.GetEnvironmentVariable("IPSERVER") ?? conf.IpServer;
+            PortServer = Environment.GetEnvironmentVariable("PORTSERVER") ?? conf.PortServer;
+            IpDB = Environment.GetEnvironmentVariable("IPDB") ?? conf.IpDB;
+            UserDB = Environment.GetEnvironmentVariable("USERDB") ?? conf.UserDB;
+            PasswordDB = Environment.GetEnvironmentVariable("PASSWORDDB") ?? conf.PasswordDB;
+            NameDB = Environment.GetEnvironmentVariable("NAMEDB") ?? conf.NameDB;
         }
 
         public static string? IpServer { get; set; }

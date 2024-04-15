@@ -28,11 +28,12 @@ public static class Config
         var json = File.ReadAllText(ConfigFilePath);
         var conf = JsonConvert.DeserializeObject<ConfigData>(json);
 
-        Token = conf.Token;
-        //ServerURL = conf.ServerURL;
+        Token = Environment.GetEnvironmentVariable("TOKEN") ?? conf.Token;
         ServerURL = Environment.GetEnvironmentVariable("SERVER_URL") ?? conf.ServerURL;
-        IdAdmins = conf.IdAdmins;
 
-
+        if (Environment.GetEnvironmentVariable("IDAMINS") != null) 
+            IdAdmins = new List<string>() { Environment.GetEnvironmentVariable("IDAMINS") };
+        else
+            IdAdmins = conf.IdAdmins;
     }
 }

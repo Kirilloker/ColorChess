@@ -1,7 +1,7 @@
 ﻿
 public static class ConfServ
 {
-    public const string baseIP = "192.168.0.201";
+    public const string baseIP = "192.168.0.200";
     public const string basePort = "11000";
     
     public const string GameServerHubUrl = "http://" + baseIP + ":" + basePort + "/Game";
