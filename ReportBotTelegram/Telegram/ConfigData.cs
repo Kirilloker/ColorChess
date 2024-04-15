@@ -29,7 +29,10 @@ public static class Config
         var conf = JsonConvert.DeserializeObject<ConfigData>(json);
 
         Token = conf.Token;
-        ServerURL = conf.ServerURL;
+        //ServerURL = conf.ServerURL;
+        ServerURL = Environment.GetEnvironmentVariable("SERVER_URL") ?? conf.ServerURL;
         IdAdmins = conf.IdAdmins;
+
+
     }
 }

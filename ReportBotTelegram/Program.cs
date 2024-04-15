@@ -23,6 +23,7 @@ botClient.StartReceiving(
 var me = await botClient.GetMeAsync();
 
 Console.WriteLine($"Bot start");
+Console.WriteLine(Config.ServerURL);
 
 
 // Чтобы не закрывался после начала
