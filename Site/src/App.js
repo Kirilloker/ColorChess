@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import i18n from './i18n';
 import Main from './components/Main/Main';
@@ -11,30 +11,37 @@ import { useTranslation } from 'react-i18next';
 
 function App() {
     const { t, i18n } = useTranslation();
+    const [menuActive, setMenuActive] = React.useState(false);
 
     const changeLanguage = (language) => {
-        if (i18n.isInitialized) {
-            console.error('i18n initialized');
-            i18n.changeLanguage(language);
-        } else {
-            console.error('i18n not initialized');
+        i18n.changeLanguage(language);
+    };
+
+    const toggleMenu = () => {
+        setMenuActive(!menuActive);
+    };
+
+    // Добавим обработчик для закрытия меню при клике вне его
+    const closeMenu = (e) => {
+        if (menuActive && !e.target.closest('nav')) {
+            setMenuActive(false);
         }
     };
 
     return (
-        <Router>
-            <div className="app-container">
+        <div className="app-container" onClick={closeMenu}>
+            <Router>
                 <header>
+                    <div className="header-title">Color Chess</div>
+                    <div className="hamburger-menu" onClick={toggleMenu}>☰</div>
                     <nav>
-                        <ul>
-                            <li><a href="/">Color Chess</a></li>
-                            <li>|</li>
+                        <ul className={menuActive ? "active" : ""}>
                             <li><Link to="/">{t('Main')}</Link></li>
                             <li><Link to="/rules">{t('Rules')}</Link></li>
                             <li><Link to="/top">{t('Top')}</Link></li>
                             <li><Link to="/download">{t('Download')}</Link></li>
                             <li className="lang-switch">
-                                <span onClick={() => changeLanguage('ru')}>RU</span>| 
+                                <span onClick={() => changeLanguage('ru')}>RU</span>|
                                 <span onClick={() => changeLanguage('en')}>EN</span>
                             </li>
                         </ul>
@@ -47,9 +54,10 @@ function App() {
                     <Route path="/download" element={<Download />} />
                 </Routes>
                 <Footer />
-            </div>
-        </Router>
+            </Router>
+        </div>
     );
 }
+
 
 export default App;

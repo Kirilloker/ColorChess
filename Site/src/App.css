@@ -6,18 +6,21 @@
 
 html,
 body {
-  height: 100%;
-  font-family: "Inter", sans-serif;
-  background: #d5d2d2;
-  font-size: 16px;
-  color: #000000;
+    height: 100%;
+    font-family: "Inter", sans-serif;
+    background: #d5d2d2;
+    font-size: 16px;
+    color: #000000;
+    overflow-x: hidden; 
 }
 
+
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
 }
 
 main {
@@ -25,7 +28,8 @@ main {
 }
 
 header nav ul li.lang-switch {
-    margin-left: auto; 
+    margin-left: auto;
+    background: #2d2d2dc4;
 }
 
 header nav ul li.lang-switch span {
@@ -41,9 +45,18 @@ header nav ul li.lang-switch span:hover {
 
 
 header {
-  background: #000000;
-  color: #ffffff;
-  padding: 10px 0;
+    background: #000000;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; 
+}
+
+.header-title {
+    font-size: 1.5rem; 
+    color: #ffffff; 
+    z-index: 1000;
 }
 
 header nav ul {
@@ -52,6 +65,7 @@ header nav ul {
   justify-content: center;
   align-items: center;
   padding: 10px 0;
+  z-index: 950;
 }
 
 header nav ul li {
@@ -64,6 +78,58 @@ header nav ul li span {
   text-decoration: none;
   font-size: 1.5rem;
 }
+
+
+
+.hamburger-menu {
+    display: none; 
+    color: #ffffff; 
+    font-size: 1.5rem; 
+    cursor: pointer; 
+    padding: 10px 20px; 
+    /*position: absolute;*/ 
+    top: 10px; 
+    right: 10px; 
+    z-index: 1000; 
+}
+
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: block; 
+    }
+
+    header nav ul {
+        flex-direction: column;
+        display: none;
+        width: 100%;
+        position: absolute; 
+        /*top: 0;*/ 
+        left: 0;
+        background-color: #000000;
+        padding-top: 50px; 
+    }
+
+        header nav ul.active {
+            display: flex;
+        }
+
+        header nav ul li {
+            margin: 10px 0;
+            text-align: center; 
+        }
+
+    .header-title {
+        font-size: 1.5rem; 
+        color: #ffffff;
+        position: absolute; 
+        left: 50%;
+        transform: translateX(-50%); 
+    }
+}
+
+
+
+
 
 .download-button {
   color: #000000;
@@ -102,7 +168,8 @@ footer a:hover {
 }
 
 .app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
 }

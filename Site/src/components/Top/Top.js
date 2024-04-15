@@ -17,7 +17,6 @@ function Top() {
             .catch((error) => console.error("Ошибка загрузки топ игроков:", error));
     }, []);
 
-    // Функция для поиска информации о конкретном игроке
     const handleSearch = () => {
         fetch(`/player/${nickname}`)
             .then((response) => {
@@ -80,7 +79,17 @@ function Top() {
                     {errorMessage && <div className="error-message">{errorMessage}</div>}
                     {playerInfo && (
                         <div className="player-stats-result">
-                            {t('NumVictories')} {playerInfo.wins} {t('VictoryDetails1')} {playerInfo.rate} {t('VictoryDetails2')} {playerInfo.numberPlace}
+                            <p>
+                                {t('NumVictories')} {playerInfo.wins} 
+                            </p>
+
+                            <p>
+                                {t('VictoryDetails1')} {playerInfo.rate}
+                            </p>
+
+                            <p>
+                                {t('VictoryDetails2')} {playerInfo.numberPlace}
+                            </p>
                         </div>
                     )}
                 </section>

@@ -7,7 +7,8 @@ function Rules() {
   return (
     <main>
       <div className="container">
-        <section className="rule-section">
+
+        <section className="rule-section " style={{ marginTop: '20px' }}>
           <p>
             <b>
                 {t('GameGoal')}

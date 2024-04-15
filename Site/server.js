@@ -14,9 +14,9 @@ const urlAPI = process.env.URL_API;
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(express.static(path.resolve(__dirname, "build")));  // Serve static files from build directory
+app.use(express.static(path.resolve(__dirname, "build")));  
 
-// API routes
+
 app.get("/list_top", async (req, res) => {
   try {
     const response = await axios.get(`http://${urlAPI}/api/Info/get_top`, {
