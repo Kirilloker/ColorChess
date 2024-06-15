@@ -1,8 +1,8 @@
 {
-  "ip-server": "0.0.0.0",
-  "port-server": "11000",
+  "ip-server": "192.168.0.200",
+  "port-server": "11001",
   "ip-db": "127.0.0.1",
   "user-db": "kirillok",
-  "password-db": "loki5566",
+  "password-db": "example",
   "name-db": "colorchessdb"
 }

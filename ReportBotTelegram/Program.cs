@@ -22,7 +22,7 @@ botClient.StartReceiving(
 
 var me = await botClient.GetMeAsync();
 
-Console.WriteLine($"Bot start");
+Console.WriteLine($"Start Telegram Bot!");
 Console.WriteLine(Config.ServerURL);
 
 

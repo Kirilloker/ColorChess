@@ -16,10 +16,6 @@
     <None Remove="dockerfile" />
   </ItemGroup>
 
-  <ItemGroup>
-	  <None Include="dockerfile" />
-  </ItemGroup>
-
 	<ItemGroup>
     <Content Include="config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

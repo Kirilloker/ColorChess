@@ -10,13 +10,13 @@ function Download() {
                 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
                 <h2>{t('Version')} 1.0.31</h2>
                 <div className="platform-icons">
-                    <a href="/Files/Build.zip" download>
+                    <a href="/Files/BuildPC.zip" download>
                         <img src="./images/windows-icon.png" alt="Windows" />
                     </a>
-                    <a href="/Files/Build.zip" download>
+                    <a href="/Files/BuildApple.zip" download>
                         <img src="./images/apple-icon.png" alt="Apple" />
                     </a>
-                    <a href="/Files/Build.zip" download>
+                    <a href="/Files/BuildAndroid.apk" download>
                         <img src="./images/android-icon.png" alt="Android" />
                     </a>
                 </div>

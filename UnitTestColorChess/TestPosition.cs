@@ -16,12 +16,17 @@ namespace UnitTest
         [Test]
         public void Position_Equal() 
         {
+            // Организация
             Position position_2 = new Position(10, 10);
             Position position_3 = new Position(15, 15);
 
-            Assert.IsTrue(position == position_2);
-            Assert.IsFalse(position == position_3);
-            Assert.IsTrue(position != position_3);
+            // Действие
+            bool pos_equal_pos2 = position == position_2; 
+            bool pos_equal_pos3 = position != position_3; 
+
+            // Утверждение
+            Assert.IsTrue(pos_equal_pos2);
+            Assert.IsFalse(pos_equal_pos3);
         }
 
         [Test]

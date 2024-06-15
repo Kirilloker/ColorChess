@@ -5,18 +5,20 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.gameserver
+    image: kirillok/colorchess-gameserver:latest
     ports:
       - "11000:11000"
     environment:
       IPDB: db
       USERDB: kirillok
-      PASSWORDDB: loki5566
+      PASSWORDDB: example
       NAMEDB: colorchessdb
 
   site:
     build:
       context: .
       dockerfile: Dockerfile.site
+    image: kirillok/colorchess-site:latest
     ports:
       - "3000:3000"
       - "80:80"
@@ -24,6 +26,7 @@ services:
       URL_API: "gameserver:11000"
 
   reportbottelegram:
+    image: kirillok/colorchess-reportbottelegram:latest
     build:
       context: .
       dockerfile: Dockerfile.reportbottelegram
@@ -33,10 +36,10 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: "loki5566"
+      MYSQL_ROOT_PASSWORD: "example"
       MYSQL_DATABASE: "colorchessdb"
       MYSQL_USER: "kirillok"
-      MYSQL_PASSWORD: "loki5566"
+      MYSQL_PASSWORD: "example"
     ports:
       - "3307:3306"
     volumes:

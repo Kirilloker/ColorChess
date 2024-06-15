@@ -44,5 +44,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapPost("/registry", (HttpContext context) => {  LoginAndRegistry.Registry(context).Result.ExecuteAsync(context);});
 });
 
+Console.WriteLine("start server");
+Console.WriteLine("http://" + Config.IpServer + ":" + Config.PortServer);
 app.Run("http://" + Config.IpServer + ":" + Config.PortServer);
 // http://192.168.0.35:11000/swagger/index.html
