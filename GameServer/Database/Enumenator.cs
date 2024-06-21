@@ -1,4 +1,4 @@
-﻿public static class Error
+﻿public static class ErrorMessage
 {
     public static readonly string NotFound = "Not Found";
     public static readonly string Unknown = "Unknown";
@@ -11,6 +11,19 @@
     public static readonly string UserInLobbyExist = "This user in Lobby exist";
 }
 
+public enum ErrorType
+{
+    UnknownError,
+    NotFound,
+    UnknownAttribute,
+    NotFoundOpponent,
+    NotFoundEnum,
+    UserExist,
+    RoomExist,
+    UserStatisticExist,
+    UserInLobbyExist
+}
+
 public enum AttributeUS
 {
     Win = 0,
@@ -20,7 +33,7 @@ public enum AttributeUS
     Rate = 4,
 }
 
-public enum GameMode
+public enum GameModeType
 {
     Default = 0,
     Rating = 1,

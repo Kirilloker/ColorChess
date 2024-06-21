@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using ColorChessModel;
 using Microsoft.AspNetCore.Authorization;
-using ColorChessModel;
-using Org.BouncyCastle.Crypto;
+using Microsoft.AspNetCore.SignalR;
 
 
 [Authorize]
@@ -11,93 +10,103 @@ public class GameServerHub : Hub
     {
         await Task.Run(async () =>
         {
-            int playerId = int.Parse(Context.UserIdentifier);
-            int numOfplayers = int.Parse(_numOfPlayers);
-            GameMode gameMode; 
-            switch (_gameMode)
-            {
-                case "Default":
-                    gameMode = GameMode.Default; break;
-                case "Rating":
-                    gameMode = GameMode.Rating; break;
-                default:
-                    gameMode = GameMode.Default; break;
-            }
-            Console.WriteLine("Player" + playerId + "want play:" + gameMode + " " + _numOfPlayers);
-            //
+            int playerId = GetPlayerId();
+            var (numOfPlayers, gameMode, state) = ExtractRoomInfo(_gameMode, _numOfPlayers);
+
             DB.IDK_how_fix_this_bug(playerId);
-            DB.AddLogEvent(TypeLogEvent.SearchGame, playerId, "want play:" + gameMode + " " + _numOfPlayers);
+            DB.AddLogEvent(TypeLogEvent.SearchGame, playerId, "want to play:" + gameMode + " " + numOfPlayers);
 
-            Map StartGameState = GameLobby.FindRoomForPlayerAndStartGame(playerId, gameMode, int.Parse(_numOfPlayers));
-            
-            if((Object)StartGameState != null)
-            {
-                List<int> players = GameLobby.GetAllPlayersInRoomWithPlayer(playerId);
-                DB.AddLogEvent(TypeLogEvent.StartGame, players, "start game:" + gameMode + " " + _numOfPlayers);
+            bool roomIsReadyForStart = GameLobby.TryFindRoom(playerId, gameMode, numOfPlayers, out Map? startGameState);
 
-                for (int i = 0; i < players.Count; i++)
-                { 
-                    await Clients.User(players[i].ToString()).
-                    SendAsync("ServerStartGame", JsonConverter.ConvertToJSON(StartGameState.ConvertMapToPlayer(i)));
-                }
-            }
+            if (roomIsReadyForStart == true && startGameState != null) 
+                await NotifyPlayerOfStartGame(numOfPlayers, playerId, gameMode, startGameState);
         });
     }
 
-    public async Task SendPlayerStep(string step)
+    public async Task SendOtherPlayerStep(string step)
     {
         await Task.Run(async () =>
         {
-            int playerId = int.Parse(Context.UserIdentifier);
-            List<int> players = GameLobby.GetAllPlayersInRoomWithPlayer(playerId);
-            Map NextGameState = GameLobby.SendPlayerStepToRoomAndApplyIt(playerId, step);
+            int playerId = GetPlayerId();
 
-            if ((Object)NextGameState != null)
-            {           
-                for (int i = 0; i < players.Count; i++)
-                    if (players[i] != playerId)
-                        await Clients.User(players[i].ToString()).SendAsync("ServerSendStep", step);
+            List<int> players = GameLobby.GetAllPlayersInRoomByPlayerId(playerId);
 
-                if (NextGameState.EndGame == true)
-                    DB.AddLogEvent(TypeLogEvent.EndGame, players, "end game");
-            }
+            GameLobby.ApplyStep(playerId, step);
+            
+            foreach (var player in players)
+                if (player != playerId)
+                    await Clients.User(player.ToString()).SendAsync("ServerSendStep", step);
         });
     }
-
     
     public override async Task OnConnectedAsync()
     {
-        await Task.Run(() =>
-        {
-            Console.WriteLine($"User ({Context.UserIdentifier}) connected to gameHub");
-        });
-
         await base.OnConnectedAsync();
     }
 
+    //TODO: If user leave the room (max player > 2) when it's not full, it can break
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
         await Task.Run(async () =>
         {
-            int leavedPlayer = int.Parse(Context.UserIdentifier);
-            Console.WriteLine($"{leavedPlayer}"+ " leave the game");
-            DB.AddLogEvent(TypeLogEvent.SurrenderGame, leavedPlayer, "player leave the game");
+            int playerIdLeaved = GetPlayerId();
 
-            List<int> ids = GameLobby.GetAllPlayersInRoomWithPlayer(leavedPlayer);
+            DB.AddLogEvent(TypeLogEvent.SurrenderGame, playerIdLeaved, "player leave the game");
 
-            if ((Object)ids != null)
+            List<int> playersId = GameLobby.GetAllPlayersInRoomByPlayerId(playerIdLeaved);
+
+            if (playersId != null)
             {
-                GameLobby.PlayerLeftTheGame(leavedPlayer);
-                foreach (int id in ids)
-                {
-                    if (id != leavedPlayer)
-                    {
-                        Console.WriteLine($"{leavedPlayer} send {id} endgame");
-                        await Clients.User(id.ToString()).SendAsync("ServerEndGame");
-                    }
-                }
+                GameLobby.PlayerLeftTheGame(playerIdLeaved);
+
+                foreach (int playerId in playersId)
+                    if (playerId != playerIdLeaved)
+                        await Clients.User(playerId.ToString()).SendAsync("ServerEndGame");
             }    
         });
+
         await base.OnDisconnectedAsync(exception);
+    }
+
+
+    private async Task NotifyPlayerOfStartGame(int numOfPlayers, int playerId, GameModeType gameMode, Map startGameState)
+    {
+        await Task.Run(async () =>
+        {
+            List<int> players = GameLobby.GetAllPlayersInRoomByPlayerId(playerId);
+
+            DB.AddLogEvent(TypeLogEvent.StartGame, players.ToList(), "start game:" + gameMode + " " + numOfPlayers);
+
+            for (int i = 0; i < numOfPlayers; i++)
+            {
+                await Clients.User(players[i].ToString()).
+                    SendAsync("ServerStartGame", JSONConverter.ConvertToJSON(startGameState.ConvertMapToPlayer(i)));
+            }
+        });
+    }
+
+    private (int numOfPlayre, GameModeType, bool state) ExtractRoomInfo(string _gameMode, string _numOfPlayers)
+    {
+        bool state = true;
+
+        if (int.TryParse(_numOfPlayers, out int numOfPlayers) == false)
+            throw new Exception($"Error Find room, can't parse numOfPlayers: {numOfPlayers}");
+
+        GameModeType gameMode = _gameMode switch
+        {
+            "Default" => GameModeType.Default,
+            "Rating" => GameModeType.Rating,
+            _ => GameModeType.Default
+        };
+
+        return (numOfPlayers, gameMode, state);
+    }
+
+    private int GetPlayerId() 
+    {
+        if (int.TryParse(Context.UserIdentifier, out int playerId) == false)
+            throw new Exception($"Error Find room, can't parse user id: {Context.UserIdentifier}");
+
+        return playerId;
     }
 }

@@ -1,9 +1,5 @@
-﻿using ColorChessModel;
-using FirstEF6App;
-using GameServer.Database.DTO;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Cryptography;
+﻿using FirstEF6App;
+using GameServer.Tools;
 public static class DB 
 {
     #region Get
@@ -31,34 +27,6 @@ public static class DB
 
 
     /// <summary>
-    /// Возврашает пользователя
-    /// </summary>
-    public static User GetUser(string userName)
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                var user = db.users.Where(b => b.Name == userName).ToList();
-
-                if (user.Count == 0)
-                {
-                    Console.WriteLine("Error GetUser: " + Error.NotFound);
-                    return null;
-                }
-
-                return user[0];
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error GetUser: " + Error.NotFound);
-                return null;
-            }
-        }
-    }
-
-    /// <summary>
     /// Возвращает имя пользователя
     /// </summary>>
     public static string GetNameUser(int userID)
@@ -72,8 +40,8 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error GetNameUser: " + Error.NotFound);
-                return Error.NotFound;
+                Console.WriteLine("Error GetNameUser: " + ErrorMessage.NotFound);
+                return ErrorMessage.NotFound;
             }
         }
     }
@@ -91,7 +59,7 @@ public static class DB
 
                 if (user.Count == 0)
                 {
-                    Console.WriteLine("Error GetNameUser: " + Error.NotFound);
+                    Console.WriteLine("Error GetNameUser: " + ErrorMessage.NotFound);
                     return -1;
                 }
 
@@ -100,7 +68,7 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error GetNameUser: " + Error.NotFound);
+                Console.WriteLine("Error GetNameUser: " + ErrorMessage.NotFound);
                 return -1;
             }
         }
@@ -128,8 +96,8 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error GetPasswordUser: " + Error.NotFound);
-                return Error.NotFound;
+                Console.WriteLine("Error GetPasswordUser: " + ErrorMessage.NotFound);
+                return ErrorMessage.NotFound;
             }
         }
     }
@@ -156,8 +124,8 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error GetPasswordUser: " + Error.NotFound);
-                return Error.NotFound;
+                Console.WriteLine("Error GetPasswordUser: " + ErrorMessage.NotFound);
+                return ErrorMessage.NotFound;
             }
         }
     }
@@ -165,22 +133,7 @@ public static class DB
     /// <summary>
     /// Возврашает статистику пользователя
     /// </summary>
-    public static UserStatistic GetUserStatistic(int userId)
-    {
-        using (ColorChessContext db = new ColorChessContext())
-        {
-            try
-            {
-                return db.userstatistics.Where(b => b.UserId == userId).ToList()[0];
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Error GetUserStatistic: " + Error.NotFound);
-                return null;
-            }
-        }
-    }
+
 
     /// <summary>
     /// Возврашает статистику пользователя
@@ -204,7 +157,7 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error GetGameStatisticUser: " + Error.NotFound);
+                Console.WriteLine("Error GetGameStatisticUser: " + ErrorMessage.NotFound);
                 return null;
             }
         }
@@ -275,7 +228,7 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error GetUserRankByRate: " + Error.NotFound);
+                Console.WriteLine("Error GetUserRankByRate: " + ErrorMessage.NotFound);
                 return -1;
             }
         }
@@ -349,22 +302,7 @@ public static class DB
 
 
 
-    public static bool AddEntity<T>(T entity) where T : class
-        {
-            using (ColorChessContext db = new ColorChessContext())
-            {
-                try
-                {
-                    db.Set<T>().Add(entity);
-                    db.SaveChanges();
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
+
 
 
         /// <summary>
@@ -388,7 +326,7 @@ public static class DB
                     }
                     else
                     {
-                        Console.WriteLine("Error AddUser: " + Error.UserExist);
+                        Console.WriteLine("Error AddUser: " + ErrorMessage.UserExist);
                         return false;
                     }
 
@@ -396,7 +334,7 @@ public static class DB
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    Console.WriteLine("Error AddUser: " + Error.Unknown);
+                    Console.WriteLine("Error AddUser: " + ErrorMessage.Unknown);
                     return false;
                 }
             }
@@ -438,14 +376,14 @@ public static class DB
                 }
                 else
                 {
-                    Console.WriteLine("Error AddUserStatistic: " + Error.UserStatisticExist);
+                    Console.WriteLine("Error AddUserStatistic: " + ErrorMessage.UserStatisticExist);
                 }
 
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error AddUserStatistic: " + Error.Unknown);
+                Console.WriteLine("Error AddUserStatistic: " + ErrorMessage.Unknown);
             }
         }
     }
@@ -467,7 +405,7 @@ public static class DB
     /// <summary>
     ///  Добавление информации за игру
     /// </summary>
-    public static void AddGameStatistic(List<int> usersScore, GameMode gameMode, List<int> usersId)
+    public static void AddGameStatistic(List<int> usersScore, GameModeType gameMode, List<int> usersId)
     {
         using (ColorChessContext db = new ColorChessContext())
         {
@@ -486,7 +424,7 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error AddGameStatistic: " + Error.Unknown);
+                Console.WriteLine("Error AddGameStatistic: " + ErrorMessage.Unknown);
             }
         }
     }
@@ -514,7 +452,7 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error AddLogEvent: " + Error.Unknown);
+                Console.WriteLine("Error AddLogEvent: " + ErrorMessage.Unknown);
             }
         }
     }
@@ -577,7 +515,7 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error ChangeNameUser: " + Error.NotFound);
+                Console.WriteLine("Error ChangeNameUser: " + ErrorMessage.NotFound);
             }
         }
     }
@@ -600,7 +538,7 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error ChangeNameUser: " + Error.NotFound);
+                Console.WriteLine("Error ChangeNameUser: " + ErrorMessage.NotFound);
             }
         }
     }
@@ -639,7 +577,7 @@ public static class DB
                         if ((userStatistic.Rate) < 0) userStatistic.Rate = 0;
                         break;
                     default:
-                        Console.WriteLine("Error ChangeUserStatistic: " + Error.UnknownAttribute);
+                        Console.WriteLine("Error ChangeUserStatistic: " + ErrorMessage.UnknownAttribute);
                         break;
                 }
 
@@ -648,7 +586,7 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error ChangeUserStatistic: " + Error.Unknown);
+                Console.WriteLine("Error ChangeUserStatistic: " + ErrorMessage.Unknown);
             }
         }
     }
@@ -707,7 +645,7 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error ClearUsers: " + Error.Unknown);
+                Console.WriteLine("Error ClearUsers: " + ErrorMessage.Unknown);
             }
         }
     }
@@ -728,7 +666,7 @@ public static class DB
             }
             catch (Exception)
             {
-                Console.WriteLine("Error ClearUserStatistics: " + Error.Unknown);
+                Console.WriteLine("Error ClearUserStatistics: " + ErrorMessage.Unknown);
             }
         }
     }
@@ -750,7 +688,7 @@ public static class DB
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Error ClearGameStatistics: " + Error.Unknown);
+                Console.WriteLine("Error ClearGameStatistics: " + ErrorMessage.Unknown);
             }
         }
     }
@@ -828,7 +766,132 @@ public static class DB
             }
         }
     }
+
+
+
+
+
+
+
+
+    public static int? AddEntity<T>(T entity) where T : class
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                db.Set<T>().Add(entity);
+                db.SaveChanges();
+                return entity.GetEntityId();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+    }
+
+
+
+    public static User? GetUser(string userName)
+    {
+        using (var db = new ColorChessContext())
+        {
+            return db.ExecuteWithHandling(
+                ctx => ctx.users.FirstOrDefault(b => b.Name == userName),
+                ErrorType.NotFound);
+        }
+    }
+
+
+    public static UserStatistic? GetUserStatistic(string userName)
+    {
+        using (var db = new ColorChessContext())
+        {
+            User? user = GetUser(userName);
+
+            if (user == null) 
+                return null;
+
+            return GetUserStatistic(user.Id);
+        }
+    }
+
+    public static UserStatistic? GetUserStatistic(int userId)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            return db.ExecuteWithHandling(
+                ctx => ctx.userstatistics.FirstOrDefault(b => b.UserId == userId),
+                ErrorType.NotFound);
+        }
+    }
+
+
+
 }
+public static class DbContextExtensions
+{
+    public static T? ExecuteWithHandling<T>(this ColorChessContext db, Func<ColorChessContext, T> func, ErrorType errorType = ErrorType.UnknownError) 
+    {
+        try
+        {
+            var result = func(db);
+
+            if (result == null)
+                Console.WriteLine($"Null object {typeof(T)}");
+
+            return result;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error: {Tools.Convert(errorType)}");
+            Console.WriteLine($"Details: {e}");
+            return default;
+        }
+    }
+
+    public static int GetEntityId<T>(this T entity) where T : class
+    {
+        var propertyInfo = entity.GetType().GetProperty("Id");
+        if (propertyInfo == null)
+        {
+            throw new InvalidOperationException("Entity does not have an Id property.");
+        }
+
+        return (int)propertyInfo.GetValue(entity);
+    }
+}
+
+
+
+//public static User GetUser(string userName)
+//{
+//    using (ColorChessContext db = new ColorChessContext())
+//    {
+//        try
+//        {
+//            var user = db.users.Where(b => b.Name == userName).ToList();
+
+//            if (user.Count == 0)
+//            {
+//                Console.WriteLine("Error GetUser: " + Error.NotFound);
+//                return null;
+//            }
+
+//            return user[0];
+//        }
+//        catch (Exception e)
+//        {
+//            Console.WriteLine(e);
+//            Console.WriteLine("Error GetUser: " + Error.NotFound);
+//            return null;
+//        }
+//    }
+//}
+
+
+
 
 
 public class Pair<T1, T2>

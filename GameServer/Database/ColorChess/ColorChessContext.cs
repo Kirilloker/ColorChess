@@ -4,7 +4,7 @@ using System.Security.Principal;
 
 namespace FirstEF6App
 {
-    class ColorChessContext : DbContext
+    public class ColorChessContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

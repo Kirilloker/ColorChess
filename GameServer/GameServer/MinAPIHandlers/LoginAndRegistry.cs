@@ -6,18 +6,82 @@ public static class LoginAndRegistry
 {
     public static async Task<IResult> Login(HttpContext context)
     {
+        string text = await ReadRequestBodyAsync(context);
+        var (name, password) = ExtractCredentials(text);
+
+        if (!ValidateUser(name, password, out User? user) || user == null)
+            return Results.Unauthorized();
+
+        string token = GenerateJwt(user);
+
+        DB.IDK_how_fix_this_bug(user.Id);
+        LogToDB(user, TypeLogEvent.Authorization);
+
+        var response = new
+        {
+            access_token = token,
+        };
+
+        return Results.Json(response);
+    }
+
+    public static async Task<IResult> Registry(HttpContext context)
+    {
+        string text = await ReadRequestBodyAsync(context);
+        var (name, password) = ExtractCredentials(text);
+
+        if (DB.GetUser(name) != null)
+            return Results.UnprocessableEntity();
+
+        User newUser = new User { Name = name, Password = password };
+
+        int userId = DB.AddEntity(newUser) ?? throw new InvalidOperationException("Failed to add user");
+
+        UserStatistic userStatistic = new UserStatistic { Win = 0, Lose = 0, Draw = 0, MaxScore = 0, Rate = 0, UserId = userId };
+
+        int userStatisticId = DB.AddEntity(userStatistic) ?? throw new InvalidOperationException("Failed to add user statistic");
+
+        LogToDB(newUser, TypeLogEvent.Registration);
+
+        return Results.Ok();
+    }
+
+
+
+    private static async Task<string> ReadRequestBodyAsync(HttpContext context)
+    {
         using StreamReader reader = new StreamReader(context.Request.Body);
-        string text = await reader.ReadToEndAsync();
-        string name = text.Split(" ")[0];
-        string password = text.Split(" ")[1];
+        return await reader.ReadToEndAsync();
+    }
 
-        User user = DB.GetUser(name);
+    private static (string name, string password) ExtractCredentials(string text)
+    {
+        var parts = text.Split(" ");
+        return (parts[0], parts[1]);
+    }
 
-        if (user is null) return Results.Unauthorized();
-        if (user.Password != password) return Results.Unauthorized();
+    private static bool ValidateUser(string name, string password, out User? user)
+    {
+        user = DB.GetUser(name); 
 
-        var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), new Claim(ClaimTypes.UserData, name), new Claim(ClaimTypes.UserData, password) };
+        return user != null && user.Password == password;
+    }
 
+    private static void LogToDB(User user, TypeLogEvent logEvent)
+    {
+        string message = logEvent == TypeLogEvent.Authorization ? "Authorization user" : "Registration new user";
+
+        DB.AddLogEvent(logEvent, user.Id, message);
+    }
+
+    private static string GenerateJwt(User user)
+    {
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+            new Claim(ClaimTypes.UserData, user.Name),
+            new Claim(ClaimTypes.UserData, user.Password)
+        };
 
         var jwt = new JwtSecurityToken(
               issuer: AuthOptions.ISSUER,
@@ -25,45 +89,9 @@ public static class LoginAndRegistry
               claims: claims,
               expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(20)),
               signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+
         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-        var response = new
-        {
-            access_token = encodedJwt,
-        };
 
-        DB.IDK_how_fix_this_bug(user.Id);
-        DB.AddLogEvent(TypeLogEvent.Authorization, user.Id, "Authorization user");
-
-        return Results.Json(response);
-    }
-
-    public static async Task<IResult> Registry(HttpContext context)
-    {
-        using StreamReader reader = new StreamReader(context.Request.Body);
-        string text = await reader.ReadToEndAsync();
-        string name = text.Split(" ")[0];
-        string password = text.Split(" ")[1];
-
-        User user = DB.GetUser(name);
-
-        if (user == null)
-        {
-            User newUser = new User { Name = name, Password = password };
-            DB.AddEntity(newUser);
-
-            newUser = DB.GetUser(newUser.Name);
-
-            UserStatistic userStatistic = new UserStatistic { Win = 0, Lose = 0, Draw = 0, MaxScore = 0, Rate = 0, UserId = newUser.Id };
-            DB.AddEntity(userStatistic);
-
-            DB.AddLogEvent(TypeLogEvent.Registration, newUser.Id, "Regestration new user");
-
-            return Results.Ok();
-        }
-        else
-        {
-            return Results.UnprocessableEntity();
-        }
-
+        return encodedJwt;
     }
 }

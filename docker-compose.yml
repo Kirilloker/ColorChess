@@ -11,7 +11,7 @@ services:
     environment:
       IPDB: db
       USERDB: kirillok
-      PASSWORDDB: example
+      PASSWORDDB: loki5566
       NAMEDB: colorchessdb
 
   site:
@@ -36,10 +36,10 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: "example"
+      MYSQL_ROOT_PASSWORD: "loki5566"
       MYSQL_DATABASE: "colorchessdb"
       MYSQL_USER: "kirillok"
-      MYSQL_PASSWORD: "example"
+      MYSQL_PASSWORD: "loki5566"
     ports:
       - "3307:3306"
     volumes:

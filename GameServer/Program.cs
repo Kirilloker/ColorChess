@@ -16,7 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Color Chess API", Version = "v1.2" });
     c.EnableAnnotations();
 });
 
@@ -29,7 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Color Chess AP");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Color Chess API");
     });
 }
 app.MapControllers();
@@ -44,7 +44,11 @@ app.UseEndpoints(endpoints =>
     endpoints.MapPost("/registry", (HttpContext context) => {  LoginAndRegistry.Registry(context).Result.ExecuteAsync(context);});
 });
 
-Console.WriteLine("start server");
-Console.WriteLine("http://" + Config.IpServer + ":" + Config.PortServer);
-app.Run("http://" + Config.IpServer + ":" + Config.PortServer);
+
+string URL_server = $"http://{Config.IpServer}:{Config.PortServer}";
+
+Console.WriteLine($"Start Server {URL_server}");
+app.Run(URL_server);
+
+
 // http://192.168.0.35:11000/swagger/index.html

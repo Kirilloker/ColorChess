@@ -24,7 +24,7 @@ public class Server
     }
 
 
-    //Публичный интерфейс класса_______________________________________
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ_______________________________________
     public void ConnectToDefaultGame(List<string> args)
     {
         ConnectToGameServerHubAndFindTheRoom(args);
@@ -101,7 +101,7 @@ public class Server
         return result;
     }
 
-    //Методы вызываемы сервером во время игры________________________
+    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ________________________
     private void ServerSendStep(string opponentStep)
     {
         Step step = JSONConverter.ConvertJSONtoSTEP(opponentStep);
@@ -118,7 +118,7 @@ public class Server
         serverSender.EndGame();
     }
    
-    //Методы для обращений к серверу__________________________________
+    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ__________________________________
     private async void ConnectToGameServerHubAndFindTheRoom(List<string> args)
     {
         var _connection = new HubConnectionBuilder()
@@ -155,13 +155,13 @@ public class Server
     }
     private async Task SendStepToServer(string clientStep)
     {
-        await connection.InvokeAsync("SendPlayerStep", clientStep);
+        await connection.InvokeAsync("SendOtherPlayerStep", clientStep);
     }
 
     private async Task LoginIn(string _name, string _password)
     {
         IHttpClientForServer client = httpClient;
-        client.Timeout = TimeSpan.FromSeconds(5); // Устанавливаем таймаут в 5 секунд
+        client.Timeout = TimeSpan.FromSeconds(5); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ 5 пїЅпїЅпїЅпїЅпїЅпїЅ
 
         HttpContent content = new StringContent(_name + " " + _password);
         HttpResponseMessage response;

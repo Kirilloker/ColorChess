@@ -1,141 +1,174 @@
 ﻿using ColorChessModel;
-using System;
 
 public static class GameLobby
 {
     //Rooms: GameMode -> MaxPlayersInRoom -> Rooms   
-    private static Dictionary<GameMode, Dictionary<int, List<GameRoom>>> rooms = new();
-    private static Dictionary<int, GameRoom> PlayersInRooms = new();
+    private static Dictionary<GameModeType, Dictionary<int, List<GameRoom>>> _rooms = new();
+    private static Dictionary<int, GameRoom> _playersInRooms = new();
+
     private static object locker = new();
 
-    //Return Map if room is full and game is started. Else return null.
-    public static Map FindRoomForPlayerAndStartGame(int PlayerId, GameMode gameMode, int NumOfPlayers)
+    public static bool TryFindRoom(int playerId, GameModeType gameMode, int numOfPlayers, out Map? map)
     {
         lock (locker)
         {
-            List<GameRoom> relevanceRoomList;
-            Dictionary<int, List<GameRoom>> gameModeDict;
-            
-            GameRoom gameRoom;
-            if (PlayersInRooms.TryGetValue(PlayerId, out gameRoom)) return null;
+            map = null;
 
-            //relevanceRoomList = rooms[gameMode][NumOfPlayers]
-            if (!rooms.TryGetValue(gameMode, out gameModeDict))
+            if (_playersInRooms.ContainsKey(playerId)) 
+                return false;
+
+            var room = GetRelevanceRoom(gameMode, numOfPlayers, playerId);
+
+            _playersInRooms[playerId] = room;
+            room.AddPlayer(playerId);
+
+            if (room.IsFull) 
             {
-                rooms[gameMode] = new Dictionary<int, List<GameRoom>>();
-                gameModeDict = rooms[gameMode];
+                map = room.InitMap();
+                return true;
             }
-            if (!gameModeDict.TryGetValue(NumOfPlayers, out relevanceRoomList))
+            else 
             {
-                rooms[gameMode][NumOfPlayers] = new List<GameRoom>();
-                relevanceRoomList = rooms[gameMode][NumOfPlayers];
+                return false;
             }
-
-            //Create new room if we don't find relevance room
-            if (relevanceRoomList.Count == 0)
-            {
-                Console.WriteLine("Player " + PlayerId + " create new room");
-                GameRoom newRoom;
-                if (gameMode == GameMode.Default)
-                {
-                    newRoom = new GameRoom(NumOfPlayers, new List<int>() { PlayerId }, gameMode);
-                }
-                else
-                {
-                    newRoom = new RatingGameRoom(NumOfPlayers, new List<int>() { PlayerId }, gameMode);
-                }
-
-                rooms[gameMode][NumOfPlayers].Add(newRoom);
-                PlayersInRooms[PlayerId] = newRoom;
-                return null;
-            }
-
-            GameRoom findedRoom;
-
-            if (gameMode == GameMode.Rating)
-            {
-                int rate = DB.GetUserStatistic(PlayerId).Rate;
-                findedRoom = FindRatingRelevanceRoom(relevanceRoomList, rate);
-            }
-            else if (gameMode == GameMode.Default) findedRoom = FindDefaultRelevanceRoom(relevanceRoomList);
-            else throw (new Exception("GameLobby.FindRoomForPlayerAndStartGame() - unknown game mode"));
-
-            PlayersInRooms[PlayerId] = findedRoom;
-
-             //add player and start game if room is full
-            findedRoom.AddPlayer(PlayerId);
-            if (findedRoom.IsFull) return findedRoom.StartGame();
-            else return null;
         }
     }
 
-    //Apply player step and return next game state
-    public static Map SendPlayerStepToRoomAndApplyIt(int PlayerId, string step)
+    public static void ApplyStep(int playerId, string step)
     {
-        GameRoom room = PlayersInRooms[PlayerId];
-        Map GameState = room.ApplyPlayerStep(PlayerId, step);
-        if (GameState.EndGame)
+        if (_playersInRooms.TryGetValue(playerId, out GameRoom? room) == false)
+            throw new Exception("Not found room when trying to apply step");
+
+        bool isCorrectStep = room.TryApplyStep(JSONConverter.ConvertJSONtoSTEP(step));
+
+        if (isCorrectStep == false || room.EndGame == true) 
         {
-            room.EndGame();
-            lock (locker)
-            {
-                rooms[room.RoomGameMode][room.MaxPlayers].Remove(room);
-                foreach (var player in room.PlayersInRoom)
-                    PlayersInRooms.Remove(player);
-            }
+            room.FinishTheGame();
+            RemoveRoom(room);
+
+            DB.AddLogEvent(TypeLogEvent.EndGame, GetAllPlayersInRoomByPlayerId(playerId), "end game");
         }
-        return GameState;
     }
 
-    public static void PlayerLeftTheGame(int PlayerId)
+    public static void PlayerLeftTheGame(int playerId)
     {
-        GameRoom room;
-        if (!PlayersInRooms.TryGetValue(PlayerId, out room))
+        if (_playersInRooms.TryGetValue(playerId, out GameRoom? room) == false)
             return;
 
-        lock (locker)
-        {
-            rooms[room.RoomGameMode][room.MaxPlayers].Remove(room);
-            foreach (var player in room.PlayersInRoom)
-                PlayersInRooms.Remove(player);
-        }
+        RemoveRoom(room);
     }
 
-    public static List<int> GetAllPlayersInRoomWithPlayer(int playerId)
+    public static List<int> GetAllPlayersInRoomByPlayerId(int playerId)
+    {
+        if (_playersInRooms.TryGetValue(playerId, out GameRoom? room))
+            return room.PlayersIdInRoom;
+        else
+            return new();
+    }
+
+
+    public static int GetCountPlayersInGame() => _playersInRooms.Count;
+
+
+
+    private static GameRoom GetRelevanceRoom(GameModeType gameMode, int numOfPlayers, int playerId)
     {
         GameRoom room;
-        if (PlayersInRooms.TryGetValue(playerId, out room))
-            return room.PlayersInRoom;
+        var listOfRelevanceRooms = GetListOfRelevanceRooms(gameMode, numOfPlayers);
+
+        if (listOfRelevanceRooms.Count == 0)
+        {
+            GameRoom newRoom = CreateNewRoom(gameMode, numOfPlayers);
+            _rooms[gameMode][numOfPlayers].Add(newRoom);
+        }
+
+        if (gameMode == GameModeType.Default)
+        {
+            room = FindDefaultRelevanceRoom(listOfRelevanceRooms);
+        }
+        else if (gameMode == GameModeType.Rating)
+        {
+            UserStatistic? userStatistic = DB.GetUserStatistic(playerId);
+
+            if (userStatistic == null)
+                throw new Exception("Not found user statistics");
+
+            room = FindRatingRelevanceRoom(listOfRelevanceRooms, userStatistic.Rate);
+        }
         else
-            return null;
+        {
+            throw new Exception("Unknown game mode");
+        }
+
+        return room;
+    }
+
+    private static GameRoom CreateNewRoom(GameModeType gameMode, int numOfPlayers) => gameMode switch
+    {
+        GameModeType.Default => new GameRoom(numOfPlayers, new List<int>() { }, gameMode),
+        GameModeType.Rating => new RatingGameRoom(numOfPlayers, new List<int>() { }, gameMode),
+        _ => throw new Exception("Unknown game mode")
+    };
+
+    private static List<GameRoom> GetListOfRelevanceRooms(GameModeType gameMode, int numOfPlayers)
+    {
+        if (_rooms.TryGetValue(gameMode, out var gameModeDict) == false)
+        {
+            _rooms[gameMode] = new Dictionary<int, List<GameRoom>>();
+            gameModeDict = _rooms[gameMode];
+        }
+
+        if (gameModeDict.TryGetValue(numOfPlayers, out var relevanceRoomList) == false)
+        {
+            _rooms[gameMode][numOfPlayers] = new List<GameRoom>();
+            relevanceRoomList = _rooms[gameMode][numOfPlayers];
+        }
+
+        return relevanceRoomList;
     }
 
     private static GameRoom FindRatingRelevanceRoom(List<GameRoom> relevanceRoomList, int rate)
     {
         int bestRateDelta = int.MaxValue;
         int rateDelta;
-        GameRoom moreRelevanceRoom = null;
+        GameRoom? relevanceRoom = null;
+
         foreach (RatingGameRoom room in relevanceRoomList)
         {
+            if (room.IsFull)
+                continue;
+
             rateDelta = Math.Abs(rate - room.AverageRating);
-            if (!room.IsFull && rateDelta < bestRateDelta)
+
+            if (rateDelta < bestRateDelta)
             {
-                moreRelevanceRoom = (GameRoom)room;
+                relevanceRoom = room;
                 bestRateDelta = rateDelta;
             }
         }
-        if (moreRelevanceRoom == null) throw (new Exception("FindRatingRelevanceRoom() something wrong"));
-        return moreRelevanceRoom;
+
+        if (relevanceRoom == null) 
+            throw (new Exception("Not found relevance room from Rating GameMode"));
+        
+        return relevanceRoom;
     }
 
     private static GameRoom FindDefaultRelevanceRoom(List<GameRoom> relevanceRoomList)
     {
         foreach (GameRoom room in relevanceRoomList)
-        {
             if (!room.IsFull) return room;
-        }
-        throw (new Exception("FindDefaultRelevanceRoom() something wrong"));
+
+        throw (new Exception("Not found default relevance room from Default GameMode"));
     }
 
-    public static int GetCountPlayersInGame() => PlayersInRooms.Count; 
+    private static void RemoveRoom(GameRoom room)
+    {
+        lock (locker)
+        {
+            _rooms[room.RoomGameMode][room.MaxPlayers].Remove(room);
+
+            foreach (var player in room.PlayersIdInRoom)
+                _playersInRooms.Remove(player);
+        }
+    }
 }

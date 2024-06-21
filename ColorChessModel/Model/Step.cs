@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ColorChessModel;
+﻿using ColorChessModel;
 
 public class Step
 {

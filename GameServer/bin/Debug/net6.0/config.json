@@ -1,6 +1,6 @@
 {
   "ip-server": "192.168.0.200",
-  "port-server": "11001",
+  "port-server": "11000",
   "ip-db": "127.0.0.1",
   "user-db": "kirillok",
   "password-db": "loki5566",

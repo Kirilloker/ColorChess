@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ColorChessModel;
 
 namespace ColorChessModel
@@ -73,6 +74,16 @@ namespace ColorChessModel
 
         }
 
+        public List<int> GetListScorePlayer() 
+        {
+            List<int> playersScore = new();
+
+            for (int i = 0; i < PlayersCount; i++)
+                playersScore.Add(GetScorePlayer(i));
+
+            return playersScore;
+        }
+
         public Map ConvertMapToPlayer(int playerNum)
         {
             Map map = new(this);
@@ -82,6 +93,13 @@ namespace ColorChessModel
                 map.players[i].Type = PlayerType.Online;
             }
             return map;
+        }
+
+        public bool IsPermissibleStep(Step step)
+        {
+            List<Cell> allSteps = WayCalcSystem.CalcAllSteps(this, step.Figure);
+
+            return allSteps.Contains(step.Cell);
         }
 
         public Cell GetCell(Position posCell) => cells[posCell.X, posCell.Y];

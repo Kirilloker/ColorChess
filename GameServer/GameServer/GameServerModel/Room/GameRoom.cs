@@ -2,133 +2,128 @@
 
 public class GameRoom
 {
-    protected List<int> PlayersIds;
-    protected Map? GameState;
-    protected int MaxNumOfPlayers;
-    protected GameMode GameMode;
+    protected List<int> _playersId;
+    protected Map _gameState;
+    protected int _maxNumOfPlayers;
+    protected GameModeType _gameMode;
 
-    public GameRoom(int MaxNumOfPlayers, List<int> PlayersIds, GameMode GameMode)
+    public GameRoom(int maxNumOfPlayers, List<int> playersId, GameModeType gameMode)
     {
-        this.PlayersIds = PlayersIds;
-        this.MaxNumOfPlayers = MaxNumOfPlayers;
-        this.GameMode = GameMode;
+        _playersId = playersId;
+        _maxNumOfPlayers = maxNumOfPlayers;
+        _gameMode = gameMode;
     }
-    public virtual void AddPlayer(int PlayerId) 
+
+    public virtual void AddPlayer(int playerId) 
     { 
-        PlayersIds.Add(PlayerId);
+        if (_playersId.Contains(playerId) == false)
+            _playersId.Add(playerId);
     }
-    public virtual void RemovePlayer(int PlayerId) 
+
+    public virtual void RemovePlayer(int playerId)
     {
-        for (int i = 0; i < PlayersIds.Count; i++)
-        {
-            if (PlayersIds[i] == PlayerId) PlayersIds.RemoveAt(i);
-        }
+        _playersId.RemoveAll(id => id == playerId);
     }
-    public Map ApplyPlayerStep(int playerID, string _step) 
+
+    public bool TryApplyStep(Step step) 
     {
-        Step step = JsonConverter.ConvertJSONtoSTEP(_step);
-
-        if (step.IsReal(GameState) == false)
-        {
-            return null;
-        }
-
-        GameState = GameStateCalcSystem.ApplyStep(GameState, step.Figure, step.Cell);
-        return GameState;
-    }
-    public Map StartGame() 
-    {
-        GameStateBuilder builder = new GameStateBuilder();
-
-        PlayerType[] playersTypes= new PlayerType[MaxNumOfPlayers];
-        for(int i = 1; i < PlayersIds.Count; i++)
-        {
-            playersTypes[i] = PlayerType.Human;
-        }
-
-        CornerType[] cornerTypes= new CornerType[4] 
-        {CornerType.DownLeft, CornerType.UpRight, CornerType.DownRight, CornerType.UpLeft };
+        if (_gameState.IsPermissibleStep(step) == false)
+            return false;
         
-
-        ColorType[] colorTypes = new ColorType[4] {ColorType.Red, ColorType.Blue, ColorType.Green, ColorType.Yellow};
-
-
-        builder.SetCustomGameState(9, playersTypes, cornerTypes, colorTypes);
-
-        GameState = builder.CreateGameState();
-        return GameState;
+        _gameState = GameStateCalcSystem.ApplyStep(_gameState, step.Figure, step.Cell);
+    
+        return true;
     }
-    public virtual void EndGame()
+    public virtual void FinishTheGame()
     {
-        List<int> playersScores = new();
-        for (int i = 0; i < PlayersIds.Count; i++)
-        {
-            playersScores.Add(GameState.GetScorePlayer(i));
-        }
-        DB.AddGameStatistic(playersScores, GameMode, PlayersIds);
+        List<int> playersScore = _gameState.GetListScorePlayer();
 
-
-        List<AttributeUS> GameResults = Enumerable.Repeat(AttributeUS.Draw, MaxNumOfPlayers).ToList();
-        int maxScore = int.MinValue;
-        int maxIndex = 0;
-
-        for (int i = 0; i < playersScores.Count; i++)
-        {
-            if (playersScores[i] > maxScore)
-            {
-                maxScore = playersScores[i];
-                maxIndex = i;
-            }
-        }
-        GameResults[maxIndex] = AttributeUS.Win;
-        for (int i = 0; i < playersScores.Count; i++)
-        {
-            if (playersScores[i] == maxScore && i != maxIndex)
-            {
-                GameResults[i] = AttributeUS.Draw;
-                GameResults[maxIndex] = AttributeUS.Draw;
-            }
-            if (playersScores[i] < maxScore) { GameResults[i] = AttributeUS.Lose; }
-        }
-
-        UserStatistic userStatistic;
-        for (int i = 0; i < PlayersIds.Count; i++)
-        {
-            int playerScore = GameState.GetScorePlayer(i);
-            userStatistic = DB.GetUserStatistic(PlayersIds[i]);
-            if (userStatistic.MaxScore < playerScore)
-            {
-                DB.ChangeUserStatistic(PlayersIds[i], AttributeUS.MaxScore, playerScore);
-            }
-            DB.ChangeUserStatistic(PlayersIds[i], GameResults[i], 1);
-        }
+        AddGameStatistic(playersScore, _gameMode, _playersId);
+        ChangeUserStatistic(playersScore, _playersId);
     }
     public virtual void PlayerLeaveEndGame(int PlayerId)
     {
         DB.ChangeUserStatistic(PlayerId, AttributeUS.Lose, 1);
     }
-    public bool IsFull
+
+    public Map InitMap() 
     {
-        get
+        GameStateBuilder builder = new GameStateBuilder();
+
+        PlayerType[] playersTypes= new PlayerType[_maxNumOfPlayers];
+
+        foreach (var playerId in _playersId.Skip(1))
+            playersTypes[playerId] = PlayerType.Human;
+
+        CornerType[] cornerTypes= new CornerType[4] 
+            {CornerType.DownLeft, CornerType.UpRight, CornerType.DownRight, CornerType.UpLeft };
+        
+        ColorType[] colorTypes = new ColorType[4] 
+            {ColorType.Red, ColorType.Blue, ColorType.Green, ColorType.Yellow};
+
+        const int sizeMap = 9;
+
+        builder.SetCustomGameState(sizeMap, playersTypes, cornerTypes, colorTypes);
+
+        _gameState = builder.CreateGameState();
+        return _gameState;
+    }
+
+
+    private void AddGameStatistic(List<int> playersScore, GameModeType gameMode, List<int> playersId)
+    {
+        DB.AddGameStatistic(playersScore, gameMode, playersId);
+    }
+
+    private void ChangeUserStatistic(List<int> playersScore, List<int> playersId)
+    {
+        var gameResults = CalculateGameResult(playersScore);
+
+        for (int i = 0; i < playersId.Count; i++)
         {
-            if (PlayersIds.Count == MaxNumOfPlayers) return true;
-            else return false;
+            UserStatistic? userStatistic = DB.GetUserStatistic(playersId[i]);
+
+            if (userStatistic == null)
+                throw new Exception("Not found User Statistic in scoring ");
+
+            if (userStatistic.MaxScore < playersScore[i])
+                DB.ChangeUserStatistic(playersId[i], AttributeUS.MaxScore, playersScore[i]);
+
+            DB.ChangeUserStatistic(playersId[i], gameResults[i], 1);
         }
     }
-    public GameMode RoomGameMode
+
+    private List<AttributeUS> CalculateGameResult(List<int> playersScore)
     {
-        get
+        List<AttributeUS> gameResults = Enumerable.Repeat(AttributeUS.Draw, _maxNumOfPlayers).ToList();
+
+        int maxScore = playersScore.Max();
+        int maxIndex = playersScore.IndexOf(maxScore);
+
+        gameResults[maxIndex] = AttributeUS.Win;
+
+        for (int i = 0; i < playersScore.Count; i++)
         {
-            return GameMode;
+            if (playersScore[i] == maxScore && i != maxIndex)
+            {
+                gameResults[i] = AttributeUS.Draw;
+                gameResults[maxIndex] = AttributeUS.Draw;
+            }
+            if (playersScore[i] < maxScore)
+            {
+                gameResults[i] = AttributeUS.Lose;
+            }
         }
+
+        return gameResults;
     }
-    public int MaxPlayers
-    {
-        get { return  MaxNumOfPlayers; }
-    }
-    public List<int> PlayersInRoom
-    {
-        get { return new List<int>(PlayersIds);}
-    }
+
+
+
+    public bool IsFull => _playersId.Count == _maxNumOfPlayers;
+    public GameModeType RoomGameMode => _gameMode;
+    public int MaxPlayers => _maxNumOfPlayers;
+    public List<int> PlayersIdInRoom => new List<int>(_playersId);
+    public bool EndGame => _gameState.EndGame;
 }
 

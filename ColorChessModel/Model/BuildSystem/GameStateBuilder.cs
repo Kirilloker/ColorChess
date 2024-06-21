@@ -17,6 +17,7 @@ namespace ColorChessModel
         private CellDescription board;
         private List<FigureSetDescription> figureSets;
 
+
         public GameStateBuilder()
         {
             gameState = new Map();
@@ -194,7 +195,7 @@ namespace ColorChessModel
             SetDefaultFigureSets();
         }
 
-        public void SetCustomGameState(int sizeMap, PlayerType[] typePlayer, CornerType[] cornerPlayer, ColorType[] colorPlayer) 
+        public void SetCustomGameState(int sizeMap, PlayerType[] typePlayer, CornerType[] cornerPlayer = defaultCornerTypes, ColorType[] colorPlayer = defaultColorTypes) 
         {
             playersDescription = new PlayersDescription();
 
