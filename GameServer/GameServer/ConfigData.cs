@@ -33,10 +33,7 @@ namespace GameServer
                 throw new Exception("Not found config file");
 
             var json = File.ReadAllText(ConfigFilePath);
-            var conf = JsonConvert.DeserializeObject<ConfigData>(json);
-
-            if (conf == null) 
-                throw new Exception("Config is null");
+            var conf = JsonConvert.DeserializeObject<ConfigData>(json) ?? throw new Exception("Config is null");
 
             IpServer = Environment.GetEnvironmentVariable("IPSERVER") ?? conf.IpServer;
             PortServer = Environment.GetEnvironmentVariable("PORTSERVER") ?? conf.PortServer;

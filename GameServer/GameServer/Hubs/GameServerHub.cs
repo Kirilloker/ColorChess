@@ -14,7 +14,7 @@ public class GameServerHub : Hub
             var (numOfPlayers, gameMode, state) = ExtractRoomInfo(_gameMode, _numOfPlayers);
 
             DB.IDK_how_fix_this_bug(playerId);
-            DB.AddLogEvent(TypeLogEvent.SearchGame, playerId, "want to play:" + gameMode + " " + numOfPlayers);
+            DB.AddLogEvent(LogEventType.SearchGame, playerId, "want to play:" + gameMode + " " + numOfPlayers);
 
             bool roomIsReadyForStart = GameLobby.TryFindRoom(playerId, gameMode, numOfPlayers, out Map? startGameState);
 
@@ -51,7 +51,7 @@ public class GameServerHub : Hub
         {
             int playerIdLeaved = GetPlayerId();
 
-            DB.AddLogEvent(TypeLogEvent.SurrenderGame, playerIdLeaved, "player leave the game");
+            DB.AddLogEvent(LogEventType.SurrenderGame, playerIdLeaved, "player leave the game");
 
             List<int> playersId = GameLobby.GetAllPlayersInRoomByPlayerId(playerIdLeaved);
 
@@ -75,7 +75,7 @@ public class GameServerHub : Hub
         {
             List<int> players = GameLobby.GetAllPlayersInRoomByPlayerId(playerId);
 
-            DB.AddLogEvent(TypeLogEvent.StartGame, players.ToList(), "start game:" + gameMode + " " + numOfPlayers);
+            DB.AddLogEvent(LogEventType.StartGame, players.ToList(), "start game:" + gameMode + " " + numOfPlayers);
 
             for (int i = 0; i < numOfPlayers; i++)
             {

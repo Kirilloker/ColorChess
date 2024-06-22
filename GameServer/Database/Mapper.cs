@@ -22,20 +22,6 @@ public static class Mapper
         };
     }
 
-    public static UserInfoHashDTO UserInfoHashToDTO(User user, UserStatistic userStatistic)
-    {
-        return new UserInfoHashDTO
-        {
-            Name = user.Name,
-            PasswordHash = EncodeStringToBase64(user.Password),
-            Win = userStatistic.Win,
-            Lose = userStatistic.Lose,
-            MaxScore = userStatistic.MaxScore,
-            Draw = userStatistic.Draw,
-            Rate = userStatistic.Rate
-        };
-    }
-
     public static UserInfoDTO UserInfoToDTO(User user, UserStatistic userStatistic)
     {
         return new UserInfoDTO
@@ -50,52 +36,33 @@ public static class Mapper
         };
     }
 
-    public static List<UserInfoHashDTO> List_UserInfoHashToDTO(List<User> users, List<UserStatistic> userStatistics) 
+    public static List<UserInfoDTO> ListUserInfoToDTO(List<User> users, List<UserStatistic> userStatistics)
     {
-        List<UserInfoHashDTO> resourceDTO = new List<UserInfoHashDTO>(users.Count);
-
-        foreach (var user in users)
+        UserInfoDTO ConvertUserToDto(User user)
         {
             var userStatistic = userStatistics.FirstOrDefault(stat => stat.Id == user.Id);
-
-            if (userStatistic != null)
-                resourceDTO.Add(UserInfoHashToDTO(user, userStatistic));
+            return userStatistic != null ? UserInfoToDTO(user, userStatistic) : throw new Exception("Not found User statistic in mapper");
         }
 
-        return resourceDTO;
+        var tempList = ListEntityToDTO(users, new ConvertEntityToDto<User, UserInfoDTO>(ConvertUserToDto));
+
+        return tempList;
     }
 
 
-    public static List<UserInfoDTO> List_UserInfoToDTO(List<User> users, List<UserStatistic> userStatistics)
+    public delegate TDTO ConvertEntityToDto<T, TDTO>(T entity);
+    public static List<TDTO> ListEntityToDTO<T, TDTO>(List<T> resource, ConvertEntityToDto<T, TDTO> convertFunc) where T : new()
     {
-        List<UserInfoDTO> resourceDTO = new List<UserInfoDTO>(users.Count);
+        List<TDTO> resourceDTO = new List<TDTO>(resource.Count);
 
-        foreach (var user in users)
-        {
-            var userStatistic = userStatistics.FirstOrDefault(stat => stat.Id == user.Id);
-
-            if (userStatistic != null)
-                resourceDTO.Add(UserInfoToDTO(user, userStatistic));
-        }
-
-        return resourceDTO;
-    }
-
-
-
-
-
-    public delegate TDto ConvertEntityToDto<T, TDto>(T entity);
-    public static List<TDto> List_EntityToDTO<T, TDto>(List<T> resource, ConvertEntityToDto<T, TDto> convertFunc) where T : new()
-    {
-        List<TDto> resourceDTO = new List<TDto>(resource.Count);
         foreach (var item in resource)
-            resourceDTO.Add(convertFunc(item));
+        {
+            var dto = convertFunc(item);
+
+            if (dto != null)
+                resourceDTO.Add(dto);
+        }
+
         return resourceDTO;
-    }
-    public static string EncodeStringToBase64(string text)
-    {
-        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
-        return Convert.ToBase64String(bytes);
     }
 }

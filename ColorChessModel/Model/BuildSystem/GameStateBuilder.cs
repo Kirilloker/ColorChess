@@ -195,7 +195,7 @@ namespace ColorChessModel
             SetDefaultFigureSets();
         }
 
-        public void SetCustomGameState(int sizeMap, PlayerType[] typePlayer, CornerType[] cornerPlayer = defaultCornerTypes, ColorType[] colorPlayer = defaultColorTypes) 
+        public void SetCustomGameState(int sizeMap, PlayerType[] typePlayer, CornerType[] cornerPlayer, ColorType[] colorPlayer) 
         {
             playersDescription = new PlayersDescription();
 

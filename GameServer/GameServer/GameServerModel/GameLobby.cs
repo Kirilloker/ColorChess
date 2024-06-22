@@ -3,7 +3,7 @@
 public static class GameLobby
 {
     //Rooms: GameMode -> MaxPlayersInRoom -> Rooms   
-    private static Dictionary<GameModeType, Dictionary<int, List<GameRoom>>> _rooms = new();
+    private static readonly Dictionary<GameModeType, Dictionary<int, List<GameRoom>>> _rooms = new();
     private static Dictionary<int, GameRoom> _playersInRooms = new();
 
     private static object locker = new();
@@ -46,7 +46,7 @@ public static class GameLobby
             room.FinishTheGame();
             RemoveRoom(room);
 
-            DB.AddLogEvent(TypeLogEvent.EndGame, GetAllPlayersInRoomByPlayerId(playerId), "end game");
+            DB.AddLogEvent(LogEventType.EndGame, GetAllPlayersInRoomByPlayerId(playerId), "end game");
         }
     }
 

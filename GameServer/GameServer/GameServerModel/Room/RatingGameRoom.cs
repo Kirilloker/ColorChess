@@ -1,109 +1,81 @@
 ﻿using ColorChessModel;
+using GameServer.Enum;
 
 public class RatingGameRoom : GameRoom
 {
     private Dictionary<int,int> _playersRate = new();
     private const int _ratingBet = 25;
 
-    public RatingGameRoom(int MaxNumOfPlayers, List<int> PlayersIds, GameModeType GameMode) : base(MaxNumOfPlayers, PlayersIds, GameMode) { }
+    public RatingGameRoom(int maxNumOfPlayers, List<int> playersIds, GameModeType gameMode) 
+        : base(maxNumOfPlayers, playersIds, gameMode) { }
+
     public override void AddPlayer(int PlayerId)
     {
-        _playersId.Add(PlayerId);
-        _playersRate[PlayerId] = DB.GetUserStatistic(PlayerId).Rate;
+        base.AddPlayer(PlayerId);
+
+        UserStatistic? userStatistic = DB.GetUserStatistic(PlayerId) ?? 
+            throw new Exception("Not found UserStatistic when add player Rating Mode.");
+        
+        _playersRate[PlayerId] = userStatistic.Rate;
     }
-    public override void RemovePlayer(int playerId)
+
+    public override void RemovePlayer(int playerId) 
     {
         base.RemovePlayer(playerId);
 
         _playersRate.Remove(playerId);
     }
+
     public override void FinishTheGame()
     {
-        List<int> playersScores = new();
-        for (int i = 0; i < _playersId.Count; i++)
-        {
-            playersScores.Add(base._gameState.GetScorePlayer(i));
-        }
-        DB.AddGameStatistic(playersScores, _gameMode, _playersId);
+        List<int> playersScore = _gameState.GetListScorePlayer();
 
-
-        List<AttributeUS> GameResults = Enumerable.Repeat(AttributeUS.Draw, _maxNumOfPlayers).ToList();
-        int maxScore = int.MinValue;
-        int maxIndex = 0;
-
-        for (int i = 0; i < playersScores.Count; i++)
-        {
-            if (playersScores[i] > maxScore)
-            {
-                maxScore = playersScores[i];
-                maxIndex = i;
-            }
-        }
-        GameResults[maxIndex] = AttributeUS.Win;
-        for (int i = 0; i < playersScores.Count; i++)
-        {
-            if (playersScores[i] == maxScore && i != maxIndex)
-            {
-                GameResults[i] = AttributeUS.Draw;
-                GameResults[maxIndex] = AttributeUS.Draw;
-            }
-            if (playersScores[i] < maxScore) { GameResults[i] = AttributeUS.Lose; }
-        }
-
-        UserStatistic userStatistic;
-        for (int i = 0; i < _playersId.Count; i++)
-        {
-            int playerScore = _gameState.GetScorePlayer(i);
-            userStatistic = DB.GetUserStatistic(_playersId[i]);
-            if (userStatistic.MaxScore < playerScore)
-            {
-                DB.ChangeUserStatistic(_playersId[i], AttributeUS.MaxScore, playerScore);
-                
-            }
-            DB.ChangeUserStatistic(_playersId[i], GameResults[i], 1);
-
-            if(GameResults[i] == AttributeUS.Win) DB.ChangeUserStatistic(_playersId[i], AttributeUS.Rate, _ratingBet);
-            if (GameResults[i] == AttributeUS.Lose) DB.ChangeUserStatistic(_playersId[i], AttributeUS.Rate, -_ratingBet);
-        }
+        AddGameStatistic(playersScore, _gameMode, _playersId);
+        ChangeUserStatistic(playersScore, _playersId);
+        
+        ChangeRateValue(playersScore, _playersId, _ratingBet);
     }
-    public override void PlayerLeaveEndGame(int PlayerId)
+
+    public override void PlayerLeaveEndGame(int playerId)
     {
-        DB.ChangeUserStatistic(PlayerId, AttributeUS.Lose, 1);
-        DB.ChangeUserStatistic(PlayerId, AttributeUS.Rate, -_ratingBet);
+        base.PlayerLeaveEndGame(playerId);
+
+        DB.ChangeUserStatistic(playerId, AttributeUS.Rate, - _ratingBet);
 
         for(int i = 0; i < _playersId.Count; i++)
         {
-            if (_playersId[i] != PlayerId) 
+            if (_playersId[i] != playerId) 
             { 
                 if(_maxNumOfPlayers == 2)
                 {
                     DB.ChangeUserStatistic(_playersId[i], AttributeUS.Win, 1);
                     DB.ChangeUserStatistic(_playersId[i], AttributeUS.Rate, _ratingBet);
-
-                    List<int> playersScores = new();
-                    
-                    for (int j = 0; j < _playersId.Count; j++)
-                        playersScores.Add(base._gameState.GetScorePlayer(j));
-                    
-                    DB.AddGameStatistic(playersScores, _gameMode, _playersId);
-                    DB.AddGameStatistic(playersScores, _gameMode, _playersId);
                 }
                 else
                 {
-                    DB.ChangeUserStatistic(_playersId[i], AttributeUS.Rate, 5);
+                    DB.ChangeUserStatistic(_playersId[i], AttributeUS.Rate, 10);
                 }
             }
         }
+
+        List<int> playersScore = _gameState.GetListScorePlayer();
+        DB.AddGameStatistic(playersScore, _gameMode, _playersId);
     }
-    public int AverageRating
+
+
+    private void ChangeRateValue(List<int> playersScore, List<int> playersId, int ratingBet)
     {
-        get
+        var gameResults = CalculateGameResult(playersScore);
+
+        for (int i = 0; i < playersId.Count; i++)
         {
-            int playersRate = 0;
-            foreach (int rate in _playersRate.Values)
-                playersRate += rate;
-            playersRate = playersRate / _playersId.Count;
-            return playersRate;
+            if (gameResults[i] == AttributeUS.Win) DB.ChangeUserStatistic(playersId[i], AttributeUS.Rate, ratingBet);
+            if (gameResults[i] == AttributeUS.Lose) DB.ChangeUserStatistic(playersId[i], AttributeUS.Rate, -ratingBet);
         }
     }
+
+
+
+    public int AverageRating => (int)_playersRate.Values.DefaultIfEmpty(0).Average();
+
 }

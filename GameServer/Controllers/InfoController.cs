@@ -9,58 +9,62 @@ namespace GameServer.Controllers
     public class InfoController : ControllerBase
     {
         [HttpGet("get_top")]
-        [SwaggerOperation(Summary = "Получение топ пользователей", Description = "Возвращает список топ пользователей с их рейтингом. Если указанный пользователь не в топе, добавляет его в конец списка")]
+        [SwaggerOperation(
+            Summary = "Получение топ пользователей", 
+            Description = "Возвращает список пользователей с наивысшим рейтингом. " +
+            "Если указанный пользователь не в топе, добавляет его в конец списка" +
+            "Если в имени пользователя указать точку (.), то добавление в конец не происходит"
+        )]
         [SwaggerResponse((int)HttpStatusCode.OK, "Успешный запрос")]
         public async Task<IActionResult> GetTop([FromQuery][SwaggerParameter("Имя пользователя")] string nameUser)
         {
-            List<Pair<string, int>> result = DB.GetListTopRate(5);
-
-            bool userInTop = result.Any(pair => pair.First == nameUser);
+            var result = await DB.GetListTopRateAsync(5);
             
-            if (nameUser != "." && !userInTop)
+            if (nameUser != "." && !result.Any(pair => pair.Key == nameUser))
             {
-                int userRate = DB.GetRateUser(nameUser);
-                result.Add(new Pair<string, int>(nameUser, userRate));
+                int userRate = await DB.GetRateUserAsync(nameUser);
+                result.Add(new (nameUser, userRate));
             }
 
             return new JsonResult(result);
         }
 
+
+
         [HttpGet("get_count_players_online")]
-        [SwaggerOperation(Summary = "Получение количества онлайн игроков", Description = "Возвращает текущее количество игроков онлайн")]
+        [SwaggerOperation(Summary = "Получение количества онлайн игроков")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Успешный запрос")]
-        public async Task<IActionResult> GetCountPlayersOnline()
-        {
-            int countPlayersOnline = GameLobby.GetCountPlayersInGame();
-            return new JsonResult(countPlayersOnline);
-        }
+        public IActionResult GetCountPlayersOnline() 
+            => new JsonResult(GameLobby.GetCountPlayersInGame());
+
+
 
         [HttpGet("get_number_place_top")]
-        [SwaggerOperation(Summary = "Получение места пользователя в топе", Description = "Возвращает место указанного пользователя в топе по рейтингу")]
+        [SwaggerOperation(Summary = "Получение места пользователя в топе рейтингу")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Успешный запрос")]
-        public async Task<IActionResult> GetNumberPlaceTop([FromQuery][SwaggerParameter("Имя пользователя")] string nameUser)
-        {
-            int numberPlace = DB.GetNumberPlaceUserByRate(nameUser);
-            return new JsonResult(numberPlace);
-        }
+        public async Task<IActionResult> GetNumberPlaceTop([FromQuery][SwaggerParameter("Имя пользователя")] string nameUser) 
+            => new JsonResult(await DB.GetNumberPlaceUserByRateAsync(nameUser));
+
+
 
         [HttpGet("get_info_users")]
-        public async Task<IActionResult> GetInfoUsers([FromQuery] string nameUser)
+        [SwaggerOperation(
+            Summary = "Получение информации о пользователе",
+            Description = "Возвращает список с количеством побед, рейтингом и номером в топе"
+        )]
+        public async Task<IActionResult> GetInfoUsers([FromQuery][SwaggerParameter("Имя пользователя")] string nameUser)
         {
-            var user = DB.GetUser(nameUser);
+            var user = await DB.GetUserAsync(nameUser);
 
             if (user == null)
-            {
                 return NotFound("Не удалось найти пользователя.");
-            }
 
-            var userStats = DB.GetUserStatistic(user.Id);
+            var userStats = await DB.GetUserStatisticAsync(user.Id);
+
             if (userStats == null)
-            {
                 return NotFound("Статистика пользователя не найдена.");
-            }
 
-            int numberPlace = DB.GetNumberPlaceUserByRate(nameUser);
+            int numberPlace = await DB.GetNumberPlaceUserByRateAsync(nameUser);
 
             var result = new { Wins = userStats.Win, Rate = userStats.Rate, NumberPlace = numberPlace };
 

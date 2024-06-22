@@ -1,5 +1,8 @@
 ﻿using FirstEF6App;
+using GameServer.Enum;
 using GameServer.Tools;
+using Microsoft.EntityFrameworkCore;
+
 public static class DB 
 {
     #region Get
@@ -46,6 +49,33 @@ public static class DB
         }
     }
 
+    public static async Task<string> GetNameUserAsync(int userID)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                User user = await db.users.FirstOrDefaultAsync(b => b.Id == userID);
+                if (user != null)
+                {
+                    return user.Name;
+                }
+                else
+                {
+                    Console.WriteLine("User not found");
+                    return ErrorMessage.NotFound;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetNameUser: " + ErrorMessage.NotFound);
+                return ErrorMessage.NotFound;
+            }
+        }
+    }
+
+
     /// <summary>
     /// Возвращает рейтинг пользователя
     /// </summary>>
@@ -74,12 +104,43 @@ public static class DB
         }
     }
 
+
+    public static async Task<int> GetRateUserAsync(int userID)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                var user = await db.userstatistics.Where(b => b.UserId == userID).ToListAsync();
+
+                if (user.Count == 0)
+                {
+                    Console.WriteLine("Error GetNameUser: " + ErrorMessage.NotFound);
+                    return -1;
+                }
+
+                return user[0].Rate;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetNameUser: " + ErrorMessage.NotFound);
+                return -1;
+            }
+        }
+    }
+
     /// <summary>
     /// Возвращает рейтинг пользователя
     /// </summary>>
     public static int GetRateUser(string userName)
     {
         return GetRateUser(GetUser(userName).Id);
+    }
+
+    public static async Task<int> GetRateUserAsync(string userName)
+    {
+        return await GetRateUserAsync(GetUser(userName).Id);
     }
 
     /// <summary>
@@ -172,22 +233,22 @@ public static class DB
     }
 
     /// <summary>
-    /// Возвращает Список пары - имя игрока - количество очков. CountTop - колчество элементов в массиве
+    /// Возвращает Список пары - имя игрока - количество очков. CountTop - количество элементов в массиве
     /// </summary>
-    public static List<Pair<string, int>> GetListTopRate(int countTop = 5) 
+    public static async Task<List<KeyValuePair<string, int>>> GetListTopRate(int countTop = 5) 
     {
         using (ColorChessContext db = new ColorChessContext())
         {
             try
             {
-                List<Pair<string, int>> top = new();
+                List<KeyValuePair<string, int>> top = new();
                 
-                List<UserStatistic> userStatistics = db.userstatistics.OrderByDescending(u => u.Rate).Take(5).ToList();
+                List<UserStatistic> userStatistics = await db.userstatistics.OrderByDescending(u => u.Rate).Take(5).ToListAsync();
 
                 foreach (UserStatistic userStat in userStatistics)
                 {
-                    string userName = GetNameUser(userStat.UserId);
-                    top.Add(new Pair<string, int>(userName, userStat.Rate));
+                    string userName = await GetNameUserAsync(userStat.UserId);
+                    top.Add(new KeyValuePair<string, int>(userName, userStat.Rate));
                 }
 
                 return top;
@@ -198,6 +259,34 @@ public static class DB
                 Console.WriteLine(e);
                 Console.WriteLine("Error GetListTopRate");
                 return null; 
+            }
+        }
+    }
+
+    public static async Task<List<KeyValuePair<string, int>>> GetListTopRateAsync(int countTop = 5)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                List<KeyValuePair<string, int>> top = new();
+
+                List<UserStatistic> userStatistics = await db.userstatistics.OrderByDescending(u => u.Rate).Take(5).ToListAsync();
+
+                foreach (UserStatistic userStat in userStatistics)
+                {
+                    string userName = GetNameUser(userStat.UserId);
+                    top.Add(new KeyValuePair<string, int>(userName, userStat.Rate));
+                }
+
+                return top;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetListTopRate");
+                return null;
             }
         }
     }
@@ -235,6 +324,36 @@ public static class DB
     }
 
 
+    public static async Task<int> GetNumberPlaceUserByRateAsync(string userName)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                var userRank = await db.userstatistics.OrderByDescending(u => u.Rate)
+                    .ToListAsync(); 
+
+                var user = userRank
+                    .Select((userStat, index) => new { UserName = GetNameUser(userStat.UserId), Rank = index + 1 })
+                    .FirstOrDefault(u => u.UserName == userName);
+
+                if (user != null)
+                    return user.Rank;
+
+                // Если имя пользователя не найдено в списке
+                return -1;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Error GetUserRankByRate: " + ErrorMessage.NotFound);
+                return -1;
+            }
+        }
+    }
+
+
+
     #endregion
 
     #region Get All DB
@@ -255,6 +374,24 @@ public static class DB
             }
         }
     }
+
+    public static async Task<List<T>> GetAllAsync<T>() where T : class, new()
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                string sqlQuery = $"SELECT * FROM {typeof(T).Name}s;";
+                return await db.ExecuteSqlQueryAsync<T>(sqlQuery);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<T>();
+            }
+        }
+    }
+
 
     #endregion
 
@@ -432,7 +569,7 @@ public static class DB
     /// <summary>
     ///  Добавление логирование 
     /// </summary>
-    public static void AddLogEvent(TypeLogEvent _Type_Event, List<int> _usersId, string _Description)
+    public static void AddLogEvent(LogEventType _Type_Event, List<int> _usersId, string _Description)
     {
         using (ColorChessContext db = new ColorChessContext())
         {
@@ -460,7 +597,7 @@ public static class DB
     /// <summary>
     ///  Добавление логирование 
     /// </summary>
-    public static void AddLogEvent(TypeLogEvent _Type_Event, int _userId, string _Description)
+    public static void AddLogEvent(LogEventType _Type_Event, int _userId, string _Description)
     {
         List<int> usersId = new List<int>() { _userId};
         AddLogEvent(_Type_Event, usersId, _Description);
@@ -717,7 +854,25 @@ public static class DB
         }
     }
 
-    public static List<LogEvent> GetEventsWithTypes(DateTime start, DateTime end, List<TypeLogEvent> typeEvents)
+    public static async Task<List<LogEvent>> GetEventsAsync(DateTime start, DateTime end)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                var parameters = new { StartDate = start.ToString("yyyy-MM-dd HH:mm:ss"), EndDate = end.ToString("yyyy-MM-dd HH:mm:ss") };
+                string sqlQuery = $"SELECT * FROM logevents WHERE Date BETWEEN '{parameters.StartDate}' AND '{parameters.EndDate}';";
+                return await db.ExecuteSqlQueryAsync<LogEvent>(sqlQuery);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<LogEvent>();
+            }
+        }
+    }
+
+    public static List<LogEvent> GetEventsWithTypes(DateTime start, DateTime end, List<LogEventType> typeEvents)
     {
         using (ColorChessContext db = new ColorChessContext())
         {
@@ -728,6 +883,26 @@ public static class DB
                 string sqlQuery = $"SELECT * FROM logevents WHERE Date BETWEEN '{parameters.StartDate}' AND '{parameters.EndDate}' AND Type_Event IN ({typeEventsString});";
                 
                 return db.ExecuteSqlQuery<LogEvent>(sqlQuery);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<LogEvent>();
+            }
+        }
+    }
+
+    public static async Task<List<LogEvent>> GetEventsWithTypesAsync(DateTime start, DateTime end, List<LogEventType> typeEvents)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            try
+            {
+                var parameters = new { StartDate = start.ToString("yyyy-MM-dd HH:mm:ss"), EndDate = end.ToString("yyyy-MM-dd HH:mm:ss") };
+                string typeEventsString = string.Join(", ", typeEvents.Select(t => $"'{((int)t).ToString()}'"));
+                string sqlQuery = $"SELECT * FROM logevents WHERE Date BETWEEN '{parameters.StartDate}' AND '{parameters.EndDate}' AND Type_Event IN ({typeEventsString});";
+
+                return await db.ExecuteSqlQueryAsync<LogEvent>(sqlQuery);
             }
             catch (Exception e)
             {
@@ -750,7 +925,7 @@ public static class DB
 
                 var logsToDelete = db.logevents
                     .Where(log => log.Date >= threeSecondsAgo &&
-                                  log.Type_Event == TypeLogEvent.Authorization)
+                                  log.Type_Event == LogEventType.Authorization)
                     .ToList();
 
 
@@ -804,6 +979,14 @@ public static class DB
     }
 
 
+    public static async Task<User?> GetUserAsync(string userName)
+    {
+        using (var db = new ColorChessContext())
+        {
+            return await db.users.FirstOrDefaultAsync(b => b.Name == userName);
+        }
+    }
+
     public static UserStatistic? GetUserStatistic(string userName)
     {
         using (var db = new ColorChessContext())
@@ -826,6 +1009,17 @@ public static class DB
                 ErrorType.NotFound);
         }
     }
+
+    public static async Task<UserStatistic?> GetUserStatisticAsync(int userId)
+    {
+        using (ColorChessContext db = new ColorChessContext())
+        {
+            return await db.ExecuteWithHandlingAsync(
+                async ctx => await ctx.userstatistics.FirstOrDefaultAsync(b => b.UserId == userId),
+                ErrorType.NotFound);
+        }
+    }
+
 
 
 
@@ -850,6 +1044,26 @@ public static class DbContextExtensions
             return default;
         }
     }
+
+    public static async Task<T?> ExecuteWithHandlingAsync<T>(this ColorChessContext db, Func<ColorChessContext, Task<T>> func, ErrorType errorType = ErrorType.UnknownError)
+    {
+        try
+        {
+            var result = await func(db);
+
+            if (result == null)
+                Console.WriteLine($"Null object {typeof(T)}");
+
+            return result;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error: {Tools.Convert(errorType)}");
+            Console.WriteLine($"Details: {e}");
+            return default;
+        }
+    }
+
 
     public static int GetEntityId<T>(this T entity) where T : class
     {

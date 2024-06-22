@@ -160,6 +160,8 @@ public class Server
 
     private async Task LoginIn(string _name, string _password)
     {
+        _password = EncodeStringToBase64(_password);
+
         IHttpClientForServer client = httpClient;
         client.Timeout = TimeSpan.FromSeconds(5); // ������������� ������� � 5 ������
 
@@ -182,10 +184,16 @@ public class Server
             }
         }
     }
-
+    public static string EncodeStringToBase64(string text)
+    {
+        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
+        return Convert.ToBase64String(bytes);
+    }
 
     private async Task<bool> Registry(string _name, string _password)
     {
+        _password = EncodeStringToBase64(_password);
+
         HttpClient client = new HttpClient();
         HttpContent content = new StringContent(_name + " " + _password);
         HttpResponseMessage response = await client.PostAsync(ConfServ.RegistrationUrl, content);

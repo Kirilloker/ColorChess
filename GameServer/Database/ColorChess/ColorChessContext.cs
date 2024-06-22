@@ -1,6 +1,6 @@
 using GameServer;
+using GameServer.Tools;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Principal;
 
 namespace FirstEF6App
 {
@@ -29,7 +29,6 @@ namespace FirstEF6App
                 .Property(e => e.UsersId)
                 .HasConversion(new IntListToStringConverter());
 
-
             modelBuilder
                 .Entity<LogEvent>()
                 .Property(e => e.UsersId)
@@ -46,10 +45,15 @@ namespace FirstEF6App
         {
             return Set<T>().FromSqlRaw(sqlQuery).ToList();
         }
+        public async Task<List<T>> ExecuteSqlQueryAsync<T>(string sqlQuery) where T : class
+        {
+            return await Set<T>().FromSqlRaw(sqlQuery).ToListAsync();
+        }
+
 
         public void ExecuteSqlQuery2(string sqlQuery)
         {
-            var result = Database.ExecuteSqlRaw(sqlQuery);
+            Database.ExecuteSqlRaw(sqlQuery);
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using ColorChessModel;
+using GameServer.Enum;
 
 public class GameRoom
 {
@@ -70,20 +71,18 @@ public class GameRoom
     }
 
 
-    private void AddGameStatistic(List<int> playersScore, GameModeType gameMode, List<int> playersId)
+    protected void AddGameStatistic(List<int> playersScore, GameModeType gameMode, List<int> playersId)
     {
         DB.AddGameStatistic(playersScore, gameMode, playersId);
     }
 
-    private void ChangeUserStatistic(List<int> playersScore, List<int> playersId)
+    protected void ChangeUserStatistic(List<int> playersScore, List<int> playersId)
     {
         var gameResults = CalculateGameResult(playersScore);
 
         for (int i = 0; i < playersId.Count; i++)
         {
-            UserStatistic? userStatistic = DB.GetUserStatistic(playersId[i]);
-
-            if (userStatistic == null)
+            UserStatistic? userStatistic = DB.GetUserStatistic(playersId[i]) ??
                 throw new Exception("Not found User Statistic in scoring ");
 
             if (userStatistic.MaxScore < playersScore[i])
@@ -93,7 +92,7 @@ public class GameRoom
         }
     }
 
-    private List<AttributeUS> CalculateGameResult(List<int> playersScore)
+    protected List<AttributeUS> CalculateGameResult(List<int> playersScore)
     {
         List<AttributeUS> gameResults = Enumerable.Repeat(AttributeUS.Draw, _maxNumOfPlayers).ToList();
 

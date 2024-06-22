@@ -15,7 +15,7 @@ public static class LoginAndRegistry
         string token = GenerateJwt(user);
 
         DB.IDK_how_fix_this_bug(user.Id);
-        LogToDB(user, TypeLogEvent.Authorization);
+        LogToDB(user, LogEventType.Authorization);
 
         var response = new
         {
@@ -41,7 +41,7 @@ public static class LoginAndRegistry
 
         int userStatisticId = DB.AddEntity(userStatistic) ?? throw new InvalidOperationException("Failed to add user statistic");
 
-        LogToDB(newUser, TypeLogEvent.Registration);
+        LogToDB(newUser, LogEventType.Registration);
 
         return Results.Ok();
     }
@@ -67,9 +67,9 @@ public static class LoginAndRegistry
         return user != null && user.Password == password;
     }
 
-    private static void LogToDB(User user, TypeLogEvent logEvent)
+    private static void LogToDB(User user, LogEventType logEvent)
     {
-        string message = logEvent == TypeLogEvent.Authorization ? "Authorization user" : "Registration new user";
+        string message = logEvent == LogEventType.Authorization ? "Authorization user" : "Registration new user";
 
         DB.AddLogEvent(logEvent, user.Id, message);
     }
