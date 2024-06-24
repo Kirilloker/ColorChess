@@ -70,7 +70,7 @@ public class Prefabs : MonoBehaviour
             case FigureType.Queen:
                 return Queen;
             default:
-                Print.Log("Нет такого типа фигуры");
+                Print.Log("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
                 return Pawn;
         }
     }
@@ -90,7 +90,7 @@ public class Prefabs : MonoBehaviour
             case ColorType.Purple:
                 return purple;
             default:
-                Print.Log("Ошибка: неизвестный цвет");
+                Print.Log("пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
                 return defaultColor;
         }
     }
@@ -116,7 +116,7 @@ public class Prefabs : MonoBehaviour
                 case ColorType.Purple:
                     return purple;
                 default:
-                    Print.Log("Ошибка: неизвестный цвет");
+                    Print.Log("пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
                     return defaultColor;
             }
         }
@@ -135,7 +135,7 @@ public class Prefabs : MonoBehaviour
                 case ColorType.Purple:
                     return purpleDark;
                 default:
-                    Print.Log("Ошибка: неизвестный цвет");
+                    Print.Log("пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
                     return defaultColorDark;
             }
         }

@@ -1,5 +1,7 @@
 ﻿using FirstEF6App;
 using GameServer;
+using GameServer.GameServer.Hubs;
+using GameServer.GameServer.MinAPIHandlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 

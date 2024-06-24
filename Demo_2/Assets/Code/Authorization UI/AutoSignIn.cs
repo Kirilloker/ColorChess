@@ -37,7 +37,7 @@ public class AutoSignIn : MonoBehaviour
 
         if (Application.internetReachability == NetworkReachability.NotReachable) 
         {
-            // нет интернета 
+            // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 
             AccountText.text = "Internet not working!";
             AuthorizationMenu.SetActive(false);
             MainMenu.SetActive(true);
@@ -54,7 +54,7 @@ public class AutoSignIn : MonoBehaviour
 
         try
         {
-            // Если такой аккаунт существует
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             if (await server.TryLoginIn(login, password) == true)
             {
                 PlayerPrefs.SetString("Login", login);
@@ -64,7 +64,7 @@ public class AutoSignIn : MonoBehaviour
                 AuthorizationMenu.SetActive(false);
                 MainMenu.SetActive(true);
             }    
-            // Есл логин \ пароль не правильный
+            // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ \ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             else
             {
                 AccountText.text = "Not found Account!";
@@ -73,10 +73,10 @@ public class AutoSignIn : MonoBehaviour
                 return;
             }
         }
-        // Если произошла ошибка с сервером
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         catch (Exception ex)
         {
-            Print.Log("Сервер не работает");
+            Print.Log("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             AccountText.text = "Server not responding";
             iconSetOnline(false);
             AuthorizationMenu.SetActive(false);
@@ -99,11 +99,11 @@ public class AutoSignIn : MonoBehaviour
             if (GameData.ContainsKey(key) == true)
                 return (string)gameData[key];
             else
-                Print.Log("Не удалось достать значение по ключу:" + key);
+                Print.Log("пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ:" + key);
         }
         catch
         {
-            Print.Log("ОШИБКА не удалось достать значение по ключу:" + key);
+            Print.Log("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ:" + key);
         }
 
         return "";

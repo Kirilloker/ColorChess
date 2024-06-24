@@ -7,17 +7,17 @@ using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
-    //Главная камера
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     [SerializeField]
     private CinemachineBrain mainCamera;
 
-    //Камеры
+    //пїЅпїЅпїЅпїЅпїЅпїЅ
     [SerializeField]
     private List<CinemachineVirtualCamera> cinemachines;
 
     public CameraViewType viewCamera = CameraViewType.gameStart;
 
-    // Изменение угла во время игры
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
     [SerializeField]
     private Slider slider;
 
@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour
 
     public void ChangeCamersRotation(float angle)
     {
-        // Почему-то в Awake не получается инициализировать trackInGame, поэтому тут вот такой костыль
+        // пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ пїЅ Awake пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ trackInGame, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (trackInGame1 == null && trackInGame2 == null)
         {
             cinemachines[(int)CameraViewType.inGame1].GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = angle;
@@ -84,7 +84,7 @@ public class CameraController : MonoBehaviour
 
     public void CameraToMenu()
     {
-        // Нужна для UI кнопок
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ UI пїЅпїЅпїЅпїЅпїЅпїЅ
         SwitchCamera(CameraViewType.noteMenu);
     }
 

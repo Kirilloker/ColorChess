@@ -31,7 +31,7 @@ public class BoardController : MonoBehaviour
         GameObject prefabsBoard = prefabs.GetBoard();
         board = Instantiate(prefabsBoard, parent.transform.localPosition, Quaternion.AngleAxis(270, Vector3.up), parent);
 
-        // ИСПРАВИТЬ
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         GameObject.FindWithTag("Game").transform.localScale = new Vector3(Mathf.Pow(0.9f, (float)(gameState.Width - 9)), Mathf.Pow(0.9f, (float)(gameState.Width - 9)), Mathf.Pow(0.9f, (float)(gameState.Length - 9)));
 
         board.transform.localScale = new Vector3(gameState.Length, gameState.Length, gameState.Width);
@@ -52,7 +52,7 @@ public class BoardController : MonoBehaviour
 
     private void ChangeColor(Map gameState)
     {
-        // Меняется цвет углом доски
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 
         List<Player> players = gameState.Players;
 

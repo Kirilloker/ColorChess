@@ -1,4 +1,5 @@
-﻿using GameServer.Database.DTO;
+﻿using GameServer.Database;
+using GameServer.Database.DTO;
 using GameServer.Enum;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

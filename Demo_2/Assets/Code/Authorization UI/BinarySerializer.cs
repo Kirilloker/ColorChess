@@ -75,7 +75,7 @@ public class BinarySerializer
             }
             catch
             {
-                Print.Log("C удалением файла что то пошло не так");
+                Print.Log("C пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ");
             }
             SetDefaultData();
             SaveData();

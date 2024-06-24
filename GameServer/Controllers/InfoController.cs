@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GameServer.Database;
+using GameServer.GameServer.GameServerModel;
+using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 
@@ -22,8 +24,12 @@ namespace GameServer.Controllers
             
             if (nameUser != "." && !result.Any(pair => pair.Key == nameUser))
             {
-                int userRate = await DB.GetRateUserAsync(nameUser);
-                result.Add(new (nameUser, userRate));
+                int? userRate = await DB.GetRateUserAsync(nameUser);
+
+                if (userRate == null)
+                    return NotFound("Не удалось найти рейтинг пользователя.");
+
+                result.Add(new (nameUser, userRate.Value));
             }
 
             return new JsonResult(result);
@@ -64,9 +70,12 @@ namespace GameServer.Controllers
             if (userStats == null)
                 return NotFound("Статистика пользователя не найдена.");
 
-            int numberPlace = await DB.GetNumberPlaceUserByRateAsync(nameUser);
+            int? numberPlace = await DB.GetNumberPlaceUserByRateAsync(nameUser);
 
-            var result = new { Wins = userStats.Win, Rate = userStats.Rate, NumberPlace = numberPlace };
+            if (numberPlace == null)
+                return NotFound("Не удалось найти место в топе.");
+
+            var result = new { Wins = userStats.Win, userStats.Rate, NumberPlace = numberPlace };
 
             return Ok(result);
         }

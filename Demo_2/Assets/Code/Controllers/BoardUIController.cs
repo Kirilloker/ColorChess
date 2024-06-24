@@ -4,20 +4,20 @@ using UnityEngine.UI;
 
 public class BoardUIController : MonoBehaviour
 {
-    // Количество пустых клеток
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     [SerializeField]
     private Text emptyCellText1;
     [SerializeField]
     private Text emptyCellText2;
 
-    // Текст на углах доски
+    // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     [SerializeField]
     private Text[] cornerText = new Text[4];
 
     public void FirstSet(Map gameState)
     {
-        // ИСПРАВИТЬ (но не слишком то и срочно) Сломает что-то если изменится подсчёт очков
-        // Из-за того что при создание доски не успевает просчитать очки, при инициализации нужно вручную его выставлять
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ) пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        // пїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         
         int countAllFigure = 0;
 
@@ -29,7 +29,7 @@ public class BoardUIController : MonoBehaviour
 
         SetEmptyCell(gameState.Length * gameState.Width - countAllFigure);
 
-        // Если на карте стандартное расположение (2 игрока)
+        // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (2 пїЅпїЅпїЅпїЅпїЅпїЅ)
         if (gameState.PlayersCount == 2 && gameState.GetPlayerCorner(0) == CornerType.DownLeft && gameState.GetPlayerCorner(1) == CornerType.UpRight)
         {
             SetScoreInCorner(CornerType.DownRight, gameState.GetPlayerFiguresCount(1));
@@ -50,7 +50,7 @@ public class BoardUIController : MonoBehaviour
 
     public void SetScore(Map gameState)
     {
-        // Устанавливает очки игроков и количество пустых клеток
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
         SetEmptyCell(gameState.CountEmptyCell);
 
@@ -58,7 +58,7 @@ public class BoardUIController : MonoBehaviour
             SetScoreInCorner(gameState.GetPlayerCorner(i), gameState.GetScorePlayer(i));
 
 
-        // Если на карте стандартное расположение (2 игрока)
+        // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (2 пїЅпїЅпїЅпїЅпїЅпїЅ)
         if (gameState.PlayersCount == 2 && gameState.GetPlayerCorner(0) == CornerType.DownLeft && gameState.GetPlayerCorner(1) == CornerType.UpRight)
         {
             SetScoreInCorner(CornerType.DownRight, gameState.GetScorePlayer(1));

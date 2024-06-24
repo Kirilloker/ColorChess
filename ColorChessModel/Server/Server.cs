@@ -163,7 +163,7 @@ public class Server
         _password = EncodeStringToBase64(_password);
 
         IHttpClientForServer client = httpClient;
-        client.Timeout = TimeSpan.FromSeconds(5); // ������������� ������� � 5 ������
+        client.Timeout = TimeSpan.FromSeconds(10); // ������������� ������� � 5 ������
 
         HttpContent content = new StringContent(_name + " " + _password);
         HttpResponseMessage response;
