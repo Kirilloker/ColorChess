@@ -1,4 +1,6 @@
-﻿namespace ColorChessModel
+﻿using System.Numerics;
+
+namespace ColorChessModel
 {
     public class GameStateCalcSystem
     {
@@ -16,12 +18,11 @@
 
             // Получаем ссылку на новую фигуру, которая делает ход (потому что создалась копия карты)
             Figure newFigure = gameState.GetCell(figure.Pos).Figure;
-            
+
             // Если в клетке в которую хотят сходить стоит фигура -> её хотят съесть
             if (endCell.Figure != null)
                 gameState.KillFigure(endCell.Figure);
 
-            // Тут ошибка бывает
             List<Cell> Way = WayCalcSystem.CalcWay(gameState, newFigure.Pos, endCell.Pos, newFigure);
 
             for (int i = 0; i < Way.Count; i++)

@@ -56,8 +56,8 @@ function Top() {
                             <tbody>
                                 {players.map((player, index) => (
                                     <tr key={index}>
-                                        <td>{player.first}</td>
-                                        <td>{player.second}</td>
+                                        <td>{player.key}</td>
+                                        <td>{player.value}</td>
                                     </tr>
                                 ))}
                             </tbody>

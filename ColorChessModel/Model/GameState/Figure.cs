@@ -24,7 +24,7 @@ namespace ColorChessModel
             if (ReferenceEquals(this, anotherFigure)) return true;
             if (anotherFigure == null || GetType() != anotherFigure.GetType()) return false;
 
-            return Pos.Equals(anotherFigure.Pos) &&
+            return this.Pos == anotherFigure.Pos &&
                    Type == anotherFigure.Type &&
                    Player.Number == anotherFigure.Player.Number;
 

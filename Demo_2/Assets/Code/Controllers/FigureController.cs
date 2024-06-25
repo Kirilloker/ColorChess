@@ -26,20 +26,20 @@ public class FigureController : MonoBehaviour
 
     public void AnimateMoveFigure(FigureView figure, List<Vector3> vectorWay)
     {
-        // �������� ����� ����� ��������� ���������� ���� � ��������� ����
-        // ���� ��������� ������ ������� �� ������ ������ � ��������� ���, ����� ���������������
         if (LowGraphics == false)
             StartCoroutine(figure.AnimateMove(vectorWay));
         else
-            figure.Move(vectorWay[vectorWay.Count - 1]);
+            figure.Relocate(vectorWay[vectorWay.Count - 1]);
 
         audioController.PlayAudio(SoundType.Step);
     }
+
 
     public void DestroyAll()
     {
         foreach (Transform child in transformFigure)
             Destroy(child.gameObject);
+        // Возможно нужна отписка от события EventFigureClicked
 
         upedFigure = null;
     }
@@ -56,6 +56,7 @@ public class FigureController : MonoBehaviour
                 figuresViewList.Add(CreateFigure(figure, player.Color, player.Corner));
 
             figures.Add(figuresViewList);
+
         }
     }
 
@@ -71,10 +72,7 @@ public class FigureController : MonoBehaviour
 
         FigureView figureView = figureGameObject.GetComponent<FigureView>();
         figureView.FindComponents();
-        figureView.SetNumberPlayer(figure.Number);
-        figureView.Pos = figure.Pos;
-        figureView.SetType(figure.Type);
-        figureView.SetFigureController(this);
+        figureView.Position = figure.Pos;
 
         if (figure.Type == FigureType.Horse)
         {
@@ -85,6 +83,8 @@ public class FigureController : MonoBehaviour
         }
 
         figureGameObject.name = TypeToString.ToString(figure.Type) + figure.Number;
+
+        figureView.EventFigureClicked += OnClicked;
 
         return figureView;
     }
@@ -102,14 +102,14 @@ public class FigureController : MonoBehaviour
         figureView.Up();
         upedFigure = figureView;
 
-        mainController.FigureSelected(figureView.Pos);
+        mainController.FigureSelected(figureView.Position);
     }
 
     public FigureView FindFigureView(Figure figureModel, Map gameState)
     {
         foreach (List<FigureView> player in figures)
             foreach (FigureView figure in player)
-                if (figure.Pos == figureModel.Pos)
+                if (figure.Position == figureModel.Pos)
                     return figure;
 
         return new FigureView();
@@ -128,13 +128,13 @@ public class FigureController : MonoBehaviour
     public void OnBoxColliders(int numberPlayer)
     {
         foreach (FigureView figure in figures[numberPlayer])
-            figure.StateBoxColodier(true);
+            figure.StateBoxCollider(true);
     }
 
     public void OffBoxCollidersPlayers(int numberPlayer)
     {
         foreach (FigureView figure in figures[numberPlayer])
-            figure.StateBoxColodier(false);
+            figure.StateBoxCollider(false);
     }
 
     public void OFFAllBoxColliders()

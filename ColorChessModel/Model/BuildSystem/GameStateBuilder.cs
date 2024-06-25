@@ -172,8 +172,8 @@ namespace ColorChessModel
             playersDescription.PlayerCorners.Add(CornerType.UpRight);
             playersDescription.PlayerColors.Add(ColorType.Red);
 
-
-            SetDefaultBoard();
+            SetBoard(8, 8);
+            //SetDefaultBoard();
             SetDefaultFigureSets();
         }
 

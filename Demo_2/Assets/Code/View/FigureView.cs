@@ -1,32 +1,26 @@
 using ColorChessModel;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FigureView : MonoBehaviour
 {
-    private FigureType type;
-    private int numberPlayer;
-    
-    private FigureController figureController;
+    public Action<FigureView> EventFigureClicked;
 
-    private BoxCollider boxCollider;
-
-    public void FindComponents()
-    {
-        boxCollider = this.GetComponent<BoxCollider>();
-    }
+    private BoxCollider _boxCollider;
+    private Position _position;
 
     public void Up()
     {
-        this.transform.localPosition = new Vector3(this.transform.localPosition.x, 0.5f, this.transform.localPosition.z);
-        StateBoxColodier(false);
+        transform.localPosition = new Vector3(transform.localPosition.x, 0.5f, transform.localPosition.z);
+        StateBoxCollider(false);
     }
 
     public void Down()
     {
-        this.transform.localPosition = new Vector3(this.transform.localPosition.x, 0f, this.transform.localPosition.z);
-        StateBoxColodier(true);
+        transform.localPosition = new Vector3(transform.localPosition.x, 0f, transform.localPosition.z);
+        StateBoxCollider(true);
     }
 
     public IEnumerator AnimateMove(List<Vector3> way)
@@ -62,63 +56,46 @@ public class FigureView : MonoBehaviour
 
         yield return new WaitForSeconds(0.02f * Time.deltaTime);
 
-        Move(endPosition);
+        Relocate(endPosition);
 
         Down();
-        boxCollider.enabled = false; // Сам не понимаю из-за чего этот баг
+
+         // Coroutine finished after executing AllOffColliders, but method Down turn on collider
+         // Need to switch it off manually
+        _boxCollider.enabled = false; 
     }
 
-    public void Move(Vector3 endPos)
+    public void Relocate(Vector3 newPosition)
     {
-        Pos = new Position(endPos.x, endPos.z);
+        Position = new Position(newPosition.x, newPosition.z);
     }
 
     private void OnMouseUpAsButton()
     {
-        figureController.OnClicked(this);
+        EventFigureClicked.Invoke(this);
     }
 
-    public void StateBoxColodier(bool boxCol)
+    public void StateBoxCollider(bool boxCol)
     {
-        boxCollider.enabled = boxCol;
+        _boxCollider.enabled = boxCol;
     }
     
     public void SetRotation(int rotate)
     {
-        this.transform.rotation = Quaternion.AngleAxis(rotate, Vector3.up);
+        transform.rotation = Quaternion.AngleAxis(rotate, Vector3.up);
     }
-
-    public void SetType(FigureType _type)
+    public void FindComponents()
     {
-        type = _type;
+        _boxCollider = GetComponent<BoxCollider>();
     }
 
-    public void SetNumberPlayer(int _numberPlayer)
+    public Position Position
     {
-        numberPlayer = _numberPlayer;
-    }
-
-    public void SetFigureController(FigureController _figureController)
-    {
-        figureController = _figureController;
-    }
-
-    public Position Pos { 
-        get 
+        get => _position;
+        set
         {
-            //return new Position(transform.localPosition.x, transform.localPosition.z);
-            return pos;
-        } 
-        set 
-        {
-            pos = value;
-            this.transform.localPosition = new Vector3(value.X, 0, value.Y); 
+            _position = value;
+            transform.localPosition = new Vector3(_position.X, 0, _position.Y);
         }
     }
-
-    private Position pos;
-
-    public FigureType Type { get { return type; } }
-
-    public int Number { get { return numberPlayer; } }
 }

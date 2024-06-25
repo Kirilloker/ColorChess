@@ -1,8 +1,7 @@
 ﻿using ColorChessModel;
-
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 public class MinMaxAI : IAI
 {
@@ -16,27 +15,28 @@ public class MinMaxAI : IAI
     // Параметры ОФ
     float pricePaint = 9;
     float priceDark = 10;
-    float priceAroundEnemyPawn = 60;
+    //float priceAroundEnemyPawn = 100;
+
 
     // pawn - castle - bishop - king - horse - queen 
-    float[] priceFigure = { 90, 110, 70, 160, 85, 80};
+    float[] priceFigure = { 220, 400, 200, 290, 205, 250};
 
     static float priceMiddle = 1.5f;
     static float priceCorner = 1.1f;
-    static float priceGrawe = 1.3f;
+    static float priceGrave = 1.3f;
     float[,] pricePos = { 
-        { priceCorner,  priceGrawe,     priceCorner},
-        { priceGrawe,   priceMiddle,    priceGrawe},
-        { priceCorner,  priceGrawe,     priceCorner}
+        { priceCorner,  priceGrave,     priceCorner},
+        { priceGrave,   priceMiddle,    priceGrave},
+        { priceCorner,  priceGrave,     priceCorner}
     };
     
     //                                pawn      castle  bishop king     horse   queen 
     float[] figurePercent =         { 0,        0,      0,      0,      0,      0 };
-    float[] figurePercentStart =    { 0.8f,     0.5f,   0.1f,   0.3f,   0.4f,   0.8f };
-    float[] figurePercentSpeed =    { 0.5f,     0.4f,   0.1f,   0.3f,   0.3f,   0.5f };
-    float[] figurePercentMidle =    { 0.4f,     0.4f,   0.3f,   0.2f,   0.2f,   0.5f };
+    float[] figurePercentStart =    { 0.8f,     0.5f,   0.1f,   0.2f,   0.4f,   0.8f };
+    float[] figurePercentSpeed =    { 0.5f,     0.4f,   0.1f,   0.2f,   0.3f,   0.5f };
+    float[] figurePercentMiddle =   { 0.4f,     0.4f,   0.3f,   0.2f,   0.2f,   0.5f };
     float[] figurePercentSlow =     { 0.8f,     0.4f,   0.4f,   0.2f,   0.3f,   0.4f };
-    float[] figurePercentEnd =      { 0.4f,     0.3f,   0.5f,   0.4f,   0.2f,   0.2f };
+    float[] figurePercentEnd =      { 0.6f,     0.3f,   0.5f,   0.7f,   0.2f,   0.2f };
 
     // Номер бота
     int myNumber = 0;
@@ -73,7 +73,7 @@ public class MinMaxAI : IAI
     {
         pricePaint = GenerateRandomValue(pricePaint);
         priceDark = GenerateRandomValue(priceDark);
-        priceAroundEnemyPawn = GenerateRandomValue(priceAroundEnemyPawn);
+        //priceAroundEnemyPawn = GenerateRandomValue(priceAroundEnemyPawn);
 
         for (int i = 0; i < figurePercentStart.Length; i++)
         {
@@ -85,9 +85,9 @@ public class MinMaxAI : IAI
             if (figurePercentSpeed[i] > 1f) figurePercentSpeed[i] = 1f;
             else if (figurePercentSpeed[i] < 0f) figurePercentSpeed[i] = 0f;
 
-            figurePercentMidle[i] = GenerateRandomValue(figurePercentMidle[i], 1.3f);
-            if (figurePercentMidle[i] > 1f) figurePercentMidle[i] = 1f;
-            else if (figurePercentMidle[i] < 0f) figurePercentMidle[i] = 0f;
+            figurePercentMiddle[i] = GenerateRandomValue(figurePercentMiddle[i], 1.3f);
+            if (figurePercentMiddle[i] > 1f) figurePercentMiddle[i] = 1f;
+            else if (figurePercentMiddle[i] < 0f) figurePercentMiddle[i] = 0f;
 
             figurePercentSlow[i] = GenerateRandomValue(figurePercentSlow[i], 1.3f);
             if (figurePercentSlow[i] > 1f) figurePercentSlow[i] = 1f;
@@ -105,11 +105,11 @@ public class MinMaxAI : IAI
 
         priceMiddle = GenerateRandomValue(priceMiddle, 1.5f);
         priceCorner = GenerateRandomValue(priceCorner, 1.5f);
-        priceGrawe = GenerateRandomValue(priceGrawe, 1.5f);
+        priceGrave = GenerateRandomValue(priceGrave, 1.5f);
 
         if (priceMiddle < 0.9f) priceMiddle = 0.9f;
         if (priceCorner < 0.9f) priceCorner = 0.9f;
-        if (priceGrawe < 0.9f) priceGrawe = 0.9f;
+        if (priceGrave < 0.9f) priceGrave = 0.9f;
     }
 
     private List<List<Cell>> GetAvailableForPlayer(Map map, int numberPlayer)
@@ -135,7 +135,7 @@ public class MinMaxAI : IAI
         else if (percentEmptyCell < 0.4)
             figurePercent = figurePercentSpeed;
         else if (percentEmptyCell < 0.7)
-            figurePercent = figurePercentMidle;
+            figurePercent = figurePercentMiddle;
         else if (percentEmptyCell < 0.9)
             figurePercent = figurePercentSlow;
         else if (percentEmptyCell < 1)
@@ -144,6 +144,8 @@ public class MinMaxAI : IAI
 
     private int AlphaBeta(Map map, int level, int alpha, int beta)
     {
+        int MaxMinEvaluation = 0;
+
         // Список всех возможных ходов для определенного игрока
         List<List<Cell>> available = new();
 
@@ -160,7 +162,7 @@ public class MinMaxAI : IAI
                 return int.MaxValue;
             else
                 // Если победил человек
-                return int.MinValue;
+                return - Math.Abs(beta) * 3;
         }
 
         // Устанавливается стадия игры
@@ -174,7 +176,6 @@ public class MinMaxAI : IAI
         if (level >= MAX_LEVEL)
             return EvaluationFunction(map);
 
-        int MaxMinEvaluation = 0;
 
         // Обработка хода Бота
         if (level % 2 == 0)
@@ -201,6 +202,7 @@ public class MinMaxAI : IAI
 
                     if (MaxMinEvaluation > beta) break;
                     if (beta < alpha) break;
+
 
                     Map copyMap = GameStateCalcSystem.ApplyStep(map, map.Players[myNumber].Figures[i], available[i][j]);
 
@@ -249,10 +251,12 @@ public class MinMaxAI : IAI
                     }
                 }
             }
-        }
+            }
+
 
         return MaxMinEvaluation;
     }
+
 
 
     private int EvaluationFunction(Map map)
@@ -261,10 +265,10 @@ public class MinMaxAI : IAI
         float evaluation = 0;
 
         // Если Рядом с Пешками Врага стоит фигура Бота начисляется штраф
-        foreach (var player in AnotherPlayer)
-            foreach (var figure in map.Players[player].Figures) 
-                if ((figure.Type == FigureType.Pawn) && (Check.BesideEnemy(figure.Pos, map, myNumber)))
-                        evaluation -= priceAroundEnemyPawn;
+        //foreach (var player in AnotherPlayer)
+        //    foreach (var figure in map.Players[player].Figures) 
+        //        if ((figure.Type == FigureType.Pawn) && (Check.BesideEnemy(figure.Pos, map, myNumber)))
+        //                evaluation -= priceAroundEnemyPawn;
 
         for (int i = 0; i < map.Length; i++)
         {
@@ -297,6 +301,9 @@ public class MinMaxAI : IAI
 
     public Step getStep(Map CurrentGameState) 
     {
+        bestFigure = null;
+        bestCell = null;
+
         stop = false;
         timer.Reset();
         myNumber = CurrentGameState.NumberPlayerStep;
@@ -310,6 +317,24 @@ public class MinMaxAI : IAI
         timer.Start();
 
         AlphaBeta(CurrentGameState, 0, int.MinValue, int.MaxValue);
+
+        if (bestFigure == null) 
+        {
+            int numberFigure = 0;
+            while (bestCell == null) 
+            {
+                bestFigure = CurrentGameState.Players[myNumber].Figures[numberFigure];
+                bestCell = WayCalcSystem.CalcAllSteps(CurrentGameState, bestFigure)[0];
+
+                if (CurrentGameState.Players[myNumber].Figures.Count < numberFigure - 1)
+                    break;
+
+                numberFigure++;
+            }
+        }
+
+        if (bestCell == null)
+            throw new Exception("Not found any step");
 
         return new Step(bestFigure, bestCell);
     }

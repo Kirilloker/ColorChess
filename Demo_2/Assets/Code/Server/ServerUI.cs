@@ -105,7 +105,7 @@ public class ServerUI : MonoBehaviour
     {
         while (search) 
         {
-            yield return new WaitForSeconds(1f * Time.deltaTime);
+            yield return new WaitForSeconds(1f);
 
             if (searchText.text == "Search.") searchText.text = "Search..";
             else if (searchText.text == "Search..") searchText.text = "Search...";
@@ -154,14 +154,18 @@ public class ServerUI : MonoBehaviour
 
     public List<Pair<string, int>> GetTopList()
     {
+        Print.Log("test");
         string jsonString = server.GetTopList(GetNameUser());
+        Print.Log(jsonString);
 
-        List<UserScore> userScores = JsonConvert.DeserializeObject<List<UserScore>>(jsonString);
+        var userScores = JsonConvert.DeserializeObject<List<KeyValuePair<string, int>>>(jsonString);
 
         List<Pair<string, int>> pairs = new List<Pair<string, int>>();
 
-        foreach (var userScore in userScores)
-            pairs.Add(new Pair<string, int>(userScore.first, userScore.second));
+        foreach (var userScore in userScores) 
+        {
+            pairs.Add(new Pair<string, int>(userScore.Key, userScore.Value));
+        }
 
         return pairs;
     }
@@ -192,6 +196,6 @@ public class ServerUI : MonoBehaviour
 
 public class UserScore
 {
-    public string first { get; set; }
+    public string key { get; set; }
     public int second { get; set; }
 }

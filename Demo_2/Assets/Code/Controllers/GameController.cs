@@ -188,7 +188,7 @@ public class GameController : MonoBehaviour, IGameController
 
     public Position GetPositionSelectedFigure()
     {
-        return figureController.UpedFigure.Pos;
+        return figureController.UpedFigure.Position;
     }
 
     public void AICalcComplete(Figure figure, Map map)
