@@ -70,6 +70,11 @@ public class UIController : MonoBehaviour
         mainController.StartGame();
     }
 
+    public void ExitGame()
+    {
+        mainController.EndGame();
+    }
+
     public void OnlineGameExit()
     {
         PlayUI.SetActive(true);
