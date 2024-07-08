@@ -1,23 +1,11 @@
 FROM node:14
 WORKDIR /app
-
-# Перемещаемся в поддиректорию Site
 WORKDIR /app/Site
-
-# Копирование файлов `package.json` и `package-lock.json` (если есть)
 COPY ./Site/package*.json ./
-
-# Установка зависимостей
 RUN npm install
-
-# Копирование остальных файлов проекта
 COPY ./Site/ ./
-
-# Сборка React приложения
 RUN npm run build
 
-# Открытие нужных портов
 EXPOSE 3000 80
 
-# Запуск сервера Node.js при старте контейнера
 CMD ["node", "server.js"]

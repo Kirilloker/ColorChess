@@ -79,3 +79,5 @@ UnitTestColorChess/bin/Debug/net6.0/fine-code-coverage/coverage-tool-output/diag
 UnitTestColorChess/bin/Debug/net6.0/fine-code-coverage/coverage-tool-output/index-processed.html
 UnitTestColorChess/bin/Debug/net6.0/fine-code-coverage/coverage-tool-output/index.htm
 UnitTestColorChess/bin/Debug/net6.0/fine-code-coverage/coverage-tool-output/index.html
+.env
+configBot.json

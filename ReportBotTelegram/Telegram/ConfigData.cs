@@ -14,7 +14,7 @@ internal class ConfigData
 
 public static class Config
 {
-    private const string ConfigFilePath = "config.json";
+    private const string ConfigFilePath = "configBot.json";
     public static string Token { get; private set; }
     public static string ServerURL { get; private set; }
     public static List<string> IdAdmins { get; private set; }
