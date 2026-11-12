@@ -25,6 +25,13 @@
 
 ![Игровая доска](images/UseTechnology.png)
 
+## Получение исходного кода
+
+```bash
+git clone https://github.com/Kirilloker/ColorChess.git
+cd ColorChess
+```
+
 ## Подготовка к запуску
 
 1. Изменить значение IP в ColorChess\Server\ConfigServer.cs
